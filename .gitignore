@@ -1,0 +1,17 @@
+# Node / Vite
+node_modules
+dist
+dist-ssr
+.vite
+
+# Env / config
+.env
+.env.*
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Tests / coverage (voor later)
+coverage

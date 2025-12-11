@@ -17,30 +17,31 @@ export const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const theme = useTheme();
-  const { spacing, radii, typography, shadows, components } = theme;
+  const { spacing, typography, shadows, components } = theme;
   const buttonTokens = components.button;
 
   const variantTokens = buttonTokens[variant] ?? buttonTokens.primary;
+  const textColor = (variantTokens as { color?: string; text?: string }).color ?? variantTokens.text;
 
   const baseStyle: CSSProperties = {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing.xs,
-    padding: '1.15rem 1.4rem',
-    borderRadius: radii.xl,
+    padding: '16px 22px',
+    borderRadius: '28px',
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: variantTokens.border,
+    borderColor: variantTokens.border ?? 'transparent',
     backgroundColor: variantTokens.background,
-    color: variantTokens.text,
+    color: textColor,
     fontFamily: typography.fontFamily,
     fontSize: typography.fontSizes.md,
-    fontWeight: typography.fontWeights.semibold,
+    fontWeight: 600,
     lineHeight: typography.lineHeights.snug,
     cursor: 'pointer',
     width: fullWidth ? '100%' : undefined,
-    boxShadow: variant === 'ghost' ? 'none' : variantTokens.shadow ?? shadows.md,
+    boxShadow: variant === 'ghost' ? 'none' : variantTokens.shadow ?? 'none',
     transition:
       'background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, transform 0.1s ease',
   };

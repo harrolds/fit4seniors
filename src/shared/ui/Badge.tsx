@@ -10,20 +10,21 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 
 export const Badge: React.FC<BadgeProps> = ({ variant = 'default', style, children, ...rest }) => {
   const theme = useTheme();
-  const { colors, spacing, typography } = theme;
+  const { colors, spacing, typography, components } = theme;
+  const badgeTokens = (components as { badge?: Record<string, { background?: string; color?: string }> }).badge;
 
   let backgroundColor: CSSProperties['backgroundColor'] = 'rgba(27, 58, 87, 0.06)';
   let borderColor: CSSProperties['borderColor'] = 'transparent';
   let color: CSSProperties['color'] = colors.textPrimary;
 
   if (variant === 'accent') {
-    backgroundColor = '#e6f0ec';
-    color = colors.primary;
+    backgroundColor = '#e7efea';
+    color = '#1b3a57';
   }
 
   if (variant === 'level') {
-    backgroundColor = '#1b3a57';
-    color = '#ffffff';
+    backgroundColor = badgeTokens?.level?.background ?? '#1b3a57';
+    color = badgeTokens?.level?.color ?? '#ffffff';
   }
 
   if (variant === 'outline') {

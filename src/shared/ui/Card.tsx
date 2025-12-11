@@ -9,15 +9,15 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Card: React.FC<CardProps> = ({ style, icon, iconBackground, children, ...rest }) => {
   const theme = useTheme();
-  const { spacing, radii, shadows, components } = theme;
+  const { spacing, components } = theme;
   const { card } = components;
 
   const baseStyle: CSSProperties = {
-    backgroundColor: card.background,
-    borderRadius: radii.xl,
-    padding: spacing.xl,
-    boxShadow: card.shadow ?? shadows.md,
-    border: `1px solid ${card.border}`,
+    backgroundColor: card.background ?? '#ffffff',
+    borderRadius: '28px',
+    padding: '22px',
+    boxShadow: card.shadow ?? '0 4px 14px rgba(0,0,0,0.06)',
+    border: 'none',
   };
 
   const iconWrapperStyle: CSSProperties = {
@@ -27,7 +27,7 @@ export const Card: React.FC<CardProps> = ({ style, icon, iconBackground, childre
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: radii.lg,
+    borderRadius: '24px',
     backgroundColor: iconBackground ?? 'rgba(27, 58, 87, 0.08)',
   };
 

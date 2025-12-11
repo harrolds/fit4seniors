@@ -47,8 +47,8 @@ a {
   color: var(--color-text-primary);
   display: flex;
   flex-direction: column;
-  max-width: 520px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
 }
 
 .app-shell__header {
@@ -145,7 +145,7 @@ a {
 
 .app-shell__main {
   flex: 1;
-  padding: 1.5rem;
+  padding: 1.25rem;
   background: var(--color-background);
 }
 
@@ -311,11 +311,11 @@ a {
 }
 
 .panel-surface--bottom {
-  left: 50%;
+  left: 0;
+  right: 0;
   bottom: 0;
-  transform: translate(-50%, 110%);
+  transform: translateY(110%);
   width: 100%;
-  max-width: 520px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -364,8 +364,8 @@ a {
 }
 
 .settings-layout__content {
-  max-width: 720px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
 }
 
 .desktop-block {

@@ -145,12 +145,12 @@ a {
 
 .app-shell__main {
   flex: 1;
-  padding: 1.25rem;
+  padding: 1.5rem;
   background: var(--color-background);
 }
 
 .app-shell__main > * + * {
-  margin-top: 1rem;
+  margin-top: 1.2rem;
 }
 
 .app-shell__footer {
@@ -336,7 +336,7 @@ a {
 .home-widget-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .home-widget-grid__item {

@@ -75,10 +75,10 @@ export const lightDefault: ThemeDefinition = {
       primary: {
         background: '#f6b16d',
         text: '#ffffff',
-        border: '#efaa62',
+        border: '#f6b16d',
         hoverBackground: '#f3a45b',
         activeBackground: '#e79650',
-        shadow: baseShadows.sm,
+        shadow: '0 10px 30px rgba(246, 177, 109, 0.35)',
         activeShadow: baseShadows.md,
       },
       secondary: {
@@ -100,8 +100,8 @@ export const lightDefault: ThemeDefinition = {
     },
     card: {
       background: '#ffffff',
-      border: '#e3d8cc',
-      shadow: baseShadows.sm,
+      border: '#f0e7db',
+      shadow: '0 12px 32px rgba(27, 58, 87, 0.12)',
     },
     input: {
       background: '#ffffff',

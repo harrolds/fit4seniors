@@ -15,6 +15,7 @@ export const ExerciseDetail: React.FC = () => {
   const { goTo } = useNavigation();
   const exercise = React.useMemo(() => getPhysicalExerciseById(id), [id]);
   const [imageError, setImageError] = React.useState(false);
+  const isCompleted = Boolean((exercise as unknown as { completed?: boolean })?.completed);
   React.useEffect(() => {
     setImageError(false);
   }, [id]);
@@ -42,24 +43,26 @@ export const ExerciseDetail: React.FC = () => {
 
   return (
     <div className="f4s-exercise-detail">
-      <Card className="f4s-exercise-detail__card">
-        {imageSrc && (
-          <div className="f4s-exercise-detail__image-wrapper">
-            {shouldShowImage ? (
-              <img
-                src={imageSrc}
-                alt={exercise.title}
-                className="f4s-exercise-detail__image"
-                onError={() => setImageError(true)}
-              />
-            ) : (
-              <div className="f4s-exercise-detail__image-placeholder">
-                <span>Bild folgt</span>
-              </div>
-            )}
+      <div className="f4s-exercise-detail__media">
+        {shouldShowImage ? (
+          <img
+            src={imageSrc}
+            alt={exercise.title}
+            className="f4s-exercise-detail__image"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="f4s-exercise-detail__image-placeholder">
+            <span>Media Platzhalter</span>
           </div>
         )}
+      </div>
 
+      {isCompleted && (
+        <div className="f4s-exercise-detail__success">Übung abgeschlossen — gut gemacht</div>
+      )}
+
+      <Card className="f4s-exercise-detail__card">
         <header className="f4s-exercise-detail__header">
           <h1>{exercise.title}</h1>
           <p className="f4s-exercise-detail__subtitle">
@@ -67,21 +70,6 @@ export const ExerciseDetail: React.FC = () => {
             {formatDuration(exercise.durationSeconds)}
           </p>
         </header>
-
-        <section className="f4s-exercise-detail__section">
-          <h2 className="f4s-exercise-detail__section-title">Details</h2>
-          <ul className="f4s-exercise-detail__meta">
-            <li>
-              <strong>Kategorie:</strong> {getCategoryLabel(exercise.category)}
-            </li>
-            <li>
-              <strong>Dauer:</strong> {formatDuration(exercise.durationSeconds)}
-            </li>
-            <li>
-              <strong>Position:</strong> {getPositionLabel(exercise.position)}
-            </li>
-          </ul>
-        </section>
 
         <section className="f4s-exercise-detail__section">
           <h2 className="f4s-exercise-detail__section-title">Sicherheits-Hinweis</h2>
@@ -98,9 +86,15 @@ export const ExerciseDetail: React.FC = () => {
         </section>
 
         <div className="f4s-exercise-detail__actions">
-          <Button variant="secondary" onClick={() => goTo('/exercises')}>
-            Zurück zur Übersicht
-          </Button>
+          <Button fullWidth>Übung starten</Button>
+          <div className="f4s-exercise-detail__actions-secondary">
+            <Button variant="secondary" fullWidth>
+              Pause
+            </Button>
+            <Button variant="secondary" fullWidth onClick={() => goTo('/exercises')}>
+              Stopp
+            </Button>
+          </div>
         </div>
       </Card>
     </div>

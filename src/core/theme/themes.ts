@@ -55,7 +55,7 @@ export const lightDefault: ThemeDefinition = {
   mode: 'light',
   colors: {
     primary: brandPrimary,
-    background: '#f4f4f5',
+    background: '#F7F2E8',
     surface: '#ffffff',
     textPrimary: '#0f172a',
     textSecondary: '#475569',

@@ -1,0 +1,54 @@
+.f4s-widget {
+  background: var(--color-surface);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+/* Hero bovenaan: donkerste groen/blauw uit het pallet */
+.f4s-hero {
+  background: var(--color-widget-c);
+  color: #ffffff;
+}
+
+/* Goal-tegel links: warme oranje tint */
+.f4s-goal {
+  background: var(--color-widget-a);
+  color: #ffffff;
+}
+
+/* Brain-tegel rechts: teal/groenig tint */
+.f4s-brain {
+  background: var(--color-widget-b);
+  color: #ffffff;
+}
+
+/* Last session onderaan: rustige variant, zelfde widget-palet maar met donkere tekst */
+.f4s-last-session {
+  background: var(--color-widget-b);
+  color: var(--color-text-primary);
+}
+
+/* Gelijke hoogte en verticale centrering voor de twee halfbrede tegels */
+.f4s-goal,
+.f4s-brain {
+  min-height: 180px; /* pas eventueel iets aan als dit beter bij de mockup past */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.f4s-widget h1,
+.f4s-widget h2 {
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+  word-break: break-word; /* veiligheidsnet voor langere woorden */
+}
+
+.f4s-widget p {
+  margin: 0;
+}
+

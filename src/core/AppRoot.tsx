@@ -6,6 +6,7 @@ import { I18nProvider, useI18n } from '../shared/lib/i18n';
 import { NotificationsProvider } from '../shared/lib/notifications';
 import { ThemeProvider } from './theme/ThemeProvider';
 import '../styles/layout.css';
+import '../styles/fit4seniors-widgets.css';
 
 
 const DESKTOP_MIN_WIDTH = 1024;

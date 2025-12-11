@@ -4,6 +4,8 @@ import { WidgetHost } from '../home/WidgetHost';
 import { SettingsLayout } from '../settings/SettingsLayout';
 import { GlobalSettingsScreen } from '../settings/GlobalSettingsScreen';
 import { OfflineScreen } from '../offline/OfflineScreen';
+import { ExercisesList } from '../../modules/exercises/ExercisesList';
+import { ExerciseDetail } from '../../modules/exercises/ExerciseDetail';
 
 const TodayScreen: React.FC = () => {
   // Voor nu gebruiken we de bestaande WidgetHost als "Heute"-startscherm.
@@ -31,15 +33,8 @@ export const AppRoutes: React.FC = () => {
       <Route path="/" element={<Navigate to="/today" replace />} />
       {/* Fit4Seniors hoofdnavigatie */}
       <Route path="/today" element={<TodayScreen />} />
-      <Route
-        path="/exercises"
-        element={
-          <SimpleScreen
-            title="Übungen"
-            description="Übersicht über deine Übungen."
-          />
-        }
-      />
+      <Route path="/exercises" element={<ExercisesList />} />
+      <Route path="/exercises/:id" element={<ExerciseDetail />} />
       <Route
         path="/brain"
         element={

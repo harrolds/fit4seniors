@@ -29,6 +29,8 @@ export interface PhysicalExercise {
   durationSeconds: number;
   /** Visuelle Darstellung der Übung */
   media: ExerciseMedia;
+  /** Optionaler Bildname ohne Pfad/Extension, z.B. "seitenbalance-mit-stuhl" */
+  imageName?: string;
   /** Schritt-für-Schritt-Anleitung in Deutsch */
   steps: string[];
   /** Wichtiger Sicherheitshinweis für Senioren */

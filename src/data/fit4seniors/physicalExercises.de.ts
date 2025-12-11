@@ -17,6 +17,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/b1_seitenbalance.png',
       alt: 'Senior steht seitlich am Stuhl und hebt ein Bein leicht an',
     },
+    imageName: 'seitenbalance-mit-stuhl',
     steps: [
       'Stellen Sie sich seitlich neben einen stabilen Stuhl und halten Sie sich mit einer Hand fest.',
       'Heben Sie das äußere Bein leicht vom Boden ab.',
@@ -39,6 +40,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/b2_tandemstand.png',
       alt: 'Senior steht mit einem Fuß direkt vor dem anderen',
     },
+    imageName: 'tandemstand',
     steps: [
       'Stellen Sie einen Fuß direkt vor den anderen, als würden Sie auf einer Linie stehen.',
       'Halten Sie sich bei Bedarf leicht an einem Tisch oder Stuhl fest.',
@@ -61,6 +63,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/b3_gewichtsverlagerung.png',
       alt: 'Senior verlagert das Gewicht langsam von einem Bein auf das andere',
     },
+    imageName: 'gewichtsverlagerung-links-rechts',
     steps: [
       'Stellen Sie sich hüftbreit hin, Hände können auf der Hüfte ruhen.',
       'Verlagern Sie langsam das Gewicht auf das linke Bein.',
@@ -83,6 +86,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/b4_einbeinstand.png',
       alt: 'Senior hält sich an einem Stuhl fest und steht auf einem Bein',
     },
+    imageName: 'einbeinstand-mit-unterstuetzung',
     steps: [
       'Halten Sie sich mit einer oder beiden Händen an einem Stuhl fest.',
       'Heben Sie ein Bein leicht vom Boden ab.',
@@ -105,6 +109,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/b5_hueftkreisen.png',
       alt: 'Senior steht und macht kreisende Bewegungen mit der Hüfte',
     },
+    imageName: 'kreisende-hueftbewegungen',
     steps: [
       'Stellen Sie sich hüftbreit hin, Hände auf die Hüfte.',
       'Bewegen Sie die Hüfte langsam in einer kreisenden Bewegung.',
@@ -126,6 +131,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/b6_minischritte.png',
       alt: 'Senior macht kleine, langsame Schritte vorwärts',
     },
+    imageName: 'balance-mini-schritte',
     steps: [
       'Stellen Sie sich gerade hin.',
       'Machen Sie kleine Schritte nach vorne, als würden Sie über eine schmale Linie gehen.',
@@ -149,6 +155,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/k1_stuhl_aufstehen.png',
       alt: 'Senior steht vom Stuhl auf und setzt sich wieder hin',
     },
+    imageName: 'stuhl-aufstehen',
     steps: [
       'Setzen Sie sich auf einen stabilen Stuhl, Füße hüftbreit auf dem Boden.',
       'Lehnen Sie den Oberkörper leicht nach vorne.',
@@ -171,6 +178,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/k2_wandliegestuetz.png',
       alt: 'Senior stützt sich mit beiden Händen an der Wand ab',
     },
+    imageName: 'wand-liegestuetze',
     steps: [
       'Stellen Sie sich etwa eine Armlänge vor eine Wand.',
       'Legen Sie die Hände in Schulterhöhe an die Wand.',
@@ -193,6 +201,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/k3_schulterheben.png',
       alt: 'Senior sitzt auf einem Stuhl und hebt die Schultern zu den Ohren',
     },
+    imageName: 'schulterheben',
     steps: [
       'Setzen Sie sich aufrecht auf einen Stuhl.',
       'Heben Sie beide Schultern langsam in Richtung Ohren.',
@@ -214,6 +223,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/k4_arme_vorne.png',
       alt: 'Senior sitzt und streckt beide Arme nach vorne aus',
     },
+    imageName: 'arme-nach-vorne-strecken',
     steps: [
       'Setzen Sie sich aufrecht hin.',
       'Strecken Sie beide Arme nach vorne auf Schulterhöhe aus.',
@@ -235,6 +245,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/k5_minikniebeuge.png',
       alt: 'Senior hält sich am Stuhl fest und macht kleine Kniebeugen',
     },
+    imageName: 'mini-kniebeuge-mit-stuhl',
     steps: [
       'Stellen Sie sich hinter einen Stuhl und halten Sie sich an der Rückenlehne fest.',
       'Beugen Sie die Knie leicht, als wollten Sie sich ein wenig setzen.',
@@ -256,6 +267,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/k6_bizepscurls.png',
       alt: 'Senior sitzt und beugt die Arme, als würde er Gewichte halten',
     },
+    imageName: 'bizepscurls-ohne-gewicht',
     steps: [
       'Setzen Sie sich aufrecht hin, Arme seitlich am Körper.',
       'Beugen Sie beide Arme, als würden Sie leichte Gewichte nach oben ziehen.',
@@ -277,6 +289,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/k7_seitliches_armheben.png',
       alt: 'Senior sitzt und hebt die Arme seitlich auf Schulterhöhe',
     },
+    imageName: 'seitliches-armheben',
     steps: [
       'Setzen Sie sich aufrecht hin.',
       'Heben Sie beide Arme seitlich bis etwa auf Schulterhöhe.',
@@ -300,6 +313,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/m1_schulterkreisen.png',
       alt: 'Senior sitzt und kreist die Schultern',
     },
+    imageName: 'schulterkreisen',
     steps: [
       'Setzen Sie sich aufrecht hin.',
       'Kreisen Sie beide Schultern langsam nach hinten.',
@@ -321,6 +335,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/m2_nacken_nicken.png',
       alt: 'Senior sitzt und neigt den Kopf leicht nach vorne und hinten',
     },
+    imageName: 'sanftes-nicken',
     steps: [
       'Setzen Sie sich aufrecht hin, Blick nach vorne.',
       'Neigen Sie den Kopf langsam nach vorne, als würden Sie nicken.',
@@ -342,6 +357,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/m3_hueftrotation.png',
       alt: 'Senior steht und dreht den Oberkörper leicht nach links und rechts',
     },
+    imageName: 'hueftrotation-im-stehen',
     steps: [
       'Stellen Sie sich hüftbreit hin, Arme locker an der Seite.',
       'Drehen Sie den Oberkörper sanft nach links, Becken bleibt möglichst stabil.',
@@ -363,6 +379,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/m4_knieheben.png',
       alt: 'Senior hebt im Stehen abwechselnd die Knie an',
     },
+    imageName: 'knieheben-im-stehen',
     steps: [
       'Stellen Sie sich gerade hin, halten Sie sich bei Bedarf an einem Stuhl fest.',
       'Heben Sie ein Knie in Richtung Hüfte und setzen Sie den Fuß wieder ab.',
@@ -384,6 +401,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/m5_fusskreisen.png',
       alt: 'Senior sitzt und kreist den Fuß in der Luft',
     },
+    imageName: 'fusskreisen-im-sitzen',
     steps: [
       'Setzen Sie sich auf einen Stuhl, ein Bein leicht anheben.',
       'Kreisen Sie den Fuß ein paar Mal in die eine Richtung.',
@@ -405,6 +423,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/m6_arme_oben.png',
       alt: 'Senior sitzt und streckt beide Arme nach oben',
     },
+    imageName: 'armstreckung-nach-oben',
     steps: [
       'Setzen Sie sich aufrecht hin.',
       'Strecken Sie beide Arme langsam nach oben, so weit es angenehm ist.',
@@ -426,6 +445,7 @@ export const PHYSICAL_EXERCISES_DE: PhysicalExercise[] = [
       src: '/media/exercises/m7_seitbeuge.png',
       alt: 'Senior sitzt und beugt den Oberkörper zur Seite',
     },
+    imageName: 'seitliches-beugen-im-sitzen',
     steps: [
       'Setzen Sie sich aufrecht hin, Füße hüftbreit auf dem Boden.',
       'Schieben Sie eine Hand langsam Richtung Knie, der Oberkörper beugt sich leicht zur Seite.',

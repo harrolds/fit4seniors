@@ -548,3 +548,221 @@ body {
   background: var(--color-border);
   margin: 10px 0 0;
 }
+
+/* EXERCISES */
+.f4s-exercises {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.f4s-exercises__header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.f4s-exercises__description {
+  margin: 0.35rem 0 0;
+  color: var(--color-text-secondary);
+}
+
+.f4s-exercises__filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.f4s-exercises__filter-button {
+  flex: 1 0 120px;
+  min-height: 48px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  color: var(--color-text-primary);
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.f4s-exercises__filter-button--active {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+.f4s-exercises__list {
+  margin-top: 0.5rem;
+}
+
+.f4s-exercises__list-item {
+  padding: 0;
+}
+
+.f4s-exercises__card {
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.f4s-exercises__card--balance {
+  background: var(--color-widget-a);
+}
+
+.f4s-exercises__card--kraft {
+  background: var(--color-widget-b);
+}
+
+.f4s-exercises__card--mobilitaet {
+  background: var(--color-widget-a);
+}
+
+.f4s-exercises__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.1rem 1rem;
+}
+
+.f4s-exercises__card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.f4s-exercises__card-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+  color: #0d1a2a;
+}
+
+.f4s-exercises__card-description {
+  margin: 0;
+  font-size: 1rem;
+  color: #0d1a2a;
+  font-weight: 600;
+}
+
+.f4s-exercises__card-duration {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0d1a2a;
+}
+
+.f4s-exercises__card-meta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  color: #0d1a2a;
+  font-weight: 600;
+}
+
+.f4s-exercises__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0d1a2a;
+  font-weight: 700;
+  font-size: 0.9rem;
+  min-width: 78px;
+}
+
+.f4s-exercise-detail {
+  padding-bottom: 1.25rem;
+}
+
+.f4s-exercise-detail__card {
+  padding: 1.25rem 1.25rem 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.f4s-exercise-detail__header h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.6rem;
+}
+
+.f4s-exercise-detail__subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.f4s-exercise-detail__section {
+  margin-top: 1rem;
+}
+
+.f4s-exercise-detail__section-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.f4s-exercise-detail__meta {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.f4s-exercise-detail__safety {
+  margin: 0;
+}
+
+.f4s-exercise-detail__steps {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.f4s-exercise-detail__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.f4s-exercise-detail__actions button {
+  flex: 1 1 100%;
+}
+
+.f4s-exercise-detail__image-wrapper {
+  width: 100%;
+  margin: -0.25rem 0 1rem;
+}
+
+.f4s-exercise-detail__image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+.f4s-exercise-detail__image-placeholder {
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  background: var(--color-background);
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.f4s-goal__actions {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+}

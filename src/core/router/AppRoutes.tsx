@@ -1,49 +1,25 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useNavigation } from '../../shared/lib/navigation/useNavigation';
-import { Button } from '../../shared/ui/Button';
-import { useI18n } from '../../shared/lib/i18n';
 import { WidgetHost } from '../home/WidgetHost';
-import { moduleRegistry } from '../../config/moduleRegistry';
 import { SettingsLayout } from '../settings/SettingsLayout';
 import { GlobalSettingsScreen } from '../settings/GlobalSettingsScreen';
-import { ModuleSettingsScreen } from '../settings/ModuleSettingsScreen';
 import { OfflineScreen } from '../offline/OfflineScreen';
 
-const HomeScreen: React.FC = () => {
-  const { openNotifications, openSettings } = useNavigation();
-  const { t } = useI18n();
-
-  return (
-    <div className="home-screen">
-      <section className="home-screen__intro">
-        <h2>{t('home.title')}</h2>
-        <p>{t('home.description')}</p>
-        <div className="home-screen__actions">
-          <Button type="button" onClick={openNotifications}>
-            {t('home.goToNotifications')}
-          </Button>
-          <Button type="button" onClick={openSettings} variant="secondary">
-            {t('home.goToSettings')}
-          </Button>
-        </div>
-      </section>
-      <WidgetHost />
-    </div>
-  );
+const TodayScreen: React.FC = () => {
+  // Voor nu gebruiken we de bestaande WidgetHost als "Heute"-startscherm.
+  return <WidgetHost />;
 };
 
-const NotificationsScreen: React.FC = () => {
-  const { goBack } = useNavigation();
-  const { t } = useI18n();
+interface SimpleScreenProps {
+  title: string;
+  description: string;
+}
 
+const SimpleScreen: React.FC<SimpleScreenProps> = ({ title, description }) => {
   return (
-    <div>
-      <h2>{t('notifications.title')}</h2>
-      <p>{t('notifications.description')}</p>
-      <Button type="button" onClick={goBack}>
-        {t('notifications.back')}
-      </Button>
+    <div className="f4s-simple-screen">
+      <h1>{title}</h1>
+      <p>{description}</p>
     </div>
   );
 };
@@ -51,24 +27,54 @@ const NotificationsScreen: React.FC = () => {
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomeScreen />} />
-      <Route path="/notifications" element={<NotificationsScreen />} />
+      {/* Root redirect naar Heute */}
+      <Route path="/" element={<Navigate to="/today" replace />} />
+      {/* Fit4Seniors hoofdnavigatie */}
+      <Route path="/today" element={<TodayScreen />} />
+      <Route
+        path="/exercises"
+        element={
+          <SimpleScreen
+            title="Übungen"
+            description="Übersicht über deine Übungen."
+          />
+        }
+      />
+      <Route
+        path="/brain"
+        element={
+          <SimpleScreen
+            title="Gehirntraining"
+            description="Einfache Aufgaben für ein aktives Gedächtnis."
+          />
+        }
+      />
+      <Route
+        path="/progress"
+        element={
+          <SimpleScreen
+            title="Fortschritt"
+            description="Deine aktiven Tage und Trainings im Überblick."
+          />
+        }
+      />
+      <Route
+        path="/more"
+        element={
+          <SimpleScreen
+            title="Mehr"
+            description="Weitere Bereiche von Fit4Seniors."
+          />
+        }
+      />
+      {/* Settings */}
       <Route path="/settings" element={<SettingsLayout />}>
         <Route index element={<GlobalSettingsScreen />} />
-        <Route path=":moduleId" element={<ModuleSettingsScreen />} />
       </Route>
-      {moduleRegistry.map((module) => {
-        const ModuleComponent = module.component;
-        return (
-          <Route
-            key={module.id}
-            path={module.routeBase}
-            element={<ModuleComponent />}
-          />
-        );
-      })}
+      {/* Offline-ervaring */}
       <Route path="/offline" element={<OfflineScreen />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/today" replace />} />
     </Routes>
   );
 };

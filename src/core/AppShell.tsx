@@ -6,7 +6,6 @@ import { useNavigation } from '../shared/lib/navigation/useNavigation';
 import { useI18n } from '../shared/lib/i18n';
 import type { ScreenAction, ScreenActionClick, ScreenConfig } from './screenConfig';
 import { getScreenConfigByPath } from '../config/navigation';
-import { APP_BRAND } from '../config/appConfig';
 import { NotificationsHost } from '../shared/lib/notifications';
 import { OfflineScreen } from './offline/OfflineScreen';
 import { useTheme } from './theme/ThemeProvider';
@@ -84,9 +83,8 @@ const AppShellContent: React.FC = () => {
 
   const rawConfig = getScreenConfigByPath(location.pathname);
   const screenConfig = mergeModuleActions(rawConfig);
-  const titleKey = screenConfig?.titleKey;
-  const appTitle = APP_BRAND.appName;
-  const title = titleKey ? t(titleKey) : appTitle;
+  const titleKey = screenConfig?.titleKey ?? 'app.nav.today';
+  const title = t(titleKey);
   const headerActions = resolveHeaderActions(screenConfig);
 
   const handleDeclarativeClick = (action: ScreenAction, click: ScreenActionClick): boolean => {

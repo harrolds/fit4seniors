@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import de from '../../../locales/de.json';
 import en from '../../../locales/en.json';
-import { getValue, setValue } from '../storage';
 
 type Locale = 'de' | 'en';
 
@@ -24,31 +23,15 @@ const messagesByLocale: Record<Locale, Messages> = {
   en,
 };
 
-const LANGUAGE_PREFERENCE_STORAGE_KEY = 'language-preference';
-
 const getInitialPreference = (): LanguagePreference => {
-  const stored = getValue<LanguagePreference | null>(LANGUAGE_PREFERENCE_STORAGE_KEY, null);
-  if (stored === 'system' || stored === 'de' || stored === 'en') {
-    return stored;
-  }
-  return 'system';
+  return 'de';
 };
 
 const resolveEffectiveLocale = (preference: LanguagePreference): Locale => {
-  if (preference === 'system') {
-    if (typeof navigator !== 'undefined') {
-      const languages = navigator.languages && navigator.languages.length > 0 ? navigator.languages : [navigator.language];
-      for (const lang of languages) {
-        if (!lang) continue;
-        const code = lang.toLowerCase().slice(0, 2) as Locale | string;
-        if (code === 'de' || code === 'en') {
-          return code;
-        }
-      }
-    }
-    return 'de';
+  if (preference === 'de' || preference === 'en') {
+    return preference;
   }
-  return preference;
+  return 'de';
 };
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -64,7 +47,6 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
     const setPreference = (next: LanguagePreference): void => {
       setPreferenceState(next);
-      setValue<LanguagePreference>(LANGUAGE_PREFERENCE_STORAGE_KEY, next);
     };
 
     const setLocale = (nextLocale: Locale): void => {

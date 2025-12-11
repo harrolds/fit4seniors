@@ -1,167 +1,63 @@
-import React, { useState } from 'react';
-import { Card } from '../../shared/ui/Card';
-import { Button } from '../../shared/ui/Button';
-import { useI18n } from '../../shared/lib/i18n';
-import { useNavigation } from '../../shared/lib/navigation/useNavigation';
-import { useThemeController } from '../theme/ThemeProvider';
-import { isTelemetryEnabled, setTelemetryEnabled as setTelemetryEnabledFlag, } from '../../shared/lib/telemetry';
+import React from 'react';
 
 export const GlobalSettingsScreen: React.FC = () => {
-  const { goBack } = useNavigation();
-  const {
-    t,
-    preference: languagePreference,
-    setPreference: setLanguagePreference,
-  } = useI18n();
-  const {
-    preference: themePreference,
-    resolvedMode,
-    setPreference: setThemePreference,
-  } = useThemeController();
-  const [telemetryEnabled, setTelemetryEnabled] = useState<boolean>(
-    isTelemetryEnabled(),
-  );
-
-  const themeOptions: Array<{ value: 'system' | 'light' | 'dark'; label: string }> = [
-    { value: 'system', label: t('settings.theme.system') },
-    { value: 'light', label: t('settings.theme.light') },
-    { value: 'dark', label: t('settings.theme.dark') },
-  ];
-
   return (
-    <>
-      <Card>
-        <div className="settings-section">
-          <div>
-            <h2 className="settings-layout__title">{t('settings.title')}</h2>
-            <p className="settings-layout__description">
-              {t('settings.global.description')}
-            </p>
-          </div>
-          <div className="settings-actions">
-            <Button type="button" variant="secondary" onClick={goBack}>
-              {t('settings.back')}
-            </Button>
-          </div>
+    <div className="f4s-settings">
+      {/* Darstellung */}
+      <section className="f4s-settings__section">
+        <h2>Darstellung</h2>
+        <div className="f4s-settings__row">
+          <label htmlFor="fontSizeSetting">Schriftgröße</label>
+          <select id="fontSizeSetting" name="fontSizeSetting" defaultValue="medium">
+            <option value="medium">Mittel (14px)</option>
+            <option value="large">Groß (18px)</option>
+          </select>
         </div>
-      </Card>
-
-      <Card>
-        <div className="settings-section">
-          <div className="settings-field">
-            <h3 className="settings-layout__section-title">
-              {t('settings.theme.title')}
-            </h3>
-            <p className="settings-layout__description">
-              {t('settings.theme.description')}
-            </p>
-          </div>
-
-          <div
-            className="settings-field"
-            role="radiogroup"
-            aria-label={t('settings.theme.title')}
-          >
-            {themeOptions.map((option) => (
-              <label key={option.value} className="settings-radio">
-                <input
-                  type="radio"
-                  name="themePreference"
-                  value={option.value}
-                  checked={themePreference === option.value}
-                  onChange={() => setThemePreference(option.value)}
-                />
-                <span>{option.label}</span>
-              </label>
-            ))}
-          </div>
-
-          <p className="settings-layout__muted">
-            {t('settings.theme.active', {
-              value:
-                resolvedMode === 'dark'
-                  ? t('settings.theme.dark')
-                  : t('settings.theme.light'),
-            })}
-          </p>
+        <div className="f4s-settings__row">
+          <label htmlFor="contrastSetting">Kontrastmodus</label>
+          <select id="contrastSetting" name="contrastSetting" defaultValue="normal">
+            <option value="normal">Normal</option>
+            <option value="high">Hoch</option>
+          </select>
         </div>
-      </Card>
+      </section>
 
-      <Card>
-        <div className="settings-section">
-          <div className="settings-field">
-            <h3 className="settings-layout__section-title">
-              {t('settings.language.title')}
-            </h3>
-            <p className="settings-layout__description">
-              {t('settings.language.description')}
-            </p>
-          </div>
-
-          <div
-            className="settings-field"
-            role="radiogroup"
-            aria-label={t('settings.language.title')}
-          >
-            <label className="settings-radio">
-              <input
-                type="radio"
-                name="languagePreference"
-                value="system"
-                checked={languagePreference === 'system'}
-                onChange={() => setLanguagePreference('system')}
-              />
-              <span>{t('settings.language.system')}</span>
-            </label>
-            <label className="settings-radio">
-              <input
-                type="radio"
-                name="languagePreference"
-                value="de"
-                checked={languagePreference === 'de'}
-                onChange={() => setLanguagePreference('de')}
-              />
-              <span>{t('settings.language.de')}</span>
-            </label>
-            <label className="settings-radio">
-              <input
-                type="radio"
-                name="languagePreference"
-                value="en"
-                checked={languagePreference === 'en'}
-                onChange={() => setLanguagePreference('en')}
-              />
-              <span>{t('settings.language.en')}</span>
-            </label>
-          </div>
+      {/* Profil */}
+      <section className="f4s-settings__section">
+        <h2>Profil</h2>
+        <div className="f4s-settings__row">
+          <label htmlFor="profileName">Name</label>
+          <input id="profileName" name="profileName" type="text" placeholder="Optional" />
         </div>
-      </Card>
+        <div className="f4s-settings__row">
+          <label htmlFor="ageCategory">Alterskategorie</label>
+          <select id="ageCategory" name="ageCategory" defaultValue="60-69">
+            <option value="60-69">60–69</option>
+            <option value="70-79">70–79</option>
+            <option value="80+">80+</option>
+          </select>
+        </div>
+        <div className="f4s-settings__row">
+          <label htmlFor="mobilityLevel">Mobilität</label>
+          <select id="mobilityLevel" name="mobilityLevel" defaultValue="seated">
+            <option value="seated">Sitzend</option>
+            <option value="mobile">Mobil</option>
+            <option value="intense">Sehr mobil</option>
+          </select>
+        </div>
+      </section>
 
-      <Card>
-        <section className="settings-section">
-          <h2 className="settings-section__title">
-            {t('settings.telemetry.title')}
-          </h2>
-          <p className="settings-section__description">
-            {t('settings.telemetry.description')}
-          </p>
-
-          <div className="settings-section__row">
-            <label className="settings-checkbox">
-              <input
-                type="checkbox"
-                checked={telemetryEnabled}
-                onChange={(event) => {
-                  const enabled = event.target.checked;
-                  setTelemetryEnabled(enabled);
-                  setTelemetryEnabledFlag(enabled);
-                }}
-              />
-              <span>{t('settings.telemetry.toggleLabel')}</span>
-            </label>
-          </div>
-        </section>
-      </Card>
-    </>
+      {/* App-Information */}
+      <section className="f4s-settings__section">
+        <h2>App-Information</h2>
+        <p>Fit4Seniors – Version 1.0</p>
+        <p>
+          <a href="/datenschutz">Datenschutz</a>
+        </p>
+        <p>
+          <a href="/impressum">Impressum</a>
+        </p>
+      </section>
+    </div>
   );
 };

@@ -1,5 +1,5 @@
 {
-  "app.title": "PWA Skeleton",
+  "app.title": "Fit4Seniors",
   "app.header.notifications": "Notifications",
   "app.header.settings": "Settings",
   "app.header.moreActions": "More actions",
@@ -145,6 +145,11 @@
   "modules.riskRadarDemo.settings.description": "Configure default thresholds for the risk demo.",
   "modules.riskRadarDemo.settings.thresholdLabel": "Default risk threshold",
   "modules.riskRadarDemo.settings.showHighRiskOnly": "Show only high-risk assets",
-  "modules.riskRadarDemo.settings.saved": "Settings saved."
+  "modules.riskRadarDemo.settings.saved": "Settings saved.",
+  "app.nav.today": "Today",
+  "app.nav.exercises": "Exercises",
+  "app.nav.brain": "Brain",
+  "app.nav.progress": "Progress",
+  "app.nav.more": "More"
 }
 

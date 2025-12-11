@@ -1,5 +1,5 @@
 {
-  "app.title": "PWA Skeleton",
+  "app.title": "Fit4Seniors",
   "app.header.notifications": "Benachrichtigungen",
   "app.header.settings": "Einstellungen",
   "app.header.moreActions": "Weitere Aktionen",
@@ -145,5 +145,10 @@
   "modules.riskRadarDemo.settings.description": "Standard-Schwellenwerte für die Risiko-Demo festlegen.",
   "modules.riskRadarDemo.settings.thresholdLabel": "Standard-Risikoschwelle",
   "modules.riskRadarDemo.settings.showHighRiskOnly": "Nur Assets mit hohem Risiko anzeigen",
-  "modules.riskRadarDemo.settings.saved": "Einstellungen gespeichert."
+  "modules.riskRadarDemo.settings.saved": "Einstellungen gespeichert.",
+  "app.nav.today": "Heute",
+  "app.nav.exercises": "Übungen",
+  "app.nav.brain": "Gehirn",
+  "app.nav.progress": "Fortschritt",
+  "app.nav.more": "Mehr"
 }

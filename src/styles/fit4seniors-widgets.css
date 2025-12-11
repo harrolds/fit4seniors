@@ -123,11 +123,11 @@
 
 .f4s-category-card--balance,
 .f4s-category-card--mobilitaet {
-  background: var(--color-widget-a);
+  background: var(--color-widget-a) !important;
 }
 
 .f4s-category-card--kraft {
-  background: var(--color-widget-b);
+  background: var(--color-widget-b) !important;
 }
 
 .f4s-category-card__body h3 {
@@ -213,5 +213,33 @@
 .f4s-settings__row {
   display: grid;
   gap: 0.4rem;
+}
+/* basis voor alle oefen-kaarten in de lijst */
+.f4s-exercise-card {
+  border: none;
+  cursor: pointer;
+}
+
+/* kleur per categorie, override Card background */
+.f4s-exercise-card--balance {
+  background-color: var(--color-widget-a) !important;
+  color: #1b3a57;
+}
+
+.f4s-exercise-card--kraft {
+  background-color: var(--color-widget-b) !important;
+  color: #1b3a57;
+}
+
+/* tekst / layout binnenin */
+.f4s-ex-card-header h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.f4s-exercise-cards p {
+  margin: 0;
+  font-size: 14px;
 }
 

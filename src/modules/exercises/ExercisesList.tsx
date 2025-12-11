@@ -81,6 +81,12 @@ export function ExercisesList() {
   // STEP 2: EXERCISE LIST FOR SELECTED CATEGORY
   const exercises = getExercisesForCategory(selectedCategory);
 
+  // optioneel: zelfde kleur per categorie
+  const exerciseCardCategoryClass =
+    selectedCategory === 'Kraft'
+      ? 'f4s-exercise-card--kraft'
+      : 'f4s-exercise-card--balance';
+
   return (
     <div className="f4s-exercise-cards">
       <a className="f4s-category-back" onClick={() => setSelectedCategory(null)}>
@@ -88,7 +94,11 @@ export function ExercisesList() {
       </a>
 
       {exercises.map((ex) => (
-        <Card key={ex.id} onClick={() => navigate(`/exercises/${ex.id}`)}>
+        <Card
+          key={ex.id}
+          onClick={() => navigate(`/exercises/${ex.id}`)}
+          className={`f4s-exercise-card ${exerciseCardCategoryClass}`}
+        >
           <div className="f4s-ex-card-header">
             <h2>{ex.title}</h2>
             <Badge variant="level">{ex.levelLabel}</Badge>

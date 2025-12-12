@@ -1,31 +1,35 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { footerMenu } from '../config/appConfig';
+import { footerMenu, type FooterMenuItem } from '../config/appConfig';
 import { useNavigation } from '../shared/lib/navigation/useNavigation';
 import { useI18n } from '../shared/lib/i18n';
-import { Button } from '../shared/ui/Button';
 import { useTheme } from './theme/ThemeProvider';
+import { Icon } from '../shared/ui/Icon';
+import { useNotifications } from '../shared/lib/notifications';
 
 export const AppFooter: React.FC = () => {
   const location = useLocation();
   const { goTo } = useNavigation();
   const { t } = useI18n();
   const { components } = useTheme();
+  const { showToast } = useNotifications();
   const navTokens = components.navBar;
 
-  const getIconSymbol = (icon: string): string => {
-    switch (icon) {
-      case 'home':
-        return '🏠';
-      case 'notes':
-        return '📝';
-      case 'notifications':
-        return '🔔';
-      case 'settings':
-        return '⚙️';
-      default:
-        return '•';
+  const handleNavClick = (item: FooterMenuItem) => {
+    if (item.available !== false) {
+      goTo(item.route);
+      return;
     }
+
+    showToast('nav.comingSoon');
+    goTo(item.fallbackRoute ?? '/');
+  };
+
+  const isActivePath = (item: FooterMenuItem): boolean => {
+    if (item.route === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(item.route);
   };
 
   return (
@@ -36,30 +40,30 @@ export const AppFooter: React.FC = () => {
         backgroundColor: navTokens.background,
         borderTop: `1px solid ${navTokens.border}`,
         color: navTokens.text,
+        boxShadow: 'var(--shadow-footer)',
       }}
     >
       <nav className="app-shell__footer-nav">
         {footerMenu.map((item) => {
-          const isActive = location.pathname === item.route;
+          const isActive = isActivePath(item);
 
           return (
-            <Button
+            <button
               key={item.id}
               type="button"
-              variant={isActive ? 'secondary' : 'ghost'}
-              className="app-shell__footer-nav-item"
+              className={`app-shell__footer-nav-item${isActive ? ' app-shell__footer-nav-item--active' : ''}`}
               aria-current={isActive ? 'page' : undefined}
               aria-label={t(item.labelKey)}
-              onClick={() => goTo(item.route)}
+              onClick={() => handleNavClick(item)}
             >
-              <span
+              <Icon
+                name={item.icon}
+                filled={isActive}
+                size={26}
                 className="app-shell__footer-nav-icon"
-                aria-hidden="true"
-                style={{ color: isActive ? navTokens.active : navTokens.text }}
-              >
-                {getIconSymbol(item.icon)}
-              </span>
-            </Button>
+              />
+              <span className="app-shell__footer-nav-label">{t(item.labelKey)}</span>
+            </button>
           );
         })}
       </nav>

@@ -106,10 +106,11 @@ export const lightDefault: ThemeDefinition = {
       placeholder: 'var(--color-text-muted)',
     },
     navBar: {
-      background: 'var(--color-surface)',
-      border: 'var(--color-border)',
-      text: 'var(--color-text-secondary)',
-      active: 'var(--color-primary)',
+      background: 'var(--color-surface-footer)',
+      border: 'var(--color-divider)',
+      text: 'var(--color-nav-inactive)',
+      active: 'var(--color-active)',
+      inactive: 'var(--color-nav-inactive)',
     },
     header: {
       background: 'var(--color-surface)',
@@ -179,10 +180,11 @@ export const darkDefault: ThemeDefinition = {
       placeholder: 'var(--color-text-muted)',
     },
     navBar: {
-      background: 'var(--color-surface)',
-      border: 'var(--color-border)',
-      text: 'var(--color-text-secondary)',
-      active: 'var(--color-primary)',
+      background: 'var(--color-surface-footer)',
+      border: 'var(--color-divider)',
+      text: 'var(--color-nav-inactive)',
+      active: 'var(--color-active)',
+      inactive: 'var(--color-nav-inactive)',
     },
     header: {
       background: 'var(--color-surface)',

@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
 import type { ScreenAction } from '../screenConfig';
+import { Icon } from '../../shared/ui/Icon';
 
 export const HeaderActionsMenu: React.FC<{
   actions?: ScreenAction[];
@@ -42,7 +43,7 @@ export const HeaderActionsMenu: React.FC<{
         variant="ghost"
         style={{ width: 36, height: 36, padding: 0 }}
       >
-        <span aria-hidden="true">⋯</span>
+        <Icon name="more_horiz" size={24} />
       </Button>
 
       {isOpen && (

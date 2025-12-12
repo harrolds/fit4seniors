@@ -11,12 +11,16 @@ export type FooterMenuItem = {
   route: string;
   labelKey: string;
   icon: string;
+  available?: boolean;
+  fallbackRoute?: string;
 };
 
 export const footerMenu: FooterMenuItem[] = [
-  { id: 'home', route: '/', labelKey: 'nav.home', icon: 'home' },
-  { id: 'notifications', route: '/notifications', labelKey: 'nav.notifications', icon: 'notifications' },
-  { id: 'settings', route: '/settings', labelKey: 'nav.settings', icon: 'settings' },
+  { id: 'home', route: '/', labelKey: 'nav.today', icon: 'home', available: true },
+  { id: 'train', route: '/trainings', labelKey: 'nav.train', icon: 'fitness_center', available: false, fallbackRoute: '/' },
+  { id: 'brain', route: '/brain', labelKey: 'nav.brain', icon: 'psychology', available: false, fallbackRoute: '/' },
+  { id: 'progress', route: '/progress', labelKey: 'nav.progress', icon: 'bar_chart', available: false, fallbackRoute: '/' },
+  { id: 'more', route: '/settings', labelKey: 'nav.more', icon: 'more_horiz', available: true },
 ];
 
 export type AppBranding = {

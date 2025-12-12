@@ -31,6 +31,7 @@ Besluit: `settings-overview.html` wordt genormaliseerd naar dezelfde palette; af
 | --color-text-primary | #103546 |
 | --color-text-secondary | rgba(16,53,70,0.80) |
 | --color-text-muted | rgba(16,53,70,0.60) |
+| --color-nav-inactive | rgba(16,53,70,0.40) |
 | --color-border | rgba(16,53,70,0.10) |
 | --color-divider | rgba(16,53,70,0.10) |
 | --color-overlay | rgba(16,53,70,0.45) |

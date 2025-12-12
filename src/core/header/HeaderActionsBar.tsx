@@ -2,19 +2,20 @@ import React from 'react';
 import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
 import type { ScreenAction } from '../screenConfig';
+import { Icon } from '../../shared/ui/Icon';
 
 const iconMap: Record<string, string> = {
-  notifications: '🔔',
-  settings: '⚙️',
-  back: '←',
-  menu: '⋯',
+  notifications: 'notifications',
+  settings: 'settings',
+  back: 'arrow_back',
+  menu: 'more_horiz',
 };
 
-const renderIcon = (action: ScreenAction): string => {
+const resolveIconName = (action: ScreenAction): string => {
   if (action.icon && iconMap[action.icon]) {
     return iconMap[action.icon];
   }
-  return '⋯';
+  return 'more_horiz';
 };
 
 export const HeaderActionsBar: React.FC<{
@@ -39,7 +40,7 @@ export const HeaderActionsBar: React.FC<{
           variant="ghost"
           style={{ width: 36, height: 36, padding: 0 }}
         >
-          <span aria-hidden="true">{renderIcon(action)}</span>
+          <Icon name={resolveIconName(action)} size={24} />
         </Button>
       ))}
     </div>

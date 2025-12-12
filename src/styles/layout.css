@@ -23,7 +23,7 @@ body {
 .app-shell {
   min-height: 100vh;
   padding-top: 56px; /* header-hoogte */
-  padding-bottom: 64px; /* footer-hoogte */
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); /* footer-hoogte + safe area */
   background-color: var(--color-background);
 }
 
@@ -37,8 +37,9 @@ body {
   height: 56px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  background-color: var(--color-app-bg);
+  font-family: var(--font-family-base);
 }
 
 .app-shell__header-inner {
@@ -139,8 +140,9 @@ body {
 .app-shell__title {
   margin: 0;
   font-size: var(--font-size-md);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
+  font-family: var(--font-family-base);
 }
 
 /* MAIN – gewoon flow binnen .app-shell, padding vangt header/footer af */
@@ -155,11 +157,13 @@ body {
   left: 0;
   right: 0;
   z-index: 10;
-  height: 64px;
+  height: calc(80px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   display: flex;
-  align-items: center;
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-surface);
+  align-items: stretch;
+  border-top: 1px solid var(--color-divider);
+  background-color: var(--color-surface-footer);
+  box-shadow: var(--shadow-footer);
 }
 
 /* FOOTER-INHOUD – gecentreerde navigatie */
@@ -167,24 +171,51 @@ body {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  height: 100%;
 }
 
-/* Footer-knoppen minimalistisch, randen door Button-component zelf geregeld */
-.app-shell__footer-nav-button {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-/* Alleen iconen tonen in footer, tekst verbergen */
-.app-shell__footer-nav-label {
-  display: none;
-}
-
-/* Icon-formatting */
+/* Icon-formatting + label */
 .app-shell__footer-nav-icon {
-  font-size: var(--font-size-lg);
+  font-size: 26px;
   line-height: 1;
+}
+
+.app-shell__footer-nav-item {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: var(--color-nav-inactive);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition:
+    color var(--motion-duration-normal) var(--motion-ease-standard),
+    transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.app-shell__footer-nav-item:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.app-shell__footer-nav-item:hover {
+  color: var(--color-accent);
+}
+
+.app-shell__footer-nav-item--active {
+  color: var(--color-active);
+  font-weight: var(--font-weight-bold);
+}
+
+.app-shell__footer-nav-label {
+  display: inline-block;
+  line-height: 1.2;
 }
 
 /* Safety-net tegen mini-overflows in breedte */
@@ -365,7 +396,7 @@ body {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 8px);
+  bottom: calc(80px + env(safe-area-inset-bottom, 0px) + 8px);
   z-index: 20;
   display: flex;
   justify-content: center;

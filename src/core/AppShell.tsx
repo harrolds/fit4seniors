@@ -144,9 +144,10 @@ const AppShellContent: React.FC = () => {
       <header
         className="app-shell__header"
         style={{
-          backgroundColor: headerTokens.background,
-          borderBottom: `1px solid ${headerTokens.border}`,
+          backgroundColor: 'var(--color-app-bg)',
+          borderBottom: '1px solid var(--color-divider)',
           color: headerTokens.text,
+          fontFamily: 'var(--font-family-base)',
         }}
       >
         <div className="app-shell__header-left" aria-hidden="true" />

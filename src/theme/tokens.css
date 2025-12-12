@@ -6,6 +6,7 @@
   --color-text-primary: #103546;
   --color-text-secondary: rgba(16, 53, 70, 0.8);
   --color-text-muted: rgba(16, 53, 70, 0.6);
+  --color-nav-inactive: rgba(16, 53, 70, 0.4);
   --color-border: rgba(16, 53, 70, 0.1);
   --color-divider: rgba(16, 53, 70, 0.1);
   --color-overlay: rgba(16, 53, 70, 0.45);

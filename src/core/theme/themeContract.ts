@@ -93,6 +93,7 @@ export interface NavBarTokens {
   border: string;
   text: string;
   active: string;
+  inactive: string;
 }
 
 export interface HeaderTokens {

@@ -1,0 +1,81 @@
+:root {
+  /* Canon colors (Stitch SSOT) */
+  --color-app-bg: #fff5e3;
+  --color-surface: #ffffff;
+  --color-surface-footer: #fffefa;
+  --color-text-primary: #103546;
+  --color-text-secondary: rgba(16, 53, 70, 0.8);
+  --color-text-muted: rgba(16, 53, 70, 0.6);
+  --color-border: rgba(16, 53, 70, 0.1);
+  --color-divider: rgba(16, 53, 70, 0.1);
+  --color-overlay: rgba(16, 53, 70, 0.45);
+  --color-focus: #103546;
+  --color-active: #88b0a5;
+  --color-accent: #f6b06d;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-disabled: rgba(16, 53, 70, 0.15);
+  --color-disabled-text: rgba(16, 53, 70, 0.4);
+  --color-on-primary: #ffffff;
+  --color-ghost-hover: rgba(16, 53, 70, 0.04);
+  --color-ghost-active: rgba(16, 53, 70, 0.08);
+
+  /* Module / widget cards */
+  --color-card-module-1: #88b0a5;
+  --color-card-module-2: #72937c;
+  --color-card-module-3: #fcd7ac;
+  --color-card-module-4: #e6beae;
+  --color-card-module-5: #a0b4b8;
+  --color-card-accent: #f6b06d;
+
+  /* Legacy-compatible aliases (for existing code) */
+  --color-background: var(--color-app-bg);
+  --color-card: var(--color-surface);
+  --color-primary: var(--color-active);
+  --color-primary-strong: var(--color-active);
+  --color-primary-stronger: #72937c;
+  --color-secondary: #103546;
+
+  /* Typography */
+  --font-family-base: "Spline Sans","Noto Sans",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  --font-size-display: 1.75rem;
+  --font-size-xl: 1.5rem;
+  --font-size-lg: 1.125rem;
+  --font-size-md: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-xs: 0.75rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-normal: 1.6;
+  --line-height-snug: 1.4;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;  /* 4px */
+  --spacing-sm: 0.5rem;   /* 8px */
+  --spacing-md: 0.75rem;  /* 12px */
+  --spacing-lg: 1rem;     /* 16px */
+  --spacing-xl: 1.5rem;   /* 24px */
+  --spacing-2xl: 2rem;    /* 32px */
+
+  /* Radius */
+  --radius-sm: 0.5rem;   /* 8px */
+  --radius-md: 0.75rem;  /* 12px */
+  --radius-lg: 1rem;     /* 16px */
+  --radius-xl: 1.5rem;   /* 24px */
+  --radius-pill: 9999px;
+
+  /* Elevation */
+  --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.14);
+  --shadow-footer: 0 -4px 6px -1px rgba(0, 0, 0, 0.02);
+
+  /* Motion */
+  --motion-duration-fast: 120ms;
+  --motion-duration-normal: 180ms;
+  --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+

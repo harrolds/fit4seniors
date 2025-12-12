@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Veiligheidstips - Fit4Senioren</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F4A460", // Sandy orange from screenshots
+                        "primary-dark": "#D9863D",
+                        "text-main": "#0B253C", // Deep navy from screenshots
+                        "background-light": "#FFF8E7", // Cream/Beige background
+                        "background-dark": "#1a202c", // Dark mode background fallback
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#2d3748",
+                        "icon-bg": "#E2E8F0",
+                        "success": "#84B0A0", // Green from cardio card
+                        "info": "#9AB5B8", // Blue-grey from brain training
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem", // Consistent rounded corners
+                        'xl': '1.25rem',
+                        '2xl': '1.5rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-gray-100 min-h-screen relative overflow-hidden">
+<div class="h-full w-full opacity-30 pointer-events-none filter blur-sm absolute inset-0 z-0 bg-background-light dark:bg-background-dark">
+<div class="px-6 pt-12 pb-4 flex justify-between items-center">
+<span class="material-icons-round text-3xl">arrow_back</span>
+<h1 class="text-2xl font-bold">Training</h1>
+<div class="flex gap-4">
+<span class="material-icons-round text-2xl">notifications</span>
+<span class="material-icons-round text-2xl">person</span>
+</div>
+</div>
+<div class="px-6 py-4">
+<div class="bg-card-light dark:bg-card-dark rounded-2xl p-6 h-96"></div>
+</div>
+</div>
+<div class="fixed inset-0 z-50 flex justify-end">
+<div class="absolute inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-[2px]"></div>
+<div class="relative w-full h-full bg-background-light dark:bg-background-dark shadow-2xl transform transition-transform duration-300 ease-out flex flex-col">
+<div class="flex items-center justify-between px-6 pt-12 pb-6 border-b border-gray-200/50 dark:border-gray-700">
+<h2 class="text-2xl font-bold text-text-main dark:text-white">Veiligheidstips</h2>
+<button class="p-2 -mr-2 text-text-main dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors flex items-center justify-center">
+<span class="material-icons-round text-3xl">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto px-6 py-6 space-y-8">
+<p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                    Uw veiligheid is onze prioriteit. Lees deze tips zorgvuldig door voordat u aan uw oefeningen begint om blessures te voorkomen.
+                </p>
+<section>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
+<span class="material-icons-round text-blue-600 dark:text-blue-400">check_circle</span>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white">Voorbereiding</h3>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl p-5 shadow-soft border border-gray-100 dark:border-gray-700">
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="block w-2 h-2 mt-2.5 rounded-full bg-primary shrink-0"></span>
+<span class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Draag comfortabele kleding die uw bewegingen niet beperkt.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="block w-2 h-2 mt-2.5 rounded-full bg-primary shrink-0"></span>
+<span class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Zorg voor stevige, platte schoenen met goede grip.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="block w-2 h-2 mt-2.5 rounded-full bg-primary shrink-0"></span>
+<span class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Houd een flesje water bij de hand om gehydrateerd te blijven.</span>
+</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-200 dark:border-gray-700 mx-4"/>
+<section>
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0">
+<span class="material-icons-round text-green-600 dark:text-green-400">home</span>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white">Omgeving</h3>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl p-5 shadow-soft border border-gray-100 dark:border-gray-700">
+<p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                            Een veilige ruimte is essentieel voor een goede training.
+                        </p>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<span class="block w-2 h-2 mt-2.5 rounded-full bg-primary shrink-0"></span>
+<span class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Verwijder losse tapijten of obstakels waar u over kunt struikelen.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="block w-2 h-2 mt-2.5 rounded-full bg-primary shrink-0"></span>
+<span class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Zorg voor voldoende verlichting in de kamer.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="block w-2 h-2 mt-2.5 rounded-full bg-primary shrink-0"></span>
+<span class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">Houd een stevige stoel in de buurt voor balans indien nodig.</span>
+</li>
+</ul>
+</div>
+</section>
+<hr class="border-gray-200 dark:border-gray-700 mx-4"/>
+<section class="pb-8">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center shrink-0">
+<span class="material-icons-round text-orange-600 dark:text-orange-400">favorite</span>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white">Luister naar uw lichaam</h3>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl p-5 shadow-soft border border-gray-100 dark:border-gray-700">
+<p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
+                            Stop onmiddellijk als u pijn, duizeligheid of kortademigheid ervaart. Forceer uzelf niet. Beweging moet goed voelen, niet pijnlijk.
+                        </p>
+</div>
+</section>
+</div>
+<div class="h-8 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent pointer-events-none absolute bottom-0 left-0 right-0"></div>
+</div>
+</div>
+
+</body></html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fit4Senioren - Tekstgrootte</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F2E40", // Dark Navy from header text
+              secondary: "#F4A261", // Orange accent color
+              "background-light": "#FFF8E7", // Light cream background
+              "background-dark": "#1F2937", // Dark mode background (approximated)
+              "card-light": "#FFFFFF",
+              "card-dark": "#374151",
+              "text-light": "#0F2E40",
+              "text-dark": "#F3F4F6",
+              "muted-light": "#6B7280",
+              "muted-dark": "#9CA3AF",
+              "accent-green": "#8AB0A2", // Sage green from dashboard
+              "accent-peach": "#E9C4B1", // Peach color from dashboard
+            },
+            fontFamily: {
+              display: ["'DM Sans'", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              'xl': "1rem",
+              '2xl': "1.5rem",
+              '3xl': "2rem",
+            },
+            boxShadow: {
+              'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+            }
+          },
+        },
+      };
+    </script>
+<style>input[type=range] {
+            -webkit-appearance: none;width: 100%;background: transparent;}
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+        }
+        input[type=range]:focus {
+            outline: none;}
+        input[type=range]::-ms-track {
+            width: 100%;
+            cursor: pointer;
+            background: transparent; 
+            border-color: transparent;
+            color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark min-h-screen flex flex-col antialiased transition-colors duration-200">
+<header class="flex items-center justify-between px-6 py-6 sticky top-0 z-10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm">
+<button aria-label="Ga terug" class="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-3xl text-primary dark:text-white">arrow_back</span>
+</button>
+<h1 class="text-2xl font-bold text-primary dark:text-white">Tekstgrootte</h1>
+<div class="flex items-center space-x-3">
+<div class="relative">
+<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-background-light dark:border-background-dark"></span>
+<button aria-label="Meldingen" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-2xl text-primary dark:text-white">notifications</span>
+</button>
+</div>
+<button aria-label="Profiel" class="p-2 -mr-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-3xl text-primary dark:text-white">person</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-5 pb-24 overflow-y-auto">
+<p class="mb-8 text-lg text-muted-light dark:text-muted-dark leading-relaxed">
+            Pas de grootte van de tekst aan zodat de app makkelijker te lezen is voor u. De wijzigingen zijn direct zichtbaar.
+        </p>
+<div class="bg-card-light dark:bg-card-dark rounded-3xl shadow-soft p-6 mb-6">
+<div class="flex items-center mb-6">
+<div class="w-12 h-12 rounded-2xl bg-secondary/20 flex items-center justify-center mr-4">
+<span class="material-icons-round text-secondary text-3xl">text_fields</span>
+</div>
+<div>
+<h2 class="text-xl font-bold text-primary dark:text-white">Grootte aanpassen</h2>
+<p class="text-sm text-muted-light dark:text-muted-dark mt-1">Schuif om te wijzigen</p>
+</div>
+</div>
+<div class="py-4">
+<div class="flex justify-between items-center mb-4 px-2">
+<span class="text-base font-medium text-muted-light dark:text-muted-dark">A</span>
+<span class="text-3xl font-bold text-primary dark:text-white">A</span>
+</div>
+<div class="relative h-16 flex items-center">
+<div class="w-full bg-gray-200 dark:bg-gray-600 h-2 rounded-full absolute"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-2/3 bg-secondary h-2 rounded-l-full"></div>
+<div class="absolute left-2/3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white dark:bg-gray-200 rounded-full shadow-lg border-4 border-secondary cursor-pointer transform -translate-x-5 flex items-center justify-center">
+<span class="material-icons-round text-secondary text-sm">unfold_more</span>
+</div>
+<input aria-label="Tekstgrootte schuifregelaar" class="w-full h-16 absolute opacity-0 cursor-pointer z-10" max="5" min="1" type="range" value="3"/>
+</div>
+<div class="flex justify-between mt-2 px-1 text-xs text-muted-light dark:text-muted-dark">
+<span>Klein</span>
+<span>Standaard</span>
+<span>Groot</span>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-3xl shadow-soft p-6 mb-6">
+<h3 class="text-lg font-bold text-primary dark:text-white mb-4 flex items-center">
+<span class="material-icons-round text-accent-green mr-2">visibility</span>
+                Voorbeeld
+            </h3>
+<div class="bg-background-light dark:bg-background-dark rounded-xl p-5 border border-gray-100 dark:border-gray-700">
+<h4 class="text-xl font-bold text-primary dark:text-white mb-2">Goedemorgen, Jan</h4>
+<p class="text-base text-muted-light dark:text-muted-dark leading-relaxed">
+                    Dit is een voorbeeld van hoe de tekst eruit zal zien in de app.
+                </p>
+<div class="mt-4 flex items-center text-secondary font-bold text-lg">
+<span class="material-icons-round mr-2">play_circle_filled</span>
+                    Start Oefening
+                </div>
+</div>
+</div>
+<div class="bg-[#E8F0FE] dark:bg-[#1E293B] rounded-3xl p-5 flex items-start">
+<div class="bg-white dark:bg-gray-700 p-2 rounded-full mr-4 shadow-sm shrink-0">
+<span class="material-icons-round text-blue-500 text-xl">info</span>
+</div>
+<div>
+<h4 class="font-bold text-primary dark:text-white mb-1">Heeft u moeite met lezen?</h4>
+<p class="text-sm text-primary/80 dark:text-gray-300 mb-3">
+                    U kunt ook het contrast verhogen of schermlezer opties aanzetten in de toegankelijkheidsinstellingen van uw telefoon.
+                </p>
+<button class="text-blue-600 dark:text-blue-400 font-bold text-sm flex items-center">
+                    Meer tips
+                    <span class="material-icons-round text-sm ml-1">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-card-dark border-t border-gray-100 dark:border-gray-700 pb-safe pt-2 px-6 shadow-[0_-4px_20px_-2px_rgba(0,0,0,0.05)] z-20">
+<div class="flex justify-between items-center h-16 max-w-lg mx-auto">
+<a class="flex flex-col items-center justify-center w-16 group" href="#">
+<span class="material-icons-round text-3xl text-muted-light dark:text-muted-dark group-hover:text-primary dark:group-hover:text-white transition-colors">home</span>
+<span class="text-[10px] font-medium mt-1 text-muted-light dark:text-muted-dark group-hover:text-primary dark:group-hover:text-white">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center w-16 group" href="#">
+<span class="material-icons-round text-3xl text-muted-light dark:text-muted-dark group-hover:text-primary dark:group-hover:text-white transition-colors transform rotate-45">fitness_center</span>
+<span class="text-[10px] font-medium mt-1 text-muted-light dark:text-muted-dark group-hover:text-primary dark:group-hover:text-white">Oefeningen</span>
+</a>
+<a class="flex flex-col items-center justify-center w-16 group" href="#">
+<span class="material-icons-round text-3xl text-muted-light dark:text-muted-dark group-hover:text-primary dark:group-hover:text-white transition-colors">psychology</span>
+<span class="text-[10px] font-medium mt-1 text-muted-light dark:text-muted-dark group-hover:text-primary dark:group-hover:text-white">Brein</span>
+</a>
+<a class="flex flex-col items-center justify-center w-16 group" href="#">
+<span class="material-icons-round text-3xl text-muted-light dark:text-muted-dark group-hover:text-primary dark:group-hover:text-white transition-colors">bar_chart</span>
+<span class="text-[10px] font-medium mt-1 text-muted-light dark:text-muted-dark group-hover:text-primary dark:group-hover:text-white">Voortgang</span>
+</a>
+<a class="flex flex-col items-center justify-center w-16 group" href="#">
+<span class="material-icons-round text-3xl text-secondary dark:text-secondary">more_horiz</span>
+<span class="text-[10px] font-bold mt-1 text-secondary dark:text-secondary">Meer</span>
+</a>
+</div>
+</nav>
+<div class="h-6 w-full bg-white dark:bg-card-dark fixed bottom-0 z-20"></div>
+
+</body></html>

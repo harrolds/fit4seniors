@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mijn profiel</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0F2E45", // Dark blue from CTA and text
+                        secondary: "#F4A259", // Orange accent seen in buttons
+                        "background-light": "#FFF8E7", // Light beige background
+                        "background-dark": "#1a1a1a", // Dark mode background
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#2d2d2d",
+                        "text-light": "#0F2E45",
+                        "text-secondary-light": "#64748B",
+                        "text-dark": "#E2E8F0",
+                        "text-secondary-dark": "#94A3B8",
+                        "icon-bg-1": "#E0E9DE", // Greenish for profile icon
+                        "icon-bg-2": "#FCEBD9", // Orangeish for settings icon
+                        "icon-bg-3": "#E9E0D9", // Reddish for alarm icon
+                        "icon-bg-4": "#D9E8FC", // Blueish for info icon
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        'xl': '1rem',
+                        '2xl': '1.25rem',
+                        '3xl': '1.5rem',
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans min-h-screen flex flex-col antialiased selection:bg-secondary selection:text-white">
+<header class="flex items-center justify-between px-6 pt-8 pb-4 sticky top-0 bg-background-light dark:bg-background-dark z-10">
+<button class="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-3xl text-primary dark:text-white">arrow_back</span>
+</button>
+<h1 class="text-2xl font-bold text-primary dark:text-white">Mijn profiel</h1>
+<div class="flex items-center space-x-2">
+<button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 relative transition-colors">
+<span class="material-icons-round text-3xl text-primary dark:text-white">notifications</span>
+<span class="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 border-2 border-background-light dark:border-background-dark rounded-full"></span>
+</button>
+<button class="p-2 -mr-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-3xl text-primary dark:text-white">person</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-5 py-4 space-y-6 overflow-y-auto pb-24">
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-base leading-relaxed">
+            Bekijk en beheer uw persoonlijke voortgang. Hier ziet u uw doelen en huidige niveau in één oogopslag.
+        </p>
+<section class="bg-surface-light dark:bg-surface-dark rounded-3xl p-6 shadow-sm flex flex-col items-center text-center space-y-4">
+<div class="relative">
+<div class="w-24 h-24 bg-icon-bg-1 dark:bg-opacity-20 rounded-full flex items-center justify-center mb-2">
+<span class="material-icons-round text-6xl text-primary dark:text-white opacity-80">account_circle</span>
+</div>
+<button class="absolute bottom-2 right-0 bg-secondary text-white p-1.5 rounded-full shadow-md border-2 border-surface-light dark:border-surface-dark">
+<span class="material-icons-round text-sm">edit</span>
+</button>
+</div>
+<div>
+<h2 class="text-xl font-bold text-primary dark:text-white">Jan de Vries</h2>
+<p class="text-text-secondary-light dark:text-text-secondary-dark font-medium">Lid sinds 2023 • Niveau: Gevorderd</p>
+</div>
+<div class="w-full h-px bg-gray-100 dark:bg-gray-700"></div>
+<div class="flex justify-around w-full pt-2">
+<div class="flex flex-col items-center">
+<span class="text-2xl font-bold text-secondary">24</span>
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wide font-medium">Trainingen</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-2xl font-bold text-secondary">310</span>
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wide font-medium">Minuten</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-2xl font-bold text-secondary">8</span>
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wide font-medium">Weken</span>
+</div>
+</div>
+</section>
+<button class="w-full bg-surface-light dark:bg-surface-dark rounded-3xl p-5 shadow-sm flex items-center justify-between group hover:shadow-md transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-4">
+<div class="w-14 h-14 bg-icon-bg-2 dark:bg-opacity-20 rounded-2xl flex items-center justify-center shrink-0">
+<span class="material-icons-round text-3xl text-orange-800 dark:text-orange-200">flag</span>
+</div>
+<div class="text-left">
+<h3 class="text-lg font-bold text-primary dark:text-white">Beweegdoelen</h3>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm mt-0.5">3x per week • 20 min</p>
+</div>
+</div>
+<span class="material-icons-round text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-white transition-colors">chevron_right</span>
+</button>
+<button class="w-full bg-surface-light dark:bg-surface-dark rounded-3xl p-5 shadow-sm flex items-center justify-between group hover:shadow-md transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-4">
+<div class="w-14 h-14 bg-icon-bg-4 dark:bg-opacity-20 rounded-2xl flex items-center justify-center shrink-0">
+<span class="material-icons-round text-3xl text-blue-800 dark:text-blue-200">fitness_center</span>
+</div>
+<div class="text-left">
+<h3 class="text-lg font-bold text-primary dark:text-white">Voorkeursniveau</h3>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm mt-0.5">Focus op balans &amp; kracht</p>
+</div>
+</div>
+<span class="material-icons-round text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-white transition-colors">chevron_right</span>
+</button>
+<button class="w-full bg-surface-light dark:bg-surface-dark rounded-3xl p-5 shadow-sm flex items-center justify-between group hover:shadow-md transition-all active:scale-[0.99]">
+<div class="flex items-center space-x-4">
+<div class="w-14 h-14 bg-icon-bg-3 dark:bg-opacity-20 rounded-2xl flex items-center justify-center shrink-0">
+<span class="material-icons-round text-3xl text-red-800 dark:text-red-200">favorite</span>
+</div>
+<div class="text-left">
+<h3 class="text-lg font-bold text-primary dark:text-white">Gezondheid</h3>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm mt-0.5">Hartslag &amp; Bloeddruk</p>
+</div>
+</div>
+<span class="material-icons-round text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-white transition-colors">chevron_right</span>
+</button>
+<div class="pt-4 pb-2">
+<button class="w-full bg-primary hover:bg-opacity-90 text-white font-bold py-4 rounded-xl shadow-lg flex items-center justify-center space-x-2 transition-all active:scale-[0.98]">
+<span class="material-icons-round">edit_note</span>
+<span>Profiel bewerken</span>
+</button>
+</div>
+<p class="text-center text-xs text-text-secondary-light dark:text-text-secondary-dark opacity-70 pb-4">
+            Fit4Senioren Versie 2.1.0
+        </p>
+</main>
+<nav class="fixed bottom-0 w-full bg-surface-light dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 pb-safe pt-2 px-2 z-50">
+<div class="flex justify-around items-end w-full max-w-md mx-auto pb-4">
+<button class="flex flex-col items-center group w-16 space-y-1">
+<span class="material-icons-round text-2xl text-text-secondary-light dark:text-text-secondary-dark group-hover:text-primary dark:group-hover:text-white transition-colors">home</span>
+<span class="text-[10px] font-medium text-text-secondary-light dark:text-text-secondary-dark group-hover:text-primary dark:group-hover:text-white">Home</span>
+</button>
+<button class="flex flex-col items-center group w-16 space-y-1">
+<span class="material-icons-round text-2xl text-text-secondary-light dark:text-text-secondary-dark group-hover:text-primary dark:group-hover:text-white transition-colors">fitness_center</span>
+<span class="text-[10px] font-medium text-text-secondary-light dark:text-text-secondary-dark group-hover:text-primary dark:group-hover:text-white">Oefeningen</span>
+</button>
+<button class="flex flex-col items-center group w-16 space-y-1">
+<span class="material-icons-round text-2xl text-text-secondary-light dark:text-text-secondary-dark group-hover:text-primary dark:group-hover:text-white transition-colors">psychology</span>
+<span class="text-[10px] font-medium text-text-secondary-light dark:text-text-secondary-dark group-hover:text-primary dark:group-hover:text-white">Brein</span>
+</button>
+<button class="flex flex-col items-center group w-16 space-y-1">
+<span class="material-icons-round text-2xl text-text-secondary-light dark:text-text-secondary-dark group-hover:text-primary dark:group-hover:text-white transition-colors">bar_chart</span>
+<span class="text-[10px] font-medium text-text-secondary-light dark:text-text-secondary-dark group-hover:text-primary dark:group-hover:text-white">Voortgang</span>
+</button>
+<button class="flex flex-col items-center group w-16 space-y-1">
+<span class="material-icons-round text-2xl text-secondary">more_horiz</span>
+<span class="text-[10px] font-medium text-secondary">Meer</span>
+</button>
+</div>
+</nav>
+<div class="h-6 bg-surface-light dark:bg-surface-dark w-full fixed bottom-0 z-40"></div>
+
+</body></html>

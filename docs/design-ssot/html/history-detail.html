@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trainingsoverzicht - Fit4Senioren</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FBBF77", // Based on the orange buttons/highlights
+                        "primary-dark": "#E5A050",
+                        "navy": "#0F2536", // Dark navy text color
+                        "background-light": "#FFF8EA", // Beige background
+                        "background-dark": "#1A1A1A", // Dark mode background
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#2D2D2D",
+                        "subtle-green": "#86B0A8", // For Cardio card
+                        "subtle-pink": "#E3C2BA", // For Balans card
+                        "subtle-orange": "#F8D7B3", // For Spierbehoud card
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"], // Assuming Inter or similar clean sans
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem", // 16px generally
+                        'xl': "1.25rem",
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        };
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-navy dark:text-gray-100 min-h-screen pb-24">
+<header class="fixed top-0 w-full z-50 bg-background-light dark:bg-background-dark pt-12 pb-4 px-6 flex items-center justify-between">
+<button aria-label="Terug" class="p-2 -ml-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-round text-3xl text-navy dark:text-white">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold text-navy dark:text-white">Trainingsoverzicht</h1>
+<div class="flex items-center gap-4">
+<button aria-label="Meldingen" class="relative rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-round text-2xl text-navy dark:text-white">notifications</span>
+<span class="absolute top-0 right-0 h-2.5 w-2.5 bg-red-500 rounded-full border-2 border-background-light dark:border-background-dark"></span>
+</button>
+<button aria-label="Profiel" class="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-round text-2xl text-navy dark:text-white">person</span>
+</button>
+</div>
+</header>
+<main class="pt-32 px-5 space-y-6">
+<div class="mb-4">
+<h2 class="text-lg font-semibold text-navy dark:text-white mb-1">Goed gedaan, Jan!</h2>
+<p class="text-gray-600 dark:text-gray-400 text-base">Hier zijn de details van uw laatste sessie.</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-6 flex flex-col items-center text-center">
+<div class="h-20 w-20 bg-subtle-green dark:bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+<span class="material-icons-round text-4xl text-white dark:text-subtle-green">monitor_heart</span>
+</div>
+<h3 class="text-2xl font-bold text-navy dark:text-white mb-2">Rustig Wandelen</h3>
+<span class="inline-flex items-center px-4 py-1.5 rounded-full bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 font-medium text-sm mb-6">
+<span class="material-icons-round text-sm mr-1">check_circle</span>
+                Voltooid
+            </span>
+<div class="w-full grid grid-cols-2 gap-4 border-t border-gray-100 dark:border-gray-700 pt-6">
+<div class="flex flex-col items-center">
+<span class="text-gray-500 dark:text-gray-400 text-sm mb-1">Tijd</span>
+<span class="text-xl font-bold text-navy dark:text-white">20 min</span>
+</div>
+<div class="flex flex-col items-center border-l border-gray-100 dark:border-gray-700">
+<span class="text-gray-500 dark:text-gray-400 text-sm mb-1">Calorieën</span>
+<span class="text-xl font-bold text-navy dark:text-white">85 kcal</span>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-soft overflow-hidden">
+<div class="p-5 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+<span class="material-icons-round text-blue-600 dark:text-blue-300">category</span>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Categorie</p>
+<p class="font-semibold text-navy dark:text-white">Cardio</p>
+</div>
+</div>
+</div>
+<div class="p-5 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
+<span class="material-icons-round text-orange-600 dark:text-orange-300">calendar_today</span>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Datum</p>
+<p class="font-semibold text-navy dark:text-white">Vandaag, 14 okt</p>
+</div>
+</div>
+</div>
+<div class="p-5 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+<span class="material-icons-round text-purple-600 dark:text-purple-300">schedule</span>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Starttijd</p>
+<p class="font-semibold text-navy dark:text-white">09:30</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-soft p-5">
+<h4 class="font-bold text-navy dark:text-white mb-3">Hoe voelde deze oefening?</h4>
+<div class="flex justify-between items-center px-2">
+<button class="flex flex-col items-center gap-2 group">
+<span class="text-3xl grayscale group-hover:grayscale-0 transition-all transform group-hover:scale-110">😫</span>
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400 group-hover:text-navy dark:group-hover:text-white">Zwaar</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<span class="text-3xl grayscale group-hover:grayscale-0 transition-all transform group-hover:scale-110">😐</span>
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400 group-hover:text-navy dark:group-hover:text-white">Neutraal</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<span class="text-3xl grayscale-0 transform scale-110">🙂</span>
+<span class="text-xs font-bold text-navy dark:text-white">Goed</span>
+</button>
+<button class="flex flex-col items-center gap-2 group">
+<span class="text-3xl grayscale group-hover:grayscale-0 transition-all transform group-hover:scale-110">🤩</span>
+<span class="text-xs font-medium text-gray-500 dark:text-gray-400 group-hover:text-navy dark:group-hover:text-white">Top!</span>
+</button>
+</div>
+</div>
+<button class="w-full bg-primary text-navy font-bold py-4 rounded-xl shadow-md hover:bg-primary-dark transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-round">share</span>
+            Deel prestatie
+        </button>
+</main>
+<nav class="fixed bottom-0 w-full bg-white dark:bg-card-dark border-t border-gray-100 dark:border-gray-800 pb-safe pt-2 px-6 flex justify-between items-center z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.03)] pb-6">
+<button class="flex flex-col items-center gap-1 p-2 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
+<span class="material-icons-round text-2xl">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-primary dark:text-primary transition-colors">
+<span class="material-icons-round text-2xl">fitness_center</span>
+<span class="text-[10px] font-medium">Training</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
+<span class="material-icons-round text-2xl">psychology</span>
+<span class="text-[10px] font-medium">Brein</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
+<span class="material-icons-round text-2xl">bar_chart</span>
+<span class="text-[10px] font-medium">Voortgang</span>
+</button>
+<button class="flex flex-col items-center gap-1 p-2 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
+<span class="material-icons-round text-2xl">more_horiz</span>
+<span class="text-[10px] font-medium">Meer</span>
+</button>
+</nav>
+
+</body></html>

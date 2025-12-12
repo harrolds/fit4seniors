@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hersentraining: Woordpuzzel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F4A261", // Orange accent
+                        secondary: "#8AB0A3", // Green accent
+                        darkblue: "#0F253E", // Dark text
+                        "background-light": "#FEF7E6", // Cream background
+                        "background-dark": "#1F2937", // Dark mode background
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#374151",
+                        "card-green": "#8AB0A3",
+                        "card-orange-light": "#FADCB3",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1.5rem',
+                        '2xl': '2rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-sans text-darkblue dark:text-gray-100 min-h-screen flex flex-col antialiased selection:bg-primary selection:text-white">
+<header class="flex items-center justify-between px-6 pt-12 pb-6">
+<button class="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-3xl text-darkblue dark:text-white">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold text-darkblue dark:text-white">Woordpuzzel</h1>
+<div class="flex items-center gap-4">
+<button class="relative p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-2xl text-darkblue dark:text-white">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-background-light dark:border-background-dark"></span>
+</button>
+<button class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-2xl text-darkblue dark:text-white">person</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-6 pb-24 overflow-y-auto">
+<div class="bg-white dark:bg-surface-dark rounded-2xl p-6 shadow-soft mb-6">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="bg-card-green/20 dark:bg-card-green/30 p-3 rounded-xl text-card-green dark:text-green-300">
+<span class="material-icons-round text-3xl">psychology</span>
+</div>
+<div>
+<h2 class="font-bold text-lg dark:text-white">Cognitieve Focus</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400">Niveau: Gemiddeld</p>
+</div>
+</div>
+<button class="text-darkblue dark:text-white opacity-60 hover:opacity-100">
+<span class="material-icons-round text-2xl">info</span>
+</button>
+</div>
+<p class="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                Vind de verborgen woorden in het raster om uw geheugen en patroonherkenning te trainen. Neem uw tijd, er is geen haast.
+            </p>
+<div class="flex items-center justify-between text-sm font-medium mb-2 text-darkblue dark:text-gray-200">
+<span>Voortgang</span>
+<span>3/10 woorden</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-3">
+<div class="bg-primary h-3 rounded-full transition-all duration-500" style="width: 30%"></div>
+</div>
+</div>
+<div class="bg-card-orange-light/30 dark:bg-gray-800 rounded-3xl p-6 mb-8 flex flex-col items-center justify-center border-2 border-dashed border-primary/30 dark:border-primary/20 relative min-h-[240px]">
+<div class="grid grid-cols-5 gap-2 mb-4 w-full max-w-[280px]">
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">K</div>
+<div class="aspect-square bg-primary text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-md transform scale-105">O</div>
+<div class="aspect-square bg-primary text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-md transform scale-105">F</div>
+<div class="aspect-square bg-primary text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-md transform scale-105">F</div>
+<div class="aspect-square bg-primary text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-md transform scale-105">I</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">E</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">R</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">A</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">M</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">P</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">T</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">U</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">I</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">N</div>
+<div class="aspect-square bg-white dark:bg-surface-dark rounded-lg flex items-center justify-center font-bold text-xl shadow-sm text-darkblue dark:text-white">S</div>
+</div>
+<p class="text-sm text-darkblue/60 dark:text-gray-400 mt-2 font-medium">Zoek: KOFFIE</p>
+<button class="absolute -right-2 -bottom-2 bg-secondary text-white p-3 rounded-full shadow-lg hover:bg-secondary/90 transition-transform hover:scale-105">
+<span class="material-icons-round text-2xl">lightbulb</span>
+</button>
+</div>
+<div class="flex items-center justify-center mb-8">
+<div class="bg-white dark:bg-surface-dark px-6 py-2 rounded-full shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-2">
+<span class="material-icons-round text-primary">timer</span>
+<span class="text-xl font-bold font-mono dark:text-white">04:12</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="bg-white dark:bg-surface-dark border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-600 text-darkblue dark:text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-sm">
+<span class="material-icons-round">pause</span>
+                Pauze
+            </button>
+<button class="bg-darkblue dark:bg-red-500 text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:bg-opacity-90 transition-all">
+<span class="material-icons-round">stop</span>
+                Stoppen
+            </button>
+</div>
+</main>
+<nav class="fixed bottom-0 w-full bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-700 pb-safe pt-2 px-6">
+<div class="flex justify-between items-end pb-4">
+<a class="flex flex-col items-center gap-1 group w-16" href="#">
+<span class="material-icons-round text-2xl text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">home</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 group w-16" href="#">
+<span class="material-icons-round text-2xl text-primary">fitness_center</span>
+<span class="text-[10px] font-medium text-primary">Training</span>
+</a>
+<a class="flex flex-col items-center gap-1 group w-16" href="#">
+<span class="material-icons-round text-2xl text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">psychology</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">Brein</span>
+</a>
+<a class="flex flex-col items-center gap-1 group w-16" href="#">
+<span class="material-icons-round text-2xl text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">bar_chart</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">Voortgang</span>
+</a>
+<a class="flex flex-col items-center gap-1 group w-16" href="#">
+<span class="material-icons-round text-2xl text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">more_horiz</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors">Meer</span>
+</a>
+</div>
+</nav>
+<div class="h-24"></div>
+
+</body></html>

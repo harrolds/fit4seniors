@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fit4Senioren - Bottom Toast Template</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F8B676", // Peach/Orange accent used for buttons
+                        secondary: "#0F2838", // Dark Navy text
+                        "secondary-light": "#374151", // Lighter text for dark mode
+                        "background-light": "#FFF8EE", // Warm cream background
+                        "background-dark": "#111827", // Dark gray/blue for dark mode
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1F2937",
+                        "card-green": "#84A9A2",
+                        "card-olive": "#71907A",
+                        "card-pink": "#E5C2BA",
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                        body: ["Open Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem", // rounded-2xl
+                        "3xl": "1.5rem",
+                        "4xl": "2rem",
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'up': '0 -4px 20px -2px rgba(0, 0, 0, 0.1)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>body {
+            font-size: 16px;}
+        .touch-target {
+            min-height: 48px;
+            min-width: 48px;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex justify-center items-center p-4 font-body">
+<div class="relative w-full max-w-[400px] h-[850px] bg-background-light dark:bg-background-dark shadow-2xl rounded-[3rem] overflow-hidden border-8 border-gray-800 dark:border-gray-700 flex flex-col">
+<div class="h-12 w-full flex justify-between items-center px-6 pt-2 z-10">
+<span class="text-secondary dark:text-white font-bold text-sm">9:41</span>
+<div class="flex space-x-2">
+<span class="material-icons-round text-secondary dark:text-white text-sm">signal_cellular_alt</span>
+<span class="material-icons-round text-secondary dark:text-white text-sm">wifi</span>
+<span class="material-icons-round text-secondary dark:text-white text-sm">battery_full</span>
+</div>
+</div>
+<div class="px-6 pb-4 flex justify-between items-center z-10">
+<div class="relative">
+<span class="material-icons-round text-secondary dark:text-white text-3xl">notifications</span>
+<div class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full border-2 border-background-light dark:border-background-dark"></div>
+</div>
+<h1 class="text-2xl font-display font-bold text-secondary dark:text-white">Fit4Senioren</h1>
+<span class="material-icons-round text-secondary dark:text-white text-3xl">settings</span>
+</div>
+<div aria-hidden="true" class="flex-1 overflow-y-auto px-6 pb-24 space-y-6 opacity-30 pointer-events-none">
+<div>
+<h2 class="text-3xl font-display font-bold text-secondary dark:text-white">Goedemorgen, Jan</h2>
+<p class="text-gray-600 dark:text-gray-400 text-lg mt-1">Klaar om actief te blijven?</p>
+</div>
+<div class="bg-white dark:bg-surface-dark rounded-3xl overflow-hidden shadow-soft">
+<div class="h-40 bg-gray-300 dark:bg-gray-700 relative">
+<img alt="Senioren doen Tai Chi in park" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7EYsV397wei1aXEbkaG6d_K_hZacPbRp-Btnbq2FjMQlDVSw1vJAluHhwTRoFsbc6WP4cALLQ_syVUkSCD6T2kfJ3EBhCxh87RJGiTc2_TJ_El6QXdEim9tOY-Z0pUoH-oqryDs8POcH_IneMzk0stCrgsKQ5SuBArnYtT40FotBdParze9Oi_mDVEHq8NpiSNK-hfMCEBYflZl8UuOZHFFl8lYwPs5i3WOxPKTrlQOVDjS31-LTROAytxaT-HOu3Deyw3ScVNlG5"/>
+</div>
+<div class="p-6 bg-primary dark:bg-yellow-600">
+<div class="flex items-center space-x-3 mb-2">
+<span class="material-icons-round text-secondary dark:text-white text-3xl">play_circle_filled</span>
+<h3 class="text-xl font-bold text-secondary dark:text-white">Start Oefening</h3>
+</div>
+<p class="text-secondary dark:text-white opacity-90">Dagelijkse routine • 20 min</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-card-green dark:bg-teal-900 p-5 rounded-3xl h-40 flex flex-col justify-between">
+<span class="material-icons-round text-secondary dark:text-white text-3xl">psychology</span>
+<div>
+<h4 class="font-bold text-secondary dark:text-white text-lg leading-tight">Hersentraining</h4>
+<span class="text-xs text-secondary dark:text-gray-200 block mt-1">Geheugen</span>
+</div>
+</div>
+<div class="bg-card-olive dark:bg-green-900 p-5 rounded-3xl h-40 flex flex-col justify-between">
+<span class="material-icons-round text-secondary dark:text-white text-3xl">monitor_heart</span>
+<div>
+<h4 class="font-bold text-secondary dark:text-white text-lg leading-tight">Cardio</h4>
+<span class="text-xs text-secondary dark:text-gray-200 block mt-1">Hartgezondheid</span>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-24 left-6 right-6 z-40 transform transition-all duration-300 ease-out translate-y-0 opacity-100">
+<div class="bg-secondary dark:bg-surface-dark text-white dark:text-white p-4 rounded-2xl shadow-lg flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="bg-green-500 rounded-full p-1 flex items-center justify-center">
+<span class="material-icons-round text-white text-sm">check</span>
+</div>
+<span class="font-medium text-sm">Instellingen succesvol opgeslagen</span>
+</div>
+<button class="text-gray-400 hover:text-white touch-target flex items-center justify-center -mr-2">
+<span class="material-icons-round text-xl">close</span>
+</button>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 w-full z-50">
+<div class="absolute inset-0 h-full w-full -top-[800px]" onclick=""></div>
+<div class="bg-white dark:bg-surface-dark rounded-t-[2rem] shadow-up pb-8 flex flex-col max-h-[70vh]">
+<div class="w-full flex justify-center pt-3 pb-1">
+<div class="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+</div>
+<div class="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+<h2 class="text-2xl font-display font-bold text-secondary dark:text-white">Notificaties</h2>
+<button class="text-primary font-semibold text-sm touch-target flex items-center">
+                        Wis alles
+                    </button>
+</div>
+<div class="overflow-y-auto px-6 py-2 space-y-4">
+<div class="flex items-start space-x-4 py-3 border-b border-gray-50 dark:border-gray-800 last:border-0">
+<div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-2xl flex-shrink-0 text-blue-600 dark:text-blue-400">
+<span class="material-icons-round text-2xl">directions_walk</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-secondary dark:text-white text-base">Tijd voor uw wandeling</h3>
+<span class="text-xs text-primary font-medium bg-orange-50 dark:bg-orange-900/20 px-2 py-0.5 rounded-full">Nieuw</span>
+</div>
+<p class="text-gray-500 dark:text-gray-400 text-sm mt-1 leading-snug">
+                                Het is een prachtige dag! Uw dagelijkse doel van 30 minuten wacht op u.
+                            </p>
+<span class="text-xs text-gray-400 mt-2 block">10 min geleden</span>
+</div>
+</div>
+<div class="flex items-start space-x-4 py-3 border-b border-gray-50 dark:border-gray-800 last:border-0">
+<div class="bg-yellow-100 dark:bg-yellow-900/30 p-3 rounded-2xl flex-shrink-0 text-yellow-600 dark:text-yellow-400">
+<span class="material-icons-round text-2xl">emoji_events</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-secondary dark:text-white text-base">Weekdoel bereikt!</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm mt-1 leading-snug">
+                                Gefeliciteerd Jan! U heeft al uw trainingen voor deze week voltooid.
+                            </p>
+<span class="text-xs text-gray-400 mt-2 block">2 uur geleden</span>
+</div>
+</div>
+<div class="flex items-start space-x-4 py-3 border-b border-gray-50 dark:border-gray-800 last:border-0">
+<div class="bg-gray-100 dark:bg-gray-700 p-3 rounded-2xl flex-shrink-0 text-gray-600 dark:text-gray-300">
+<span class="material-icons-round text-2xl">system_update</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-secondary dark:text-white text-base">Nieuwe versie beschikbaar</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm mt-1 leading-snug">
+                                Fit4Senioren versie 2.2 is nu klaar om te installeren.
+                            </p>
+<span class="text-xs text-gray-400 mt-2 block">1 dag geleden</span>
+</div>
+</div>
+<div class="flex items-start space-x-4 py-3 last:border-0 opacity-60">
+<div class="bg-card-pink/50 dark:bg-red-900/20 p-3 rounded-2xl flex-shrink-0 text-red-800 dark:text-red-400">
+<span class="material-icons-round text-2xl">spa</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-secondary dark:text-white text-base">Gemiste training: Yoga</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm mt-1 leading-snug">
+                                U heeft gisteren uw yoga sessie gemist. Plan hem vandaag opnieuw in.
+                            </p>
+<span class="text-xs text-gray-400 mt-2 block">Gisteren</span>
+</div>
+</div>
+</div>
+<div class="px-6 pt-4">
+<button class="w-full py-4 bg-gray-100 dark:bg-gray-700 text-secondary dark:text-white rounded-xl font-bold touch-target">
+                        Sluiten
+                    </button>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark h-20 px-6 flex justify-between items-center shadow-[0_-5px_10px_rgba(0,0,0,0.05)] z-20 relative">
+<div class="flex flex-col items-center justify-center space-y-1 text-primary">
+<span class="material-icons-round text-2xl">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1 text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">fitness_center</span>
+<span class="text-[10px] font-medium">Oefeningen</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1 text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">psychology</span>
+<span class="text-[10px] font-medium">Brein</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1 text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">bar_chart</span>
+<span class="text-[10px] font-medium">Voortgang</span>
+</div>
+<div class="flex flex-col items-center justify-center space-y-1 text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">more_horiz</span>
+<span class="text-[10px] font-medium">Meer</span>
+</div>
+</div>
+</div>
+
+</body></html>

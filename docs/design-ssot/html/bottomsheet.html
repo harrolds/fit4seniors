@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fit4Senioren - BottomSheet Template</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#F4A261", // The warm orange from the "Start Sessie" button
+              "primary-hover": "#E08E4D",
+              "background-light": "#FFF8EA", // The creamy background color
+              "background-dark": "#121212", // Deep dark background for contrast
+              "surface-light": "#FFFFFF",
+              "surface-dark": "#1E1E1E",
+              "text-main": "#0F2840", // Dark Navy from headings
+              "text-muted": "#64748B",
+              // Accent colors from the grid
+              "accent-green": "#82AFAA", // Cardio card green
+              "accent-green-dark": "#2C3E39",
+              "accent-blue": "#84A9AC", // Brain training blue
+              "accent-pink": "#EBC8C1", // Balance pink
+            },
+            fontFamily: {
+              display: ["Nunito", "sans-serif"],
+              sans: ["Nunito", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              '3xl': "1.5rem", 
+              '4xl': "2rem",
+            },
+            boxShadow: {
+              'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+              'upwards': '0 -4px 20px -2px rgba(0, 0, 0, 0.1)',
+            }
+          },
+        },
+      };
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }.backdrop-enter {
+            opacity: 0;
+        }
+        .backdrop-enter-active {
+            opacity: 1;
+            transition: opacity 300ms ease-out;
+        }@keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-gray-100 dark:bg-gray-900 font-sans antialiased min-h-screen flex justify-center items-center p-4">
+<div class="relative w-full max-w-[400px] h-[850px] bg-background-light dark:bg-background-dark overflow-hidden shadow-2xl rounded-[3rem] border-8 border-gray-900 dark:border-gray-700 ring-1 ring-gray-900/5">
+<div class="h-10 w-full flex justify-between items-center px-6 pt-3 text-text-main dark:text-white z-10 relative">
+<span class="text-sm font-bold">9:41</span>
+<div class="flex space-x-1">
+<span class="material-icons-round text-sm">signal_cellular_alt</span>
+<span class="material-icons-round text-sm">wifi</span>
+<span class="material-icons-round text-sm">battery_full</span>
+</div>
+</div>
+<header class="px-6 py-4 flex justify-between items-center text-text-main dark:text-white">
+<button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition">
+<span class="material-icons-round text-2xl">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold">Training</h1>
+<div class="flex space-x-2">
+<button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition">
+<span class="material-icons-round text-2xl">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition">
+<span class="material-icons-round text-2xl">person</span>
+</button>
+</div>
+</header>
+<main class="px-6 pb-24 overflow-y-auto h-full space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-3xl p-6 shadow-soft">
+<div class="flex items-center space-x-2 mb-2">
+<span class="px-3 py-1 bg-accent-green/20 text-accent-green-dark dark:text-accent-green rounded-full text-xs font-bold uppercase tracking-wide">Cardio</span>
+</div>
+<h2 class="text-3xl font-bold text-text-main dark:text-white mb-3">Rustig wandelen</h2>
+<p class="text-text-muted dark:text-gray-400 leading-relaxed mb-6">
+                    Een lichte oefening om de bloedsomloop te stimuleren en gewrichten soepel te houden.
+                </p>
+<div class="flex justify-center py-8">
+<div class="relative w-48 h-48 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-gray-200 dark:text-gray-700" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552" stroke-dashoffset="138" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-text-main dark:text-white">
+<span class="text-5xl font-bold tracking-tighter">20:00</span>
+<span class="text-sm font-medium text-text-muted uppercase tracking-widest mt-1">Minuten</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="absolute bottom-0 w-full bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-800 py-3 px-6 flex justify-between items-center z-10">
+<div class="flex flex-col items-center text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">home</span>
+<span class="text-[10px] mt-1 font-medium">Home</span>
+</div>
+<div class="flex flex-col items-center text-primary">
+<span class="material-icons-round text-2xl">fitness_center</span>
+<span class="text-[10px] mt-1 font-bold">Training</span>
+</div>
+<div class="flex flex-col items-center text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">psychology</span>
+<span class="text-[10px] mt-1 font-medium">Brein</span>
+</div>
+<div class="flex flex-col items-center text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">more_horiz</span>
+<span class="text-[10px] mt-1 font-medium">Meer</span>
+</div>
+</nav>
+<div class="absolute inset-0 bg-black/50 z-40 backdrop-blur-[2px] transition-opacity duration-300"></div>
+<div class="absolute bottom-0 left-0 w-full z-50 animate-slide-up flex flex-col justify-end pointer-events-none h-full">
+<div class="flex-grow pointer-events-auto" onclick=""></div>
+<div class="bg-[#FFF8EA] dark:bg-[#1E1E1E] w-full rounded-t-[2.5rem] shadow-upwards pointer-events-auto flex flex-col max-h-[70%]">
+<div class="w-full flex justify-center pt-5 pb-2 cursor-grab active:cursor-grabbing">
+<div class="w-14 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+</div>
+<div class="px-6 pt-2 pb-6 overflow-y-auto no-scrollbar">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-2xl font-bold text-text-main dark:text-white">Instellingen Sessie</h3>
+<button class="text-sm font-bold text-primary hover:text-primary-hover">Reset</button>
+</div>
+<div class="mb-8">
+<p class="text-sm font-bold text-text-muted dark:text-gray-400 uppercase tracking-wider mb-4">Duur van oefening</p>
+<div class="flex space-x-3 overflow-x-auto no-scrollbar pb-2">
+<button class="flex-shrink-0 px-6 py-3 rounded-2xl bg-primary text-white font-bold shadow-md transition transform active:scale-95">
+                                15 min
+                            </button>
+<button class="flex-shrink-0 px-6 py-3 rounded-2xl bg-white dark:bg-gray-800 text-text-main dark:text-gray-200 font-bold border border-gray-100 dark:border-gray-700 shadow-sm transition hover:bg-gray-50 dark:hover:bg-gray-700">
+                                20 min
+                            </button>
+<button class="flex-shrink-0 px-6 py-3 rounded-2xl bg-white dark:bg-gray-800 text-text-main dark:text-gray-200 font-bold border border-gray-100 dark:border-gray-700 shadow-sm transition hover:bg-gray-50 dark:hover:bg-gray-700">
+                                30 min
+                            </button>
+<button class="flex-shrink-0 px-6 py-3 rounded-2xl bg-white dark:bg-gray-800 text-text-main dark:text-gray-200 font-bold border border-gray-100 dark:border-gray-700 shadow-sm transition hover:bg-gray-50 dark:hover:bg-gray-700">
+                                45 min
+                            </button>
+</div>
+</div>
+<div class="mb-8 space-y-3">
+<p class="text-sm font-bold text-text-muted dark:text-gray-400 uppercase tracking-wider mb-2">Voorkeuren</p>
+<label class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm cursor-pointer group hover:border-primary/50 transition">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-xl bg-accent-blue/20 flex items-center justify-center text-accent-blue dark:text-accent-blue">
+<span class="material-icons-round">volume_up</span>
+</div>
+<div class="flex flex-col">
+<span class="text-base font-bold text-text-main dark:text-white">Stembegeleiding</span>
+<span class="text-xs text-text-muted dark:text-gray-400">Audio instructies tijdens oefening</span>
+</div>
+</div>
+<div class="relative flex items-center">
+<input checked="" class="peer h-6 w-6 cursor-pointer appearance-none rounded-md border-2 border-gray-300 dark:border-gray-500 transition-all checked:border-primary checked:bg-primary" type="checkbox"/>
+<span class="material-icons-round absolute text-white opacity-0 peer-checked:opacity-100 text-sm pointer-events-none left-[2px] top-[2px]">check</span>
+</div>
+</label>
+<label class="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm cursor-pointer group hover:border-primary/50 transition">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-xl bg-accent-pink/40 flex items-center justify-center text-red-800 dark:text-pink-200">
+<span class="material-icons-round">favorite</span>
+</div>
+<div class="flex flex-col">
+<span class="text-base font-bold text-text-main dark:text-white">Hartslagmeter</span>
+<span class="text-xs text-text-muted dark:text-gray-400">Verbind met smartwatch</span>
+</div>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</label>
+</div>
+<div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl flex items-start space-x-3 mb-6">
+<span class="material-icons-round text-blue-600 dark:text-blue-400 mt-0.5">info</span>
+<p class="text-sm text-blue-800 dark:text-blue-200 leading-snug">
+                            Pas deze instellingen aan voor een comfortabele ervaring. Wijzigingen worden opgeslagen voor de volgende keer.
+                        </p>
+</div>
+</div>
+<div class="p-6 bg-[#FFF8EA] dark:bg-[#1E1E1E] border-t border-gray-100 dark:border-gray-800 rounded-b-[2.5rem]">
+<button class="w-full py-4 bg-primary hover:bg-primary-hover text-white text-lg font-bold rounded-2xl shadow-lg transform transition active:scale-[0.98] flex items-center justify-center space-x-2">
+<span>Toepassen</span>
+<span class="material-icons-round">check_circle</span>
+</button>
+<button class="w-full mt-3 py-2 text-text-muted dark:text-gray-400 text-sm font-semibold hover:text-text-main dark:hover:text-white transition">
+                        Annuleren
+                    </button>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

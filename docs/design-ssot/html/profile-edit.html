@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profiel Bewerken - Fit4Senioren</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#112D42", // Dark Navy from screenshots
+                        accent: "#F4A259", // Orange from 'Goed gedaan'
+                        "background-light": "#FFF9E8", // Beige cream
+                        "background-dark": "#111827", // Dark gray
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "text-main-light": "#112D42",
+                        "text-main-dark": "#F3F4F6",
+                        "text-sub-light": "#6B7280",
+                        "text-sub-dark": "#9CA3AF",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        };
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-main-light dark:text-text-main-dark transition-colors duration-200 min-h-screen flex flex-col justify-between">
+<header class="pt-6 pb-4 px-6 flex items-center justify-between sticky top-0 z-10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm">
+<button class="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-3xl text-primary dark:text-white">arrow_back</span>
+</button>
+<h1 class="text-2xl font-bold text-primary dark:text-white">Profiel bewerken</h1>
+<div class="flex items-center gap-3">
+<div class="relative">
+<span class="material-icons-round text-3xl text-primary dark:text-white">notifications</span>
+<span class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full border-2 border-background-light dark:border-background-dark"></span>
+</div>
+<span class="material-icons-round text-3xl text-primary dark:text-white">person</span>
+</div>
+</header>
+<main class="flex-grow px-6 pb-32 overflow-y-auto no-scrollbar">
+<p class="text-lg text-text-sub-light dark:text-text-sub-dark mb-8 leading-relaxed">
+            Pas uw profielgegevens aan voor een persoonlijke ervaring die bij uw doelen past.
+        </p>
+<form class="space-y-6" onsubmit="event.preventDefault();">
+<div class="bg-card-light dark:bg-card-dark rounded-3xl p-6 shadow-soft transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full flex items-center justify-center h-12 w-12 shrink-0">
+<span class="material-icons-round text-blue-600 dark:text-blue-400 text-2xl">cake</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-text-main-light dark:text-white">Leeftijdscategorie</h2>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark">Voor passende oefeningen</p>
+</div>
+</div>
+<div class="relative">
+<select class="w-full bg-gray-50 dark:bg-gray-800 border-0 rounded-2xl py-4 pl-4 pr-12 text-lg font-medium text-gray-900 dark:text-white focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer">
+<option>60 - 65 jaar</option>
+<option selected="">66 - 70 jaar</option>
+<option>71 - 75 jaar</option>
+<option>75+ jaar</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+<span class="material-icons-round text-gray-400 text-2xl">expand_more</span>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-3xl p-6 shadow-soft transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-orange-100 dark:bg-orange-900/30 p-3 rounded-full flex items-center justify-center h-12 w-12 shrink-0">
+<span class="material-icons-round text-orange-600 dark:text-orange-400 text-2xl">flag</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-text-main-light dark:text-white">Beweegdoel</h2>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark">Wat wilt u bereiken?</p>
+</div>
+</div>
+<div class="relative">
+<select class="w-full bg-gray-50 dark:bg-gray-800 border-0 rounded-2xl py-4 pl-4 pr-12 text-lg font-medium text-gray-900 dark:text-white focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer">
+<option>Conditie verbeteren</option>
+<option selected="">Spierkracht opbouwen</option>
+<option>Balans &amp; Stabiliteit</option>
+<option>Sociale contacten</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+<span class="material-icons-round text-gray-400 text-2xl">expand_more</span>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-3xl p-6 shadow-soft transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-full flex items-center justify-center h-12 w-12 shrink-0">
+<span class="material-icons-round text-green-600 dark:text-green-400 text-2xl">fitness_center</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-text-main-light dark:text-white">Niveau</h2>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark">Huidige fitheid</p>
+</div>
+</div>
+<div class="relative">
+<select class="w-full bg-gray-50 dark:bg-gray-800 border-0 rounded-2xl py-4 pl-4 pr-12 text-lg font-medium text-gray-900 dark:text-white focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer">
+<option>Starter (Rustig aan)</option>
+<option selected="">Gemiddeld (Actief)</option>
+<option>Gevorderd (Sportief)</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+<span class="material-icons-round text-gray-400 text-2xl">expand_more</span>
+</div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-3xl p-6 shadow-soft transition-colors">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-full flex items-center justify-center h-12 w-12 shrink-0">
+<span class="material-icons-round text-purple-600 dark:text-purple-400 text-2xl">wc</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-text-main-light dark:text-white">Geslacht</h2>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark">Voor persoonlijke aanhef</p>
+</div>
+</div>
+<div class="flex gap-4">
+<label class="flex-1 cursor-pointer">
+<input checked="" class="peer sr-only" name="gender" type="radio"/>
+<div class="rounded-2xl border-2 border-transparent bg-gray-50 dark:bg-gray-800 py-3 text-center text-lg font-medium text-gray-900 dark:text-white peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20 dark:peer-checked:border-blue-400 transition-all">
+                            Man
+                        </div>
+</label>
+<label class="flex-1 cursor-pointer">
+<input class="peer sr-only" name="gender" type="radio"/>
+<div class="rounded-2xl border-2 border-transparent bg-gray-50 dark:bg-gray-800 py-3 text-center text-lg font-medium text-gray-900 dark:text-white peer-checked:border-primary peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20 dark:peer-checked:border-blue-400 transition-all">
+                            Vrouw
+                        </div>
+</label>
+</div>
+</div>
+<div class="pt-4 pb-8">
+<button class="w-full bg-primary hover:bg-opacity-90 text-white font-bold text-lg py-4 px-6 rounded-2xl shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2" type="submit">
+<span class="material-icons-round">save</span>
+                    Opslaan
+                </button>
+<div class="text-center mt-4">
+<p class="text-xs text-text-sub-light dark:text-text-sub-dark">Fit4Senioren Versie 2.1.0</p>
+</div>
+</div>
+</form>
+</main>
+<nav class="fixed bottom-0 w-full bg-card-light dark:bg-card-dark border-t border-gray-100 dark:border-gray-800 pb-safe pt-2 px-6 shadow-[0_-5px_10px_rgba(0,0,0,0.02)] z-50">
+<div class="flex justify-between items-center h-16 max-w-lg mx-auto">
+<a class="flex flex-col items-center justify-center w-12 gap-1 text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-white transition-colors" href="#">
+<span class="material-icons-round text-2xl">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center w-12 gap-1 text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-white transition-colors" href="#">
+<span class="material-icons-round text-2xl">fitness_center</span>
+<span class="text-[10px] font-medium">Oefeningen</span>
+</a>
+<a class="flex flex-col items-center justify-center w-12 gap-1 text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-white transition-colors" href="#">
+<span class="material-icons-round text-2xl">psychology</span>
+<span class="text-[10px] font-medium">Brein</span>
+</a>
+<a class="flex flex-col items-center justify-center w-12 gap-1 text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-white transition-colors" href="#">
+<span class="material-icons-round text-2xl">bar_chart</span>
+<span class="text-[10px] font-medium">Voortgang</span>
+</a>
+<a class="flex flex-col items-center justify-center w-12 gap-1 text-accent dark:text-accent transition-colors" href="#">
+<span class="material-icons-round text-2xl">more_horiz</span>
+<span class="text-[10px] font-medium">Meer</span>
+</a>
+</div>
+<div class="h-4 w-full"></div>
+</nav>
+
+</body></html>

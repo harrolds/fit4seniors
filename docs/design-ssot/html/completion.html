@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Goed gedaan! - Fit4Senioren</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F5AA61", // Orange accent color from screenshots
+                        secondary: "#85ACA0", // Greenish/Teal color from screenshots
+                        darkblue: "#0F2838", // Dark navy text color
+                        "background-light": "#FFF8EC", // Beige background
+                        "background-dark": "#1a1a1a", // Dark mode background placeholder
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#2d2d2d",
+                        "text-light": "#0F2838", // Dark navy text
+                        "text-dark": "#e5e5e5", // Light text
+                        "subtext-light": "#5A6B7C",
+                        "subtext-dark": "#a0a0a0",
+                        "icon-bg-teal": "#CFE4DE",
+                        "icon-bg-orange": "#FBE6D1",
+                        "icon-bg-blue": "#D8E5FA",
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem", // 16px
+                        'xl': "1.25rem", // 20px
+                        '2xl': "1.5rem", // 24px
+                        '3xl': "2rem", // 32px
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>.material-icons-round {
+            font-size: 24px;
+        }
+        .nav-icon {
+            font-size: 28px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans antialiased flex flex-col min-h-screen">
+<header class="flex justify-between items-center px-6 pt-12 pb-6">
+<button class="p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-darkblue dark:text-white" style="font-size: 28px;">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold text-darkblue dark:text-white">Goed gedaan!</h1>
+<div class="flex items-center gap-2">
+<button class="relative p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-darkblue dark:text-white">notifications</span>
+<span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-background-light dark:border-background-dark"></span>
+</button>
+<button class="p-2 -mr-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-icons-round text-darkblue dark:text-white">person</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-6 pb-24 flex flex-col gap-6">
+<div class="text-center mt-4 mb-2">
+<p class="text-subtext-light dark:text-subtext-dark text-lg leading-relaxed">
+                Elke beweging telt, Jan! <br/>U bent fantastisch bezig.
+            </p>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-3xl p-8 shadow-soft flex flex-col items-center text-center gap-6">
+<div class="w-24 h-24 rounded-full bg-icon-bg-teal dark:bg-teal-900/40 flex items-center justify-center mb-2">
+<span class="material-icons-round text-secondary dark:text-teal-300" style="font-size: 48px;">emoji_events</span>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-darkblue dark:text-white mb-3">Training Voltooid!</h2>
+<p class="text-subtext-light dark:text-subtext-dark leading-relaxed">
+                    U heeft uw training succesvol afgerond. Uw lichaam en geest zullen u dankbaar zijn.
+                </p>
+</div>
+<div class="flex w-full justify-between items-center border-t border-gray-100 dark:border-gray-700 pt-6 mt-2">
+<div class="flex flex-col items-center flex-1 border-r border-gray-100 dark:border-gray-700">
+<span class="text-2xl font-bold text-darkblue dark:text-white">20</span>
+<span class="text-xs text-subtext-light dark:text-subtext-dark uppercase tracking-wide font-medium mt-1">Minuten</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<span class="text-2xl font-bold text-darkblue dark:text-white text-secondary dark:text-teal-300">+120</span>
+<span class="text-xs text-subtext-light dark:text-subtext-dark uppercase tracking-wide font-medium mt-1">Punten</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 mt-auto mb-4">
+<button class="w-full bg-primary hover:bg-orange-400 text-darkblue font-bold py-4 rounded-2xl shadow-sm transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-round">home</span>
+                Terug naar overzicht
+            </button>
+<button class="w-full bg-white dark:bg-card-dark hover:bg-gray-50 dark:hover:bg-gray-700 text-darkblue dark:text-white font-bold py-4 rounded-2xl shadow-soft transition-colors flex items-center justify-center gap-2">
+<span class="material-icons-round">bar_chart</span>
+                Bekijk voortgang
+            </button>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-card-dark border-t border-gray-100 dark:border-gray-800 pb-safe pt-2 px-6">
+<div class="flex justify-between items-center h-16 pb-2">
+<a class="flex flex-col items-center gap-1 w-16" href="#">
+<span class="material-icons-round text-subtext-light dark:text-subtext-dark nav-icon">home</span>
+<span class="text-[10px] font-medium text-subtext-light dark:text-subtext-dark">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-16 group" href="#">
+<span class="material-icons-round text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors nav-icon">fitness_center</span>
+<span class="text-[10px] font-medium text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors">Oefeningen</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-16 group" href="#">
+<span class="material-icons-round text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors nav-icon">psychology</span>
+<span class="text-[10px] font-medium text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors">Brein</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-16 group" href="#">
+<span class="material-icons-round text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors nav-icon">bar_chart</span>
+<span class="text-[10px] font-medium text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors">Voortgang</span>
+</a>
+<a class="flex flex-col items-center gap-1 w-16 group" href="#">
+<span class="material-icons-round text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors nav-icon">more_horiz</span>
+<span class="text-[10px] font-medium text-subtext-light dark:text-subtext-dark group-hover:text-primary transition-colors">Meer</span>
+</a>
+</div>
+</nav>
+<div class="h-6 bg-white dark:bg-card-dark w-full fixed bottom-0 z-50"></div>
+
+</body></html>

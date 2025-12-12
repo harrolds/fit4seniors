@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="light" lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Training Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "app-bg": "#fff5e3",
+                        "app-accent": "#f6b06d",
+                        "app-primary": "#88b0a5",
+                        "app-secondary": "#72937c",
+                        "app-tertiary": "#fcd7ac",
+                        "app-quartary": "#e6beae",
+                        "app-quintary": "#a0b4b8", 
+                        "app-dark": "#103546",
+                        "app-footer": "#fffefa",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "md": "0.75rem",
+                        "lg": "1rem",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-app-bg text-app-dark font-display transition-colors duration-200">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto bg-app-bg shadow-2xl">
+<header class="flex items-center justify-center p-6 pb-4 sticky top-0 z-20 bg-app-bg/95 backdrop-blur-sm border-b border-app-dark/10">
+<h1 class="text-app-dark text-xl font-bold leading-tight tracking-[-0.015em] text-center">
+                Training Hub
+            </h1>
+<div class="absolute right-4 flex items-center gap-1">
+<button aria-label="Meldingen" class="group flex size-10 items-center justify-center hover:bg-app-dark/5 transition-colors rounded-lg">
+<span class="material-symbols-outlined text-app-dark text-[26px]" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="Profiel" class="group flex size-10 items-center justify-center hover:bg-app-dark/5 transition-colors rounded-lg">
+<span class="material-symbols-outlined text-app-dark text-[26px]" data-icon="person">person</span>
+</button>
+</div>
+</header>
+<div class="px-6 py-6 flex-1 pb-32">
+<p class="text-app-dark text-base font-normal leading-relaxed mb-8">
+                Ontdek hieronder ons gevarieerde aanbod aan trainingen, speciaal ontworpen om u fit en vitaal te houden! Kies uw focus en begin vandaag nog.
+            </p>
+<div class="flex flex-col gap-4">
+<div class="bg-app-primary rounded-xl p-6 flex items-center justify-between shadow-sm cursor-pointer active:scale-[0.98] transition-transform">
+<div class="flex flex-col gap-1">
+<h3 class="text-app-dark text-xl font-bold leading-tight">Hersentraining</h3>
+<p class="text-app-dark/80 text-sm font-medium">Geheugen &amp; Focus</p>
+</div>
+<span class="material-symbols-outlined text-app-dark text-[40px]">psychology</span>
+</div>
+<div class="bg-app-secondary rounded-xl p-6 flex items-center justify-between shadow-sm cursor-pointer active:scale-[0.98] transition-transform">
+<div class="flex flex-col gap-1">
+<h3 class="text-app-dark text-xl font-bold leading-tight">Cardio</h3>
+<p class="text-app-dark/80 text-sm font-medium">Hartgezondheid</p>
+</div>
+<span class="material-symbols-outlined text-app-dark text-[40px]">monitor_heart</span>
+</div>
+<div class="bg-app-tertiary rounded-xl p-6 flex items-center justify-between shadow-sm cursor-pointer active:scale-[0.98] transition-transform">
+<div class="flex flex-col gap-1">
+<h3 class="text-app-dark text-xl font-bold leading-tight">Spierbehoud</h3>
+<p class="text-app-dark/80 text-sm font-medium">Kracht &amp; Toon</p>
+</div>
+<span class="material-symbols-outlined text-app-dark text-[40px]">fitness_center</span>
+</div>
+<div class="bg-app-quintary rounded-xl p-6 flex items-center justify-between shadow-sm cursor-pointer active:scale-[0.98] transition-transform">
+<div class="flex flex-col gap-1">
+<h3 class="text-app-dark text-xl font-bold leading-tight">Balans &amp; Flexibiliteit</h3>
+<p class="text-app-dark/80 text-sm font-medium">Stabiliteit</p>
+</div>
+<span class="material-symbols-outlined text-app-dark text-[40px]">accessibility_new</span>
+</div>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-app-footer border-t border-gray-100 h-[80px] flex justify-between px-2 items-center z-30 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.02)]">
+<button class="flex flex-col items-center gap-1 w-1/5 group">
+<div class="h-8 flex items-center">
+<span class="material-symbols-outlined text-app-dark/40 text-[26px] group-hover:text-app-accent transition-colors">home</span>
+</div>
+<span class="text-[10px] font-medium text-app-dark/40 group-hover:text-app-accent">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-1/5 group">
+<div class="h-8 flex items-center">
+<span class="material-symbols-outlined text-app-primary text-[26px] transition-colors filled">fitness_center</span>
+</div>
+<span class="text-[10px] font-bold text-app-primary">Training</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-1/5 group">
+<div class="h-8 flex items-center">
+<span class="material-symbols-outlined text-app-dark/40 text-[26px] group-hover:text-app-accent transition-colors">trending_up</span>
+</div>
+<span class="text-[10px] font-medium text-app-dark/40 group-hover:text-app-accent">Voortgang</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-1/5 group">
+<div class="h-8 flex items-center">
+<span class="material-symbols-outlined text-app-dark/40 text-[26px] group-hover:text-app-accent transition-colors">history</span>
+</div>
+<span class="text-[10px] font-medium text-app-dark/40 group-hover:text-app-accent">Geschiedenis</span>
+</button>
+<button class="flex flex-col items-center gap-1 w-1/5 group">
+<div class="h-8 flex items-center">
+<span class="material-symbols-outlined text-app-dark/40 text-[26px] group-hover:text-app-accent transition-colors">more_horiz</span>
+</div>
+<span class="text-[10px] font-medium text-app-dark/40 group-hover:text-app-accent">Meer</span>
+</button>
+</div>
+</div>
+
+</body></html>

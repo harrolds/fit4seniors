@@ -5,6 +5,7 @@ import { AppErrorBoundary } from './AppErrorBoundary';
 import { I18nProvider, useI18n } from '../shared/lib/i18n';
 import { NotificationsProvider } from '../shared/lib/notifications';
 import { ThemeProvider } from './theme/ThemeProvider';
+import '../theme/tokens.css';
 import '../styles/layout.css';
 
 

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Meer - Fit4Senioren</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F4AB6A", // Orange from the Start button/banner
+                        "primary-dark": "#D98E4B",
+                        "secondary": "#0D2E40", // Dark blue text color
+                        "accent-green": "#86A89D", // Green from cards
+                        "accent-pink": "#E3C2B8", // Pink from cards
+                        "background-light": "#FFF8E7", // Cream background
+                        "background-dark": "#1a1a1a", // Dark mode bg
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#2d2d2d",
+                        "text-light": "#0D2E40",
+                        "text-dark": "#E5E7EB",
+                        "muted-light": "#6B7280",
+                        "muted-dark": "#9CA3AF",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': "1rem",
+                        '2xl': "1.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans antialiased pb-24">
+<header class="flex justify-between items-center p-6 pt-8 sticky top-0 z-10 bg-background-light dark:bg-background-dark">
+<button class="p-2 -ml-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-round text-3xl text-secondary dark:text-text-dark">arrow_back</span>
+</button>
+<h1 class="text-2xl font-bold text-secondary dark:text-text-dark">Meer</h1>
+<div class="flex items-center space-x-4">
+<button class="relative rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-round text-3xl text-secondary dark:text-text-dark">notifications</span>
+<span class="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full border-2 border-background-light dark:border-background-dark"></span>
+</button>
+<button class="rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+<span class="material-icons-round text-3xl text-secondary dark:text-text-dark">person</span>
+</button>
+</div>
+</header>
+<main class="px-6 space-y-6">
+<section class="mb-4">
+<p class="text-lg text-muted-light dark:text-muted-dark leading-relaxed">
+                Beheer uw persoonlijke gegevens, pas uw instellingen aan en vind hulp bij het gebruik van de app.
+            </p>
+</section>
+<div class="space-y-4">
+<a class="block bg-card-light dark:bg-card-dark rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex items-center justify-between group" href="#">
+<div class="flex items-center space-x-5">
+<div class="h-14 w-14 rounded-xl bg-accent-green/20 dark:bg-accent-green/30 flex items-center justify-center text-accent-green dark:text-green-300">
+<span class="material-icons-round text-3xl">account_circle</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-secondary dark:text-text-dark group-hover:text-primary transition-colors">Profiel</h3>
+<p class="text-sm text-muted-light dark:text-muted-dark">Uw gegevens en voortgang</p>
+</div>
+</div>
+<span class="material-icons-round text-3xl text-muted-light dark:text-muted-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<a class="block bg-card-light dark:bg-card-dark rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex items-center justify-between group" href="#">
+<div class="flex items-center space-x-5">
+<div class="h-14 w-14 rounded-xl bg-primary/20 dark:bg-primary/30 flex items-center justify-center text-primary-dark dark:text-primary">
+<span class="material-icons-round text-3xl">settings</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-secondary dark:text-text-dark group-hover:text-primary transition-colors">Instellingen</h3>
+<p class="text-sm text-muted-light dark:text-muted-dark">App voorkeuren en tekstgrootte</p>
+</div>
+</div>
+<span class="material-icons-round text-3xl text-muted-light dark:text-muted-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<a class="block bg-card-light dark:bg-card-dark rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex items-center justify-between group" href="#">
+<div class="flex items-center space-x-5">
+<div class="h-14 w-14 rounded-xl bg-accent-pink/40 dark:bg-accent-pink/30 flex items-center justify-center text-red-800 dark:text-pink-200">
+<span class="material-icons-round text-3xl">alarm</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-secondary dark:text-text-dark group-hover:text-primary transition-colors">Herinneringen</h3>
+<p class="text-sm text-muted-light dark:text-muted-dark">Dagelijkse meldingen beheren</p>
+</div>
+</div>
+<span class="material-icons-round text-3xl text-muted-light dark:text-muted-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<a class="block bg-card-light dark:bg-card-dark rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex items-center justify-between group" href="#">
+<div class="flex items-center space-x-5">
+<div class="h-14 w-14 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-700 dark:text-blue-300">
+<span class="material-icons-round text-3xl">info</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-secondary dark:text-text-dark group-hover:text-primary transition-colors">Informatie &amp; Veiligheid</h3>
+<p class="text-sm text-muted-light dark:text-muted-dark">Hulp en privacybeleid</p>
+</div>
+</div>
+<span class="material-icons-round text-3xl text-muted-light dark:text-muted-dark group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+</div>
+<div class="mt-8 p-6 bg-accent-green/20 dark:bg-accent-green/10 rounded-2xl text-center">
+<h4 class="text-lg font-bold text-secondary dark:text-text-dark mb-2">Heeft u hulp nodig?</h4>
+<p class="text-secondary dark:text-gray-300 mb-4">Ons team staat klaar om u te helpen.</p>
+<button class="bg-secondary dark:bg-white text-white dark:text-secondary font-bold py-3 px-6 rounded-xl w-full flex items-center justify-center gap-2">
+<span class="material-icons-round text-xl">support_agent</span>
+                Contact opnemen
+            </button>
+</div>
+<div class="mt-8 text-center pb-8">
+<p class="text-xs text-muted-light dark:text-muted-dark">Fit4Senioren Versie 2.1.0</p>
+</div>
+</main>
+<nav class="fixed bottom-0 w-full bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pb-safe pt-2 px-6 shadow-[0_-5px_15px_rgba(0,0,0,0.02)] z-50">
+<div class="flex justify-between items-end pb-2">
+<a class="flex flex-col items-center group w-16" href="#">
+<span class="material-icons-round text-3xl text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors mb-1">home</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary">Home</span>
+</a>
+<a class="flex flex-col items-center group w-16" href="#">
+<span class="material-icons-round text-3xl text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors mb-1 transform -rotate-45">fitness_center</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary">Oefeningen</span>
+</a>
+<a class="flex flex-col items-center group w-16" href="#">
+<span class="material-icons-round text-3xl text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors mb-1">psychology</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary">Brein</span>
+</a>
+<a class="flex flex-col items-center group w-16" href="#">
+<span class="material-icons-round text-3xl text-gray-400 dark:text-gray-500 group-hover:text-primary transition-colors mb-1">bar_chart</span>
+<span class="text-[10px] font-medium text-gray-400 dark:text-gray-500 group-hover:text-primary">Voortgang</span>
+</a>
+<a class="flex flex-col items-center group w-16" href="#">
+<span class="material-icons-round text-3xl text-primary mb-1">more_horiz</span>
+<span class="text-[10px] font-bold text-primary">Meer</span>
+</a>
+</div>
+</nav>
+<div class="h-24"></div>
+
+</body></html>

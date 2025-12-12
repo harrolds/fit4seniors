@@ -16,6 +16,8 @@ import { HeaderActionsBar } from './header/HeaderActionsBar';
 import { HeaderActionsMenu } from './header/HeaderActionsMenu';
 import { getModuleById } from '../shared/lib/modules';
 import { getHeaderActionHandler } from '../shared/lib/navigation/headerActionRegistry';
+import { Button } from '../shared/ui/Button';
+import { Icon } from '../shared/ui/Icon';
 
 const AppShellContent: React.FC = () => {
   const location = useLocation();
@@ -88,6 +90,8 @@ const AppShellContent: React.FC = () => {
   const appTitle = APP_BRAND.appName;
   const title = titleKey ? t(titleKey) : appTitle;
   const headerActions = resolveHeaderActions(screenConfig);
+  const backAction = headerActions.primary.find((action) => action.id === 'goBack' || action.icon === 'back');
+  const rightSidePrimary = headerActions.primary.filter((action) => action !== backAction);
 
   const handleDeclarativeClick = (action: ScreenAction, click: ScreenActionClick): boolean => {
     switch (click.type) {
@@ -150,12 +154,25 @@ const AppShellContent: React.FC = () => {
           fontFamily: 'var(--font-family-base)',
         }}
       >
-        <div className="app-shell__header-left" aria-hidden="true" />
+        <div className="app-shell__header-left">
+          {backAction ? (
+            <Button
+              type="button"
+              onClick={() => handleActionClick(backAction)}
+              aria-label={t(backAction.labelKey)}
+              className="app-shell__icon-button"
+              variant="ghost"
+              style={{ width: 36, height: 36, padding: 0 }}
+            >
+              <Icon name="arrow_back" size={24} />
+            </Button>
+          ) : null}
+        </div>
         <div className="app-shell__header-center">
           <span className="app-shell__title">{title}</span>
         </div>
         <div className="app-shell__header-right">
-          <HeaderActionsBar actions={headerActions.primary} onAction={handleActionClick} />
+          <HeaderActionsBar actions={rightSidePrimary} onAction={handleActionClick} />
           <HeaderActionsMenu actions={headerActions.menu} onAction={handleActionClick} />
         </div>
       </header>

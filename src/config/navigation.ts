@@ -1,3 +1,4 @@
+import { matchPath } from 'react-router-dom';
 import type { ScreenConfig } from '../core/screenConfig';
 
 /**
@@ -49,6 +50,47 @@ export const screenConfigs: ScreenConfig[] = [
       },
     ],
   },
+  {
+    id: 'trainieren-hub',
+    route: '/trainieren',
+    titleKey: 'trainieren.title',
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings' },
+    ],
+  },
+  {
+    id: 'trainieren-module',
+    route: '/trainieren/:moduleId',
+    titleKey: 'trainieren.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+      },
+    ],
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings' },
+    ],
+  },
+  {
+    id: 'trainieren-detail',
+    route: '/trainieren/:moduleId/:trainingId/:intensity',
+    titleKey: 'trainieren.detail.headerTitle',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+      },
+    ],
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings' },
+    ],
+  },
 ];
 
 /**
@@ -56,5 +98,5 @@ export const screenConfigs: ScreenConfig[] = [
  */
 export const getScreenConfigByPath = (path: string): ScreenConfig | undefined => {
   const normalizedPath = path || '/';
-  return screenConfigs.find((screen) => screen.route === normalizedPath);
+  return screenConfigs.find((screen) => matchPath({ path: screen.route, end: true }, normalizedPath));
 };

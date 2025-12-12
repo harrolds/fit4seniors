@@ -8,9 +8,17 @@ export type PanelRegistryEntry = {
   component: React.ComponentType<any>;
 };
 
+import { FilterSheet } from '../features/trainieren/FilterSheet';
+
 /**
  * Lege registry voor runtime-panels.
  * De infrastructuur blijft intact; app-specifieke panels
  * (bijv. Fit4Seniors) kunnen hier later worden geregistreerd.
  */
-export const panelRegistry: PanelRegistryEntry[] = [];
+export const panelRegistry: PanelRegistryEntry[] = [
+  {
+    id: 'trainieren-filter',
+    type: 'bottom',
+    component: FilterSheet,
+  },
+];

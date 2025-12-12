@@ -10,7 +10,7 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 
 export const Badge: React.FC<BadgeProps> = ({ variant = 'default', style, children, ...rest }) => {
   const theme = useTheme();
-  const { colors, radii, spacing, typography, mode } = theme;
+  const { colors, radii, spacing, typography } = theme;
 
   let backgroundColor: CSSProperties['backgroundColor'] = colors.surface;
   let borderColor: CSSProperties['borderColor'] = 'transparent';
@@ -18,7 +18,7 @@ export const Badge: React.FC<BadgeProps> = ({ variant = 'default', style, childr
 
   if (variant === 'accent') {
     backgroundColor = colors.accent ?? colors.primary;
-    color = mode === 'dark' ? '#0b1220' : '#ffffff';
+    color = colors.textPrimary;
   }
 
   if (variant === 'outline') {

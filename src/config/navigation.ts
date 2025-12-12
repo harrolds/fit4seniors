@@ -84,11 +84,22 @@ export const screenConfigs: ScreenConfig[] = [
         id: 'goBack',
         labelKey: 'common.back',
         icon: 'back',
+        onClick: { type: 'custom', handlerId: 'trainieren-detail-guard' },
       },
     ],
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'custom', handlerId: 'trainieren-detail-guard' },
+      },
+      {
+        id: 'openSettings',
+        labelKey: 'app.header.settings',
+        icon: 'settings',
+        onClick: { type: 'custom', handlerId: 'trainieren-detail-guard' },
+      },
     ],
   },
 ];

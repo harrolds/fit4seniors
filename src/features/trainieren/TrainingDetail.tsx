@@ -1,18 +1,89 @@
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useI18n } from '../../shared/lib/i18n';
+import { useNavigation } from '../../shared/lib/navigation/useNavigation';
+import { registerHeaderActionHandler } from '../../shared/lib/navigation/headerActionRegistry';
 import { Button } from '../../shared/ui/Button';
 import { Badge } from '../../shared/ui/Badge';
 import { Icon } from '../../shared/ui/Icon';
+import { ProgressBar } from '../../shared/ui/ProgressBar';
+import { usePanels } from '../../shared/lib/panels';
 import {
   findModule,
   findTraining,
-  toneToCssVar,
   useTrainingCatalog,
   type TrainingIntensity,
   intensityLabels,
 } from './catalog';
 import './trainieren.css';
+
+type SessionStatus = 'idle' | 'running' | 'paused' | 'completed';
+
+type SessionState = {
+  status: SessionStatus;
+  totalSeconds: number;
+  remainingSeconds: number;
+  currentStepIndex: number;
+  steps: string[];
+};
+
+const COMPLETION_MESSAGES = [
+  'Stark gemacht! Weiter so.',
+  'Tolle Leistung – behalte den Flow bei.',
+  'Du hast das Training souverän abgeschlossen.',
+  'Super Tempo, bleib dran!',
+  'Das war eine Runde für die Gesundheit.',
+  'Klasse Einsatz, Schritt für Schritt.',
+  'Energie geladen und bereit für den Tag.',
+  'Sauber geschafft – atme tief durch.',
+  'Bewegung abgeschlossen, Körper dankt es dir.',
+  'Prima! Das war ein sicherer Abschluss.',
+];
+
+const clampDuration = (value: number) => Math.min(90, Math.max(5, Math.round(value)));
+
+const formatSeconds = (value: number): string => {
+  const safe = Math.max(0, value);
+  const minutes = Math.floor(safe / 60);
+  const seconds = safe % 60;
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+};
+
+const formatMinutesToTime = (minutes: number): string => {
+  const safe = Math.max(1, Math.round(minutes));
+  return `${safe.toString().padStart(2, '0')}:00`;
+};
+
+const generateSteps = (intensity: TrainingIntensity): string[] => {
+  switch (intensity) {
+    case 'heavy':
+      return [
+        'Kurzes Aufwärmen mit kleinen Bewegungen.',
+        'Tempo schrittweise steigern.',
+        'Arme aktiv mitnehmen und stabil bleiben.',
+        'Zum Ende das Tempo langsam senken.',
+      ];
+    case 'medium':
+      return [
+        'Starte in lockerem Tempo und richte dich auf.',
+        'Finde einen gleichmäßigen Rhythmus.',
+        'Atme tief, halte die Schultern entspannt.',
+        'Schließe mit ruhigeren Schritten ab.',
+      ];
+    case 'light':
+    default:
+      return [
+        'Sanft aufwärmen und Balance finden.',
+        'In ruhigem Tempo weitergehen.',
+        'Atme gleichmäßig und bleibe locker.',
+        'Langsam ausklingen lassen.',
+      ];
+  }
+};
+
+const pickCompletionMessage = () => {
+  return COMPLETION_MESSAGES[Math.floor(Math.random() * COMPLETION_MESSAGES.length)];
+};
 
 export const TrainingDetail: React.FC = () => {
   const { moduleId, trainingId, intensity } = useParams<{
@@ -21,11 +92,232 @@ export const TrainingDetail: React.FC = () => {
     intensity: TrainingIntensity;
   }>();
   const { t } = useI18n();
+  const { goBack, goTo, openNotifications, openSettings } = useNavigation();
+  const { state: panelState, openBottomSheet, closePanel } = usePanels();
   const { data, isLoading, error } = useTrainingCatalog();
 
   const moduleDef = findModule(data, moduleId);
   const training = findTraining(data, moduleId, trainingId);
   const variant = intensity && training ? training.variants[intensity] : undefined;
+
+  const resolvedSteps = useMemo(() => {
+    if (!variant) return [];
+    const trainingWithSteps = training as typeof training & { steps?: string[] };
+    if (trainingWithSteps?.steps?.length) {
+      return trainingWithSteps.steps;
+    }
+    return generateSteps(variant.intensity);
+  }, [training, variant]);
+
+  const [plannedDuration, setPlannedDuration] = useState<number>(variant?.durationMin ?? 0);
+  const [session, setSession] = useState<SessionState>({
+    status: 'idle',
+    totalSeconds: (variant?.durationMin ?? 0) * 60,
+    remainingSeconds: (variant?.durationMin ?? 0) * 60,
+    currentStepIndex: 0,
+    steps: resolvedSteps,
+  });
+  const [completionMessage, setCompletionMessage] = useState<string | null>(null);
+  const guardContextRef = useRef<{ wasRunning: boolean; onExit?: () => void } | null>(null);
+  const previousPanelIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!variant) return;
+    const safeDuration = variant.durationMin;
+    const totalSeconds = Math.max(1, Math.round(safeDuration * 60));
+    setPlannedDuration(safeDuration);
+    setSession({
+      status: 'idle',
+      totalSeconds,
+      remainingSeconds: totalSeconds,
+      currentStepIndex: 0,
+      steps: resolvedSteps.length ? resolvedSteps : generateSteps(variant.intensity),
+    });
+    setCompletionMessage(null);
+  }, [variant, resolvedSteps]);
+
+  useEffect(() => {
+    if (session.status !== 'running') return;
+
+    const intervalId = window.setInterval(() => {
+      setSession((prev) => {
+        if (prev.status !== 'running') return prev;
+        const nextRemaining = Math.max(prev.remainingSeconds - 1, 0);
+        const stepDuration = Math.max(Math.floor(prev.totalSeconds / Math.max(prev.steps.length, 1)), 1);
+        const elapsed = prev.totalSeconds - nextRemaining;
+        const nextStepIndex = Math.min(
+          Math.floor(elapsed / stepDuration),
+          Math.max(prev.steps.length - 1, 0),
+        );
+
+        if (nextRemaining === 0) {
+          return {
+            ...prev,
+            status: 'completed',
+            remainingSeconds: 0,
+            currentStepIndex: nextStepIndex,
+          };
+        }
+
+        return {
+          ...prev,
+          remainingSeconds: nextRemaining,
+          currentStepIndex: nextStepIndex,
+        };
+      });
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [session.status]);
+
+  useEffect(() => {
+    if (session.status === 'completed') {
+      setCompletionMessage(pickCompletionMessage());
+      closePanel();
+    }
+  }, [session.status, closePanel]);
+
+  useEffect(() => {
+    const previousId = previousPanelIdRef.current;
+
+    if (
+      previousId === 'trainieren-session-interrupt' &&
+      panelState.panelId !== 'trainieren-session-interrupt'
+    ) {
+      const ctx = guardContextRef.current;
+      if (ctx?.wasRunning) {
+        setSession((prev) => (prev.status === 'paused' ? { ...prev, status: 'running' } : prev));
+      }
+      guardContextRef.current = null;
+    }
+
+    previousPanelIdRef.current = panelState.panelId;
+  }, [panelState]);
+
+  const resetSession = useCallback(() => {
+    const baseDuration = plannedDuration || variant?.durationMin || 0;
+    const totalSeconds = Math.max(1, Math.round(baseDuration * 60));
+    setSession({
+      status: 'idle',
+      totalSeconds,
+      remainingSeconds: totalSeconds,
+      currentStepIndex: 0,
+      steps: resolvedSteps.length ? resolvedSteps : variant ? generateSteps(variant.intensity) : [],
+    });
+    setCompletionMessage(null);
+  }, [plannedDuration, resolvedSteps, variant]);
+
+  const handleAdjustDuration = useCallback(
+    (delta: number) => {
+      if (!variant) return;
+      if (session.status === 'running' || session.status === 'paused') return;
+      const nextDuration = clampDuration((plannedDuration || variant.durationMin) + delta);
+      const totalSeconds = Math.max(1, Math.round(nextDuration * 60));
+      setPlannedDuration(nextDuration);
+      setSession((prev) => ({
+        ...prev,
+        status: 'idle',
+        totalSeconds,
+        remainingSeconds: totalSeconds,
+        currentStepIndex: 0,
+        steps: resolvedSteps,
+      }));
+      setCompletionMessage(null);
+    },
+    [variant, session.status, plannedDuration, resolvedSteps],
+  );
+
+  const handleStart = useCallback(() => {
+    if (!variant) return;
+    const baseDuration = plannedDuration || variant.durationMin;
+    const totalSeconds = Math.max(1, Math.round(baseDuration * 60));
+    closePanel();
+    setCompletionMessage(null);
+    setSession({
+      status: 'running',
+      totalSeconds,
+      remainingSeconds: totalSeconds,
+      currentStepIndex: 0,
+      steps: resolvedSteps,
+    });
+  }, [variant, plannedDuration, resolvedSteps, closePanel]);
+
+  const togglePause = useCallback(() => {
+    setSession((prev) => {
+      if (prev.status === 'running') return { ...prev, status: 'paused' };
+      if (prev.status === 'paused') return { ...prev, status: 'running' };
+      return prev;
+    });
+  }, []);
+
+  const openInterruptConfirm = useCallback(
+    (onExit?: () => void) => {
+      if (session.status !== 'running' && session.status !== 'paused') {
+        onExit?.();
+        return;
+      }
+
+      const wasRunning = session.status === 'running';
+      guardContextRef.current = { wasRunning, onExit };
+
+      if (wasRunning) {
+        setSession((prev) => ({ ...prev, status: 'paused' }));
+      }
+
+      openBottomSheet('trainieren-session-interrupt', {
+        onContinue: () => {
+          closePanel();
+          const ctx = guardContextRef.current;
+          guardContextRef.current = null;
+          if (ctx?.wasRunning) {
+            setSession((prev) => ({ ...prev, status: 'running' }));
+          }
+        },
+        onExit: () => {
+          closePanel();
+          guardContextRef.current = null;
+          resetSession();
+          onExit?.();
+        },
+      });
+    },
+    [session.status, openBottomSheet, closePanel, resetSession],
+  );
+
+  const handleStop = useCallback(() => openInterruptConfirm(), [openInterruptConfirm]);
+
+  const handleGuardedNavigation = useCallback(
+    (actionId: string) => {
+      const performNavigation = () => {
+        switch (actionId) {
+          case 'goBack':
+            goBack();
+            return;
+          case 'openNotifications':
+            openNotifications();
+            return;
+          case 'openSettings':
+            openSettings();
+            return;
+          default:
+            return;
+        }
+      };
+
+      if (session.status === 'running' || session.status === 'paused') {
+        openInterruptConfirm(performNavigation);
+      } else {
+        performNavigation();
+      }
+    },
+    [session.status, goBack, openNotifications, openSettings, openInterruptConfirm],
+  );
+
+  useEffect(() => {
+    registerHeaderActionHandler('trainieren-detail-guard', (action) => {
+      handleGuardedNavigation(action.id);
+    });
+  }, [handleGuardedNavigation]);
 
   if (isLoading) {
     return <p className="trainieren-status">{t('trainieren.detail.loading')}</p>;
@@ -35,50 +327,186 @@ export const TrainingDetail: React.FC = () => {
     return <p className="trainieren-status">{t('trainieren.detail.notFound')}</p>;
   }
 
+  const activeSteps = session.steps.length ? session.steps : resolvedSteps;
+  const isActive = session.status === 'running' || session.status === 'paused';
+  const stepProgress =
+    activeSteps.length > 0 ? ((session.currentStepIndex + 1) / activeSteps.length) * 100 : 0;
+  const timeProgress =
+    session.totalSeconds > 0
+      ? 1 - Math.min(Math.max(session.remainingSeconds / session.totalSeconds, 0), 1)
+      : 0;
+
+  const goToOverview = () => {
+    if (moduleDef) {
+      goTo(`/trainieren/${moduleDef.id}`);
+    } else {
+      goBack();
+    }
+  };
+
   return (
-    <div className="trainieren-page training-detail">
-      <section
-        className="trainieren-hero training-detail__hero"
-        style={{ backgroundColor: toneToCssVar(moduleDef.tone) }}
-      >
-        <div className="trainieren-hero__top">
-          <span className="trainieren-hero__eyebrow">{moduleDef.title}</span>
-          <Icon name={moduleDef.icon} size={28} />
-        </div>
-        <h1 className="trainieren-hero__title">{training.title}</h1>
-        <p className="trainieren-hero__description">{training.shortDesc}</p>
-        <div className="training-detail__meta">
-          <Badge variant="accent">{intensityLabels[variant.intensity]}</Badge>
-          <span className="trainieren-hero__divider">•</span>
-          <span>
+    <div className="training-detail-page">
+      <div className="training-detail__meta-row">
+        <div className="training-detail__meta-group">
+          <span className="training-detail__chip training-detail__chip--intensity">
+            <Icon name="favorite" filled size={18} />
+            {intensityLabels[variant.intensity]}
+          </span>
+          <span className="training-detail__chip">
+            <Icon name="schedule" size={18} />
             {variant.durationMin} {t('trainieren.minutes')}
           </span>
         </div>
-      </section>
+        {moduleDef ? (
+          <span className="training-detail__module">
+            <Icon name={moduleDef.icon} size={18} />
+            {moduleDef.title}
+          </span>
+        ) : null}
+      </div>
 
-      <section className="training-detail__section">
-        <h2 className="training-detail__section-title">{t('trainieren.detail.intensities')}</h2>
-        <div className="training-detail__variants">
-          <div className="training-detail__variant">
-            <div className="training-detail__variant-head">
-              <Badge variant="accent">{intensityLabels[variant.intensity]}</Badge>
-              <span className="training-detail__variant-duration">
-                {variant.durationMin} {t('trainieren.minutes')}
-              </span>
-            </div>
-            <p className="training-detail__variant-body">{variant.paceCue}</p>
+      <div className="training-detail__header">
+        <h1 className="training-detail__title">{training.title}</h1>
+        <p className="training-detail__description">{training.shortDesc}</p>
+        <p className="training-detail__highlight">{variant.paceCue}</p>
+      </div>
+
+      {session.status === 'completed' ? (
+        <div className="training-detail__card training-detail__card--positive">
+          <div className="training-detail__positive-icon">
+            <Icon name="check_circle" filled size={28} />
+          </div>
+          <div className="training-detail__positive-copy">
+            <p className="training-detail__positive-title">{t('trainieren.detail.completed')}</p>
+            <p className="training-detail__positive-text">{completionMessage}</p>
+          </div>
+          <div className="training-detail__positive-actions">
+            <Button variant="secondary" fullWidth onClick={goToOverview}>
+              {t('trainieren.detail.completedCta')}
+            </Button>
           </div>
         </div>
-      </section>
+      ) : null}
 
-      <section className="training-detail__section">
-        <h2 className="training-detail__section-title">{t('trainieren.detail.actions')}</h2>
-        <Button fullWidth disabled>
-          {t('trainieren.detail.startCta')}
-        </Button>
-      </section>
+      {isActive ? (
+        <div className="training-detail__card training-detail__card--active">
+          <div className="training-detail__section-top">
+            <Badge variant="accent">{t('trainieren.detail.activeLabel')}</Badge>
+            <span className="training-detail__step-progress">
+              {t('trainieren.detail.stepProgress', {
+                current: session.currentStepIndex + 1,
+                total: activeSteps.length,
+              })}
+            </span>
+          </div>
+
+          <div className="training-detail__timer">
+            <div
+              className="training-detail__ring"
+              style={{
+                background: `conic-gradient(var(--color-accent) ${timeProgress * 360}deg, rgba(16,53,70,0.08) 0deg)`,
+              }}
+            >
+              <div className="training-detail__ring-center">
+                <span className="training-detail__time">{formatSeconds(session.remainingSeconds)}</span>
+                <span className="training-detail__time-label">{t('trainieren.minutes')}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="training-detail__current-step">
+            <p className="training-detail__current-step-label">{t('trainieren.detail.currentStep')}</p>
+            <p className="training-detail__current-step-text">
+              {activeSteps[session.currentStepIndex] ?? ''}
+            </p>
+          </div>
+
+          <ProgressBar
+            value={Math.round(stepProgress)}
+            aria-label={t('trainieren.detail.stepProgress', {
+              current: session.currentStepIndex + 1,
+              total: activeSteps.length,
+            })}
+          />
+
+          <div className="training-detail__controls-grid">
+            <Button variant="secondary" fullWidth onClick={togglePause}>
+              {session.status === 'running'
+                ? t('trainieren.detail.pause')
+                : t('trainieren.detail.resume')}
+            </Button>
+            <Button variant="primary" fullWidth onClick={handleStop}>
+              {t('trainieren.detail.stop')}
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="training-detail__card">
+          <div className="training-detail__timer">
+            <div className="training-detail__ring">
+              <div className="training-detail__ring-center">
+                <span className="training-detail__time">{formatMinutesToTime(plannedDuration)}</span>
+                <span className="training-detail__time-label">{t('trainieren.minutes')}</span>
+              </div>
+              <div className="training-detail__ring-actions">
+                <button
+                  type="button"
+                  className="training-detail__round-button"
+                  onClick={() => handleAdjustDuration(-1)}
+                  aria-label={t('trainieren.detail.decrease')}
+                  disabled={session.status === 'running' || session.status === 'paused'}
+                >
+                  <Icon name="remove" size={22} />
+                </button>
+                <button
+                  type="button"
+                  className="training-detail__round-button"
+                  onClick={() => handleAdjustDuration(1)}
+                  aria-label={t('trainieren.detail.increase')}
+                  disabled={session.status === 'running' || session.status === 'paused'}
+                >
+                  <Icon name="add" size={22} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="training-detail__cta">
+            <Button
+              fullWidth
+              className="training-detail__start-button"
+              onClick={handleStart}
+              disabled={session.status === 'running' || session.status === 'paused'}
+            >
+              <Icon name="play_circle" filled size={28} />
+              {t('trainieren.detail.startCta')}
+            </Button>
+            <p className="training-detail__safety">{t('trainieren.detail.safety')}</p>
+          </div>
+        </div>
+      )}
+
+      {isActive ? null : (
+        <section className="training-detail__section">
+          <div className="training-detail__section-top">
+            <h2 className="training-detail__section-title">{t('trainieren.detail.instructions')}</h2>
+          </div>
+          <ul className="training-detail__steps">
+            {resolvedSteps.map((step, index) => (
+              <li key={step} className="training-detail__step">
+                <span className="training-detail__step-index">{index + 1}</span>
+                <p className="training-detail__step-text">{step}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="training-detail__secondary-actions">
+            <Button variant="ghost" onClick={goToOverview}>
+              {t('trainieren.detail.backToOverview')}
+            </Button>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
-
 

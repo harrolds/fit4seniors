@@ -1,52 +1,36 @@
-import React from 'react';
-import type { CSSProperties, HTMLAttributes } from 'react';
-import { useTheme } from '../../core/theme/ThemeProvider';
+import React, { forwardRef } from 'react';
+import type { HTMLAttributes } from 'react';
+import './primitives.css';
 
-type BadgeVariant = 'default' | 'accent' | 'outline';
+type BadgeVariant = 'neutral' | 'accent' | 'outline' | 'default';
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
 }
 
-export const Badge: React.FC<BadgeProps> = ({ variant = 'default', style, children, ...rest }) => {
-  const theme = useTheme();
-  const { colors, radii, spacing, typography } = theme;
-
-  let backgroundColor: CSSProperties['backgroundColor'] = colors.surface;
-  let borderColor: CSSProperties['borderColor'] = 'transparent';
-  let color: CSSProperties['color'] = colors.textPrimary;
-
-  if (variant === 'accent') {
-    backgroundColor = colors.accent ?? colors.primary;
-    color = colors.textPrimary;
-  }
-
-  if (variant === 'outline') {
-    backgroundColor = 'transparent';
-    borderColor = colors.border;
-  }
-
-  const baseStyle: CSSProperties = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: `${spacing.xs} ${spacing.sm}`,
-    borderRadius: radii.pill,
-    backgroundColor,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor,
-    color,
-    fontFamily: typography.fontFamily,
-    fontSize: typography.fontSizes.xs,
-    fontWeight: typography.fontWeights.medium,
-    lineHeight: typography.lineHeights.normal,
-    whiteSpace: 'nowrap',
-  };
-
-  return (
-    <span {...rest} style={{ ...baseStyle, ...style }}>
-      {children}
-    </span>
-  );
+const normalizeVariant = (variant?: BadgeVariant): 'neutral' | 'accent' | 'outline' => {
+  if (variant === 'accent') return 'accent';
+  if (variant === 'outline') return 'outline';
+  return 'neutral';
 };
+
+export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ variant = 'neutral', className, children, ...rest }, ref) => {
+    const normalized = normalizeVariant(variant);
+
+    const classes = ['ui-badge', className].filter(Boolean).join(' ');
+
+    return (
+      <span
+        ref={ref}
+        {...rest}
+        className={classes}
+        data-variant={normalized}
+      >
+        {children}
+      </span>
+    );
+  }
+);
+
+Badge.displayName = 'Badge';

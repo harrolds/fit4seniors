@@ -24,7 +24,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
   const overlayStyle: CSSProperties = {
     position: 'fixed',
     inset: 0,
-    backgroundColor: colors.overlay ?? 'rgba(0, 0, 0, 0.45)',
+    backgroundColor: colors.overlay ?? 'var(--color-overlay)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

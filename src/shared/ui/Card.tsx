@@ -1,25 +1,55 @@
-import React from 'react';
-import type { CSSProperties, HTMLAttributes } from 'react';
-import { useTheme } from '../../core/theme/ThemeProvider';
+import React, { forwardRef } from 'react';
+import type { HTMLAttributes } from 'react';
+import './primitives.css';
 
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {}
+type CardVariant = 'default' | 'elevated';
 
-export const Card: React.FC<CardProps> = ({ style, children, ...rest }) => {
-  const theme = useTheme();
-  const { spacing, radii, shadows, components } = theme;
-  const { card } = components;
+export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  variant?: CardVariant;
+}
 
-  const baseStyle: CSSProperties = {
-    backgroundColor: card.background,
-    borderRadius: radii.md,
-    padding: spacing.lg,
-    boxShadow: card.shadow ?? shadows.sm,
-    border: `1px solid ${card.border}`,
-  };
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+  ({ variant = 'default', className, children, ...rest }, ref) => {
+    const classes = ['ui-card', variant === 'elevated' ? 'ui-card--elevated' : null, className]
+      .filter(Boolean)
+      .join(' ');
 
-  return (
-    <div {...rest} style={{ ...baseStyle, ...style }}>
-      {children}
-    </div>
-  );
-};
+    return (
+      <div ref={ref} className={classes} {...rest}>
+        {children}
+      </div>
+    );
+  }
+);
+
+Card.displayName = 'Card';
+
+export interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {}
+
+export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
+  ({ className, children, ...rest }, ref) => {
+    const classes = ['ui-card__header', className].filter(Boolean).join(' ');
+    return (
+      <div ref={ref} className={classes} {...rest}>
+        {children}
+      </div>
+    );
+  }
+);
+
+CardHeader.displayName = 'CardHeader';
+
+export interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {}
+
+export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
+  ({ className, children, ...rest }, ref) => {
+    const classes = ['ui-card__body', className].filter(Boolean).join(' ');
+    return (
+      <div ref={ref} className={classes} {...rest}>
+        {children}
+      </div>
+    );
+  }
+);
+
+CardBody.displayName = 'CardBody';

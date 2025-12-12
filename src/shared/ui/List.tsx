@@ -1,43 +1,53 @@
-import React from 'react';
-import type { CSSProperties, HTMLAttributes, LiHTMLAttributes } from 'react';
-import { useTheme } from '../../core/theme/ThemeProvider';
+import React, { forwardRef } from 'react';
+import type { HTMLAttributes, LiHTMLAttributes, ReactNode } from 'react';
+import './primitives.css';
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement> {}
 
-export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {}
-
-export const List: React.FC<ListProps> = ({ style, children, ...rest }) => {
-  const theme = useTheme();
-  const { spacing } = theme;
-
-  const baseStyle: CSSProperties = {
-    listStyleType: 'none',
-    padding: 0,
-    margin: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: spacing.sm,
-  };
+export const List = forwardRef<HTMLUListElement, ListProps>(({ className, children, ...rest }, ref) => {
+  const classes = ['ui-list', className].filter(Boolean).join(' ');
 
   return (
-    <ul {...rest} style={{ ...baseStyle, ...style }}>
+    <ul ref={ref} className={classes} {...rest}>
       {children}
     </ul>
   );
-};
+});
 
-export const ListItem: React.FC<ListItemProps> = ({ style, children, ...rest }) => {
-  const theme = useTheme();
-  const { spacing } = theme;
+List.displayName = 'List';
 
-  const baseStyle: CSSProperties = {
-    margin: 0,
-    padding: spacing.sm,
-  };
+export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
+  title?: ReactNode;
+  subtitle?: ReactNode;
+  rightSlot?: ReactNode;
+}
 
-  return (
-    <li {...rest} style={{ ...baseStyle, ...style }}>
-      {children}
-    </li>
-  );
-};
+export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
+  ({ title, subtitle, rightSlot, className, children, ...rest }, ref) => {
+    const classes = ['ui-list-item', className].filter(Boolean).join(' ');
+    const isStructured = Boolean(title || subtitle || rightSlot);
+
+    if (!isStructured) {
+      return (
+        <li ref={ref} className={classes} {...rest}>
+          {children}
+        </li>
+      );
+    }
+
+    return (
+      <li ref={ref} className={classes} {...rest}>
+        <div className="ui-list-item__content">
+          <div className="ui-list-item__text">
+            {title ? <p className="ui-list-item__title">{title}</p> : null}
+            {subtitle ? <p className="ui-list-item__subtitle">{subtitle}</p> : null}
+            {children ? <div className="ui-list-item__extra">{children}</div> : null}
+          </div>
+          {rightSlot ? <div className="ui-list-item__right">{rightSlot}</div> : null}
+        </div>
+      </li>
+    );
+  }
+);
+
+ListItem.displayName = 'ListItem';

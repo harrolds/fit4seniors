@@ -230,10 +230,14 @@ export const listVariantItemsForModule = (
   );
 };
 
-export const intensityLabels: Record<TrainingIntensity, string> = {
-  light: 'Leicht',
-  medium: 'Mittel',
-  heavy: 'Intensiv',
+export const intensityTranslationKey: Record<TrainingIntensity, string> = {
+  light: 'training.intensity.light',
+  medium: 'training.intensity.medium',
+  heavy: 'training.intensity.intense',
+};
+
+export const getIntensityLabel = (t: (key: string) => string, intensity: TrainingIntensity): string => {
+  return t(intensityTranslationKey[intensity] ?? intensityTranslationKey.light);
 };
 
 

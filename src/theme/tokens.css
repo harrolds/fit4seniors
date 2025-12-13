@@ -21,6 +21,7 @@
   --color-on-primary: #ffffff;
   --color-ghost-hover: rgba(16, 53, 70, 0.04);
   --color-ghost-active: rgba(16, 53, 70, 0.08);
+  --color-surface-translucent: rgba(255, 255, 255, 0.35); /* Home SSOT translucent overlay */
 
   /* Module / widget cards */
   --color-card-module-1: #88b0a5;

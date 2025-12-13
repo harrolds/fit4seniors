@@ -1,3 +1,4 @@
+// Contract: Renders Material Symbols icon by name with optional fill/size via fontVariationSettings; no custom svg.
 import React from 'react';
 
 type IconProps = {

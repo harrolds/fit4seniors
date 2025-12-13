@@ -1,5 +1,7 @@
 import React from 'react';
+import { useI18n } from '../../shared/lib/i18n';
 import type { DurationBucket, TrainingIntensity } from './catalog';
+import { getIntensityLabel } from './catalog';
 import './trainieren.css';
 
 type FilterSheetProps = {
@@ -11,10 +13,10 @@ type FilterSheetProps = {
   onApply: () => void;
 };
 
-const intensityOptions: { value: TrainingIntensity; label: string; icon: string }[] = [
-  { value: 'light', label: 'Light', icon: 'flight' },
-  { value: 'medium', label: 'Middel', icon: 'fitness_center' },
-  { value: 'heavy', label: 'Zwaar', icon: 'whatshot' },
+const intensityOptions: { value: TrainingIntensity; icon: string }[] = [
+  { value: 'light', icon: 'flight' },
+  { value: 'medium', icon: 'fitness_center' },
+  { value: 'heavy', icon: 'whatshot' },
 ];
 
 const durationOptions: { value: DurationBucket; label: string }[] = [
@@ -31,6 +33,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
   onReset,
   onApply,
 }) => {
+  const { t } = useI18n();
   const [localIntensities, setLocalIntensities] = React.useState<TrainingIntensity[]>(intensities);
   const [localDurations, setLocalDurations] = React.useState<DurationBucket[]>(durations);
 
@@ -65,14 +68,15 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
   return (
     <div className="trainieren-filter-sheet">
       <header className="trainieren-filter-sheet__header">
-        <h3 className="trainieren-filter-sheet__title">Filters</h3>
+        <h3 className="trainieren-filter-sheet__title">{t('trainieren.filters.title')}</h3>
       </header>
 
       <section className="trainieren-filter-sheet__section">
-        <p className="trainieren-filter-sheet__label">HOE ZWAAR</p>
+        <p className="trainieren-filter-sheet__label">{t('trainieren.filters.intensityLabel')}</p>
         <div className="filter-card-group">
           {intensityOptions.map((option) => {
             const active = isIntensityActive(option.value);
+            const label = getIntensityLabel(t, option.value);
             return (
               <button
                 key={option.value}
@@ -83,7 +87,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
                 <div className={`filter-card__icon filter-card__icon--${option.value}`}>
                   <span className="material-symbols-outlined">{option.icon}</span>
                 </div>
-                <span className="filter-card__label">{option.label}</span>
+                <span className="filter-card__label">{label}</span>
                 <span
                   className={`material-symbols-outlined filter-card__check${active ? ' filter-card__check--active' : ''}`}
                   aria-hidden="true"
@@ -97,7 +101,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
       </section>
 
       <section className="trainieren-filter-sheet__section">
-        <p className="trainieren-filter-sheet__label">HOE LANG</p>
+        <p className="trainieren-filter-sheet__label">{t('trainieren.filters.durationLabel')}</p>
         <div className="filter-duration-grid">
           {durationOptions.map((option) => {
             const active = isDurationActive(option.value);
@@ -109,7 +113,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
                 onClick={() => handleToggleDuration(option.value)}
               >
                 <span className="filter-duration__value">{option.label}</span>
-                <span className="filter-duration__unit">min</span>
+                <span className="filter-duration__unit">{t('trainieren.filters.durationUnit')}</span>
               </button>
             );
           })}
@@ -118,10 +122,10 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
 
       <div className="trainieren-filter-sheet__footer">
         <button type="button" className="filter-apply" onClick={handleApply}>
-          Anwenden
+          {t('trainieren.filters.apply')}
         </button>
         <button type="button" className="filter-reset" onClick={handleReset}>
-          Zurücksetzen
+          {t('trainieren.filters.reset')}
         </button>
       </div>
     </div>

@@ -4,7 +4,7 @@ import './primitives.css';
 
 export type ModuleCardTone = 'module-1' | 'module-2' | 'module-3' | 'module-4' | 'module-5' | 'accent';
 
-export interface ModuleCardProps extends HTMLAttributes<HTMLDivElement> {
+export interface ModuleCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode;
   subtitle?: ReactNode;
   tone?: ModuleCardTone;

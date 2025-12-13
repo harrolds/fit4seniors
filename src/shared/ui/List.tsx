@@ -16,7 +16,7 @@ export const List = forwardRef<HTMLUListElement, ListProps>(({ className, childr
 
 List.displayName = 'List';
 
-export interface ListItemProps extends LiHTMLAttributes<HTMLLIElement> {
+export interface ListItemProps extends Omit<LiHTMLAttributes<HTMLLIElement>, 'title'> {
   title?: ReactNode;
   subtitle?: ReactNode;
   rightSlot?: ReactNode;

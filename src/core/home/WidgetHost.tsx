@@ -1,3 +1,4 @@
+// Contract: Renders homeWidgets sorted by priority; each widget needs moduleId pointing to moduleRegistry entry with hasHomeWidget true and optional span=2.
 import React from 'react';
 import { homeWidgets } from '../../config/homeWidgets';
 import type { HomeWidgetConfig } from '../../config/homeWidgets';

@@ -2,7 +2,7 @@ import React from 'react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import './primitives.css';
 
-export interface SectionHeaderProps extends HTMLAttributes<HTMLDivElement> {
+export interface SectionHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode;
   subtitle?: ReactNode;
   action?: ReactNode;

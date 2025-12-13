@@ -15,21 +15,21 @@
     },
     {
       "id": "muskel",
-      "title_de": "Spierbehoud",
+      "title_de": "Muskelaufbau",
       "title_en": "Strength Maintenance",
       "description_de": "Einfaches Krafttraining mit sicherer Technik.",
       "description_en": "Simple strength work with safe technique."
     },
     {
       "id": "balance_flex",
-      "title_de": "Balans & Flex",
+      "title_de": "Balance & Flexibilität",
       "title_en": "Balance & Flexibility",
       "description_de": "Stabilität, Mobilität und ruhige Dehnung.",
       "description_en": "Stability, mobility and calm stretching."
     },
     {
       "id": "brain",
-      "title_de": "Hersentraining",
+      "title_de": "Gehirntraining",
       "title_en": "Brain Training",
       "description_de": "Kurze, klare Aufgaben für Fokus und Denken.",
       "description_en": "Short, clear tasks for focus and thinking."

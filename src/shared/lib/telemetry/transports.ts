@@ -20,9 +20,9 @@ export class HttpTransport implements TelemetryTransport {
     this.endpoint = options.endpoint;
   }
 
-  send(event: TelemetryEvent): void | Promise<void> {
+  send(event: TelemetryEvent): void {
     // Fire-and-forget; errors worden niet doorgegeven.
-    return fetch(this.endpoint, {
+    void fetch(this.endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

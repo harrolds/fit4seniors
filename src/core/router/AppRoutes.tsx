@@ -1,3 +1,4 @@
+// Contract: Defines app routes; "/" renders HomeScreen (WidgetHost), module routes come from moduleRegistry, plus settings/notifications/offline/catch-all.
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
@@ -11,22 +12,13 @@ import { ModuleSettingsScreen } from '../settings/ModuleSettingsScreen';
 import { OfflineScreen } from '../offline/OfflineScreen';
 
 const HomeScreen: React.FC = () => {
-  const { openNotifications, openSettings } = useNavigation();
   const { t } = useI18n();
 
   return (
-    <div className="home-screen">
-      <section className="home-screen__intro">
-        <h2>{t('home.title')}</h2>
-        <p>{t('home.description')}</p>
-        <div className="home-screen__actions">
-          <Button type="button" onClick={openNotifications}>
-            {t('home.goToNotifications')}
-          </Button>
-          <Button type="button" onClick={openSettings} variant="secondary">
-            {t('home.goToSettings')}
-          </Button>
-        </div>
+    <div className="home-page">
+      <section className="home-page__intro">
+        <h2 className="home-page__greeting">{t('home.greeting')}</h2>
+        <p className="home-page__subtext">{t('home.subtext')}</p>
       </section>
       <WidgetHost />
     </div>

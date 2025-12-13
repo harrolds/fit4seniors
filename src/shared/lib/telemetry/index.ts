@@ -72,7 +72,7 @@ export const setTelemetryEnabled = (enabled: boolean): void => {
 
 export const isTelemetryEnabled = (): boolean => telemetryEnabled;
 
-const buildBaseEvent = (type: TelemetryEvent['type'], context?: Record<string, unknown>) => ({
+const buildBaseEvent = <T extends TelemetryEvent['type']>(type: T, context?: Record<string, unknown>) => ({
   id: createTelemetryEventId(),
   type,
   timestamp: Date.now(),

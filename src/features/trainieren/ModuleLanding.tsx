@@ -10,7 +10,7 @@ import {
   useTrainingCatalog,
   findModule,
   listVariantItemsForModule,
-  intensityLabels,
+  getIntensityLabel,
   type TrainingIntensity,
   type DurationBucket,
 } from './catalog';
@@ -83,13 +83,13 @@ export const ModuleLanding: React.FC = () => {
     <div className="trainieren-page">
       <div className="trainieren-module-header">
         <div>
-          <p className="trainieren-module-header__eyebrow">Categorie</p>
+          <p className="trainieren-module-header__eyebrow">{t('trainieren.module.categoryLabel')}</p>
           <h1 className="trainieren-module-header__title">{moduleDef.title}</h1>
           <p className="trainieren-module-header__description">{moduleDef.description}</p>
         </div>
         <button type="button" className="trainieren-filter-button" onClick={openFilterSheet}>
           <Icon name="tune" size={22} />
-          <span>Filter</span>
+          <span>{t('trainieren.module.filterCta')}</span>
         </button>
       </div>
 
@@ -117,7 +117,7 @@ export const ModuleLanding: React.FC = () => {
                     variant="neutral"
                     className={`training-variant-card__badge training-variant-card__badge--${item.intensity}`}
                   >
-                    {intensityLabels[item.intensity]}
+                    {getIntensityLabel(t, item.intensity)}
                   </Badge>
                   <div className="training-variant-card__time">
                     <Icon name="schedule" size={18} />

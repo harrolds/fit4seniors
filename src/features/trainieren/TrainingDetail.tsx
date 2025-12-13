@@ -13,7 +13,7 @@ import {
   findTraining,
   useTrainingCatalog,
   type TrainingIntensity,
-  intensityLabels,
+  getIntensityLabel,
 } from './catalog';
 import './trainieren.css';
 
@@ -27,18 +27,18 @@ type SessionState = {
   steps: string[];
 };
 
-const COMPLETION_MESSAGES = [
-  'Stark gemacht! Weiter so.',
-  'Tolle Leistung – behalte den Flow bei.',
-  'Du hast das Training souverän abgeschlossen.',
-  'Super Tempo, bleib dran!',
-  'Das war eine Runde für die Gesundheit.',
-  'Klasse Einsatz, Schritt für Schritt.',
-  'Energie geladen und bereit für den Tag.',
-  'Sauber geschafft – atme tief durch.',
-  'Bewegung abgeschlossen, Körper dankt es dir.',
-  'Prima! Das war ein sicherer Abschluss.',
-];
+const COMPLETION_MESSAGE_KEYS = [
+  'training.completionMessages.1',
+  'training.completionMessages.2',
+  'training.completionMessages.3',
+  'training.completionMessages.4',
+  'training.completionMessages.5',
+  'training.completionMessages.6',
+  'training.completionMessages.7',
+  'training.completionMessages.8',
+  'training.completionMessages.9',
+  'training.completionMessages.10',
+] as const;
 
 const clampDuration = (value: number) => Math.min(90, Math.max(5, Math.round(value)));
 
@@ -57,35 +57,21 @@ const formatMinutesToTime = (minutes: number): string => {
 const TIMER_RADIUS = 52;
 const TIMER_CIRCUMFERENCE = 2 * Math.PI * TIMER_RADIUS;
 
-const generateSteps = (intensity: TrainingIntensity): string[] => {
-  switch (intensity) {
-    case 'heavy':
-      return [
-        'Kurzes Aufwärmen mit kleinen Bewegungen.',
-        'Tempo schrittweise steigern.',
-        'Arme aktiv mitnehmen und stabil bleiben.',
-        'Zum Ende das Tempo langsam senken.',
-      ];
-    case 'medium':
-      return [
-        'Starte in lockerem Tempo und richte dich auf.',
-        'Finde einen gleichmäßigen Rhythmus.',
-        'Atme tief, halte die Schultern entspannt.',
-        'Schließe mit ruhigeren Schritten ab.',
-      ];
-    case 'light':
-    default:
-      return [
-        'Sanft aufwärmen und Balance finden.',
-        'In ruhigem Tempo weitergehen.',
-        'Atme gleichmäßig und bleibe locker.',
-        'Langsam ausklingen lassen.',
-      ];
-  }
+const getDefaultSteps = (intensity: TrainingIntensity, t: (key: string) => string): string[] => {
+  const baseKey =
+    intensity === 'heavy'
+      ? 'training.steps.intense'
+      : intensity === 'medium'
+        ? 'training.steps.medium'
+        : 'training.steps.light';
+
+  return [1, 2, 3, 4].map((index) => t(`${baseKey}.${index}`));
 };
 
-const pickCompletionMessage = () => {
-  return COMPLETION_MESSAGES[Math.floor(Math.random() * COMPLETION_MESSAGES.length)];
+const pickCompletionMessage = (t: (key: string) => string) => {
+  const index = Math.floor(Math.random() * COMPLETION_MESSAGE_KEYS.length);
+  const key = COMPLETION_MESSAGE_KEYS[index];
+  return t(key);
 };
 
 export const TrainingDetail: React.FC = () => {
@@ -103,14 +89,19 @@ export const TrainingDetail: React.FC = () => {
   const training = findTraining(data, moduleId, trainingId);
   const variant = intensity && training ? training.variants[intensity] : undefined;
 
+  const defaultSteps = useMemo(() => {
+    if (!variant) return [];
+    return getDefaultSteps(variant.intensity, t);
+  }, [variant, t]);
+
   const resolvedSteps = useMemo(() => {
     if (!variant) return [];
     const trainingWithSteps = training as typeof training & { steps?: string[] };
     if (trainingWithSteps?.steps?.length) {
       return trainingWithSteps.steps;
     }
-    return generateSteps(variant.intensity);
-  }, [training, variant]);
+    return defaultSteps;
+  }, [training, variant, defaultSteps]);
 
   const [plannedDuration, setPlannedDuration] = useState<number>(variant?.durationMin ?? 0);
   const [session, setSession] = useState<SessionState>({
@@ -134,10 +125,10 @@ export const TrainingDetail: React.FC = () => {
       totalSeconds,
       remainingSeconds: totalSeconds,
       currentStepIndex: 0,
-      steps: resolvedSteps.length ? resolvedSteps : generateSteps(variant.intensity),
+      steps: resolvedSteps.length ? resolvedSteps : defaultSteps,
     });
     setCompletionMessage(null);
-  }, [variant, resolvedSteps]);
+  }, [variant, resolvedSteps, defaultSteps]);
 
   useEffect(() => {
     if (session.status !== 'running') return;
@@ -175,10 +166,10 @@ export const TrainingDetail: React.FC = () => {
 
   useEffect(() => {
     if (session.status === 'completed') {
-      setCompletionMessage(pickCompletionMessage());
+      setCompletionMessage(pickCompletionMessage(t));
       closePanel();
     }
-  }, [session.status, closePanel]);
+  }, [session.status, closePanel, t]);
 
   useEffect(() => {
     const previousId = previousPanelIdRef.current;
@@ -205,10 +196,10 @@ export const TrainingDetail: React.FC = () => {
       totalSeconds,
       remainingSeconds: totalSeconds,
       currentStepIndex: 0,
-      steps: resolvedSteps.length ? resolvedSteps : variant ? generateSteps(variant.intensity) : [],
+      steps: resolvedSteps.length ? resolvedSteps : variant ? defaultSteps : [],
     });
     setCompletionMessage(null);
-  }, [plannedDuration, resolvedSteps, variant]);
+  }, [plannedDuration, resolvedSteps, variant, defaultSteps]);
 
   const handleAdjustDuration = useCallback(
     (delta: number) => {
@@ -223,11 +214,11 @@ export const TrainingDetail: React.FC = () => {
         totalSeconds,
         remainingSeconds: totalSeconds,
         currentStepIndex: 0,
-        steps: resolvedSteps,
+        steps: resolvedSteps.length ? resolvedSteps : defaultSteps,
       }));
       setCompletionMessage(null);
     },
-    [variant, session.status, plannedDuration, resolvedSteps],
+    [variant, session.status, plannedDuration, resolvedSteps, defaultSteps],
   );
 
   const handleStart = useCallback(() => {
@@ -241,9 +232,9 @@ export const TrainingDetail: React.FC = () => {
       totalSeconds,
       remainingSeconds: totalSeconds,
       currentStepIndex: 0,
-      steps: resolvedSteps,
+      steps: resolvedSteps.length ? resolvedSteps : defaultSteps,
     });
-  }, [variant, plannedDuration, resolvedSteps, closePanel]);
+  }, [variant, plannedDuration, resolvedSteps, defaultSteps, closePanel]);
 
   const togglePause = useCallback(() => {
     setSession((prev) => {
@@ -361,7 +352,7 @@ export const TrainingDetail: React.FC = () => {
         <div className="training-detail__meta-group">
           <span className="training-detail__chip training-detail__chip--intensity">
             <Icon name="favorite" filled size={18} />
-            {intensityLabels[variant.intensity]}
+            {getIntensityLabel(t, variant.intensity)}
           </span>
           <span className="training-detail__chip">
             <Icon name="schedule" size={18} />

@@ -77,12 +77,9 @@ export const GlobalSettingsScreen: React.FC = () => {
           </div>
 
           <p className="settings-layout__muted">
-            {t('settings.theme.active', {
-              value:
-                resolvedMode === 'dark'
-                  ? t('settings.theme.dark')
-                  : t('settings.theme.light'),
-            })}
+            {`${t('settings.theme.active')}: ${
+              resolvedMode === 'dark' ? t('settings.theme.dark') : t('settings.theme.light')
+            }`}
           </p>
         </div>
       </Card>

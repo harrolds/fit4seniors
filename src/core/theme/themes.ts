@@ -1,4 +1,3 @@
-import { APP_BRAND } from '../../config/appConfig';
 import type { ThemeDefinition, ThemePreference } from './themeContract';
 
 export type ThemeName = 'lightDefault' | 'darkDefault';

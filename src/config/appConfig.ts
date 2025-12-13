@@ -1,8 +1,8 @@
-export const APP_NAME = 'PWA Skeleton v2';
-export const APP_SHORT_NAME = 'Skeleton v2';
-export const APP_DESCRIPTION = 'Baseline PWA skeleton for the PWA Factory.';
-export const THEME_COLOR = '#111827';
-export const BACKGROUND_COLOR = '#000000';
+export const APP_NAME = 'Fit4Seniors';
+export const APP_SHORT_NAME = 'Fit4Seniors';
+export const APP_DESCRIPTION = 'Seniorenfreundliche Trainings- und Gesundheits-App.';
+export const THEME_COLOR = '#88b0a5';
+export const BACKGROUND_COLOR = '#fff5e3';
 
 export const apiBaseUrl: string | undefined = undefined;
 
@@ -35,7 +35,7 @@ export const APP_BRAND: AppBranding = {
   appName: APP_NAME,
   shortName: APP_SHORT_NAME,
   description: APP_DESCRIPTION,
-  primaryColor: '#2563eb',
+  primaryColor: THEME_COLOR,
   logoPath: '/icons/pwa-192x192.png',
 };
 

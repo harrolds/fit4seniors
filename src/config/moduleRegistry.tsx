@@ -5,6 +5,7 @@ import { TrainierenModule } from '../features/trainieren';
 import { useNavigation } from '../shared/lib/navigation/useNavigation';
 import { useI18n } from '../shared/lib/i18n';
 import { Icon } from '../shared/ui/Icon';
+import { TrainingInfoModule } from '../modules/trainingInfo';
 
 export interface ModuleDefinition {
   id: string;
@@ -230,6 +231,14 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: TrainierenModule,
+  },
+  {
+    id: 'trainingInfo',
+    labelKey: 'trainingInfo.title',
+    routeBase: '/training-info/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: TrainingInfoModule,
   },
 ];
 

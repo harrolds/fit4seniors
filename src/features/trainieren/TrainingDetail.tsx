@@ -82,7 +82,7 @@ export const TrainingDetail: React.FC = () => {
   }>();
   const { t } = useI18n();
   const { goBack, goTo, openNotifications, openSettings } = useNavigation();
-  const { state: panelState, openBottomSheet, closePanel } = usePanels();
+  const { state: panelState, openBottomSheet, closePanel, openRightPanel } = usePanels();
   const { data, isLoading, error } = useTrainingCatalog();
 
   const moduleDef = findModule(data, moduleId);
@@ -314,8 +314,16 @@ export const TrainingDetail: React.FC = () => {
   }, [handleGuardedNavigation]);
 
   const handleInfoClick = useCallback(() => {
-    // Placeholder for future info/right-panel content (phase 7)
-  }, []);
+    if (!moduleId || !trainingId) return;
+
+    openRightPanel('training-info', {
+      moduleId,
+      trainingId,
+      intensity,
+      title: training?.title,
+      moduleTitle: moduleDef?.title,
+    });
+  }, [moduleId, trainingId, intensity, training?.title, moduleDef?.title, openRightPanel]);
 
   if (isLoading) {
     return <p className="trainieren-status">{t('trainieren.detail.loading')}</p>;

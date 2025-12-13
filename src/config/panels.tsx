@@ -10,6 +10,7 @@ export type PanelRegistryEntry = {
 
 import { FilterSheet } from '../features/trainieren/FilterSheet';
 import { SessionInterruptSheet } from '../features/trainieren/SessionInterruptSheet';
+import { TrainingInfoPanelContent } from '../modules/trainingInfo';
 
 /**
  * Lege registry voor runtime-panels.
@@ -26,5 +27,10 @@ export const panelRegistry: PanelRegistryEntry[] = [
     id: 'trainieren-session-interrupt',
     type: 'bottom',
     component: SessionInterruptSheet,
+  },
+  {
+    id: 'training-info',
+    type: 'right',
+    component: TrainingInfoPanelContent,
   },
 ];

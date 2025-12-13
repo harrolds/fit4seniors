@@ -9,11 +9,6 @@ export const RightPanel: React.FC<PanelContainerProps> = ({ isOpen, onClose, chi
       aria-modal="true"
       aria-label="Right panel"
     >
-      <div className="panel-surface__header">
-        <button type="button" className="panel-close-button" aria-label="Close panel" onClick={onClose}>
-          ×
-        </button>
-      </div>
       <div className="panel-surface__body">{children}</div>
     </aside>
   );

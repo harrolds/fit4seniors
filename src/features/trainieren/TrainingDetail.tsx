@@ -54,6 +54,9 @@ const formatMinutesToTime = (minutes: number): string => {
   return `${safe.toString().padStart(2, '0')}:00`;
 };
 
+const TIMER_RADIUS = 52;
+const TIMER_CIRCUMFERENCE = 2 * Math.PI * TIMER_RADIUS;
+
 const generateSteps = (intensity: TrainingIntensity): string[] => {
   switch (intensity) {
     case 'heavy':
@@ -319,6 +322,10 @@ export const TrainingDetail: React.FC = () => {
     });
   }, [handleGuardedNavigation]);
 
+  const handleInfoClick = useCallback(() => {
+    // Placeholder for future info/right-panel content (phase 7)
+  }, []);
+
   if (isLoading) {
     return <p className="trainieren-status">{t('trainieren.detail.loading')}</p>;
   }
@@ -331,10 +338,14 @@ export const TrainingDetail: React.FC = () => {
   const isActive = session.status === 'running' || session.status === 'paused';
   const stepProgress =
     activeSteps.length > 0 ? ((session.currentStepIndex + 1) / activeSteps.length) * 100 : 0;
-  const timeProgress =
-    session.totalSeconds > 0
-      ? 1 - Math.min(Math.max(session.remainingSeconds / session.totalSeconds, 0), 1)
-      : 0;
+  const ringProgress =
+    isActive && session.totalSeconds > 0
+      ? Math.min(Math.max(session.remainingSeconds / session.totalSeconds, 0), 1)
+      : 1;
+  const ringDashOffset = TIMER_CIRCUMFERENCE * (1 - ringProgress);
+  const timerLabel = isActive ? formatSeconds(session.remainingSeconds) : formatMinutesToTime(plannedDuration);
+  const instructionSteps = resolvedSteps.slice(0, 4);
+  const stepProgressLabel = `${t('trainieren.detail.stepPrefix')} ${session.currentStepIndex + 1}/${activeSteps.length}`;
 
   const goToOverview = () => {
     if (moduleDef) {
@@ -357,12 +368,14 @@ export const TrainingDetail: React.FC = () => {
             {variant.durationMin} {t('trainieren.minutes')}
           </span>
         </div>
-        {moduleDef ? (
-          <span className="training-detail__module">
-            <Icon name={moduleDef.icon} size={18} />
-            {moduleDef.title}
-          </span>
-        ) : null}
+        <button
+          type="button"
+          className="training-detail__info-button"
+          aria-label={t('trainieren.detail.infoLabel')}
+          onClick={handleInfoClick}
+        >
+          <Icon name="info" filled size={24} />
+        </button>
       </div>
 
       <div className="training-detail__header">
@@ -393,22 +406,25 @@ export const TrainingDetail: React.FC = () => {
           <div className="training-detail__section-top">
             <Badge variant="accent">{t('trainieren.detail.activeLabel')}</Badge>
             <span className="training-detail__step-progress">
-              {t('trainieren.detail.stepProgress', {
-                current: session.currentStepIndex + 1,
-                total: activeSteps.length,
-              })}
+              {stepProgressLabel}
             </span>
           </div>
 
-          <div className="training-detail__timer">
-            <div
-              className="training-detail__ring"
-              style={{
-                background: `conic-gradient(var(--color-accent) ${timeProgress * 360}deg, rgba(16,53,70,0.08) 0deg)`,
-              }}
-            >
-              <div className="training-detail__ring-center">
-                <span className="training-detail__time">{formatSeconds(session.remainingSeconds)}</span>
+          <div className="training-detail__timer-card">
+            <div className="training-detail__timer-figure">
+              <svg className="training-detail__timer-svg" viewBox="0 0 120 120" aria-hidden="true">
+                <circle className="training-detail__timer-track" cx="60" cy="60" r={TIMER_RADIUS} />
+                <circle
+                  className="training-detail__timer-progress"
+                  cx="60"
+                  cy="60"
+                  r={TIMER_RADIUS}
+                  strokeDasharray={TIMER_CIRCUMFERENCE}
+                  strokeDashoffset={ringDashOffset}
+                />
+              </svg>
+              <div className="training-detail__timer-center">
+                <span className="training-detail__time">{timerLabel}</span>
                 <span className="training-detail__time-label">{t('trainieren.minutes')}</span>
               </div>
             </div>
@@ -423,10 +439,7 @@ export const TrainingDetail: React.FC = () => {
 
           <ProgressBar
             value={Math.round(stepProgress)}
-            aria-label={t('trainieren.detail.stepProgress', {
-              current: session.currentStepIndex + 1,
-              total: activeSteps.length,
-            })}
+            aria-label={stepProgressLabel}
           />
 
           <div className="training-detail__controls-grid">
@@ -442,10 +455,21 @@ export const TrainingDetail: React.FC = () => {
         </div>
       ) : (
         <div className="training-detail__card">
-          <div className="training-detail__timer">
-            <div className="training-detail__ring">
-              <div className="training-detail__ring-center">
-                <span className="training-detail__time">{formatMinutesToTime(plannedDuration)}</span>
+          <div className="training-detail__timer-card">
+            <div className="training-detail__timer-figure">
+              <svg className="training-detail__timer-svg" viewBox="0 0 120 120" aria-hidden="true">
+                <circle className="training-detail__timer-track" cx="60" cy="60" r={TIMER_RADIUS} />
+                <circle
+                  className="training-detail__timer-progress"
+                  cx="60"
+                  cy="60"
+                  r={TIMER_RADIUS}
+                  strokeDasharray={TIMER_CIRCUMFERENCE}
+                  strokeDashoffset={ringDashOffset}
+                />
+              </svg>
+              <div className="training-detail__timer-center">
+                <span className="training-detail__time">{timerLabel}</span>
                 <span className="training-detail__time-label">{t('trainieren.minutes')}</span>
               </div>
               <div className="training-detail__ring-actions">
@@ -492,7 +516,7 @@ export const TrainingDetail: React.FC = () => {
             <h2 className="training-detail__section-title">{t('trainieren.detail.instructions')}</h2>
           </div>
           <ul className="training-detail__steps">
-            {resolvedSteps.map((step, index) => (
+            {instructionSteps.map((step, index) => (
               <li key={step} className="training-detail__step">
                 <span className="training-detail__step-index">{index + 1}</span>
                 <p className="training-detail__step-text">{step}</p>

@@ -96,8 +96,16 @@ const toneColorVar: Record<ModuleCardTone, string> = {
   accent: '--color-card-accent',
 };
 
-const pickLocale = (locale: Locale, item: Record<string, string>, base: string): string => {
-  return item[`${base}_${locale}`] ?? item[`${base}_de`] ?? '';
+const pickLocale = (
+  locale: Locale,
+  item: Record<string, unknown>,
+  base: string,
+): string => {
+  const primary = item[`${base}_${locale}`];
+  const fallback = item[`${base}_de`];
+  if (typeof primary === 'string') return primary;
+  if (typeof fallback === 'string') return fallback;
+  return '';
 };
 
 const normalizeVariant = (
@@ -225,7 +233,7 @@ export const listVariantItemsForModule = (
 export const intensityLabels: Record<TrainingIntensity, string> = {
   light: 'Leicht',
   medium: 'Mittel',
-  heavy: 'Zwaar',
+  heavy: 'Intensiv',
 };
 
 

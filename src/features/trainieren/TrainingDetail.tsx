@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useI18n } from '../../shared/lib/i18n';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { registerHeaderActionHandler } from '../../shared/lib/navigation/headerActionRegistry';
@@ -26,19 +26,6 @@ type SessionState = {
   currentStepIndex: number;
   steps: string[];
 };
-
-const COMPLETION_MESSAGE_KEYS = [
-  'training.completionMessages.1',
-  'training.completionMessages.2',
-  'training.completionMessages.3',
-  'training.completionMessages.4',
-  'training.completionMessages.5',
-  'training.completionMessages.6',
-  'training.completionMessages.7',
-  'training.completionMessages.8',
-  'training.completionMessages.9',
-  'training.completionMessages.10',
-] as const;
 
 const clampDuration = (value: number) => Math.min(90, Math.max(5, Math.round(value)));
 
@@ -68,12 +55,6 @@ const getDefaultSteps = (intensity: TrainingIntensity, t: (key: string) => strin
   return [1, 2, 3, 4].map((index) => t(`${baseKey}.${index}`));
 };
 
-const pickCompletionMessage = (t: (key: string) => string) => {
-  const index = Math.floor(Math.random() * COMPLETION_MESSAGE_KEYS.length);
-  const key = COMPLETION_MESSAGE_KEYS[index];
-  return t(key);
-};
-
 export const TrainingDetail: React.FC = () => {
   const { moduleId, trainingId, intensity } = useParams<{
     moduleId: string;
@@ -84,6 +65,7 @@ export const TrainingDetail: React.FC = () => {
   const { goBack, goTo, openNotifications, openSettings } = useNavigation();
   const { state: panelState, openBottomSheet, closePanel, openRightPanel } = usePanels();
   const { data, isLoading, error } = useTrainingCatalog();
+  const navigate = useNavigate();
 
   const moduleDef = findModule(data, moduleId);
   const training = findTraining(data, moduleId, trainingId);
@@ -111,7 +93,6 @@ export const TrainingDetail: React.FC = () => {
     currentStepIndex: 0,
     steps: resolvedSteps,
   });
-  const [completionMessage, setCompletionMessage] = useState<string | null>(null);
   const guardContextRef = useRef<{ wasRunning: boolean; onExit?: () => void } | null>(null);
   const previousPanelIdRef = useRef<string | null>(null);
 
@@ -127,7 +108,6 @@ export const TrainingDetail: React.FC = () => {
       currentStepIndex: 0,
       steps: resolvedSteps.length ? resolvedSteps : defaultSteps,
     });
-    setCompletionMessage(null);
   }, [variant, resolvedSteps, defaultSteps]);
 
   useEffect(() => {
@@ -165,11 +145,10 @@ export const TrainingDetail: React.FC = () => {
   }, [session.status]);
 
   useEffect(() => {
-    if (session.status === 'completed') {
-      setCompletionMessage(pickCompletionMessage(t));
-      closePanel();
-    }
-  }, [session.status, closePanel, t]);
+    if (session.status !== 'completed') return;
+    closePanel();
+    navigate('/completion?return=/trainieren');
+  }, [session.status, closePanel, navigate]);
 
   useEffect(() => {
     const previousId = previousPanelIdRef.current;
@@ -198,7 +177,6 @@ export const TrainingDetail: React.FC = () => {
       currentStepIndex: 0,
       steps: resolvedSteps.length ? resolvedSteps : variant ? defaultSteps : [],
     });
-    setCompletionMessage(null);
   }, [plannedDuration, resolvedSteps, variant, defaultSteps]);
 
   const handleAdjustDuration = useCallback(
@@ -216,7 +194,6 @@ export const TrainingDetail: React.FC = () => {
         currentStepIndex: 0,
         steps: resolvedSteps.length ? resolvedSteps : defaultSteps,
       }));
-      setCompletionMessage(null);
     },
     [variant, session.status, plannedDuration, resolvedSteps, defaultSteps],
   );
@@ -226,7 +203,6 @@ export const TrainingDetail: React.FC = () => {
     const baseDuration = plannedDuration || variant.durationMin;
     const totalSeconds = Math.max(1, Math.round(baseDuration * 60));
     closePanel();
-    setCompletionMessage(null);
     setSession({
       status: 'running',
       totalSeconds,
@@ -382,23 +358,6 @@ export const TrainingDetail: React.FC = () => {
         <p className="training-detail__description">{training.shortDesc}</p>
         <p className="training-detail__highlight">{variant.paceCue}</p>
       </div>
-
-      {session.status === 'completed' ? (
-        <div className="training-detail__card training-detail__card--positive">
-          <div className="training-detail__positive-icon">
-            <Icon name="check_circle" filled size={28} />
-          </div>
-          <div className="training-detail__positive-copy">
-            <p className="training-detail__positive-title">{t('trainieren.detail.completed')}</p>
-            <p className="training-detail__positive-text">{completionMessage}</p>
-          </div>
-          <div className="training-detail__positive-actions">
-            <Button variant="secondary" fullWidth onClick={goToOverview}>
-              {t('trainieren.detail.completedCta')}
-            </Button>
-          </div>
-        </div>
-      ) : null}
 
       {isActive ? (
         <div className="training-detail__card training-detail__card--active">

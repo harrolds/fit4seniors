@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import type { ScreenAction } from '../core/screenConfig';
 import { TrainierenModule } from '../features/trainieren';
 import { TrainingInfoModule } from '../modules/trainingInfo';
+import { CompletionModule } from '../modules/completion';
 import {
   BalanceWidget,
   BrainTrainingWidget,
@@ -89,6 +90,14 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: TrainingInfoModule,
+  },
+  {
+    id: 'completion',
+    labelKey: 'completion.title',
+    routeBase: '/completion/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: CompletionModule,
   },
 ];
 

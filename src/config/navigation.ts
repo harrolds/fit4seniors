@@ -102,6 +102,22 @@ export const screenConfigs: ScreenConfig[] = [
       },
     ],
   },
+  {
+    id: 'completion',
+    route: '/completion',
+    titleKey: 'completion.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+      },
+    ],
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+    ],
+  },
 ];
 
 /**

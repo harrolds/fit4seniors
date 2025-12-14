@@ -3,19 +3,20 @@ import { getItems, getValue, setItems, setValue } from '../../shared/lib/storage
 
 export type ReminderDay = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
 
-export interface ReminderTimeSlot {
+export type ReminderRule = {
   id: string;
-  labelKey: string;
+  days: number[];
   time: string;
-  lastFiredAt?: number;
-}
+  weekly: boolean;
+  endDate: string | null;
+  lastFiredAt?: string | null;
+};
 
-export interface ReminderSettings {
-  times: ReminderTimeSlot[];
-  days: ReminderDay[];
+export type RemindersState = {
+  rules: ReminderRule[];
   allowDuringSilent: boolean;
   permissionPrompted?: boolean;
-}
+};
 
 export type ReminderKind = 'reminder' | 'info' | 'system';
 
@@ -30,19 +31,24 @@ export interface ReminderNotification {
   kind?: ReminderKind;
   tag?: string;
   linkedRoute?: string;
-  linkedSlotId?: string;
+  linkedRuleId?: string;
 }
 
-export interface RemindersState {
-  settings: ReminderSettings;
+type RemindersSnapshot = RemindersState & {
   inbox: ReminderNotification[];
   unreadCount: number;
-}
+};
 
-const SETTINGS_STORAGE_KEY = 'modules.reminders.settings';
+type LegacyReminderSettings = {
+  times?: { id?: string; labelKey?: string; time?: string; lastFiredAt?: number }[];
+  days?: ReminderDay[];
+  allowDuringSilent?: boolean;
+  permissionPrompted?: boolean;
+};
+
+const STATE_STORAGE_KEY = 'modules.reminders.settings';
 const INBOX_STORAGE_KEY = 'modules.reminders.inbox';
 const INBOX_MAX_ITEMS = 50;
-const MAX_TIME_SLOTS = 6;
 
 const createId = (): string => {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {
@@ -51,58 +57,83 @@ const createId = (): string => {
   return `reminder-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 };
 
-const defaultSettings = (): ReminderSettings => ({
-  times: [
-    { id: 'reminder-morning', labelKey: 'reminders.defaults.morning', time: '09:00' },
-    { id: 'reminder-afternoon', labelKey: 'reminders.defaults.afternoon', time: '14:30' },
-  ],
-  days: ['mon', 'tue', 'wed', 'thu', 'fri'],
+const defaultState = (): RemindersState => ({
+  rules: [],
   allowDuringSilent: false,
   permissionPrompted: false,
 });
 
-const isValidDay = (day: string): day is ReminderDay =>
-  ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].includes(day);
+const isValidDay = (day: number): boolean => Number.isInteger(day) && day >= 0 && day <= 6;
 
-const sanitizeTime = (time: string): string => {
-  if (/^\d{2}:\d{2}$/.test(time)) {
-    return time;
-  }
-  return '09:00';
+const dayKeyToIndex = (key: ReminderDay): number => {
+  const mapping: ReminderDay[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const index = mapping.indexOf(key);
+  return index === -1 ? 1 : index;
 };
 
-const sanitizeSettings = (value: ReminderSettings | null | undefined): ReminderSettings => {
-  const fallback = defaultSettings();
-  if (!value) return fallback;
+const sanitizeTime = (time: string): string => (/^\d{2}:\d{2}$/.test(time) ? time : '');
 
-  const times = Array.isArray(value.times) && value.times.length > 0 ? value.times : fallback.times;
-  const sanitizedTimes = times
-    .filter((slot) => slot && typeof slot.time === 'string')
-    .map((slot) => ({
-      id: slot.id || createId(),
-      labelKey: slot.labelKey || 'reminders.defaults.morning',
-      time: sanitizeTime(slot.time),
-      lastFiredAt: slot.lastFiredAt,
-    }))
-    .slice(0, MAX_TIME_SLOTS);
-
-  const ensureMinimumTimes =
-    sanitizedTimes.length >= 2 ? sanitizedTimes : [...sanitizedTimes, ...fallback.times].slice(0, 2);
-
-  const days = Array.isArray(value.days) ? value.days.filter(isValidDay) : fallback.days;
-  const safeDays = days.length > 0 ? days : fallback.days;
-
+const sanitizeRule = (rule: ReminderRule): ReminderRule => {
+  const safeDays = Array.isArray(rule.days) ? rule.days.filter(isValidDay) : [];
   return {
-    times: ensureMinimumTimes,
+    id: rule.id || createId(),
     days: safeDays,
-    allowDuringSilent: Boolean(value.allowDuringSilent),
-    permissionPrompted: Boolean(value.permissionPrompted),
+    time: sanitizeTime(rule.time),
+    weekly: Boolean(rule.weekly),
+    endDate: rule.endDate ?? null,
+    lastFiredAt: rule.lastFiredAt ?? null,
   };
 };
 
-const sanitizeInbox = (
-  items: ReminderNotification[] | null | undefined,
-): ReminderNotification[] => {
+const sanitizeRules = (rules: ReminderRule[] | null | undefined): ReminderRule[] => {
+  if (!Array.isArray(rules)) return [];
+  return rules
+    .map((rule) => sanitizeRule(rule))
+    .filter((rule) => rule.time !== '');
+};
+
+const migrateLegacySettings = (legacy: LegacyReminderSettings | null | undefined): RemindersState => {
+  if (!legacy) return defaultState();
+
+  const days = Array.isArray(legacy.days) ? legacy.days : [];
+  const dayIndexes = days.map((d) => dayKeyToIndex(d)).filter(isValidDay);
+  const rules =
+    Array.isArray(legacy.times) && legacy.times.length > 0
+      ? legacy.times
+          .filter((slot) => slot && typeof slot.time === 'string' && sanitizeTime(slot.time) !== '')
+          .map((slot) =>
+            sanitizeRule({
+              id: slot.id || createId(),
+              days: dayIndexes,
+              time: sanitizeTime(slot.time || ''),
+              weekly: true,
+              endDate: null,
+              lastFiredAt: slot.lastFiredAt ? new Date(slot.lastFiredAt).toISOString() : null,
+            }),
+          )
+      : [];
+
+  return {
+    rules,
+    allowDuringSilent: Boolean(legacy.allowDuringSilent),
+    permissionPrompted: Boolean(legacy.permissionPrompted),
+  };
+};
+
+const sanitizeState = (value: RemindersState | LegacyReminderSettings | null | undefined): RemindersState => {
+  if (!value) return defaultState();
+  if ('times' in value || 'days' in value) {
+    return migrateLegacySettings(value as LegacyReminderSettings);
+  }
+  const safeState = value as RemindersState;
+  return {
+    rules: sanitizeRules(safeState.rules),
+    allowDuringSilent: Boolean(safeState.allowDuringSilent),
+    permissionPrompted: Boolean(safeState.permissionPrompted),
+  };
+};
+
+const sanitizeInbox = (items: ReminderNotification[] | null | undefined): ReminderNotification[] => {
   if (!Array.isArray(items)) return [];
 
   return items
@@ -114,14 +145,16 @@ const sanitizeInbox = (
     .slice(0, INBOX_MAX_ITEMS);
 };
 
-const loadSettings = (): ReminderSettings => sanitizeSettings(getValue<ReminderSettings | null>(SETTINGS_STORAGE_KEY, null));
+const loadState = (): RemindersState => sanitizeState(getValue<RemindersState | LegacyReminderSettings | null>(STATE_STORAGE_KEY, null));
 const loadInbox = (): ReminderNotification[] => sanitizeInbox(getItems<ReminderNotification>(INBOX_STORAGE_KEY));
 
-let state: RemindersState = (() => {
-  const settings = loadSettings();
+const computeUnread = (items: ReminderNotification[]): number => items.filter((item) => !item.readAt).length;
+
+let state: RemindersSnapshot = (() => {
+  const baseState = loadState();
   const inbox = loadInbox();
-  const unreadCount = inbox.filter((item) => !item.readAt).length;
-  return { settings, inbox, unreadCount };
+  const unreadCount = computeUnread(inbox);
+  return { ...baseState, inbox, unreadCount };
 })();
 
 type Listener = () => void;
@@ -131,66 +164,79 @@ const emit = () => {
   listeners.forEach((listener) => listener());
 };
 
-const persistSettings = (settings: ReminderSettings) => {
-  setValue<ReminderSettings>(SETTINGS_STORAGE_KEY, settings);
+const persistState = (next: RemindersState) => {
+  setValue<RemindersState>(STATE_STORAGE_KEY, {
+    rules: sanitizeRules(next.rules),
+    allowDuringSilent: Boolean(next.allowDuringSilent),
+    permissionPrompted: Boolean(next.permissionPrompted),
+  });
 };
 
 const persistInbox = (inbox: ReminderNotification[]) => {
   setItems<ReminderNotification>(INBOX_STORAGE_KEY, inbox);
 };
 
-const setState = (next: RemindersState) => {
+const setState = (next: RemindersSnapshot) => {
   state = next;
   emit();
 };
 
-export const getRemindersState = (): RemindersState => state;
+export const getRemindersState = (): RemindersSnapshot => state;
 
-export const updateReminderSettings = (settings: ReminderSettings): ReminderSettings => {
-  const sanitized = sanitizeSettings(settings);
-  const next: RemindersState = {
+export const setRemindersState = (next: RemindersState): RemindersState => {
+  const sanitized = sanitizeState(next);
+  const snapshot: RemindersSnapshot = {
     ...state,
-    settings: sanitized,
+    ...sanitized,
   };
-  persistSettings(sanitized);
-  setState(next);
+  persistState(sanitized);
+  setState(snapshot);
   return sanitized;
 };
 
-export const upsertReminderTimes = (times: ReminderTimeSlot[]): ReminderSettings => {
-  const merged: ReminderSettings = {
-    ...state.settings,
-    times: times.map((slot) => ({
-      ...slot,
-      time: sanitizeTime(slot.time),
-      id: slot.id || createId(),
-    })),
+const updateRules = (updater: (current: ReminderRule[]) => ReminderRule[]): ReminderRule[] => {
+  const nextRules = sanitizeRules(updater(state.rules));
+  const nextState: RemindersSnapshot = {
+    ...state,
+    rules: nextRules,
   };
-  return updateReminderSettings(merged);
+  persistState({
+    rules: nextRules,
+    allowDuringSilent: state.allowDuringSilent,
+    permissionPrompted: state.permissionPrompted,
+  });
+  setState(nextState);
+  return nextRules;
 };
 
-export const updateReminderDays = (days: ReminderDay[]): ReminderSettings => {
-  const merged: ReminderSettings = {
-    ...state.settings,
-    days: days.filter(isValidDay),
-  };
-  return updateReminderSettings(merged);
+export const addRule = (rule: ReminderRule): ReminderRule => {
+  const safeRule = sanitizeRule(rule);
+  updateRules((current) => [...current, safeRule]);
+  return safeRule;
 };
 
-export const setPermissionPrompted = (prompted: boolean): ReminderSettings => {
-  const merged: ReminderSettings = {
-    ...state.settings,
+export const removeRule = (ruleId: string): void => {
+  updateRules((current) => current.filter((rule) => rule.id !== ruleId));
+};
+
+export const markRuleFired = (ruleId: string, firedAt: string): void => {
+  updateRules((current) =>
+    current.map((rule) => (rule.id === ruleId ? { ...rule, lastFiredAt: firedAt } : rule)),
+  );
+};
+
+export const setPermissionPrompted = (prompted: boolean): RemindersState => {
+  return setRemindersState({
+    rules: state.rules,
+    allowDuringSilent: state.allowDuringSilent,
     permissionPrompted: prompted,
-  };
-  return updateReminderSettings(merged);
+  });
 };
-
-const computeUnread = (items: ReminderNotification[]): number => items.filter((item) => !item.readAt).length;
 
 const setInbox = (inbox: ReminderNotification[]) => {
   const safeInbox = sanitizeInbox(inbox).slice(0, INBOX_MAX_ITEMS);
   const unreadCount = computeUnread(safeInbox);
-  const next: RemindersState = {
+  const next: RemindersSnapshot = {
     ...state,
     inbox: safeInbox,
     unreadCount,
@@ -220,13 +266,6 @@ export const markAllNotificationsRead = (): void => {
   setInbox(next);
 };
 
-export const recordSlotFired = (slotId: string, firedAt: number): void => {
-  const nextTimes = state.settings.times.map((slot) =>
-    slot.id === slotId ? { ...slot, lastFiredAt: firedAt } : slot,
-  );
-  upsertReminderTimes(nextTimes);
-};
-
 export const subscribeReminders = (listener: Listener): (() => void) => {
   listeners.add(listener);
   return () => {
@@ -234,7 +273,7 @@ export const subscribeReminders = (listener: Listener): (() => void) => {
   };
 };
 
-export const useRemindersState = (): RemindersState =>
+export const useRemindersState = (): RemindersSnapshot =>
   useSyncExternalStore(subscribeReminders, () => state, () => state);
 
 export const useReminderInbox = (): { inbox: ReminderNotification[]; unreadCount: number } => {
@@ -255,10 +294,10 @@ export const createReminderNotification = (
 });
 
 export const ensureRemindersHydrated = (): void => {
-  const settings = loadSettings();
+  const baseState = loadState();
   const inbox = loadInbox();
   setState({
-    settings,
+    ...baseState,
     inbox,
     unreadCount: computeUnread(inbox),
   });

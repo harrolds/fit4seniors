@@ -8,7 +8,10 @@ export {
   markNotificationRead,
   markAllNotificationsRead,
   clearReminderNotifications,
-  updateReminderSettings,
+  getRemindersState,
+  setRemindersState,
+  addRule,
+  removeRule,
 } from './remindersStorage';
-export type { ReminderNotification, ReminderSettings, ReminderTimeSlot } from './remindersStorage';
+export type { ReminderNotification, ReminderRule, RemindersState } from './remindersStorage';
 export { useRemindersScheduler } from './remindersScheduler';

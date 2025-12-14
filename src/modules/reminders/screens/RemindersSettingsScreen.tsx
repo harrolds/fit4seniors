@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useI18n } from '../../../shared/lib/i18n';
 import { useNotifications } from '../../../shared/lib/notifications';
 import { Card } from '../../../shared/ui/Card';
@@ -6,9 +6,10 @@ import { Button } from '../../../shared/ui/Button';
 import { Icon } from '../../../shared/ui/Icon';
 import {
   ReminderDay,
-  ReminderSettings,
-  ReminderTimeSlot,
-  updateReminderSettings,
+  ReminderRule,
+  getRemindersState,
+  removeRule,
+  setRemindersState,
   useRemindersState,
 } from '../remindersStorage';
 
@@ -27,82 +28,164 @@ const dayLabels: Record<
   sun: { labelKey: 'reminders.days.sun', shortKey: 'reminders.days.sunShort', dateLabelKey: 'reminders.days.sunDate' },
 };
 
-const createSlotId = (): string => `reminder-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+const dayIndexToKey = (index: number): ReminderDay => {
+  const mapping: ReminderDay[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  return mapping[index] ?? 'mon';
+};
 
-const normalizeTime = (value: string): string => {
-  if (/^\d{2}:\d{2}$/.test(value)) return value;
-  return '09:00';
+const dayKeyToIndex = (key: ReminderDay): number => {
+  const mapping: ReminderDay[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const idx = mapping.indexOf(key);
+  return idx === -1 ? 1 : idx;
+};
+
+const createRuleId = (): string => `reminder-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+type FormTimeSlot = { id: string; time: string; labelKey: string };
+
+const isValidTime = (value: string): boolean => /^\d{2}:\d{2}$/.test(value);
+
+const formatEndDate = (value: string | null, formatter: (date: Date) => string, fallback: string): string => {
+  if (!value) return fallback;
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return fallback;
+  return formatter(parsed);
 };
 
 export const RemindersSettingsScreen: React.FC = () => {
   const { t } = useI18n();
   const { showToast } = useNotifications();
-  const { settings } = useRemindersState();
+  const remindersState = useRemindersState();
 
-  const [timeSlots, setTimeSlots] = useState<ReminderTimeSlot[]>(settings.times);
-  const [selectedDays, setSelectedDays] = useState<ReminderDay[]>(settings.days);
-  const [allowDuringSilent, setAllowDuringSilent] = useState<boolean>(settings.allowDuringSilent);
+  const [timeSlots, setTimeSlots] = useState<FormTimeSlot[]>([
+    { id: createRuleId(), time: '', labelKey: 'reminders.defaults.additional' },
+  ]);
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
+  const [allowDuringSilent, setAllowDuringSilent] = useState<boolean>(remindersState.allowDuringSilent);
+  const [weekly, setWeekly] = useState<boolean>(true);
+  const [endDateEnabled, setEndDateEnabled] = useState<boolean>(false);
+  const [endDate, setEndDate] = useState<string>('');
 
   useEffect(() => {
-    setTimeSlots(settings.times);
-    setSelectedDays(settings.days);
-    setAllowDuringSilent(settings.allowDuringSilent);
-  }, [settings.allowDuringSilent, settings.days, settings.times]);
+    setAllowDuringSilent(remindersState.allowDuringSilent);
+  }, [remindersState.allowDuringSilent]);
 
   const handleTimeChange = (id: string, value: string) => {
     setTimeSlots((prev) =>
-      prev.map((slot) => (slot.id === id ? { ...slot, time: normalizeTime(value) } : slot)),
+      prev.map((slot) => (slot.id === id ? { ...slot, time: value } : slot)),
     );
   };
 
   const handleAddTime = () => {
-    const fallbackLabelKey = 'reminders.defaults.additional';
-    const nextTime = timeSlots[timeSlots.length - 1]?.time ?? '08:00';
     setTimeSlots((prev) => [
       ...prev,
       {
-        id: createSlotId(),
-        labelKey: fallbackLabelKey,
-        time: nextTime,
+        id: createRuleId(),
+        labelKey: 'reminders.defaults.additional',
+        time: '',
       },
     ]);
   };
 
   const toggleDay = (day: ReminderDay) => {
+    const dayIndex = dayKeyToIndex(day);
     setSelectedDays((prev) => {
-      if (prev.includes(day)) {
-        const next = prev.filter((d) => d !== day);
-        return next.length > 0 ? next : prev;
+      if (prev.includes(dayIndex)) {
+        return prev.filter((d) => d !== dayIndex);
       }
-      return [...prev, day];
+      return [...prev, dayIndex];
     });
   };
 
-  const mergedSettings: ReminderSettings = useMemo(() => {
-    return {
-      ...settings,
-      allowDuringSilent,
-      days: selectedDays,
-      times: timeSlots.map((slot) => {
-        const persisted = settings.times.find((item) => item.id === slot.id && item.time === slot.time);
-        return {
-          ...slot,
-          labelKey: slot.labelKey || 'reminders.defaults.morning',
-          lastFiredAt: persisted?.lastFiredAt,
-        };
-      }),
-      permissionPrompted: allowDuringSilent ? settings.permissionPrompted : false,
-    };
-  }, [allowDuringSilent, selectedDays, settings, timeSlots]);
+  const resetForm = () => {
+    setTimeSlots([{ id: createRuleId(), time: '', labelKey: 'reminders.defaults.additional' }]);
+    setSelectedDays([]);
+    setWeekly(true);
+    setEndDateEnabled(false);
+    setEndDate('');
+  };
 
   const handleSave = () => {
-    updateReminderSettings(mergedSettings);
-    showToast('reminders.toast.settingsSaved', { kind: 'success' });
+    const validSlots = timeSlots.filter((slot) => isValidTime(slot.time));
+    if (selectedDays.length === 0 || validSlots.length === 0) {
+      showToast('validation.required', { kind: 'info' });
+      return;
+    }
+
+    const snapshot = getRemindersState();
+    const endDateValue = endDateEnabled && endDate ? endDate : null;
+    const newRules: ReminderRule[] = validSlots.map((slot) => ({
+      id: createRuleId(),
+      days: selectedDays,
+      time: slot.time,
+      weekly,
+      endDate: endDateValue,
+      lastFiredAt: null,
+    }));
+
+    const updatedRules = [...snapshot.rules, ...newRules];
+    setRemindersState({
+      rules: updatedRules,
+      allowDuringSilent,
+      permissionPrompted: snapshot.permissionPrompted,
+    });
+    showToast('reminders.toast.saved', { kind: 'success' });
+    resetForm();
   };
 
   return (
     <div className="reminders-page">
       <p className="reminders-intro">{t('reminders.intro')}</p>
+
+      <Card className="reminders-card">
+        <div className="reminders-card__header">
+          <div className="reminders-card__icon reminders-card__icon--calendar">
+            <Icon name="list" size={24} />
+          </div>
+          <div>
+            <h2 className="reminders-card__title">{t('reminders.list.title')}</h2>
+          </div>
+        </div>
+
+        <div className="reminders-card__body">
+          {remindersState.rules.length === 0 ? (
+            <p className="reminders-description">{t('reminders.list.empty')}</p>
+          ) : (
+            remindersState.rules.map((rule) => {
+              const dayLabelsText = rule.days
+                .map((dayIndex) => t(dayLabels[dayIndexToKey(dayIndex)].shortKey))
+                .join(', ');
+              const endDateText = formatEndDate(
+                rule.endDate,
+                (date) => date.toLocaleDateString(),
+                t('reminders.endDate.none'),
+              );
+              return (
+                <div key={rule.id} className="reminders-time">
+                  <div className="reminders-time__label">
+                    <div>{dayLabelsText || '-'}</div>
+                    <div className="reminders-time__meta">
+                      <span>{rule.time}</span>
+                      <span>• {t('reminders.repeat.label')}: {t(rule.weekly ? 'reminders.repeat.yes' : 'reminders.repeat.no')}</span>
+                      <span>• {t('reminders.endDate.label')}: {endDateText}</span>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => {
+                      removeRule(rule.id);
+                      showToast('reminders.toast.removed', { kind: 'success' });
+                    }}
+                  >
+                    {t('reminders.actions.removeRule')}
+                  </Button>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </Card>
 
       <Card className="reminders-card">
         <div className="reminders-card__header">
@@ -158,7 +241,7 @@ export const RemindersSettingsScreen: React.FC = () => {
         <div className="reminders-days">
           {dayOrder.map((day) => {
             const labels = dayLabels[day];
-            const isActive = selectedDays.includes(day);
+            const isActive = selectedDays.includes(dayKeyToIndex(day));
             return (
               <button
                 key={day}
@@ -169,11 +252,52 @@ export const RemindersSettingsScreen: React.FC = () => {
                 aria-label={t(labels.labelKey)}
               >
                 <span className="reminders-day__short">{t(labels.shortKey)}</span>
-                <span className="reminders-day__date">{t(labels.dateLabelKey)}</span>
               </button>
             );
           })}
         </div>
+
+        <div className="reminders-toggle">
+          <input
+            id="reminders-weekly-toggle"
+            type="checkbox"
+            checked={weekly}
+            onChange={(event) => setWeekly(event.target.checked)}
+          />
+          <label htmlFor="reminders-weekly-toggle" className="reminders-toggle__label">
+            <span className="reminders-toggle__switch" aria-hidden />
+            <span className="reminders-toggle__text">{t('reminders.repeat.label')}</span>
+            <span className="reminders-toggle__badge">{t(weekly ? 'reminders.repeat.yes' : 'reminders.repeat.no')}</span>
+          </label>
+        </div>
+
+        <div className="reminders-toggle">
+          <input
+            id="reminders-enddate-toggle"
+            type="checkbox"
+            checked={endDateEnabled}
+            onChange={(event) => setEndDateEnabled(event.target.checked)}
+          />
+          <label htmlFor="reminders-enddate-toggle" className="reminders-toggle__label">
+            <span className="reminders-toggle__switch" aria-hidden />
+            <span className="reminders-toggle__text">{t('reminders.endDate.enable')}</span>
+          </label>
+        </div>
+
+        {endDateEnabled ? (
+          <div className="reminders-time">
+            <span className="reminders-time__label">{t('reminders.endDate.label')}</span>
+            <label className="reminders-time__input">
+              <input
+                type="date"
+                value={endDate}
+                onChange={(event) => setEndDate(event.target.value)}
+                aria-label={t('reminders.endDate.label')}
+              />
+              <Icon name="edit" size={18} className="reminders-time__icon" />
+            </label>
+          </div>
+        ) : null}
 
         <div className="reminders-toggle">
           <input

@@ -7,11 +7,10 @@ import {
   createReminderNotification,
   getRemindersState,
   markNotificationRead,
-  recordSlotFired,
-  ReminderDay,
   ReminderNotification,
-  ReminderTimeSlot,
+  ReminderRule,
   setPermissionPrompted,
+  setRemindersState,
 } from './remindersStorage';
 
 const CHECK_INTERVAL_MS = 60_000;
@@ -22,34 +21,22 @@ type SchedulerActions = {
   translate: (key: string, params?: Record<string, string | number>) => string;
 };
 
-const getDayKey = (date: Date): ReminderDay => {
-  const day = date.getDay(); // 0-6, Sunday = 0
-  const keys: string[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-  const value = keys[day] ?? 'mon';
-  return value as ReminderDay;
-};
+const getDayIndex = (date: Date): number => date.getDay(); // 0-6, Sunday = 0
 
-const parseSlotTime = (slot: ReminderTimeSlot, now: Date): number => {
-  const [hours, minutes] = slot.time.split(':').map((value) => parseInt(value, 10));
+const parseRuleTime = (rule: ReminderRule, now: Date): number => {
+  const [hours, minutes] = rule.time.split(':').map((value) => parseInt(value, 10));
   const scheduled = new Date(now);
   scheduled.setHours(Number.isFinite(hours) ? hours : 9, Number.isFinite(minutes) ? minutes : 0, 0, 0);
   return scheduled.getTime();
 };
 
-const shouldTriggerSlot = (slot: ReminderTimeSlot, now: Date): boolean => {
-  const scheduledTime = parseSlotTime(slot, now);
-  if (now.getTime() < scheduledTime) return false;
-  if (slot.lastFiredAt && slot.lastFiredAt >= scheduledTime) return false;
-  return true;
-};
-
-const buildNotification = (slot: ReminderTimeSlot): ReminderNotification =>
+const buildNotification = (rule: ReminderRule): ReminderNotification =>
   createReminderNotification({
     titleKey: 'reminders.inbox.reminderTitle',
     bodyKey: 'reminders.inbox.reminderBody',
-    tag: slot.id,
+    tag: rule.id,
     linkedRoute: '/reminders',
-    linkedSlotId: slot.id,
+    linkedRuleId: rule.id,
   });
 
 const tryShowSystemNotification = (
@@ -70,25 +57,38 @@ const tryShowSystemNotification = (
 
 const runDueCheck = (actions: SchedulerActions) => {
   const now = new Date();
-  const { settings } = getRemindersState();
-  const todayKey = getDayKey(now);
+  const snapshot = getRemindersState();
+  const todayIndex = getDayIndex(now);
+  const todayStart = new Date(now);
+  todayStart.setHours(0, 0, 0, 0);
 
-  if (!settings.days.includes(todayKey)) {
-    return;
-  }
+  let rulesChanged = false;
+  let nextRules = [...snapshot.rules];
+  let permissionPrompted = snapshot.permissionPrompted ?? false;
 
-  settings.times.forEach((slot) => {
-    if (!shouldTriggerSlot(slot, now)) return;
+  snapshot.rules.forEach((rule) => {
+    if (!rule.time || !rule.days || rule.days.length === 0) return;
+    if (!rule.days.includes(todayIndex)) return;
+    if (rule.endDate) {
+      const end = new Date(rule.endDate);
+      if (!Number.isNaN(end.getTime()) && todayStart.getTime() > end.getTime()) {
+        return;
+      }
+    }
 
-    const notification = buildNotification(slot);
+    const scheduledTime = parseRuleTime(rule, now);
+    const lastFiredAt = rule.lastFiredAt ? new Date(rule.lastFiredAt).getTime() : null;
+    if (now.getTime() < scheduledTime) return;
+    if (lastFiredAt && lastFiredAt >= scheduledTime) return;
+
+    const notification = buildNotification(rule);
     addReminderNotification(notification);
-    recordSlotFired(slot.id, now.getTime());
 
     const { id } = notification;
 
-    actions.showToast('reminders.toast.reminderDue', {
+    actions.showToast('reminders.toast.reminderFired', {
       kind: 'info',
-      params: { time: slot.time },
+      params: { time: rule.time },
       onClick: () => {
         markNotificationRead(id);
         actions.navigateToReminders();
@@ -96,16 +96,34 @@ const runDueCheck = (actions: SchedulerActions) => {
       notificationId: id,
     });
 
-    if (settings.allowDuringSilent) {
+    if (snapshot.allowDuringSilent) {
       const systemShown = tryShowSystemNotification(notification, actions.translate);
-      if (!systemShown && !settings.permissionPrompted) {
+      if (!systemShown && !permissionPrompted) {
         actions.showToast('reminders.toast.permissionNeeded', {
           kind: 'info',
         });
         setPermissionPrompted(true);
+        permissionPrompted = true;
       }
     }
+
+    if (rule.weekly) {
+      nextRules = nextRules.map((item) =>
+        item.id === rule.id ? { ...item, lastFiredAt: now.toISOString() } : item,
+      );
+    } else {
+      nextRules = nextRules.filter((item) => item.id !== rule.id);
+    }
+    rulesChanged = true;
   });
+
+  if (rulesChanged) {
+    setRemindersState({
+      rules: nextRules,
+      allowDuringSilent: snapshot.allowDuringSilent,
+      permissionPrompted,
+    });
+  }
 };
 
 let intervalId: number | null = null;

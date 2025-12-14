@@ -46,8 +46,12 @@ export const NotificationsCenterSheet: React.FC<{ onClose?: () => void }> = ({ o
 
   const handleSelect = (notification: ReminderNotification) => {
     markNotificationRead(notification.id);
-    onClose?.();
-    goTo(notification.linkedRoute ?? '/reminders');
+    if (onClose) {
+      onClose();
+      requestAnimationFrame(() => goTo('/reminders'));
+    } else {
+      goTo('/reminders');
+    }
   };
 
   return (

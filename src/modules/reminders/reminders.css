@@ -68,6 +68,7 @@
   padding: var(--spacing-sm) 0;
   gap: var(--spacing-md);
   border-bottom: 1px solid var(--color-divider);
+  flex-wrap: wrap;
 }
 
 .reminders-time:last-of-type {
@@ -77,6 +78,8 @@
 .reminders-time__label {
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .reminders-time__input {
@@ -87,6 +90,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 0.35rem 0.5rem 0.35rem 0.75rem;
+  max-width: 100%;
 }
 
 .reminders-time__input input {
@@ -95,6 +99,8 @@
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  max-width: 100%;
+  min-width: 0;
 }
 
 .reminders-time__input input:focus {
@@ -108,9 +114,9 @@
 .reminders-add {
   width: 100%;
   justify-content: center;
-  border: 1px dashed var(--color-border);
-  color: var(--color-active);
-  background: color-mix(in srgb, var(--color-active) 12%, transparent);
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+  background: color-mix(in srgb, var(--color-error) 50%, white);
 }
 
 .reminders-add:disabled {
@@ -138,9 +144,9 @@
   aspect-ratio: 1 / 1;
   gap: var(--spacing-xs);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  background: var(--color-background);
-  color: var(--color-text-secondary);
+  border: 1px solid var(--color-warning);
+  background: var(--color-warning);
+  color: var(--color-on-primary);
   font-weight: var(--font-weight-semibold);
   transition:
     background-color var(--motion-duration-fast) var(--motion-ease-standard),
@@ -153,20 +159,17 @@
 }
 
 .reminders-day--active {
-  background-color: var(--color-active);
+  background-color: var(--color-warning);
   color: var(--color-on-primary);
-  border-color: var(--color-active);
+  border-color: var(--color-warning);
   box-shadow: var(--shadow-sm);
 }
 
 .reminders-day__short {
-  font-size: var(--font-size-sm);
-  opacity: 0.9;
-}
-
-.reminders-day__date {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .reminders-toggle {
@@ -222,6 +225,11 @@
 .reminders-toggle__text {
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
+}
+
+.reminders-toggle__badge {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
 }
 
 .reminders-actions {
@@ -352,5 +360,24 @@
 
 .reminders-center__footer {
   padding-top: var(--spacing-sm);
+}
+
+.reminders-time__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 420px) {
+  .reminders-time__input {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .reminders-time__input input {
+    width: 100%;
+  }
 }
 

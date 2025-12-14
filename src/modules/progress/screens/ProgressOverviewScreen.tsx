@@ -162,7 +162,7 @@ export const ProgressOverviewScreen: React.FC = () => {
             </div>
           </div>
           <span className="po-kpiCard__badge po-kpiCard__badge--brain">
-            {t('progress.brain.weeklyCount').replace('{{count}}', String(weeklyBrainSessions))}
+            {t('progress.brain.weeklyCount', { count: weeklyBrainSessions })}
           </span>
         </Card>
       </div>

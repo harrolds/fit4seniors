@@ -57,9 +57,7 @@ export const ProgressHistoryScreen: React.FC = () => {
     <div className="hl-wrap">
       <div className="hl-header">
         <h1>{t('progress.history.title')}</h1>
-        {sessions.length > 0 ? (
-          <p>{t('progress.history.subtitleCount').replace('{{count}}', String(sessions.length))}</p>
-        ) : null}
+        {sessions.length > 0 ? <p>{t('progress.history.subtitleCount', { count: sessions.length })}</p> : null}
       </div>
 
       {sessions.length === 0 ? (

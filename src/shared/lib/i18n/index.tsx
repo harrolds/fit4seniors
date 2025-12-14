@@ -7,12 +7,13 @@ type Locale = 'de' | 'en';
 
 type LanguagePreference = 'system' | Locale;
 
-type Messages = Record<string, string>;
+export type Messages = Record<string, string>;
+export type TranslationParams = Record<string, string | number>;
 
 interface I18nContextValue {
   locale: Locale;
   preference: LanguagePreference;
-  t: (key: string) => string;
+  t: (key: string, params?: TranslationParams) => string;
   setLocale: (locale: Locale) => void;
   setPreference: (preference: LanguagePreference) => void;
 }
@@ -23,6 +24,30 @@ const messagesByLocale: Record<Locale, Messages> = {
   de,
   en,
 };
+
+export const interpolateMessage = (template: string, params?: TranslationParams): string => {
+  if (!params) return template;
+
+  let result = template;
+  for (const [key, value] of Object.entries(params)) {
+    const stringValue = String(value);
+    result = result.split(`{{${key}}}`).join(stringValue);
+    result = result.split(`{${key}}`).join(stringValue);
+  }
+
+  return result;
+};
+
+export const createTranslator =
+  (messages: Messages) =>
+  (key: string, params?: TranslationParams): string => {
+    const template = messages[key];
+    if (!template) {
+      return key;
+    }
+
+    return interpolateMessage(template, params);
+  };
 
 const LANGUAGE_PREFERENCE_STORAGE_KEY = 'language-preference';
 
@@ -58,9 +83,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const value = useMemo<I18nContextValue>(() => {
     const messages = messagesByLocale[locale] ?? messagesByLocale.de;
 
-    const t = (key: string): string => {
-      return messages[key] ?? key;
-    };
+    const t = createTranslator(messages);
 
     const setPreference = (next: LanguagePreference): void => {
       setPreferenceState(next);

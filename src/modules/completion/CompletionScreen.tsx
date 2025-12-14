@@ -84,7 +84,7 @@ export const CompletionScreen: React.FC = () => {
           label: t('completion.brain.stat.result'),
           value:
             payload.summary?.kind === 'found_word'
-              ? t('completion.brain.result.foundWord').replace('{{word}}', payload.summary.value ?? '')
+              ? t('completion.brain.result.foundWord', { word: payload.summary.value ?? '' })
               : '—',
         },
       ]

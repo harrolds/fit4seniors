@@ -10,14 +10,17 @@ import { SettingsLayout } from '../settings/SettingsLayout';
 import { GlobalSettingsScreen } from '../settings/GlobalSettingsScreen';
 import { ModuleSettingsScreen } from '../settings/ModuleSettingsScreen';
 import { OfflineScreen } from '../offline/OfflineScreen';
+import { useDisplayName } from '../../modules/profile';
 
 const HomeScreen: React.FC = () => {
   const { t } = useI18n();
+  const displayName = useDisplayName('');
+  const nameSuffix = displayName ? `, ${displayName}` : '';
 
   return (
     <div className="home-page">
       <section className="home-page__intro">
-        <h2 className="home-page__greeting">{t('home.greeting')}</h2>
+        <h2 className="home-page__greeting">{t('home.greeting', { name: nameSuffix })}</h2>
         <p className="home-page__subtext">{t('home.subtext')}</p>
       </section>
       <WidgetHost />

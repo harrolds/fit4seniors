@@ -7,6 +7,7 @@ import { Icon } from '../../../shared/ui/Icon';
 import { useTrainingCatalog, findModule } from '../../../features/trainieren/catalog';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, getSessionById } from '../progressStorage';
 import { getValue, setValue } from '../../../shared/lib/storage';
+import { useDisplayName } from '../../profile';
 
 const createDateFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
 const createTimeFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { timeStyle: 'short' });
@@ -17,6 +18,8 @@ export const ProgressHistoryDetailScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t, locale } = useI18n();
   const navigate = useNavigate();
+  const displayName = useDisplayName('');
+  const nameSuffix = displayName ? `, ${displayName}` : '';
   const { data: catalog } = useTrainingCatalog();
   const [session, setSession] = useState<CompletedSessionRecord | null>(() =>
     id ? getSessionById(id) : null,
@@ -103,7 +106,7 @@ export const ProgressHistoryDetailScreen: React.FC = () => {
       </Button>
 
       <div className="hd-intro">
-        <h1>{t('progress.history.detail.heroTitle')}</h1>
+        <h1>{t('progress.history.detail.heroTitle', { name: nameSuffix })}</h1>
         <p>{t('progress.history.detail.heroSubtitle')}</p>
       </div>
 

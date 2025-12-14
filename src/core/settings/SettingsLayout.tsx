@@ -42,6 +42,18 @@ export const SettingsLayout: React.FC = () => {
                   🔧 Reminders (Test – Phase 9)
                 </Button>
               </ListItem>
+              {/* TEMPORARY TEST ENTRY — Phase 10 (Profile) */}
+              {/* Remove when Phase 11 Settings Hub is implemented */}
+              <ListItem>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  fullWidth
+                  onClick={() => goTo('/profile')}
+                >
+                  🔧 Profile (Test – Phase 10)
+                </Button>
+              </ListItem>
 
               {settingsEnabledModules.map((module) => (
                 <ListItem key={module.id}>

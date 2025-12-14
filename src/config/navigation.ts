@@ -72,7 +72,7 @@ export const screenConfigs: ScreenConfig[] = [
     ],
     primaryActions: [
       { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
     ],
   },
   {
@@ -97,7 +97,7 @@ export const screenConfigs: ScreenConfig[] = [
       {
         id: 'openSettings',
         labelKey: 'app.header.settings',
-        icon: 'settings',
+        icon: 'person',
         onClick: { type: 'custom', handlerId: 'trainieren-detail-guard' },
       },
     ],
@@ -111,6 +111,49 @@ export const screenConfigs: ScreenConfig[] = [
         id: 'goBack',
         labelKey: 'common.back',
         icon: 'back',
+      },
+    ],
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+    ],
+  },
+  {
+    id: 'progress-overview',
+    route: '/progress',
+    titleKey: 'progress.title',
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+    ],
+  },
+  {
+    id: 'progress-history',
+    route: '/progress/history',
+    titleKey: 'progress.history.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'progress',
+      },
+    ],
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+    ],
+  },
+  {
+    id: 'progress-history-detail',
+    route: '/progress/history/:id',
+    titleKey: 'progress.history.detail.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'progress/history',
       },
     ],
     primaryActions: [

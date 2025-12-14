@@ -15,6 +15,7 @@ import {
   type TrainingIntensity,
   getIntensityLabel,
 } from './catalog';
+import { addCompletedSession } from '../../modules/progress/progressStorage';
 import './trainieren.css';
 
 type SessionStatus = 'idle' | 'running' | 'paused' | 'completed';
@@ -146,9 +147,43 @@ export const TrainingDetail: React.FC = () => {
 
   useEffect(() => {
     if (session.status !== 'completed') return;
+
+    if (training && variant) {
+      const completedAt = Date.now();
+      const durationMinPlanned = plannedDuration || variant.durationMin;
+      const durationSecActual = Math.max(session.totalSeconds - session.remainingSeconds, 0);
+      const stepsSummary =
+        session.steps && session.steps.length ? session.steps.slice(0, 3).join(' • ') : undefined;
+
+      addCompletedSession({
+        id: `${moduleId ?? 'module'}-${trainingId ?? 'training'}-${completedAt}`,
+        completedAt,
+        moduleId: moduleId ?? 'unknown',
+        trainingId: trainingId ?? 'unknown',
+        trainingTitle: training.title,
+        intensity: variant.intensity,
+        durationMinPlanned,
+        durationSecActual: durationSecActual || Math.max(variant.durationMin * 60, 1),
+        paceCue: variant.paceCue,
+        stepsSummary,
+      });
+    }
+
     closePanel();
     navigate('/completion?return=/trainieren');
-  }, [session.status, closePanel, navigate]);
+  }, [
+    session.status,
+    session.totalSeconds,
+    session.remainingSeconds,
+    session.steps,
+    closePanel,
+    navigate,
+    training,
+    trainingId,
+    moduleId,
+    variant,
+    plannedDuration,
+  ]);
 
   useEffect(() => {
     const previousId = previousPanelIdRef.current;
@@ -332,25 +367,27 @@ export const TrainingDetail: React.FC = () => {
 
   return (
     <div className="training-detail-page">
-      <div className="training-detail__meta-row">
-        <div className="training-detail__meta-group">
-          <span className="training-detail__chip training-detail__chip--intensity">
-            <Icon name="favorite" filled size={18} />
-            {getIntensityLabel(t, variant.intensity)}
-          </span>
-          <span className="training-detail__chip">
-            <Icon name="schedule" size={18} />
-            {variant.durationMin} {t('trainieren.minutes')}
-          </span>
-        </div>
+      <div className="td-metaRow">
+        <span className="td-categoryPill">{moduleDef?.title ?? moduleId}</span>
         <button
           type="button"
-          className="training-detail__info-button"
+          className="td-infoBtn"
           aria-label={t('trainieren.detail.infoLabel')}
           onClick={handleInfoClick}
         >
-          <Icon name="info" filled size={24} />
+          <Icon name="info" filled size={22} />
         </button>
+      </div>
+
+      <div className="td-subMeta">
+        <span className="training-detail__chip training-detail__chip--intensity">
+          <Icon name="favorite" filled size={18} />
+          {getIntensityLabel(t, variant.intensity)}
+        </span>
+        <span className="training-detail__chip">
+          <Icon name="schedule" size={18} />
+          {variant.durationMin} {t('trainieren.minutes')}
+        </span>
       </div>
 
       <div className="training-detail__header">
@@ -412,8 +449,8 @@ export const TrainingDetail: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="training-detail__card">
-          <div className="training-detail__timer-card">
+        <div className="training-detail__card td-timerCard">
+          <div className="training-detail__timer-card td-ring">
             <div className="training-detail__timer-figure">
               <svg className="training-detail__timer-svg" viewBox="0 0 120 120" aria-hidden="true">
                 <circle className="training-detail__timer-track" cx="60" cy="60" r={TIMER_RADIUS} />
@@ -453,7 +490,7 @@ export const TrainingDetail: React.FC = () => {
             </div>
           </div>
 
-          <div className="training-detail__cta">
+          <div className="training-detail__cta td-cta">
             <Button
               fullWidth
               className="training-detail__start-button"

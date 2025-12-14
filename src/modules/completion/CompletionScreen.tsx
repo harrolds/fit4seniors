@@ -6,6 +6,7 @@ import { getValue, setValue } from '../../shared/lib/storage';
 import { Button } from '../../shared/ui/Button';
 import { Card } from '../../shared/ui/Card';
 import { Icon } from '../../shared/ui/Icon';
+import './completion.screen.css';
 
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
 const COMPLETION_MESSAGE_COUNT = 10;
@@ -57,157 +58,34 @@ export const CompletionScreen: React.FC = () => {
   ];
 
   return (
-    <div
-      style={{
-        padding: 'var(--spacing-xl)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--spacing-xl)',
-        backgroundColor: 'var(--color-background)',
-        minHeight: '100%',
-      }}
-    >
-      <div
-        style={{
-          textAlign: 'center',
-          marginTop: 'var(--spacing-lg)',
-        }}
-      >
-        <p
-          style={{
-            margin: 0,
-            color: 'var(--color-text-secondary)',
-            fontSize: 'var(--font-size-lg)',
-            lineHeight: 'var(--line-height-snug)',
-          }}
-        >
-          {t('completion.subtitle')}
-        </p>
-      </div>
-
-      <Card
-        variant="elevated"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 'var(--spacing-lg)',
-          textAlign: 'center',
-          padding: 'calc(var(--spacing-xl) * 1.25)',
-          borderRadius: 'var(--radius-xl)',
-        }}
-      >
-        <div
-          style={{
-            width: '96px',
-            height: '96px',
-            borderRadius: '50%',
-            backgroundColor: 'var(--color-card-module-3)',
-            display: 'grid',
-            placeItems: 'center',
-            boxShadow: 'var(--shadow-md)',
-            color: 'var(--color-secondary)',
-          }}
-        >
-          <Icon name='emoji_events' size={48} />
+    <div className="c-wrap">
+      <Card variant="elevated" className="c-card">
+        <div className="c-heroIcon">
+          <Icon name="emoji_events" size={54} />
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--spacing-sm)',
-          }}
-        >
-          <h2
-            style={{
-              margin: 0,
-              fontSize: 'var(--font-size-xl)',
-              color: 'var(--color-text-primary)',
-              fontWeight: 'var(--font-weight-bold)',
-            }}
-          >
-            {t('completion.cardTitle')}
-          </h2>
-          <p
-            style={{
-              margin: 0,
-              color: 'var(--color-text-secondary)',
-              lineHeight: 'var(--line-height-normal)',
-            }}
-          >
-            {t('completion.body')}
-          </p>
-          <p
-            style={{
-              margin: 0,
-              color: 'var(--color-text-primary)',
-              fontWeight: 'var(--font-weight-semibold)',
-            }}
-          >
-            {completionMessage}
-          </p>
+        <div className="c-copy">
+          <h2 className="c-title">{t('completion.cardTitle')}</h2>
+          <p className="c-body">{t('completion.body')}</p>
+          <p className="c-body">{completionMessage}</p>
         </div>
 
-        <div
-          style={{
-            width: '100%',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 'var(--spacing-lg)',
-            borderTop: '1px solid var(--color-divider)',
-            paddingTop: 'var(--spacing-lg)',
-          }}
-        >
+        <div className="c-stats">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 'var(--spacing-xs)',
-              }}
-            >
-              <span
-                style={{
-                  fontSize: 'var(--font-size-xl)',
-                  fontWeight: 'var(--font-weight-bold)',
-                  color: 'var(--color-text-primary)',
-                }}
-              >
-                {stat.value}
-              </span>
-              <span
-                style={{
-                  fontSize: 'var(--font-size-xs)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.06em',
-                  color: 'var(--color-text-secondary)',
-                  fontWeight: 'var(--font-weight-semibold)',
-                }}
-              >
-                {stat.label}
-              </span>
+            <div key={stat.label} className="c-stat">
+              <span className="c-stat__value">{stat.value}</span>
+              <span className="c-stat__label">{stat.label}</span>
             </div>
           ))}
         </div>
       </Card>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--spacing-md)',
-          marginTop: 'auto',
-          marginBottom: 'var(--spacing-lg)',
-        }}
-      >
-        <Button variant="primary" fullWidth onClick={handleBack}>
+      <div className="c-actions">
+        <Button variant="primary" fullWidth className="c-btnPrimary" onClick={handleBack}>
           <Icon name="home" size={22} />
           {t('completion.ctaBack')}
         </Button>
-        <Button variant="secondary" fullWidth onClick={handleProgress}>
+        <Button variant="secondary" fullWidth className="c-btnSecondary" onClick={handleProgress}>
           <Icon name="bar_chart" size={22} />
           {t('completion.ctaProgress')}
         </Button>

@@ -3,6 +3,7 @@ import type { ScreenAction } from '../core/screenConfig';
 import { TrainierenModule } from '../features/trainieren';
 import { TrainingInfoModule } from '../modules/trainingInfo';
 import { CompletionModule } from '../modules/completion';
+import { ProgressModule } from '../modules/progress';
 import {
   BalanceWidget,
   BrainTrainingWidget,
@@ -98,6 +99,14 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: CompletionModule,
+  },
+  {
+    id: 'progress',
+    labelKey: 'progress.title',
+    routeBase: '/progress/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: ProgressModule,
   },
 ];
 

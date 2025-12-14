@@ -11,6 +11,7 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -25,6 +26,7 @@ body {
   padding-top: 56px; /* header-hoogte */
   padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); /* footer-hoogte + safe area */
   background-color: var(--color-background);
+  overflow-x: hidden;
 }
 
 /* HEADER – altijd zichtbaar bovenaan, content in één rij gecentreerd */
@@ -148,6 +150,9 @@ body {
 /* MAIN – gewoon flow binnen .app-shell, padding vangt header/footer af */
 .app-shell__main {
   padding: 0.75rem 1rem 0;
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* FOOTER – altijd zichtbaar onderaan */

@@ -1,26 +1,14 @@
 import React from 'react';
 import { setValue } from '../../shared/lib/storage';
 import type { ThemeDefinition, ThemeMode, ThemePreference } from './themeContract';
-import { lightDefault } from './themes';
+import {
+  DEFAULT_THEME,
+  DEFAULT_THEME_PREFERENCE,
+  ThemeContext,
+  type ThemeContextValue,
+} from './themeContext';
 
 const THEME_STORAGE_KEY = 'theme-preference';
-const DEFAULT_THEME_PREFERENCE: ThemePreference = 'light';
-
-type ThemeContextValue = {
-  theme: ThemeDefinition;
-  preference: ThemePreference;
-  resolvedMode: ThemeMode;
-  setPreference: (preference: ThemePreference) => void;
-};
-
-const DEFAULT_THEME = lightDefault;
-
-const ThemeContext = React.createContext<ThemeContextValue>({
-  theme: DEFAULT_THEME,
-  preference: DEFAULT_THEME_PREFERENCE,
-  resolvedMode: DEFAULT_THEME.mode,
-  setPreference: () => undefined,
-});
 
 const applyThemeToDocument = (theme: ThemeDefinition): void => {
   if (typeof document === 'undefined') {
@@ -39,9 +27,9 @@ const applyThemeToDocument = (theme: ThemeDefinition): void => {
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [preference, setPreferenceState] = React.useState<ThemePreference>(() => 'light');
+  const [preference, setPreferenceState] = React.useState<ThemePreference>(() => DEFAULT_THEME_PREFERENCE);
   const resolvedMode: ThemeMode = 'light';
-  const theme = lightDefault;
+  const theme = DEFAULT_THEME;
 
   React.useEffect(() => {
     applyThemeToDocument(theme);
@@ -63,18 +51,5 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
-};
-
-export const useThemeContext = (): ThemeContextValue => {
-  return React.useContext(ThemeContext);
-};
-
-export const useTheme = (): ThemeDefinition => {
-  const context = React.useContext(ThemeContext);
-  return context.theme;
-};
-
-export const useThemeController = (): ThemeContextValue => {
-  return React.useContext(ThemeContext);
 };
 

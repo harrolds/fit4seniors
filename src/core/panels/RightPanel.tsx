@@ -1,7 +1,7 @@
 import React from 'react';
 import type { PanelContainerProps } from './PanelHost';
 
-export const RightPanel: React.FC<PanelContainerProps> = ({ isOpen, onClose, children }) => {
+export const RightPanel: React.FC<PanelContainerProps> = ({ isOpen, onClose: _onClose, children }) => {
   return (
     <aside
       className={`panel-surface panel-surface--right ${isOpen ? 'panel-surface--open' : ''}`}

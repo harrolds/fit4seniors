@@ -3,7 +3,7 @@ import { Card } from '../../shared/ui/Card';
 import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
-import { useThemeController } from '../theme/ThemeProvider';
+import { useThemeController } from '../theme/themeContext';
 import { isTelemetryEnabled, setTelemetryEnabled as setTelemetryEnabledFlag, } from '../../shared/lib/telemetry';
 
 export const GlobalSettingsScreen: React.FC = () => {

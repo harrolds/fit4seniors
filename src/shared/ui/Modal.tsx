@@ -1,6 +1,6 @@
 import React from 'react';
 import type { CSSProperties, ReactNode } from 'react';
-import { useTheme } from '../../core/theme/ThemeProvider';
+import { useTheme } from '../../core/theme/themeContext';
 import { Button } from './Button';
 import { useI18n } from '../lib/i18n';
 

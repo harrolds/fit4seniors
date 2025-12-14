@@ -34,16 +34,22 @@ describe('TrainingInfoPanelContent', () => {
   it('renders base training info without crashing', async () => {
     const { container, cleanup } = renderPanel();
 
+    // Allow any catalog/data hook to resolve and render once.
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    expect(container.textContent).toContain('Training');
-    expect(container.textContent).toContain('Training information');
-    expect(container.textContent).toContain('March in Place');
+    // Assert only on section labels that are always rendered for a found training.
+    // Do NOT assert on the panel title (can be dynamic training title).
     expect(container.textContent).toContain('About this training');
+    expect(container.textContent).toContain('How it works');
+    expect(container.textContent).toContain('Intensity');
+    expect(container.textContent).toContain('Duration');
+    expect(container.textContent).toContain('Pace cue');
+
+    // Optional: stable training title based on provided ids (keep, but not required for “smoke”).
+    expect(container.textContent).toContain('March in Place');
+
     cleanup();
   });
 });
-
-

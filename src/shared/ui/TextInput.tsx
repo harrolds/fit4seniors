@@ -1,6 +1,6 @@
 import React from 'react';
 import type { CSSProperties, InputHTMLAttributes } from 'react';
-import { useTheme } from '../../core/theme/ThemeProvider';
+import { useTheme } from '../../core/theme/themeContext';
 
 export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {}
 

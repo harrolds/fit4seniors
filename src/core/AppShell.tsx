@@ -9,7 +9,7 @@ import { getScreenConfigByPath } from '../config/navigation';
 import { APP_BRAND } from '../config/appConfig';
 import { NotificationsHost } from '../shared/lib/notifications';
 import { OfflineScreen } from './offline/OfflineScreen';
-import { useTheme } from './theme/ThemeProvider';
+import { useTheme } from './theme/themeContext';
 import { PanelHost } from './panels/PanelHost';
 import { PanelProvider, usePanels } from '../shared/lib/panels';
 import { HeaderActionsBar } from './header/HeaderActionsBar';

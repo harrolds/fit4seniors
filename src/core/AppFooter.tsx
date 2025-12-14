@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { footerMenu, type FooterMenuItem } from '../config/appConfig';
 import { useNavigation } from '../shared/lib/navigation/useNavigation';
 import { useI18n } from '../shared/lib/i18n';
-import { useTheme } from './theme/ThemeProvider';
+import { useTheme } from './theme/themeContext';
 import { Icon } from '../shared/ui/Icon';
 import { useNotifications } from '../shared/lib/notifications';
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useI18n } from '../i18n';
+import { Icon } from '../../ui/Icon';
 
 export type NotificationKind = 'info' | 'success' | 'error';
 
@@ -8,6 +9,10 @@ export type Toast = {
   messageKey: string;
   kind?: NotificationKind;
   params?: Record<string, string | number>;
+  onClick?: () => void;
+  notificationId?: string;
+  icon?: string;
+  actionLabelKey?: string;
 };
 
 interface NotificationsContextValue {
@@ -18,8 +23,13 @@ interface NotificationsContextValue {
       kind?: NotificationKind;
       params?: Record<string, string | number>;
       durationMs?: number;
+      onClick?: () => void;
+      notificationId?: string;
+      icon?: string;
+      actionLabelKey?: string;
     }
   ) => void;
+  dismissToast: (toastId: string) => void;
 }
 
 const NotificationsContext = React.createContext<NotificationsContextValue | undefined>(undefined);
@@ -48,8 +58,27 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const showToast = React.useCallback(
-    (messageKey: string, options?: { kind?: NotificationKind; params?: Record<string, string | number>; durationMs?: number }) => {
-      const { kind = 'info', params, durationMs = DEFAULT_DURATION_MS } = options ?? {};
+    (
+      messageKey: string,
+      options?: {
+        kind?: NotificationKind;
+        params?: Record<string, string | number>;
+        durationMs?: number;
+        onClick?: () => void;
+        notificationId?: string;
+        icon?: string;
+        actionLabelKey?: string;
+      },
+    ) => {
+      const {
+        kind = 'info',
+        params,
+        durationMs = DEFAULT_DURATION_MS,
+        onClick,
+        notificationId,
+        icon,
+        actionLabelKey,
+      } = options ?? {};
       const toastId = generateToastId();
 
       const nextToast: Toast = {
@@ -57,6 +86,10 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
         messageKey,
         kind,
         params,
+        onClick,
+        notificationId,
+        icon,
+        actionLabelKey,
       };
 
       setToasts((prev) => [...prev, nextToast]);
@@ -86,8 +119,9 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     () => ({
       toasts,
       showToast,
+      dismissToast: removeToast,
     }),
-    [toasts, showToast]
+    [toasts, showToast, removeToast]
   );
 
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
@@ -116,7 +150,7 @@ const applyParams = (text: string, params?: Record<string, string | number>): st
 };
 
 export const NotificationsHost: React.FC = () => {
-  const { toasts } = useNotifications();
+  const { toasts, dismissToast } = useNotifications();
   const { t } = useI18n();
 
   if (toasts.length === 0) {
@@ -129,10 +163,46 @@ export const NotificationsHost: React.FC = () => {
         {toasts.map((toast) => {
           const kind = toast.kind ?? 'info';
           const message = applyParams(t(toast.messageKey), toast.params);
+          const iconName = toast.icon ?? (kind === 'success' ? 'check_circle' : kind === 'error' ? 'error' : 'notifications');
 
           return (
-            <div key={toast.id} className={`notifications-host__toast notifications-host__toast--${kind}`}>
-              <span>{message}</span>
+            <div
+              key={toast.id}
+              className={`notifications-host__toast notifications-host__toast--${kind}${toast.onClick ? ' notifications-host__toast--clickable' : ''}`}
+              role="button"
+              tabIndex={0}
+              onClick={() => {
+                toast.onClick?.();
+                dismissToast(toast.id);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  toast.onClick?.();
+                  dismissToast(toast.id);
+                }
+              }}
+            >
+              <div className="notifications-host__toast-icon">
+                <Icon name={iconName} size={20} />
+              </div>
+              <div className="notifications-host__toast-content">
+                <span className="notifications-host__toast-text">{message}</span>
+                {toast.actionLabelKey ? (
+                  <span className="notifications-host__toast-action">{t(toast.actionLabelKey)}</span>
+                ) : null}
+              </div>
+              <button
+                type="button"
+                className="notifications-host__toast-close"
+                aria-label={t('app.header.closeMenu')}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  dismissToast(toast.id);
+                }}
+              >
+                <Icon name="close" size={18} />
+              </button>
             </div>
           );
         })}

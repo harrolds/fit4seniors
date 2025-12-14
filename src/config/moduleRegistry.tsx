@@ -5,6 +5,7 @@ import { TrainingInfoModule } from '../modules/trainingInfo';
 import { CompletionModule } from '../modules/completion';
 import { ProgressModule } from '../modules/progress';
 import { BrainModule } from '../modules/brain';
+import { RemindersModule } from '../modules/reminders';
 import {
   BalanceWidget,
   BrainTrainingWidget,
@@ -116,6 +117,14 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: ProgressModule,
+  },
+  {
+    id: 'reminders',
+    labelKey: 'reminders.title',
+    routeBase: '/reminders/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: RemindersModule,
   },
 ];
 

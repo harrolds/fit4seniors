@@ -14,7 +14,7 @@ export const screenConfigs: ScreenConfig[] = [
         id: 'openNotifications',
         labelKey: 'app.header.notifications',
         icon: 'notifications',
-        navigationTarget: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
       },
       {
         id: 'openSettings',
@@ -51,11 +51,38 @@ export const screenConfigs: ScreenConfig[] = [
     ],
   },
   {
+    id: 'reminders',
+    route: '/reminders',
+    titleKey: 'reminders.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'home',
+      },
+    ],
+    primaryActions: [
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+    ],
+  },
+  {
     id: 'trainieren-hub',
     route: '/trainieren',
     titleKey: 'trainieren.title',
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
       { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings' },
     ],
   },
@@ -64,7 +91,12 @@ export const screenConfigs: ScreenConfig[] = [
     route: '/brain',
     titleKey: 'brain.header.title',
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
       { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
     ],
   },
@@ -81,7 +113,12 @@ export const screenConfigs: ScreenConfig[] = [
       },
     ],
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
       { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
     ],
   },
@@ -97,7 +134,12 @@ export const screenConfigs: ScreenConfig[] = [
       },
     ],
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
       { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
     ],
   },
@@ -140,7 +182,12 @@ export const screenConfigs: ScreenConfig[] = [
       },
     ],
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
       { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
     ],
   },
@@ -149,7 +196,12 @@ export const screenConfigs: ScreenConfig[] = [
     route: '/progress',
     titleKey: 'progress.title',
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
       { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
     ],
   },
@@ -166,7 +218,12 @@ export const screenConfigs: ScreenConfig[] = [
       },
     ],
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
       { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
     ],
   },
@@ -183,7 +240,12 @@ export const screenConfigs: ScreenConfig[] = [
       },
     ],
     primaryActions: [
-      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
       { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
     ],
   },

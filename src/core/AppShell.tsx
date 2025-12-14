@@ -18,6 +18,7 @@ import { getModuleById } from '../shared/lib/modules';
 import { getHeaderActionHandler } from '../shared/lib/navigation/headerActionRegistry';
 import { Button } from '../shared/ui/Button';
 import { Icon } from '../shared/ui/Icon';
+import { RemindersBootstrap } from '../modules/reminders';
 
 const AppShellContent: React.FC = () => {
   const location = useLocation();
@@ -181,6 +182,7 @@ const AppShellContent: React.FC = () => {
       </main>
       <PanelHost state={panelState} onClose={closePanel} />
       <NotificationsHost />
+      <RemindersBootstrap />
       <AppFooter />
     </div>
   );

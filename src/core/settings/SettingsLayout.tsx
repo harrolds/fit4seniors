@@ -9,7 +9,7 @@ import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 
 export const SettingsLayout: React.FC = () => {
   const { t } = useI18n();
-  const { openModuleSettings } = useNavigation();
+  const { openModuleSettings, goTo } = useNavigation();
 
   const settingsEnabledModules = useMemo(
     () => moduleRegistry.filter((module) => module.hasSettings),
@@ -29,22 +29,34 @@ export const SettingsLayout: React.FC = () => {
 
           <div className="settings-layout__module-list">
             <h3 className="settings-layout__section-title">{t('settings.modules.title')}</h3>
-            {settingsEnabledModules.length > 0 ? (
-              <List>
-                {settingsEnabledModules.map((module) => (
-                  <ListItem key={module.id}>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      fullWidth
-                      onClick={() => openModuleSettings(module.id)}
-                    >
-                      {t(module.labelKey)}
-                    </Button>
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
+            <List>
+              {/* TEMPORARY TEST ENTRY — Phase 9 (Reminders) */}
+              {/* Remove when Phase 11 Settings Hub is implemented */}
+              <ListItem>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  fullWidth
+                  onClick={() => goTo('/reminders')}
+                >
+                  🔧 Reminders (Test – Phase 9)
+                </Button>
+              </ListItem>
+
+              {settingsEnabledModules.map((module) => (
+                <ListItem key={module.id}>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    fullWidth
+                    onClick={() => openModuleSettings(module.id)}
+                  >
+                    {t(module.labelKey)}
+                  </Button>
+                </ListItem>
+              ))}
+            </List>
+            {settingsEnabledModules.length === 0 && (
               <p className="settings-layout__muted">{t('settings.modules.empty')}</p>
             )}
           </div>

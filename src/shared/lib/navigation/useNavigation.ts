@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getModuleById } from '../modules';
 import { trackScreenView } from '../telemetry';
+import { usePanels } from '../panels';
 
 type NavigationTarget = 'home' | 'notifications' | 'settings' | string;
 
@@ -57,6 +58,7 @@ export interface NavigationApi {
 
 export const useNavigation = (): NavigationApi => {
   const navigate = useNavigate();
+  const { openBottomSheet } = usePanels();
 
   const goTo = useCallback(
     (target: NavigationTarget) => {
@@ -96,10 +98,14 @@ export const useNavigation = (): NavigationApi => {
   );
 
   const openNotifications = useCallback(() => {
+    if (openBottomSheet) {
+      openBottomSheet('notifications-center');
+      return;
+    }
     const path = '/notifications';
     navigate(path);
     trackScreenView(deriveScreenIdFromPath(path));
-  }, [navigate]);
+  }, [navigate, openBottomSheet]);
 
   const openDetail = useCallback(
     (entity: string, id: string | number) => {

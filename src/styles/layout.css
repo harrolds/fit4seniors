@@ -79,6 +79,29 @@ body {
   gap: 0.5rem;
 }
 
+.header-action {
+  position: relative;
+  display: inline-flex;
+}
+
+.header-action__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+  background: var(--color-error);
+  color: var(--color-on-primary);
+  font-size: var(--font-size-xs);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--shadow-sm);
+}
+
 .app-shell__icon-button {
   width: 36px;
   height: 36px;
@@ -647,14 +670,18 @@ body {
 
 .notifications-host__toast {
   pointer-events: auto;
-  background-color: var(--color-surface);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
+  background-color: var(--color-secondary);
+  color: var(--color-on-primary);
+  border: 1px solid var(--color-secondary);
   border-left-width: 4px;
   border-radius: var(--radius-lg);
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 0.75rem 0.75rem 0.5rem;
   box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
   animation: notification-slide-in-from-bottom 200ms ease-out;
+  text-align: left;
 }
 
 .notifications-host__toast--info {
@@ -667,6 +694,58 @@ body {
 
 .notifications-host__toast--error {
   border-left-color: var(--color-error);
+}
+
+.notifications-host__toast--clickable {
+  cursor: pointer;
+}
+
+.notifications-host__toast-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, var(--color-active) 16%, transparent);
+  color: var(--color-active);
+}
+
+.notifications-host__toast--success .notifications-host__toast-icon {
+  background-color: color-mix(in srgb, var(--color-success) 16%, transparent);
+  color: var(--color-success);
+}
+
+.notifications-host__toast--error .notifications-host__toast-icon {
+  background-color: color-mix(in srgb, var(--color-error) 16%, transparent);
+  color: var(--color-error);
+}
+
+.notifications-host__toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex: 1;
+}
+
+.notifications-host__toast-text {
+  font-weight: var(--font-weight-semibold);
+}
+
+.notifications-host__toast-action {
+  color: var(--color-on-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.notifications-host__toast-close {
+  border: none;
+  background: transparent;
+  color: var(--color-on-primary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes notification-slide-in-from-bottom {

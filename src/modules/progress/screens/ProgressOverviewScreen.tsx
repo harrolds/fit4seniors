@@ -45,17 +45,21 @@ export const ProgressOverviewScreen: React.FC = () => {
   const startOfWeek = useMemo(() => getStartOfWeek(new Date()), []);
   const endOfWeek = useMemo(() => getEndOfWeek(startOfWeek), [startOfWeek]);
 
-  const { activeDaysThisWeek, sessionsThisWeek } = useMemo(() => {
+  const { activeDaysThisWeek, sessionsThisWeek, weeklyBrainSessions } = useMemo(() => {
     const uniqueDays = new Set<string>();
     let weeklySessions = 0;
+    let weeklyBrainSessions = 0;
     sessions.forEach((session) => {
       const date = new Date(session.completedAt);
       if (date >= startOfWeek && date <= endOfWeek) {
         weeklySessions += 1;
+        if (session.moduleId === 'brain') {
+          weeklyBrainSessions += 1;
+        }
         uniqueDays.add(date.toDateString());
       }
     });
-    return { activeDaysThisWeek: uniqueDays.size, sessionsThisWeek: weeklySessions };
+    return { activeDaysThisWeek: uniqueDays.size, sessionsThisWeek: weeklySessions, weeklyBrainSessions };
   }, [sessions, startOfWeek, endOfWeek]);
 
   const totalMinutes = useMemo(() => {
@@ -145,6 +149,21 @@ export const ProgressOverviewScreen: React.FC = () => {
             </div>
           </div>
           <span className="po-kpiCard__badge po-kpiCard__badge--blue">{t('progress.kpi.target')}</span>
+        </Card>
+
+        <Card className="po-kpiCard po-kpiCard--brain">
+          <div className="po-kpiCard__left">
+            <div className="po-kpiCard__icon po-kpiCard__icon--brain">
+              <Icon name="psychology" size={26} />
+            </div>
+            <div className="po-kpiCard__meta">
+              <p className="po-kpiCard__label">{t('progress.brain.title')}</p>
+              <p className="po-kpiCard__value">{weeklyBrainSessions}</p>
+            </div>
+          </div>
+          <span className="po-kpiCard__badge po-kpiCard__badge--brain">
+            {t('progress.brain.weeklyCount').replace('{{count}}', String(weeklyBrainSessions))}
+          </span>
         </Card>
       </div>
 

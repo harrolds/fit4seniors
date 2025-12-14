@@ -35,11 +35,15 @@ export const TrainierenHub: React.FC = () => {
             rightSlot={<Icon name={module.icon} size={28} />}
             role="button"
             tabIndex={0}
-            onClick={() => goTo(`/trainieren/${module.id}`)}
+            onClick={() => (module.id === 'brain' ? goTo('/brain') : goTo(`/trainieren/${module.id}`))}
             onKeyDown={(event) => {
               if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                goTo(`/trainieren/${module.id}`);
+                if (module.id === 'brain') {
+                  goTo('/brain');
+                } else {
+                  goTo(`/trainieren/${module.id}`);
+                }
               }
             }}
             className="trainieren-module-card"

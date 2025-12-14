@@ -44,14 +44,21 @@ export const ProgressHistoryScreen: React.FC = () => {
 
   const renderEmpty = () => <Card className="hl-empty">{t('progress.history.empty')}</Card>;
 
+  const formatDuration = (seconds: number): string => {
+    const safe = Math.max(0, Math.round(seconds));
+    const minutes = Math.floor(safe / 60)
+      .toString()
+      .padStart(2, '0');
+    const secs = (safe % 60).toString().padStart(2, '0');
+    return `${minutes}:${secs}`;
+  };
+
   return (
     <div className="hl-wrap">
       <div className="hl-header">
         <h1>{t('progress.history.title')}</h1>
         {sessions.length > 0 ? (
-          <p>
-            {t('progress.history.subtitleCount')} ({sessions.length})
-          </p>
+          <p>{t('progress.history.subtitleCount').replace('{{count}}', String(sessions.length))}</p>
         ) : null}
       </div>
 
@@ -67,13 +74,17 @@ export const ProgressHistoryScreen: React.FC = () => {
                   <div className="hl-item__top">
                     <div className="hl-item__left">
                       <div className="hl-item__icon">
-                        <Icon name="history" size={26} />
+                        <Icon name={session.moduleId === 'brain' ? 'psychology' : 'history'} size={26} />
                       </div>
                       <div className="hl-item__text">
                         <h3 className="hl-item__title">{session.trainingTitle}</h3>
                         <div className="hl-item__tags">
-                          <span className="hl-tag hl-tag--module">{getModuleLabel(session.moduleId)}</span>
-                          <span className="hl-tag hl-tag--intensity">{getIntensityLabel(t, session.intensity)}</span>
+                          <span className={`hl-tag hl-tag--module${session.moduleId === 'brain' ? ' hl-tag--module-brain' : ''}`}>
+                            {getModuleLabel(session.moduleId)}
+                          </span>
+                          <span className="hl-tag hl-tag--intensity">
+                            {session.intensity ? getIntensityLabel(t, session.intensity) : t('training.intensity.medium')}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -88,7 +99,7 @@ export const ProgressHistoryScreen: React.FC = () => {
                   <div className="hl-item__meta">
                     <div className="hl-meta__left">
                       <Icon name="schedule" size={18} />
-                      {Math.round(session.durationSecActual / 60)} {t('trainieren.minutes')}
+                      {formatDuration(session.durationSecActual)}
                     </div>
                     <div className="hl-meta__right">
                       <Icon name={rightMeta.icon} size={18} />

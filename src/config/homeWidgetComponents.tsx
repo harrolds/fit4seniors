@@ -77,7 +77,7 @@ export const BrainTrainingWidget: React.FC = () => {
       title={t('home.widgets.brainTraining.title')}
       subtitle={t('home.widgets.brainTraining.subtitle')}
       backgroundVar="var(--color-card-module-1)"
-      onClick={() => goTo('/trainieren/brain')}
+      onClick={() => goTo('/brain')}
     />
   );
 };

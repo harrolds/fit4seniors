@@ -11,6 +11,16 @@ import './completion.screen.css';
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
 const COMPLETION_MESSAGE_COUNT = 10;
 
+type CompletionPayload = {
+  moduleId?: string;
+  unitTitle?: string;
+  durationSec?: number;
+  finishedAt?: number;
+  summary?: { kind: 'found_word'; value?: string; success?: boolean };
+  completed?: boolean;
+  returnPath?: string;
+};
+
 const resolveNextMessageKey = (): string => {
   const stored = getValue<number | null>(COMPLETION_STORAGE_KEY, null);
   const safeIndex =
@@ -30,6 +40,8 @@ export const CompletionScreen: React.FC = () => {
 
   const [messageKey] = useState<string>(() => resolveNextMessageKey());
   const completionMessage = t(messageKey);
+  const payload = (location.state as CompletionPayload | undefined) ?? {};
+  const isBrain = payload.moduleId === 'brain';
 
   useEffect(() => {
     closePanel();
@@ -44,18 +56,45 @@ export const CompletionScreen: React.FC = () => {
     return '/trainieren';
   }, [location.search]);
 
+  const backTarget = payload.returnPath ?? returnTarget;
+
+  const formatDuration = (value?: number): string => {
+    if (!value || Number.isNaN(value)) return '00:00';
+    const safe = Math.max(0, Math.round(value));
+    const minutes = Math.floor(safe / 60)
+      .toString()
+      .padStart(2, '0');
+    const seconds = (safe % 60).toString().padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  };
+
   const handleBack = () => {
-    navigate(returnTarget, { replace: true });
+    navigate(backTarget, { replace: true });
   };
 
   const handleProgress = () => {
     navigate('/progress');
   };
 
-  const stats = [
-    { label: t('completion.stats.minutesLabel'), value: t('completion.stats.minutesValue') },
-    { label: t('completion.stats.pointsLabel'), value: t('completion.stats.pointsValue') },
-  ];
+  const stats = isBrain
+    ? [
+        { label: t('completion.brain.stat.time'), value: formatDuration(payload.durationSec) },
+        { label: t('completion.brain.stat.unit'), value: payload.unitTitle ?? t('brain.session.headerTitle') },
+        {
+          label: t('completion.brain.stat.result'),
+          value:
+            payload.summary?.kind === 'found_word'
+              ? t('completion.brain.result.foundWord').replace('{{word}}', payload.summary.value ?? '')
+              : '—',
+        },
+      ]
+    : [
+        { label: t('completion.stats.minutesLabel'), value: t('completion.stats.minutesValue') },
+        { label: t('completion.stats.pointsLabel'), value: t('completion.stats.pointsValue') },
+      ];
+
+  const title = isBrain ? t('completion.brain.title') : t('completion.cardTitle');
+  const subtitle = isBrain ? t('completion.brain.subtitle') : t('completion.body');
 
   return (
     <div className="c-wrap">
@@ -65,8 +104,8 @@ export const CompletionScreen: React.FC = () => {
         </div>
 
         <div className="c-copy">
-          <h2 className="c-title">{t('completion.cardTitle')}</h2>
-          <p className="c-body">{t('completion.body')}</p>
+          <h2 className="c-title">{title}</h2>
+          <p className="c-body">{subtitle}</p>
           <p className="c-body">{completionMessage}</p>
         </div>
 

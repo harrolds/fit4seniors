@@ -4,6 +4,7 @@ import { TrainierenModule } from '../features/trainieren';
 import { TrainingInfoModule } from '../modules/trainingInfo';
 import { CompletionModule } from '../modules/completion';
 import { ProgressModule } from '../modules/progress';
+import { BrainModule } from '../modules/brain';
 import {
   BalanceWidget,
   BrainTrainingWidget,
@@ -91,6 +92,14 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: TrainingInfoModule,
+  },
+  {
+    id: 'brain',
+    labelKey: 'brain.title',
+    routeBase: '/brain/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: BrainModule,
   },
   {
     id: 'completion',

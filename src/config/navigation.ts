@@ -60,6 +60,32 @@ export const screenConfigs: ScreenConfig[] = [
     ],
   },
   {
+    id: 'brain',
+    route: '/brain',
+    titleKey: 'brain.header.title',
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+    ],
+  },
+  {
+    id: 'brain-session',
+    route: '/brain/session/:exerciseId',
+    titleKey: 'brain.session.headerTitle',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        onClick: { type: 'navigate', target: '/brain' },
+      },
+    ],
+    primaryActions: [
+      { id: 'openNotifications', labelKey: 'app.header.notifications', icon: 'notifications' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+    ],
+  },
+  {
     id: 'trainieren-module',
     route: '/trainieren/:moduleId',
     titleKey: 'trainieren.title',

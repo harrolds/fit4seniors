@@ -1,18 +1,27 @@
 import { getItems, setItems } from '../../shared/lib/storage';
 import type { TrainingIntensity } from '../../features/trainieren/catalog';
 
+export interface SessionSummary {
+  kind: 'found_word';
+  value?: string;
+  success?: boolean;
+}
+
 export interface CompletedSessionRecord {
   id: string;
   completedAt: number;
   moduleId: string;
   trainingId: string;
   trainingTitle: string;
-  intensity: TrainingIntensity;
-  durationMinPlanned: number;
+  intensity?: TrainingIntensity;
+  durationMinPlanned?: number;
   durationSecActual: number;
   paceCue?: string;
   stepsSummary?: string;
   notes?: string;
+  unitTitle?: string;
+  completed?: boolean;
+  summary?: SessionSummary;
 }
 
 export const PROGRESS_STORAGE_KEY = 'progress:completedSessions';

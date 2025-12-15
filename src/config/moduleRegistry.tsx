@@ -8,6 +8,7 @@ import { BrainModule } from '../modules/brain';
 import { RemindersModule } from '../modules/reminders';
 import { ProfileModule } from '../modules/profile';
 import { SettingsModule } from '../modules/settings';
+import { MoreModule } from '../modules/more';
 import {
   BalanceWidget,
   BrainTrainingWidget,
@@ -135,6 +136,14 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: ProfileModule,
+  },
+  {
+    id: 'more',
+    labelKey: 'more.title',
+    routeBase: '/more/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: MoreModule,
   },
   {
     id: 'settings',

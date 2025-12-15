@@ -20,7 +20,7 @@ export const footerMenu: FooterMenuItem[] = [
   { id: 'train', route: '/trainieren', labelKey: 'nav.train', icon: 'fitness_center', available: true },
   { id: 'brain', route: '/brain', labelKey: 'nav.brain', icon: 'psychology', available: true },
   { id: 'progress', route: '/progress', labelKey: 'nav.progress', icon: 'bar_chart', available: true, fallbackRoute: '/' },
-  { id: 'more', route: '/settings', labelKey: 'nav.more', icon: 'more_horiz', available: true },
+  { id: 'more', route: '/more', labelKey: 'nav.more', icon: 'more_horiz', available: true },
 ];
 
 export type AppBranding = {

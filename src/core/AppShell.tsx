@@ -120,6 +120,11 @@ const AppShellContent: React.FC = () => {
       }
     }
 
+    if (action.id === 'goBack') {
+      goBack();
+      return;
+    }
+
     if (action.navigationTarget) {
       goTo(action.navigationTarget);
       return;
@@ -131,9 +136,6 @@ const AppShellContent: React.FC = () => {
         return;
       case 'openSettings':
         openSettings();
-        return;
-      case 'goBack':
-        goBack();
         return;
       default:
         return;

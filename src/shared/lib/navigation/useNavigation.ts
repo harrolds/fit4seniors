@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getModuleById } from '../modules';
 import { trackScreenView } from '../telemetry';
 import { usePanels } from '../panels';
@@ -58,7 +58,27 @@ export interface NavigationApi {
 
 export const useNavigation = (): NavigationApi => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { openBottomSheet } = usePanels();
+  const latestPathRef = useRef(location.pathname);
+
+  useEffect(() => {
+    latestPathRef.current = location.pathname;
+  }, [location.pathname]);
+
+  const resolveFallbackPath = useCallback(() => {
+    const path = location.pathname || '/';
+
+    if (path.startsWith('/settings')) {
+      return '/settings';
+    }
+
+    if (path.startsWith('/more')) {
+      return '/more';
+    }
+
+    return '/';
+  }, [location.pathname]);
 
   const goTo = useCallback(
     (target: NavigationTarget) => {
@@ -70,8 +90,21 @@ export const useNavigation = (): NavigationApi => {
   );
 
   const goBack = useCallback(() => {
+    const initialPath = latestPathRef.current;
     navigate(-1);
-  }, [navigate]);
+
+    window.setTimeout(() => {
+      if (latestPathRef.current !== initialPath) {
+        return;
+      }
+      const fallback = resolveFallbackPath();
+      if (fallback === initialPath) {
+        return;
+      }
+      navigate(fallback, { replace: true });
+      trackScreenView(deriveScreenIdFromPath(fallback));
+    }, 0);
+  }, [navigate, resolveFallbackPath]);
 
   const openSettings = useCallback(() => {
     const path = '/settings';

@@ -2,34 +2,50 @@ import { useSyncExternalStore } from 'react';
 import { getValue, setValue } from '../../shared/lib/storage';
 
 export type SettingsPreferences = {
-  fontScale: 'small' | 'default' | 'large';
+  textScale: 'small' | 'default' | 'large';
   highContrast: boolean;
+  soundEnabled: boolean;
+  hapticsEnabled: boolean;
+  language: 'de' | 'en';
 };
 
 const STORAGE_KEY = 'settings.preferences.v1';
 
+type StoredSettings = Partial<SettingsPreferences> & { fontScale?: SettingsPreferences['textScale'] };
+
 const defaultPreferences = (): SettingsPreferences => ({
-  fontScale: 'default',
+  textScale: 'default',
   highContrast: false,
+  soundEnabled: true,
+  hapticsEnabled: true,
+  language: 'de',
 });
 
-const sanitizePreferences = (value: Partial<SettingsPreferences> | null | undefined): SettingsPreferences => {
+const sanitizePreferences = (value: StoredSettings | null | undefined): SettingsPreferences => {
   const safe = defaultPreferences();
   if (!value) return safe;
 
-  const allowedScale: SettingsPreferences['fontScale'][] = ['small', 'default', 'large'];
-  const fontScale = allowedScale.includes(value.fontScale as SettingsPreferences['fontScale'])
-    ? (value.fontScale as SettingsPreferences['fontScale'])
-    : safe.fontScale;
+  const allowedScale: SettingsPreferences['textScale'][] = ['small', 'default', 'large'];
+  const storedScale = value.textScale ?? value.fontScale;
+  const textScale = allowedScale.includes(storedScale as SettingsPreferences['textScale'])
+    ? (storedScale as SettingsPreferences['textScale'])
+    : safe.textScale;
+
+  const language = value.language === 'en' || value.language === 'de' ? value.language : safe.language;
 
   return {
-    fontScale,
+    textScale,
     highContrast: Boolean(value.highContrast),
+    soundEnabled: value.soundEnabled === undefined ? safe.soundEnabled : Boolean(value.soundEnabled),
+    hapticsEnabled: value.hapticsEnabled === undefined ? safe.hapticsEnabled : Boolean(value.hapticsEnabled),
+    language,
   };
 };
 
+export const getDefaultPreferences = (): SettingsPreferences => defaultPreferences();
+
 const loadStoredPreferences = (): SettingsPreferences =>
-  sanitizePreferences(getValue<SettingsPreferences | null>(STORAGE_KEY, null));
+  sanitizePreferences(getValue<StoredSettings | null>(STORAGE_KEY, null));
 
 let state: SettingsPreferences = loadStoredPreferences();
 
@@ -43,13 +59,13 @@ const notify = () => {
 export const applySettingsToDocument = (prefs: SettingsPreferences): void => {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  const scaleMap: Record<SettingsPreferences['fontScale'], number> = {
+  const scaleMap: Record<SettingsPreferences['textScale'], number> = {
     small: 0.95,
     default: 1,
     large: 1.1,
   };
 
-  root.style.setProperty('--f4s-font-scale', scaleMap[prefs.fontScale].toString());
+  root.style.setProperty('--f4s-font-scale', scaleMap[prefs.textScale].toString());
   root.classList.toggle('f4s-contrast-high', Boolean(prefs.highContrast));
 };
 

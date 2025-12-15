@@ -1,13 +1,14 @@
 import React from 'react';
 import type { PanelContainerProps } from './PanelHost';
 
-export const BottomSheet: React.FC<PanelContainerProps> = ({ isOpen, onClose, children }) => {
+export const BottomSheet: React.FC<PanelContainerProps> = ({ isOpen, onClose, children, panelId }) => {
   return (
     <section
       className={`panel-surface panel-surface--bottom ${isOpen ? 'panel-surface--open' : ''}`}
       role="dialog"
       aria-modal="true"
       aria-label="Bottom sheet"
+      data-panel-id={panelId ?? undefined}
     >
       <div className="bottom-sheet__handle-bar" aria-hidden="true" />
       <div className="panel-surface__header">

@@ -11,6 +11,7 @@ import { FilterSheet } from '../features/trainieren/FilterSheet';
 import { SessionInterruptSheet } from '../features/trainieren/SessionInterruptSheet';
 import { TrainingInfoPanelContent } from '../modules/trainingInfo';
 import { NotificationsCenterSheet } from '../modules/reminders';
+import { SettingsBottomToastHost } from '../modules/settings/bottomToast/SettingsBottomToastHost';
 
 /**
  * Lege registry voor runtime-panels.
@@ -37,5 +38,10 @@ export const panelRegistry: PanelRegistryEntry[] = [
     id: 'notifications-center',
     type: 'bottom',
     component: NotificationsCenterSheet,
+  },
+  {
+    id: 'settings-bottom-toast',
+    type: 'bottom',
+    component: SettingsBottomToastHost,
   },
 ];

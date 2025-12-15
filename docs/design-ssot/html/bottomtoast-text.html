@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fit4Senioren - Tekst &amp; Contrast Instellingen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F4A261", // Orange accent from screenshots
+                        secondary: "#2A9D8F", // Green accent from screenshots
+                        darkblue: "#1d3557", // Dark blue from text/buttons
+                        "background-light": "#FFF8EC", // Cream background
+                        "background-dark": "#1F2937", // Dark mode bg
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#374151",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#4B5563",
+                    },
+                    fontFamily: {
+                        display: ["Poppins", "sans-serif"],
+                        sans: ["Poppins", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'bottom-sheet': '0 -4px 30px rgba(0, 0, 0, 0.1)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background: #F4A261;
+            cursor: pointer;
+            margin-top: -12px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            border: 2px solid white;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #E5E7EB;
+            border-radius: 10px;
+        }.dark input[type=range]::-webkit-slider-runnable-track {
+            background: #4B5563;
+        }
+        .backdrop-blur-custom {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-darkblue dark:text-gray-100 font-sans min-h-screen relative overflow-hidden flex justify-center">
+<div class="w-full max-w-md h-full min-h-screen relative bg-background-light dark:bg-background-dark shadow-2xl overflow-hidden flex flex-col">
+<header aria-hidden="true" class="pt-12 pb-4 px-6 flex justify-between items-center opacity-40">
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
+<span class="material-icons-round text-3xl text-darkblue dark:text-white">arrow_back</span>
+</button>
+<h1 class="text-2xl font-bold text-darkblue dark:text-white">Profiel</h1>
+<div class="flex gap-2">
+<button class="p-2 relative">
+<span class="material-icons-round text-3xl text-darkblue dark:text-white">notifications</span>
+<span class="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-gray-800"></span>
+</button>
+<button class="p-2">
+<span class="material-icons-round text-3xl text-darkblue dark:text-white">person</span>
+</button>
+</div>
+</header>
+<main aria-hidden="true" class="flex-1 px-6 pb-24 overflow-y-auto opacity-40 pointer-events-none">
+<div class="text-center mb-8">
+<div class="w-24 h-24 bg-green-100 dark:bg-green-900 rounded-full mx-auto flex items-center justify-center mb-4">
+<span class="material-icons-round text-5xl text-secondary dark:text-green-300">account_circle</span>
+</div>
+<h2 class="text-2xl font-bold mb-1">Jan Jansen</h2>
+<p class="text-gray-500 dark:text-gray-400">Lid sinds 2023</p>
+</div>
+<div class="space-y-4">
+<div class="bg-white dark:bg-card-dark p-4 rounded-xl shadow-soft flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-300">
+<span class="material-icons-round">text_fields</span>
+</div>
+<div>
+<h3 class="font-semibold">Tekst &amp; Contrast</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Pas de weergave aan</p>
+</div>
+</div>
+<span class="material-icons-round text-gray-400">chevron_right</span>
+</div>
+<div class="bg-white dark:bg-card-dark p-4 rounded-xl shadow-soft flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900 flex items-center justify-center text-orange-600 dark:text-orange-300">
+<span class="material-icons-round">language</span>
+</div>
+<div>
+<h3 class="font-semibold">Taal</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Nederlands</p>
+</div>
+</div>
+<span class="material-icons-round text-gray-400">chevron_right</span>
+</div>
+</div>
+</main>
+<nav aria-hidden="true" class="absolute bottom-0 w-full bg-white dark:bg-surface-dark border-t border-gray-100 dark:border-gray-700 py-3 px-6 flex justify-between items-center z-0 opacity-40">
+<div class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">home</span>
+<span class="text-xs font-medium">Home</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">fitness_center</span>
+<span class="text-xs font-medium">Oefeningen</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">psychology</span>
+<span class="text-xs font-medium">Brein</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500">
+<span class="material-icons-round text-2xl">bar_chart</span>
+<span class="text-xs font-medium">Voortgang</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-round text-2xl">more_horiz</span>
+<span class="text-xs font-medium">Meer</span>
+</div>
+</nav>
+<div class="absolute inset-0 bg-darkblue/40 dark:bg-black/60 z-10 backdrop-blur-custom"></div>
+<div class="absolute bottom-0 left-0 w-full z-50 transform transition-transform duration-300 ease-out translate-y-0">
+<div class="bg-background-light dark:bg-surface-dark rounded-t-3xl shadow-bottom-sheet w-full max-h-[85vh] overflow-y-auto flex flex-col">
+<div class="w-full flex justify-center pt-3 pb-1">
+<div class="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+</div>
+<div class="px-6 py-4 flex items-center justify-between border-b border-gray-100 dark:border-gray-600/50">
+<h2 class="text-xl font-bold text-darkblue dark:text-white">Instellingen Tekst &amp; Contrast</h2>
+<button class="p-2 -mr-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full transition-colors">
+<span class="material-icons-round">close</span>
+</button>
+</div>
+<div class="p-6 space-y-8">
+<section>
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Tekstgrootte</h3>
+<span class="text-primary font-medium text-sm">Normaal</span>
+</div>
+<div class="bg-white dark:bg-card-dark p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-600">
+<p class="text-center mb-8 text-darkblue dark:text-gray-200 transition-all duration-300" style="font-size: 1rem;">
+                                De snelle bruine vos springt over de luie hond.
+                            </p>
+<div class="flex items-center gap-4">
+<span class="material-icons-round text-gray-400 dark:text-gray-500 text-lg">text_fields</span>
+<div class="flex-1 relative h-6 flex items-center">
+<input class="w-full z-20 relative" max="5" min="1" type="range" value="3"/>
+<div class="absolute w-full flex justify-between px-1 z-10 pointer-events-none">
+<div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+<div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+<div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+<div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+<div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+</div>
+</div>
+<span class="material-icons-round text-darkblue dark:text-white text-3xl">text_fields</span>
+</div>
+<div class="grid grid-cols-3 gap-3 mt-6">
+<button class="py-2 px-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 text-sm font-medium transition-colors">Klein</button>
+<button class="py-2 px-3 rounded-lg bg-primary text-white shadow-md font-medium transition-colors">Normaal</button>
+<button class="py-2 px-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 text-lg font-medium transition-colors">Groot</button>
+</div>
+</div>
+</section>
+<section>
+<h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">Contrast</h3>
+<div class="grid grid-cols-1 gap-4">
+<label class="relative flex items-center p-4 bg-white dark:bg-card-dark border-2 border-primary rounded-2xl cursor-pointer shadow-sm transition-all">
+<div class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center mr-4">
+<span class="material-icons-round text-gray-600 dark:text-gray-300">brightness_5</span>
+</div>
+<div class="flex-1">
+<span class="block font-bold text-darkblue dark:text-white text-lg">Standaard</span>
+<span class="block text-sm text-gray-500 dark:text-gray-400">Normale kleurenbalans</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center">
+<span class="material-icons-round text-white text-sm">check</span>
+</div>
+<input checked="" class="hidden" name="contrast" type="radio" value="standard"/>
+</label>
+<label class="relative flex items-center p-4 bg-white dark:bg-card-dark border border-gray-200 dark:border-gray-600 rounded-2xl cursor-pointer shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 transition-all">
+<div class="w-12 h-12 rounded-full bg-darkblue flex items-center justify-center mr-4">
+<span class="material-icons-round text-white">contrast</span>
+</div>
+<div class="flex-1">
+<span class="block font-bold text-darkblue dark:text-white text-lg">Hoog Contrast</span>
+<span class="block text-sm text-gray-500 dark:text-gray-400">Verhoogde leesbaarheid</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700"></div>
+<input class="hidden" name="contrast" type="radio" value="high"/>
+</label>
+</div>
+</section>
+</div>
+<div class="p-6 pt-2 bg-background-light dark:bg-surface-dark mt-auto pb-10">
+<button class="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:bg-opacity-90 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                        Toepassen
+                        <span class="material-icons-round">check_circle</span>
+</button>
+<button class="w-full mt-4 text-gray-500 dark:text-gray-400 font-medium py-3 hover:text-darkblue dark:hover:text-white transition-colors">
+                        Annuleren
+                    </button>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

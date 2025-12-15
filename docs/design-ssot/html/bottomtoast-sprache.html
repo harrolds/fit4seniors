@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="nl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fit4Senioren - Taal Instellingen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F4A261", // The orange accent color
+                        "primary-dark": "#E76F51", // A darker orange for hover/active
+                        "secondary": "#264653", // The dark blue/green text/icon color
+                        "secondary-light": "#2A9D8F", // Teal accent used in cards
+                        "background-light": "#FFF8EC", // The creamy background
+                        "background-dark": "#1F2937", // Dark mode background
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#374151",
+                        "text-main": "#264653",
+                        "text-light": "#6B7280",
+                    },
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'], // Assuming a clean sans-serif like Inter or Roboto
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem", // Soft rounded corners standard
+                        'xl': '1.5rem',
+                        '2xl': '2rem',
+                        '3xl': '2.5rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'top': '0 -4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            },
+        };
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-gray-100 h-screen overflow-hidden flex flex-col relative">
+<div class="px-6 pt-4 pb-2 flex justify-between items-center text-xs font-medium text-gray-800 dark:text-gray-300 z-0 opacity-50">
+<span>9:41</span>
+<div class="flex items-center gap-1">
+<span class="material-icons-round text-sm">signal_cellular_alt</span>
+<span class="material-icons-round text-sm">wifi</span>
+<span class="material-icons-round text-sm">battery_full</span>
+</div>
+</div>
+<header class="px-6 py-4 flex justify-between items-center z-0 opacity-50 pointer-events-none">
+<button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition">
+<span class="material-icons-round text-2xl text-secondary dark:text-gray-200">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold text-secondary dark:text-white">Instellingen</h1>
+<div class="flex items-center gap-2">
+<button class="p-2 relative rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition">
+<span class="material-icons-round text-2xl text-secondary dark:text-gray-200">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-background-light dark:border-background-dark"></span>
+</button>
+<button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition">
+<span class="material-icons-round text-2xl text-secondary dark:text-gray-200">person</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-6 overflow-y-auto pb-24 z-0 opacity-50 pointer-events-none">
+<p class="text-gray-600 dark:text-gray-400 mb-6 text-lg">Beheer uw persoonlijke gegevens, pas uw instellingen aan en vind hulp bij het gebruik van de app.</p>
+<div class="space-y-4">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-xl shadow-soft flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center text-teal-700 dark:text-teal-300">
+<span class="material-icons-round">person</span>
+</div>
+<div>
+<h3 class="font-bold text-lg text-secondary dark:text-white">Profiel</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Uw gegevens en voortgang</p>
+</div>
+</div>
+<span class="material-icons-round text-gray-400">chevron_right</span>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-xl shadow-soft flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-700 dark:text-orange-300">
+<span class="material-icons-round">settings</span>
+</div>
+<div>
+<h3 class="font-bold text-lg text-secondary dark:text-white">Algemeen</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">App voorkeuren</p>
+</div>
+</div>
+<span class="material-icons-round text-gray-400">chevron_right</span>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-xl shadow-soft flex items-center justify-between border-2 border-primary">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-700 dark:text-blue-300">
+<span class="material-icons-round">language</span>
+</div>
+<div>
+<h3 class="font-bold text-lg text-secondary dark:text-white">Taal</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Nederlands (NL)</p>
+</div>
+</div>
+<span class="material-icons-round text-gray-400">chevron_right</span>
+</div>
+</div>
+<div class="mt-8 bg-[#E6E8E6] dark:bg-gray-700 p-6 rounded-2xl text-center">
+<h3 class="font-bold text-lg text-secondary dark:text-white mb-2">Heeft u hulp nodig?</h3>
+<p class="text-gray-600 dark:text-gray-300 mb-4">Ons team staat klaar om u te helpen.</p>
+<button class="bg-secondary dark:bg-gray-900 text-white px-6 py-3 rounded-xl w-full flex items-center justify-center gap-2 font-semibold">
+<span class="material-icons-round">headset_mic</span>
+                Contact opnemen
+            </button>
+</div>
+<div class="mt-8 text-center text-xs text-gray-400 pb-8">
+            Fit4Senioren Versie 2.1.0
+        </div>
+</main>
+<div class="absolute inset-0 bg-black/40 backdrop-blur-sm z-10 transition-opacity duration-300"></div>
+<div class="absolute bottom-0 left-0 right-0 bg-background-light dark:bg-gray-800 rounded-t-3xl z-20 shadow-top transform transition-transform duration-300 ease-out max-h-[85vh] flex flex-col">
+<div class="w-full flex justify-center pt-3 pb-1">
+<div class="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+</div>
+<div class="px-6 py-4 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
+<h2 class="text-2xl font-bold text-secondary dark:text-white">Instellingen Taal</h2>
+<button class="p-2 -mr-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+<span class="material-icons-round text-2xl">close</span>
+</button>
+</div>
+<div class="px-6 py-6 overflow-y-auto no-scrollbar space-y-8 flex-1">
+<div>
+<h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Selecteer Taal</h3>
+<div class="space-y-3">
+<label class="relative flex items-center p-4 bg-primary/20 dark:bg-primary/20 border-2 border-primary rounded-xl cursor-pointer transition-all shadow-sm">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-10 h-10 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center text-xl shadow-sm">
+                                🇩🇪
+                            </div>
+<div>
+<span class="block font-bold text-lg text-secondary dark:text-white">Duits</span>
+<span class="block text-sm text-gray-600 dark:text-gray-300">Deutsch (DE)</span>
+</div>
+</div>
+<input checked="" class="form-radio h-6 w-6 text-primary border-gray-300 focus:ring-primary" name="language" type="radio" value="de"/>
+</label>
+<label class="relative flex items-center p-4 bg-white dark:bg-card-dark border border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm">
+<div class="flex items-center gap-4 flex-1">
+<div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center text-xl">
+                                🇬🇧
+                            </div>
+<div>
+<span class="block font-bold text-lg text-secondary dark:text-white">Engels</span>
+<span class="block text-sm text-gray-500 dark:text-gray-400">English (EN)</span>
+</div>
+</div>
+<input class="form-radio h-6 w-6 text-primary border-gray-300 focus:ring-primary bg-transparent" name="language" type="radio" value="en"/>
+</label>
+</div>
+</div>
+<div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl flex gap-3 items-start">
+<span class="material-icons-round text-blue-500 mt-0.5">info</span>
+<p class="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
+                     Het wijzigen van de taal zal de app herstarten om de nieuwe instellingen toe te passen.
+                 </p>
+</div>
+</div>
+<div class="p-6 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 rounded-t-2xl z-30">
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-bold text-lg py-4 rounded-xl shadow-lg shadow-orange-200 dark:shadow-none flex items-center justify-center gap-2 mb-4 transition-colors">
+                Toepassen
+                <span class="material-icons-round">check_circle</span>
+</button>
+<button class="w-full text-gray-500 dark:text-gray-400 font-semibold py-2 hover:text-gray-700 dark:hover:text-gray-200 transition-colors">
+                Annuleren
+            </button>
+</div>
+</div>
+<nav class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 px-6 py-3 flex justify-between items-center z-0 opacity-50 pointer-events-none absolute bottom-0 w-full">
+<button class="flex flex-col items-center gap-1 text-gray-400">
+<span class="material-icons-round text-2xl">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-400">
+<span class="material-icons-round text-2xl">fitness_center</span>
+<span class="text-[10px] font-medium">Oefeningen</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-400">
+<span class="material-icons-round text-2xl">psychology</span>
+<span class="text-[10px] font-medium">Brein</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-400">
+<span class="material-icons-round text-2xl">bar_chart</span>
+<span class="text-[10px] font-medium">Voortgang</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-round text-2xl">more_horiz</span>
+<span class="text-[10px] font-medium">Meer</span>
+</button>
+</nav>
+</body></html>

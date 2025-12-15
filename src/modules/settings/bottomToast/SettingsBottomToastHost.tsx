@@ -1,0 +1,28 @@
+import React from 'react';
+import './bottomToast.css';
+import { BottomToastTextContrast } from './BottomToastTextContrast';
+import { BottomToastTonFeedback } from './BottomToastTonFeedback';
+import { BottomToastSprache } from './BottomToastSprache';
+
+export type SettingsToastKind = 'text' | 'sound' | 'language';
+
+export const SETTINGS_BOTTOM_TOAST_ID = 'settings-bottom-toast';
+
+type SettingsBottomToastHostProps = {
+  activeToast?: SettingsToastKind;
+  onClose: () => void;
+};
+
+export const SettingsBottomToastHost: React.FC<SettingsBottomToastHostProps> = ({ activeToast = 'text', onClose }) => {
+  switch (activeToast) {
+    case 'text':
+      return <BottomToastTextContrast onClose={onClose} />;
+    case 'sound':
+      return <BottomToastTonFeedback onClose={onClose} />;
+    case 'language':
+      return <BottomToastSprache onClose={onClose} />;
+    default:
+      return <BottomToastTextContrast onClose={onClose} />;
+  }
+};
+

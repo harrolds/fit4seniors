@@ -40,7 +40,7 @@ export const SettingsDetailScreen: React.FC = () => {
   const { goTo } = useNavigation();
   const preferences = useSettingsState();
 
-  const sliderValue = scaleSteps.indexOf(preferences.fontScale);
+  const sliderValue = scaleSteps.indexOf(preferences.textScale);
   const activeSliderValue = sliderValue >= 0 ? sliderValue : 1;
   const fillPercentage = useMemo(() => (activeSliderValue / (scaleSteps.length - 1)) * 100, [activeSliderValue]);
 
@@ -76,7 +76,7 @@ export const SettingsDetailScreen: React.FC = () => {
               onChange={(event) => {
                 const index = Number(event.target.value);
                 const next = scaleSteps[index] ?? 'default';
-                saveSettings({ fontScale: next });
+                saveSettings({ textScale: next });
               }}
               className="settings-slider__input"
               aria-label={t('settings.detail.accessibility.sliderLabel')}

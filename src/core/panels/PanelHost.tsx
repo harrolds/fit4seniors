@@ -15,6 +15,7 @@ export interface PanelState {
 export interface PanelContainerProps {
   isOpen: boolean;
   onClose: () => void;
+  panelId?: string | null;
   children?: React.ReactNode;
 }
 
@@ -108,7 +109,7 @@ export const PanelHost: React.FC<PanelHostProps> = ({ state, onClose }) => {
         role="presentation"
         onClick={onClose}
       />
-      <PanelContainer isOpen={isVisible} onClose={onClose}>
+      <PanelContainer isOpen={isVisible} onClose={onClose} panelId={renderedState.panelId}>
         <ContentComponent {...componentProps} onClose={onClose} />
       </PanelContainer>
     </div>

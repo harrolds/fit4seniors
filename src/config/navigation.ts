@@ -51,6 +51,50 @@ export const screenConfigs: ScreenConfig[] = [
     ],
   },
   {
+    id: 'settings-help',
+    route: '/settings/help',
+    titleKey: 'settings.help.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'settings',
+      },
+    ],
+    primaryActions: [
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings', navigationTarget: 'settings' },
+    ],
+  },
+  {
+    id: 'settings-detail',
+    route: '/settings/:section',
+    titleKey: 'settings.detail.header',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'settings',
+      },
+    ],
+    primaryActions: [
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings', navigationTarget: 'settings' },
+    ],
+  },
+  {
     id: 'reminders',
     route: '/reminders',
     titleKey: 'reminders.title',

@@ -7,6 +7,7 @@ import { NotificationsProvider } from '../shared/lib/notifications';
 import { ThemeProvider } from './theme/ThemeProvider';
 import '../theme/tokens.css';
 import '../styles/layout.css';
+import { applySettingsToDocument, ensureSettingsHydrated } from '../modules/settings';
 
 
 const DESKTOP_MIN_WIDTH = 1024;
@@ -67,6 +68,10 @@ const DesktopBlockScreen: React.FC = () => {
 
 export const AppRoot: React.FC = () => {
   const isDesktopBlocked = useDesktopBlock();
+  React.useEffect(() => {
+    const prefs = ensureSettingsHydrated();
+    applySettingsToDocument(prefs);
+  }, []);
 
   if (isDesktopBlocked) {
     return (

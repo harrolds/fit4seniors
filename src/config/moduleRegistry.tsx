@@ -7,6 +7,7 @@ import { ProgressModule } from '../modules/progress';
 import { BrainModule } from '../modules/brain';
 import { RemindersModule } from '../modules/reminders';
 import { ProfileModule } from '../modules/profile';
+import { SettingsModule } from '../modules/settings';
 import {
   BalanceWidget,
   BrainTrainingWidget,
@@ -134,6 +135,14 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: ProfileModule,
+  },
+  {
+    id: 'settings',
+    labelKey: 'settings.title',
+    routeBase: '/settings/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: SettingsModule,
   },
 ];
 

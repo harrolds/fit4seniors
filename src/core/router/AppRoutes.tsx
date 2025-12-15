@@ -6,9 +6,6 @@ import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
 import { WidgetHost } from '../home/WidgetHost';
 import { moduleRegistry } from '../../config/moduleRegistry';
-import { SettingsLayout } from '../settings/SettingsLayout';
-import { GlobalSettingsScreen } from '../settings/GlobalSettingsScreen';
-import { ModuleSettingsScreen } from '../settings/ModuleSettingsScreen';
 import { OfflineScreen } from '../offline/OfflineScreen';
 import { useDisplayName } from '../../modules/profile';
 
@@ -48,10 +45,6 @@ export const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<HomeScreen />} />
       <Route path="/notifications" element={<NotificationsScreen />} />
-      <Route path="/settings" element={<SettingsLayout />}>
-        <Route index element={<GlobalSettingsScreen />} />
-        <Route path=":moduleId" element={<ModuleSettingsScreen />} />
-      </Route>
       {moduleRegistry.map((module) => {
         const ModuleComponent = module.component;
         return (

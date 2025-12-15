@@ -5,6 +5,31 @@
   box-sizing: border-box;
 }
 
+:root {
+  --f4s-font-scale: 1;
+}
+
+html {
+  font-size: calc(16px * var(--f4s-font-scale));
+}
+
+:root.f4s-contrast-high {
+  --color-app-bg: #f3ede1;
+  --color-background: var(--color-app-bg);
+  --color-surface: #ffffff;
+  --color-surface-footer: #ffffff;
+  --color-text-primary: #0c2234;
+  --color-text-secondary: rgba(12, 34, 52, 0.88);
+  --color-text-muted: rgba(12, 34, 52, 0.65);
+  --color-divider: rgba(12, 34, 52, 0.18);
+  --color-nav-inactive: rgba(12, 34, 52, 0.55);
+}
+
+:root.f4s-contrast-high body {
+  background-color: var(--color-app-bg);
+  color: var(--color-text-primary);
+}
+
 html,
 body,
 #root {

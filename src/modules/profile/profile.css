@@ -121,6 +121,66 @@
   place-items: center;
 }
 
+.profile-icon--goal {
+  background: #fcebd9;
+  color: #9a3412;
+}
+
+.profile-icon--focus {
+  background: #d9e8fc;
+  color: #1d4ed8;
+}
+
+.profile-icon--health {
+  background: #e9e0d9;
+  color: #b91c1c;
+}
+
+.profile-icon--accessibility {
+  background: #e0e9de;
+  color: #0f2e45;
+}
+
+.profile-icon--sage {
+  background: #e0e9de;
+  color: #0f2e45;
+}
+
+.profile-icon--sky {
+  background: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.profile-icon--amber {
+  background: #fed7aa;
+  color: #c2410c;
+}
+
+.profile-icon--mint {
+  background: #bbf7d0;
+  color: #15803d;
+}
+
+.profile-icon--violet {
+  background: #e9d5ff;
+  color: #7e22ce;
+}
+
+.profile-icon--indigo {
+  background: #c7d2fe;
+  color: #4338ca;
+}
+
+.profile-icon--rose {
+  background: #fecdd3;
+  color: #be123c;
+}
+
+.profile-icon--gold {
+  background: #fef3c7;
+  color: #92400e;
+}
+
 .profile-tile__text h3 {
   margin: 0;
   font-size: 17px;

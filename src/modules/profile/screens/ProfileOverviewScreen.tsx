@@ -87,54 +87,50 @@ export const ProfileOverviewScreen: React.FC = () => {
 
       <Card className="profile-tile">
         <div className="profile-tile__left">
-          <div className="profile-tile__icon" style={{ background: '#FCEBD9' }}>
-            <Icon name="flag" size={28} style={{ color: '#9a3412' }} />
+          <div className="profile-tile__icon profile-icon--goal">
+            <Icon name="flag" size={28} />
           </div>
           <div className="profile-tile__text">
             <h3>{t('profile.goal.title')}</h3>
             <p>{goalSummary}</p>
           </div>
         </div>
-        <Icon name="chevron_right" style={{ color: '#9ca3af' }} />
       </Card>
 
       <Card className="profile-tile">
         <div className="profile-tile__left">
-          <div className="profile-tile__icon" style={{ background: '#D9E8FC' }}>
-            <Icon name="fitness_center" size={28} style={{ color: '#1d4ed8' }} />
+          <div className="profile-tile__icon profile-icon--focus">
+            <Icon name="fitness_center" size={28} />
           </div>
           <div className="profile-tile__text">
             <h3>{t('profile.focus.title')}</h3>
             <p>{t(focusLabels[profile.focusPreference])}</p>
           </div>
         </div>
-        <Icon name="chevron_right" style={{ color: '#9ca3af' }} />
       </Card>
 
       <Card className="profile-tile">
         <div className="profile-tile__left">
-          <div className="profile-tile__icon" style={{ background: '#E9E0D9' }}>
-            <Icon name="favorite" size={28} style={{ color: '#b91c1c' }} />
+          <div className="profile-tile__icon profile-icon--health">
+            <Icon name="favorite" size={28} />
           </div>
           <div className="profile-tile__text">
             <h3>{t('profile.health.title')}</h3>
             <p>{t(healthLabels[profile.healthFocus])}</p>
           </div>
         </div>
-        <Icon name="chevron_right" style={{ color: '#9ca3af' }} />
       </Card>
 
       <Card className="profile-tile">
         <div className="profile-tile__left">
-          <div className="profile-tile__icon" style={{ background: '#E0E9DE' }}>
-            <Icon name="visibility" size={28} style={{ color: '#0f2e45' }} />
+          <div className="profile-tile__icon profile-icon--accessibility">
+            <Icon name="visibility" size={28} />
           </div>
           <div className="profile-tile__text">
             <h3>{t('profile.accessibility.title')}</h3>
             <p>{accessibilitySummary(t, profile.accessibility)}</p>
           </div>
         </div>
-        <Icon name="chevron_right" style={{ color: '#9ca3af' }} />
       </Card>
 
       <Button type="button" variant="primary" className="profile-primary-cta" onClick={() => goTo('/profile/edit')}>

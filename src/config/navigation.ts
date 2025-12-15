@@ -69,7 +69,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person', navigationTarget: 'settings' },
     ],
   },
   {
@@ -91,7 +91,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person', navigationTarget: 'settings' },
     ],
   },
   {
@@ -113,7 +113,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person', navigationTarget: 'settings' },
     ],
   },
   {
@@ -127,7 +127,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings', navigationTarget: 'settings' },
     ],
   },
   {
@@ -141,7 +141,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person', navigationTarget: 'settings' },
     ],
   },
   {
@@ -163,7 +163,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person', navigationTarget: 'settings' },
     ],
   },
   {
@@ -184,7 +184,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person', navigationTarget: 'settings' },
     ],
   },
   {
@@ -232,7 +232,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person', navigationTarget: 'settings' },
     ],
   },
   {
@@ -246,7 +246,7 @@ export const screenConfigs: ScreenConfig[] = [
         icon: 'notifications',
         onClick: { type: 'panel', panelId: 'notifications-center' },
       },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person' },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'person', navigationTarget: 'settings' },
     ],
   },
   {

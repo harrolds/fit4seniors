@@ -111,8 +111,8 @@ export const ProfileEditScreen: React.FC = () => {
       >
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon" style={{ background: '#E0E9DE' }}>
-              <Icon name="person" size={24} style={{ color: '#0f2e45' }} />
+            <div className="profile-section__icon profile-icon--sage">
+              <Icon name="person" size={24} />
             </div>
             <div>
               <h2 className="profile-section__title">{t('profile.edit.name.title')}</h2>
@@ -130,8 +130,8 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon" style={{ background: '#bfdbfe' }}>
-              <Icon name="cake" size={22} style={{ color: '#1d4ed8' }} />
+            <div className="profile-section__icon profile-icon--sky">
+              <Icon name="cake" size={22} />
             </div>
             <div>
               <h2 className="profile-section__title">{t('profile.edit.age.title')}</h2>
@@ -149,8 +149,8 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon" style={{ background: '#fed7aa' }}>
-              <Icon name="flag" size={22} style={{ color: '#c2410c' }} />
+            <div className="profile-section__icon profile-icon--amber">
+              <Icon name="flag" size={22} />
             </div>
             <div>
               <h2 className="profile-section__title">{t('profile.edit.goal.title')}</h2>
@@ -169,8 +169,8 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon" style={{ background: '#bbf7d0' }}>
-              <Icon name="fitness_center" size={22} style={{ color: '#15803d' }} />
+            <div className="profile-section__icon profile-icon--mint">
+              <Icon name="fitness_center" size={22} />
             </div>
             <div>
               <h2 className="profile-section__title">{t('profile.edit.level.title')}</h2>
@@ -188,8 +188,8 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon" style={{ background: '#e9d5ff' }}>
-              <Icon name="wc" size={22} style={{ color: '#7e22ce' }} />
+            <div className="profile-section__icon profile-icon--violet">
+              <Icon name="wc" size={22} />
             </div>
             <div>
               <h2 className="profile-section__title">{t('profile.edit.gender.title')}</h2>
@@ -214,8 +214,8 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon" style={{ background: '#c7d2fe' }}>
-              <Icon name="insights" size={22} style={{ color: '#4338ca' }} />
+            <div className="profile-section__icon profile-icon--indigo">
+              <Icon name="insights" size={22} />
             </div>
             <div>
               <h2 className="profile-section__title">{t('profile.edit.focus.title')}</h2>
@@ -233,8 +233,8 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon" style={{ background: '#fecdd3' }}>
-              <Icon name="favorite" size={22} style={{ color: '#be123c' }} />
+            <div className="profile-section__icon profile-icon--rose">
+              <Icon name="favorite" size={22} />
             </div>
             <div>
               <h2 className="profile-section__title">{t('profile.edit.health.title')}</h2>
@@ -252,8 +252,8 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon" style={{ background: '#fef3c7' }}>
-              <Icon name="accessibility_new" size={22} style={{ color: '#92400e' }} />
+            <div className="profile-section__icon profile-icon--gold">
+              <Icon name="accessibility_new" size={22} />
             </div>
             <div>
               <h2 className="profile-section__title">{t('profile.edit.accessibility.title')}</h2>

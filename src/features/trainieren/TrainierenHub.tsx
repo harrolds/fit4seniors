@@ -21,6 +21,16 @@ export const TrainierenHub: React.FC = () => {
     return <p className="trainieren-status">{t('trainieren.hub.error')}</p>;
   }
 
+  const moduleImageMap: Record<string, string> = {
+    cardio: '/assets/trainieren/cardio_excercise.png',
+    strength: '/assets/trainieren/strength_exercise.png',
+    muskelaufbau: '/assets/trainieren/strength_exercise.png',
+    muskel: '/assets/trainieren/strength_exercise.png',
+    balance: '/assets/trainieren/balance_excercise.png',
+    balance_flex: '/assets/trainieren/balance_excercise.png',
+    brain: '/assets/trainieren/brain_excercise.png',
+  };
+
   return (
     <div className="trainieren-page">
       {locale === 'en' ? (
@@ -117,6 +127,7 @@ export const TrainierenHub: React.FC = () => {
 
       <div className="trainieren-grid">
         {data.modules.map((module) => (
+          /* Media renders first via CSS order for Trainieren page */
           <ModuleCard
             key={module.id}
             tone={module.tone}
@@ -139,7 +150,16 @@ export const TrainierenHub: React.FC = () => {
             className="trainieren-module-card"
             style={{ cursor: 'pointer', backgroundColor: toneToCssVar(module.tone) }}
             aria-label={module.title}
-          />
+          >
+            <div className="trainieren-card-media" aria-hidden="true">
+              <img
+                className="trainieren-card-media__img"
+                src={moduleImageMap[module.id]}
+                alt=""
+                loading="lazy"
+              />
+            </div>
+          </ModuleCard>
         ))}
       </div>
     </div>

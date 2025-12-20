@@ -54,9 +54,42 @@
 }
 
 .trainieren-module-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
   width: 100%;
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-md);
+}
+
+.trainieren-module-card .ui-module-card__content {
+  padding: 0;
+}
+
+.trainieren-module-card .ui-module-card__body {
+  order: -1;
+  margin: 0;
+}
+
+.trainieren-card-media {
+  padding: var(--spacing-md);
+  padding-bottom: 0;
+}
+
+.trainieren-card-media__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+}
+
+.trainieren-module-card .ui-module-card__header {
+  padding: var(--spacing-xl);
+  padding-top: var(--spacing-md);
 }
 
 .trainieren-filters {

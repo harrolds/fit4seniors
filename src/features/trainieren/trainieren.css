@@ -24,6 +24,17 @@
   color: var(--color-text-secondary);
 }
 
+.training-intro-toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 10px 14px;
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm);
+}
+
 .trainieren-grid {
   display: grid;
   gap: var(--spacing-md);

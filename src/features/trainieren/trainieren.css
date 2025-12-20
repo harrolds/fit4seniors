@@ -588,6 +588,13 @@
   line-height: var(--line-height-normal);
 }
 
+.training-detail__info-hint {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
+}
+
 .training-detail__highlight {
   margin: 0;
   color: var(--color-text-muted);
@@ -801,6 +808,10 @@
 
 .td-ring {
   justify-content: center;
+}
+
+.training-detail-page--physical .td-ring {
+  padding-bottom: 32px;
 }
 
 .td-cta .training-detail__start-button,

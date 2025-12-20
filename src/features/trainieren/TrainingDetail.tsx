@@ -71,6 +71,21 @@ export const TrainingDetail: React.FC = () => {
   const moduleDef = findModule(data, moduleId);
   const training = findTraining(data, moduleId, trainingId);
   const variant = intensity && training ? training.variants[intensity] : undefined;
+  const isPhysicalModule =
+    moduleId === 'cardio' || moduleId === 'muskel' || moduleId === 'balance_flex';
+  const physicalIntroKey = useMemo(() => {
+    if (!isPhysicalModule) return null;
+    switch (moduleId) {
+      case 'cardio':
+        return 'trainDetail.physical.intro.cardio';
+      case 'muskel':
+        return 'trainDetail.physical.intro.strength';
+      case 'balance_flex':
+        return 'trainDetail.physical.intro.balance';
+      default:
+        return null;
+    }
+  }, [isPhysicalModule, moduleId]);
 
   const defaultSteps = useMemo(() => {
     if (!variant) return [];
@@ -365,8 +380,10 @@ export const TrainingDetail: React.FC = () => {
     }
   };
 
+  const pageClassName = `training-detail-page${isPhysicalModule ? ' training-detail-page--physical' : ''}`;
+
   return (
-    <div className="training-detail-page">
+    <div className={pageClassName}>
       <div className="td-metaRow">
         <span className="td-categoryPill">{moduleDef?.title ?? moduleId}</span>
         <button
@@ -379,21 +396,34 @@ export const TrainingDetail: React.FC = () => {
         </button>
       </div>
 
-      <div className="td-subMeta">
-        <span className="training-detail__chip training-detail__chip--intensity">
-          <Icon name="favorite" filled size={18} />
-          {getIntensityLabel(t, variant.intensity)}
-        </span>
-        <span className="training-detail__chip">
-          <Icon name="schedule" size={18} />
-          {variant.durationMin} {t('trainieren.minutes')}
-        </span>
-      </div>
+      {!isPhysicalModule && (
+        <div className="td-subMeta">
+          <span className="training-detail__chip training-detail__chip--intensity">
+            <Icon name="favorite" filled size={18} />
+            {getIntensityLabel(t, variant.intensity)}
+          </span>
+          <span className="training-detail__chip">
+            <Icon name="schedule" size={18} />
+            {variant.durationMin} {t('trainieren.minutes')}
+          </span>
+        </div>
+      )}
 
       <div className="training-detail__header">
         <h1 className="training-detail__title">{training.title}</h1>
-        <p className="training-detail__description">{training.shortDesc}</p>
-        <p className="training-detail__highlight">{variant.paceCue}</p>
+        {isPhysicalModule ? (
+          <>
+            <p className="training-detail__description">
+              {physicalIntroKey ? t(physicalIntroKey) : training.shortDesc}
+            </p>
+            <p className="training-detail__info-hint">{t('trainDetail.physical.infoHint')}</p>
+          </>
+        ) : (
+          <>
+            <p className="training-detail__description">{training.shortDesc}</p>
+            <p className="training-detail__highlight">{variant.paceCue}</p>
+          </>
+        )}
       </div>
 
       {isActive ? (
@@ -505,7 +535,7 @@ export const TrainingDetail: React.FC = () => {
         </div>
       )}
 
-      {isActive ? null : (
+      {isActive || isPhysicalModule ? null : (
         <section className="training-detail__section">
           <div className="training-detail__section-top">
             <h2 className="training-detail__section-title">{t('trainieren.detail.instructions')}</h2>

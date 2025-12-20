@@ -6,7 +6,6 @@ import { useNavigation } from '../shared/lib/navigation/useNavigation';
 import { useI18n } from '../shared/lib/i18n';
 import type { ScreenAction, ScreenActionClick, ScreenConfig } from './screenConfig';
 import { getScreenConfigByPath } from '../config/navigation';
-import { APP_BRAND } from '../config/appConfig';
 import { NotificationsHost } from '../shared/lib/notifications';
 import { OfflineScreen } from './offline/OfflineScreen';
 import { useTheme } from './theme/themeContext';
@@ -87,9 +86,6 @@ const AppShellContent: React.FC = () => {
 
   const rawConfig = getScreenConfigByPath(location.pathname);
   const screenConfig = mergeModuleActions(rawConfig);
-  const titleKey = screenConfig?.titleKey;
-  const appTitle = APP_BRAND.appName;
-  const title = titleKey ? t(titleKey) : appTitle;
   const headerActions = resolveHeaderActions(screenConfig);
   const backAction = headerActions.primary.find((action) => action.id === 'goBack' || action.icon === 'back');
   const rightSidePrimary = headerActions.primary.filter((action) => action !== backAction);
@@ -172,7 +168,11 @@ const AppShellContent: React.FC = () => {
           ) : null}
         </div>
         <div className="app-shell__header-center">
-          <span className="app-shell__title">{title}</span>
+          <img
+            src="/assets/brand/fit4seniors-header-logo.png"
+            alt="Fit4Seniors"
+            style={{ height: 36, width: 'auto', display: 'block' }}
+          />
         </div>
         <div className="app-shell__header-right">
           <HeaderActionsBar actions={rightSidePrimary} onAction={handleActionClick} />

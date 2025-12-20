@@ -7,6 +7,8 @@
 
 :root {
   --f4s-font-scale: 1;
+  --page-gutter-x: 1rem;
+  --page-gutter-top: 0.75rem;
 }
 
 html {
@@ -197,10 +199,19 @@ body {
 
 /* MAIN – gewoon flow binnen .app-shell, padding vangt header/footer af */
 .app-shell__main {
-  padding: 0.75rem 1rem 0;
+  padding: var(--page-gutter-top) var(--page-gutter-x) 0;
   max-width: 520px;
   margin: 0 auto;
   width: 100%;
+}
+
+.page {
+  width: 100%;
+}
+
+.page--flush {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* FOOTER – altijd zichtbaar onderaan */
@@ -284,7 +295,7 @@ body {
 .home-page {
   max-width: 480px;
   margin: 0 auto;
-  padding: var(--spacing-md) var(--spacing-sm) calc(var(--spacing-2xl) + 80px);
+  padding: var(--page-gutter-top) 0 calc(var(--spacing-2xl) + 80px);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
@@ -547,6 +558,21 @@ body {
 .home-history__chevron {
   color: var(--color-text-muted);
   flex-shrink: 0;
+}
+
+/* Page gutter normalization for root wrappers */
+.app-shell__main .po-wrap,
+.app-shell__main .hl-wrap,
+.app-shell__main .hd-wrap,
+.app-shell__main .more-page,
+.app-shell__main .profile-page,
+.app-shell__main .settings-page,
+.app-shell__main .settings-detail,
+.app-shell__main .settings-help,
+.app-shell__main .training-detail-page {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: var(--page-gutter-top);
 }
 
 /* SETTINGS LAYOUT */

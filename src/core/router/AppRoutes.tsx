@@ -24,7 +24,7 @@ const HomeScreen: React.FC = () => {
   const greetingKey = getGreetingKey();
 
   return (
-    <div className="home-page">
+    <div className="page home-page">
       <section className="home-page__intro">
         <h2 className="home-page__greeting">{t(greetingKey, { name: nameSuffix })}</h2>
         <p className="home-page__subtext">{t('home.subtext')}</p>
@@ -39,7 +39,7 @@ const NotificationsScreen: React.FC = () => {
   const { t } = useI18n();
 
   return (
-    <div>
+    <div className="page">
       <h2>{t('notifications.title')}</h2>
       <p>{t('notifications.description')}</p>
       <Button type="button" onClick={goBack}>

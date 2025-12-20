@@ -44,11 +44,28 @@ export const HomeHeroWidget: React.FC = () => {
       style={{ backgroundColor: 'var(--color-card-accent)' }}
       onClick={() => goTo('/trainieren')}
     >
-      <div className="home-hero__media">
+      <div
+        className="home-hero__media"
+        style={{
+          padding: 'var(--spacing-md)',
+          paddingBottom: 0,
+          overflow: 'hidden',
+          borderTopLeftRadius: 'var(--radius-lg)',
+          borderTopRightRadius: 'var(--radius-lg)',
+          boxSizing: 'border-box',
+        }}
+      >
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwmV24fPEWuUgxh8SzFgajk_cwXc6hIK1N9JTzex_7bTohw7F85EbAMVuBrHEgBmH6ccH3B2NFAeXW7GfhYcKe_s7uXKXrvc7B_BTgrLA7iTbI3nasaGD7A7FBChX3oB1vG-yFlQuG_CgHrsIYnTxZy4o92G76dCHF0fwFSn4VuFHfj37QGj2jBFhwTwTSKLkWBzx894ONEkeoekl5s4S2J8oigMtJ_2G6-GbyLA44Y5w617n46pIiL4uqmw5mA-l1CgEkJAXhNR8I"
+          src="/assets/trainieren/main_excercise.png"
           alt={t('home.hero.imageAlt')}
           className="home-hero__image"
+          style={{
+            borderTopLeftRadius: 'var(--radius-lg)',
+            borderTopRightRadius: 'var(--radius-lg)',
+            objectFit: 'cover',
+            aspectRatio: '16 / 9',
+          }}
+          loading="lazy"
         />
       </div>
       <div className="home-hero__content">

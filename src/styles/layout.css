@@ -262,8 +262,12 @@ body {
 }
 
 .app-shell__footer-nav-item--active {
-  color: var(--color-active);
+  color: var(--color-accent);
   font-weight: var(--font-weight-bold);
+}
+
+.app-shell__footer-nav-item--active:hover {
+  color: var(--color-accent);
 }
 
 .app-shell__footer-nav-label {

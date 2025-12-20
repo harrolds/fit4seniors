@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '../../../shared/lib/i18n';
 import { Card } from '../../../shared/ui/Card';
 import { Icon } from '../../../shared/ui/Icon';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, loadCompletedSessions } from '../progressStorage';
 
 const createWeekdayFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { weekday: 'short' });
@@ -88,7 +89,7 @@ export const ProgressOverviewScreen: React.FC = () => {
 
   return (
     <div className="po-wrap">
-      <p className="po-subtitle">{t('progress.subtitle')}</p>
+      <SectionHeader className="page-title" title={t('pageTitles.progress')} subtitle={t('progress.subtitle')} />
 
       <Card variant="elevated" className="po-weekCard">
         <h2>{t('progress.kpi.activeDays')}</h2>

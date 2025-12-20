@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { Icon } from '../../../shared/ui/Icon';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useI18n } from '../../../shared/lib/i18n';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { usePanels } from '../../../shared/lib/panels';
@@ -102,7 +103,7 @@ export const SettingsOverviewScreen: React.FC = () => {
 
   return (
     <div className="settings-page">
-      <p className="settings-subtitle">{t('settings.overview.subtitle')}</p>
+      <SectionHeader className="page-title" title={t('pageTitles.settings')} subtitle={t('settings.overview.subtitle')} />
 
       <div className="settings-list">
         {overviewItems.map((item) => (

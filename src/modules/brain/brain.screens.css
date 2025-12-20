@@ -2,7 +2,7 @@
    display: flex;
    flex-direction: column;
    gap: var(--spacing-xl);
-   padding-bottom: var(--spacing-2xl);
+  padding: var(--spacing-xl) var(--page-gutter-x) var(--spacing-2xl);
  }
 
  .brain-section {
@@ -25,7 +25,7 @@
  }
 
  .brain-hero__title {
-   margin: 0;
+  margin: 0 0 var(--spacing-md);
    font-size: var(--font-size-xl);
    font-weight: var(--font-weight-bold);
    letter-spacing: -0.01em;
@@ -281,5 +281,6 @@
    margin: 0;
    font-weight: var(--font-weight-semibold);
  }
+
 
 

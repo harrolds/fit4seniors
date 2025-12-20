@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon } from '../../shared/ui/Icon';
+import { SectionHeader } from '../../shared/ui/SectionHeader';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { usePanels } from '../../shared/lib/panels';
 import { useI18n } from '../../shared/lib/i18n';
@@ -57,7 +58,7 @@ export const MoreScreen: React.FC = () => {
 
   return (
     <div className="more-page">
-      <p className="more-page__subtitle">{t('more.subtitle')}</p>
+      <SectionHeader className="page-title" title={t('pageTitles.more')} subtitle={t('more.subtitle')} />
 
       <div className="more-list">
         {items.map((item) => (

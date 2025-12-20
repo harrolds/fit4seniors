@@ -26,7 +26,7 @@ const HomeScreen: React.FC = () => {
   return (
     <div className="page home-page">
       <section className="home-page__intro">
-        <h2 className="home-page__greeting">{t(greetingKey, { name: nameSuffix })}</h2>
+        <h2 className="home-page__greeting page-title-text">{t(greetingKey, { name: nameSuffix })}</h2>
         <p className="home-page__subtext">{t('home.subtext')}</p>
       </section>
       <WidgetHost />

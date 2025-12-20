@@ -1,8 +1,8 @@
 .profile-page {
-  padding: 16px 20px 28px;
+  padding: var(--spacing-xl) var(--page-gutter-x) var(--spacing-2xl);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-xl);
 }
 
 .profile-subtitle {

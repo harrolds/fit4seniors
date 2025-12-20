@@ -3,6 +3,7 @@ import { useI18n } from '../../../shared/lib/i18n';
 import { Card } from '../../../shared/ui/Card';
 import { Icon } from '../../../shared/ui/Icon';
 import { Button } from '../../../shared/ui/Button';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { useProfileState } from '../profileStorage';
 
@@ -50,7 +51,7 @@ export const ProfileOverviewScreen: React.FC = () => {
 
   return (
     <div className="profile-page">
-      <p className="profile-subtitle">{t('profile.subtitle')}</p>
+      <SectionHeader className="page-title" title={t('profile.title')} subtitle={t('profile.subtitle')} />
 
       <Card className="profile-card">
         <div className="profile-avatar" aria-hidden>

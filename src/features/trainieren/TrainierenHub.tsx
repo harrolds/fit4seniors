@@ -36,7 +36,9 @@ export const TrainierenHub: React.FC = () => {
       <>
         {/* Training Overview Intro */}
         <section className="training-intro" lang={locale} aria-labelledby="training-intro-title">
-          <h2 id="training-intro-title">{t('trainierenHub.title')}</h2>
+          <h2 id="training-intro-title" className="page-title-text">
+            {t('trainierenHub.title')}
+          </h2>
 
           <p>{t('trainierenHub.intro.p1')}</p>
 

@@ -19,3 +19,4 @@ describe('i18n translator', () => {
     expect(translator('countLabel', { count: 3 })).toBe('Count 3 / 3');
   });
 });
+

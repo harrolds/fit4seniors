@@ -54,6 +54,14 @@ export const screenConfigs: ScreenConfig[] = [
     id: 'more',
     route: '/more',
     titleKey: 'more.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'home',
+      },
+    ],
     primaryActions: [
       {
         id: 'openNotifications',
@@ -134,6 +142,14 @@ export const screenConfigs: ScreenConfig[] = [
     id: 'trainieren-hub',
     route: '/trainieren',
     titleKey: 'trainieren.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'home',
+      },
+    ],
     primaryActions: [
       {
         id: 'openNotifications',
@@ -148,6 +164,14 @@ export const screenConfigs: ScreenConfig[] = [
     id: 'brain',
     route: '/brain',
     titleKey: 'brain.header.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'home',
+      },
+    ],
     primaryActions: [
       {
         id: 'openNotifications',
@@ -253,6 +277,14 @@ export const screenConfigs: ScreenConfig[] = [
     id: 'progress-overview',
     route: '/progress',
     titleKey: 'progress.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'home',
+      },
+    ],
     primaryActions: [
       {
         id: 'openNotifications',

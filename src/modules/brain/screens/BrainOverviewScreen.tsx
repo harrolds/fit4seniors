@@ -16,7 +16,6 @@ export const BrainOverviewScreen: React.FC = () => {
   return (
     <div className="brain-page">
       <section className="brain-hero">
-        <p className="brain-hero__eyebrow">{t('brain.overview.title')}</p>
         <h2 className="brain-hero__title">{t('brain.header.title')}</h2>
       </section>
 
@@ -42,5 +41,6 @@ export const BrainOverviewScreen: React.FC = () => {
     </div>
   );
 };
+
 
 

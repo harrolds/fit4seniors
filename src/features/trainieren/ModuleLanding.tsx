@@ -83,7 +83,6 @@ export const ModuleLanding: React.FC = () => {
     <div className="trainieren-page">
       <div className="trainieren-module-header">
         <div>
-          <p className="trainieren-module-header__eyebrow">{t('trainieren.module.categoryLabel')}</p>
           <h1 className="trainieren-module-header__title">{moduleDef.title}</h1>
           <p className="trainieren-module-header__description">{moduleDef.description}</p>
         </div>

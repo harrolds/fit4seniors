@@ -33,97 +33,43 @@ export const TrainierenHub: React.FC = () => {
 
   return (
     <div className="trainieren-page">
-      {locale === 'en' ? (
-        <>
-          {/* Training Overview Intro (EN) */}
-          <section className="training-intro" lang="en" aria-labelledby="training-intro-title-en">
-            <h2 id="training-intro-title-en">Your Training. Clearly Structured. Built for Everyday Life.</h2>
+      <>
+        {/* Training Overview Intro */}
+        <section className="training-intro" lang={locale} aria-labelledby="training-intro-title">
+          <h2 id="training-intro-title">{t('trainierenHub.title')}</h2>
 
-            <p>
-              Choose the module that fits you and explore focused sessions from our <strong>structured training catalog</strong>.
-              This app is designed to help you stay <strong>active</strong>, <strong>mobile</strong>, and <strong>mentally sharp</strong> —
-              without pressure or complexity.
-            </p>
+          <p>{t('trainierenHub.intro.p1')}</p>
 
-            <Button
-              variant="primary"
-              className="training-intro-toggle"
-              onClick={() => setShowMore((prev) => !prev)}
-              aria-expanded={showMore}
-              aria-controls="training-intro-details-en"
-            >
-              {showMore ? 'Show less' : 'Read more'}
-            </Button>
+          <Button
+            variant="primary"
+            className="training-intro-toggle"
+            onClick={() => setShowMore((prev) => !prev)}
+            aria-expanded={showMore}
+            aria-controls="training-intro-details"
+          >
+            {showMore ? t('trainierenHub.toggle.less') : t('trainierenHub.toggle.more')}
+          </Button>
 
-            <div
-              id="training-intro-details-en"
-              style={{
-                maxHeight: showMore ? 1600 : 0,
-                overflow: 'hidden',
-                transition: 'max-height var(--motion-duration-normal, 250ms) var(--motion-ease-standard, ease)',
-              }}
-              aria-hidden={!showMore}
-            >
-              <ul className="training-intro-list">
-                <li><strong>Cardio</strong> supports endurance and gentle movement to boost heart health and daily energy.</li>
-                <li><strong>Strength Training</strong> helps maintain and build muscle using safe, practical exercises.</li>
-                <li><strong>Balance &amp; Flexibility</strong> improves stability, mobility, and body awareness for everyday confidence.</li>
-                <li><strong>Brain Training</strong> keeps the mind sharp with short, focused tasks for attention and thinking.</li>
-              </ul>
+          <div
+            id="training-intro-details"
+            style={{
+              maxHeight: showMore ? 1600 : 0,
+              overflow: 'hidden',
+              transition: 'max-height var(--motion-duration-normal, 250ms) var(--motion-ease-standard, ease)',
+            }}
+            aria-hidden={!showMore}
+          >
+            <ul className="training-intro-list">
+              <li>{t('trainierenHub.bullets.cardio')}</li>
+              <li>{t('trainierenHub.bullets.strength')}</li>
+              <li>{t('trainierenHub.bullets.balance')}</li>
+              <li>{t('trainierenHub.bullets.brain')}</li>
+            </ul>
 
-              <p className="training-intro-goal">
-                The goal of this App is to provide a <strong>simple</strong>, <strong>reliable</strong> training companion that adapts to your pace
-                and supports long-term quality of life.
-              </p>
-            </div>
-          </section>
-        </>
-      ) : (
-        <>
-          {/* Training Overview Intro (DE) */}
-          <section className="training-intro" lang="de" aria-labelledby="training-intro-title-de">
-            <h2 id="training-intro-title-de">Ihr Training. Klar strukturiert. Für den Alltag gemacht.</h2>
-
-            <p>
-              Wählen Sie das Trainingsmodul, das zu Ihnen passt, und entdecken Sie gezielte Einheiten aus unserem <strong>strukturierten Trainingskatalog</strong>.
-              Diese App unterstützt Sie dabei, <strong>aktiv</strong>, <strong>beweglich</strong> und <strong>geistig fit</strong> zu bleiben –
-              ohne Überforderung, ohne Zeitdruck.
-            </p>
-
-            <Button
-              variant="primary"
-              className="training-intro-toggle"
-              onClick={() => setShowMore((prev) => !prev)}
-              aria-expanded={showMore}
-              aria-controls="training-intro-details-de"
-            >
-              {showMore ? 'Weniger anzeigen' : 'Mehr anzeigen'}
-            </Button>
-
-            <div
-              id="training-intro-details-de"
-              style={{
-                maxHeight: showMore ? 1600 : 0,
-                overflow: 'hidden',
-                transition: 'max-height var(--motion-duration-normal, 250ms) var(--motion-ease-standard, ease)',
-              }}
-              aria-hidden={!showMore}
-            >
-              <ul className="training-intro-list">
-                <li><strong>Cardio</strong> stärkt Ihre Ausdauer und bringt Sie sanft in Bewegung – ideal für Herz, Kreislauf und tägliche Energie.</li>
-                <li><strong>Muskelaufbau</strong> hilft beim Erhalt und Aufbau von Kraft mit sicheren, alltagstauglichen Übungen.</li>
-                <li><strong>Balance &amp; Flexibilität</strong> verbessert Stabilität, Beweglichkeit und Körpergefühl – für mehr Sicherheit im Alltag.</li>
-                <li><strong>Gehirntraining</strong> hält den Kopf wach mit kurzen, klaren Aufgaben für Konzentration und Denkfähigkeit.</li>
-              </ul>
-
-              <p className="training-intro-goal">
-                Ziel dieser App ist es, Ihnen ein <strong>einfaches</strong>, <strong>verlässliches</strong> Trainingsangebot zu bieten,
-                das sich an Ihr Tempo anpasst und langfristig zu mehr Lebensqualität beiträgt.
-              </p>
-            </div>
-          </section>
-        </>
-      )}
+            <p className="training-intro-goal">{t('trainierenHub.intro.p2')}</p>
+          </div>
+        </section>
+      </>
 
       <div className="trainieren-grid">
         {data.modules.map((module) => (

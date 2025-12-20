@@ -14,10 +14,19 @@ const HomeScreen: React.FC = () => {
   const displayName = useDisplayName('');
   const nameSuffix = displayName ? `, ${displayName}` : '';
 
+  const getGreetingKey = (): string => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return 'home.greeting.morning';
+    if (hour >= 12 && hour < 18) return 'home.greeting.afternoon';
+    return 'home.greeting.evening';
+  };
+
+  const greetingKey = getGreetingKey();
+
   return (
     <div className="home-page">
       <section className="home-page__intro">
-        <h2 className="home-page__greeting">{t('home.greeting', { name: nameSuffix })}</h2>
+        <h2 className="home-page__greeting">{t(greetingKey, { name: nameSuffix })}</h2>
         <p className="home-page__subtext">{t('home.subtext')}</p>
       </section>
       <WidgetHost />

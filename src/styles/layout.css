@@ -325,7 +325,7 @@ body {
 }
 
 .home-page__intro {
-  padding-top: var(--spacing-xl);
+  padding-top: 0;
 }
 
 .home-page__greeting {
@@ -592,7 +592,11 @@ body {
 .app-shell__main .settings-page,
 .app-shell__main .settings-detail,
 .app-shell__main .settings-help,
-.app-shell__main .training-detail-page {
+.app-shell__main .training-detail-page,
+.app-shell__main .trainieren-page,
+.app-shell__main .brain-page,
+.app-shell__main .home-page,
+.app-shell__main .reminders-page {
   padding-left: 0;
   padding-right: 0;
   padding-top: var(--page-gutter-top);

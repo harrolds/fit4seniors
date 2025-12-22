@@ -5,6 +5,7 @@ import { useI18n } from '../../shared/lib/i18n';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { useThemeController } from '../theme/themeContext';
 import { isTelemetryEnabled, setTelemetryEnabled as setTelemetryEnabledFlag, } from '../../shared/lib/telemetry';
+import { SectionHeader } from '../../shared/ui/SectionHeader';
 
 export const GlobalSettingsScreen: React.FC = () => {
   const { goBack } = useNavigation();
@@ -30,6 +31,12 @@ export const GlobalSettingsScreen: React.FC = () => {
 
   return (
     <>
+      <SectionHeader
+        as="h1"
+        className="page-title"
+        title={t('settings.title')}
+        subtitle={t('settings.global.description')}
+      />
       <Card>
         <div className="settings-section">
           <div>

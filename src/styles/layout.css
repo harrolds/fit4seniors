@@ -45,6 +45,15 @@ body {
   background-color: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+}
+
+h1 {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+  margin: 0;
 }
 
 /* Shell: ruimte reserveren voor fixed header + footer */

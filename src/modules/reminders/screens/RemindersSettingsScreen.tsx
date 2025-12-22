@@ -136,7 +136,7 @@ export const RemindersSettingsScreen: React.FC = () => {
 
   return (
     <div className="reminders-page">
-      <SectionHeader className="page-title" title={t('pageTitles.reminders')} subtitle={t('reminders.intro')} />
+      <SectionHeader as="h1" className="page-title" title={t('pageTitles.reminders')} subtitle={t('reminders.intro')} />
 
       <Card className="reminders-card">
         <div className="reminders-card__header">

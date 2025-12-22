@@ -4,6 +4,7 @@ import { Icon } from '../../../shared/ui/Icon';
 import { useI18n } from '../../../shared/lib/i18n';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { saveSettings, useSettingsState } from '../settingsStorage';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 
 const scaleSteps: Array<'small' | 'default' | 'large'> = ['small', 'default', 'large'];
 
@@ -43,6 +44,12 @@ export const SettingsDetailScreen: React.FC = () => {
   const sliderValue = scaleSteps.indexOf(preferences.textScale);
   const activeSliderValue = sliderValue >= 0 ? sliderValue : 1;
   const fillPercentage = useMemo(() => (activeSliderValue / (scaleSteps.length - 1)) * 100, [activeSliderValue]);
+  const sectionKey = section || 'default';
+  const sectionMeta = sectionPlaceholders[sectionKey] ?? sectionPlaceholders.default;
+  const sectionTitle =
+    sectionKey === 'accessibility' ? t('settings.detail.accessibility.title') : t(sectionMeta.titleKey);
+  const sectionSubtitle =
+    sectionKey === 'accessibility' ? t('settings.detail.accessibility.subtitle') : t(sectionMeta.bodyKey);
 
   const renderAccessibility = () => (
     <>
@@ -126,8 +133,8 @@ export const SettingsDetailScreen: React.FC = () => {
   );
 
   const renderPlaceholder = () => {
-    const key = section || 'default';
-    const meta = sectionPlaceholders[key] ?? sectionPlaceholders.default;
+    const key = sectionKey;
+    const meta = sectionMeta;
     const iconTone = key === 'sound' ? 'orange' : key === 'profile' ? 'green' : 'blue';
 
     return (
@@ -152,6 +159,7 @@ export const SettingsDetailScreen: React.FC = () => {
 
   return (
     <div className="settings-detail">
+      <SectionHeader as="h1" className="page-title" title={sectionTitle} subtitle={sectionSubtitle} />
       {section === 'accessibility' ? renderAccessibility() : renderPlaceholder()}
       <p className="settings-version">{t('settings.overview.version')}</p>
     </div>

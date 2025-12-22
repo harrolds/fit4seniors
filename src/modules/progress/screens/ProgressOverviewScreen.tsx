@@ -89,7 +89,7 @@ export const ProgressOverviewScreen: React.FC = () => {
 
   return (
     <div className="po-wrap">
-      <SectionHeader className="page-title" title={t('pageTitles.progress')} subtitle={t('progress.subtitle')} />
+      <SectionHeader as="h1" className="page-title" title={t('pageTitles.progress')} subtitle={t('progress.subtitle')} />
 
       <Card variant="elevated" className="po-weekCard">
         <h2>{t('progress.kpi.activeDays')}</h2>

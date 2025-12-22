@@ -8,6 +8,7 @@ import { Badge } from '../../shared/ui/Badge';
 import { Icon } from '../../shared/ui/Icon';
 import { ProgressBar } from '../../shared/ui/ProgressBar';
 import { usePanels } from '../../shared/lib/panels';
+import { SectionHeader } from '../../shared/ui/SectionHeader';
 import {
   findModule,
   findTraining,
@@ -410,7 +411,7 @@ export const TrainingDetail: React.FC = () => {
       )}
 
       <div className="training-detail__header">
-        <h1 className="training-detail__title">{training.title}</h1>
+        <SectionHeader as="h1" className="page-title training-detail__title" title={training.title} />
         {isPhysicalModule ? (
           <>
             <p className="training-detail__description">

@@ -4,6 +4,7 @@ import { Card } from '../../../shared/ui/Card';
 import { Button } from '../../../shared/ui/Button';
 import { Icon } from '../../../shared/ui/Icon';
 import { useI18n } from '../../../shared/lib/i18n';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { addCompletedSession } from '../../progress/progressStorage';
 
 const formatTime = (seconds: number): string => {
@@ -133,6 +134,7 @@ export const DedicatedSessionScreen: React.FC = () => {
 
   return (
     <div className="brain-page brain-session">
+      <SectionHeader as="h1" className="page-title" title={t('brain.session.headerTitle')} />
       <Card className="brain-session__summary" variant="elevated">
         <div className="brain-session__summary-header">
           <div className="brain-session__summary-left">
@@ -225,6 +227,7 @@ export const DedicatedSessionScreen: React.FC = () => {
     </div>
   );
 };
+
 
 
 

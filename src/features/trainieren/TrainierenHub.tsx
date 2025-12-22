@@ -4,6 +4,7 @@ import { useI18n } from '../../shared/lib/i18n';
 import { Icon } from '../../shared/ui/Icon';
 import { ModuleCard } from '../../shared/ui/ModuleCard';
 import { Button } from '../../shared/ui/Button';
+import { SectionHeader } from '../../shared/ui/SectionHeader';
 import { useTrainingCatalog, toneToCssVar } from './catalog';
 import './trainieren.css';
 
@@ -36,11 +37,12 @@ export const TrainierenHub: React.FC = () => {
       <>
         {/* Training Overview Intro */}
         <section className="training-intro" lang={locale} aria-labelledby="training-intro-title">
-          <h2 id="training-intro-title" className="page-title-text">
-            {t('trainierenHub.title')}
-          </h2>
-
-          <p>{t('trainierenHub.intro.p1')}</p>
+          <SectionHeader
+            as="h1"
+            className="page-title"
+            title={t('trainierenHub.title')}
+            subtitle={t('trainierenHub.intro.p1')}
+          />
 
           <Button
             variant="primary"

@@ -6,6 +6,7 @@ import { Icon } from '../../shared/ui/Icon';
 import { Badge } from '../../shared/ui/Badge';
 import { Button } from '../../shared/ui/Button';
 import { List, ListItem } from '../../shared/ui/List';
+import { SectionHeader } from '../../shared/ui/SectionHeader';
 import {
   useTrainingCatalog,
   findModule,
@@ -82,10 +83,12 @@ export const ModuleLanding: React.FC = () => {
   return (
     <div className="trainieren-page">
       <div className="trainieren-module-header">
-        <div>
-          <h1 className="trainieren-module-header__title">{moduleDef.title}</h1>
-          <p className="trainieren-module-header__description">{moduleDef.description}</p>
-        </div>
+        <SectionHeader
+          as="h1"
+          className="page-title"
+          title={moduleDef.title}
+          subtitle={moduleDef.description}
+        />
         <button type="button" className="trainieren-filter-button" onClick={openFilterSheet}>
           <Icon name="tune" size={22} />
           <span>{t('trainieren.module.filterCta')}</span>

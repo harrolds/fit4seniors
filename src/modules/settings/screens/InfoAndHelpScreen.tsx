@@ -2,6 +2,7 @@ import React from 'react';
 import { Icon } from '../../../shared/ui/Icon';
 import { useI18n } from '../../../shared/lib/i18n';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 
 type HelpCard = {
   key: string;
@@ -48,7 +49,12 @@ export const InfoAndHelpScreen: React.FC = () => {
 
   return (
     <div className="settings-help">
-      <p className="settings-help__intro">{t('settings.help.subtitle')}</p>
+      <SectionHeader
+        as="h1"
+        className="page-title"
+        title={t('settings.help.title')}
+        subtitle={t('settings.help.subtitle')}
+      />
 
       <div className="settings-help__list">
         {cards.map((card) => (

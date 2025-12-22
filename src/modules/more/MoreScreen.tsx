@@ -58,7 +58,7 @@ export const MoreScreen: React.FC = () => {
 
   return (
     <div className="more-page">
-      <SectionHeader className="page-title" title={t('pageTitles.more')} subtitle={t('more.subtitle')} />
+      <SectionHeader as="h1" className="page-title" title={t('pageTitles.more')} subtitle={t('more.subtitle')} />
 
       <div className="more-list">
         {items.map((item) => (

@@ -574,11 +574,11 @@
   gap: var(--spacing-sm);
 }
 
-.training-detail__title {
+.training-detail__title .ui-section-header__title {
   margin: 0;
-  font-size: 2rem;
-  line-height: 1.2;
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
 }
 
 .training-detail__description {

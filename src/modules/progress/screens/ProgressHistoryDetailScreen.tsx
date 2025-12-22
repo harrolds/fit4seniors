@@ -4,6 +4,7 @@ import { useI18n } from '../../../shared/lib/i18n';
 import { Card } from '../../../shared/ui/Card';
 import { Button } from '../../../shared/ui/Button';
 import { Icon } from '../../../shared/ui/Icon';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useTrainingCatalog, findModule } from '../../../features/trainieren/catalog';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, getSessionById } from '../progressStorage';
 import { getValue, setValue } from '../../../shared/lib/storage';
@@ -105,10 +106,12 @@ export const ProgressHistoryDetailScreen: React.FC = () => {
         {t('common.back')}
       </Button>
 
-      <div className="hd-intro">
-        <h1>{t('progress.history.detail.heroTitle', { name: nameSuffix })}</h1>
-        <p>{t('progress.history.detail.heroSubtitle')}</p>
-      </div>
+      <SectionHeader
+        as="h1"
+        className="page-title hd-intro"
+        title={t('progress.history.detail.heroTitle', { name: nameSuffix })}
+        subtitle={t('progress.history.detail.heroSubtitle')}
+      />
 
       <Card variant="elevated" className="hd-hero">
         <div className="hd-hero__icon">

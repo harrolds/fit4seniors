@@ -8,6 +8,7 @@ import { WidgetHost } from '../home/WidgetHost';
 import { moduleRegistry } from '../../config/moduleRegistry';
 import { OfflineScreen } from '../offline/OfflineScreen';
 import { useDisplayName } from '../../modules/profile';
+import { SectionHeader } from '../../shared/ui/SectionHeader';
 
 const HomeScreen: React.FC = () => {
   const { t } = useI18n();
@@ -26,8 +27,12 @@ const HomeScreen: React.FC = () => {
   return (
     <div className="page home-page">
       <section className="home-page__intro">
-        <h2 className="home-page__greeting page-title-text">{t(greetingKey, { name: nameSuffix })}</h2>
-        <p className="home-page__subtext">{t('home.subtext')}</p>
+        <SectionHeader
+          as="h1"
+          className="page-title"
+          title={t(greetingKey, { name: nameSuffix })}
+          subtitle={t('home.subtext')}
+        />
       </section>
       <WidgetHost />
     </div>

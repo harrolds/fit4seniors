@@ -6,6 +6,7 @@ import { getValue, setValue } from '../../shared/lib/storage';
 import { Button } from '../../shared/ui/Button';
 import { Card } from '../../shared/ui/Card';
 import { Icon } from '../../shared/ui/Icon';
+import { SectionHeader } from '../../shared/ui/SectionHeader';
 import './completion.screen.css';
 
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
@@ -98,6 +99,7 @@ export const CompletionScreen: React.FC = () => {
 
   return (
     <div className="c-wrap">
+      <SectionHeader as="h1" className="page-title" title={title} subtitle={subtitle} />
       <Card variant="elevated" className="c-card">
         <div className="c-heroIcon">
           <Icon name="emoji_events" size={54} />

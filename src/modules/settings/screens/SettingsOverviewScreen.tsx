@@ -103,7 +103,7 @@ export const SettingsOverviewScreen: React.FC = () => {
 
   return (
     <div className="settings-page">
-      <SectionHeader className="page-title" title={t('pageTitles.settings')} subtitle={t('settings.overview.subtitle')} />
+      <SectionHeader as="h1" className="page-title" title={t('pageTitles.settings')} subtitle={t('settings.overview.subtitle')} />
 
       <div className="settings-list">
         {overviewItems.map((item) => (

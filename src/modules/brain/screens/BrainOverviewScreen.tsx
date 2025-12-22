@@ -4,6 +4,7 @@ import { Icon } from '../../../shared/ui/Icon';
 import { Button } from '../../../shared/ui/Button';
 import { useI18n } from '../../../shared/lib/i18n';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 
 export const BrainOverviewScreen: React.FC = () => {
   const { t } = useI18n();
@@ -16,7 +17,7 @@ export const BrainOverviewScreen: React.FC = () => {
   return (
     <div className="brain-page">
       <section className="brain-hero">
-        <h2 className="brain-hero__title page-title-text">{t('brain.header.title')}</h2>
+        <SectionHeader as="h1" className="page-title" title={t('brain.header.title')} />
       </section>
 
       <section className="brain-section" aria-label={t('brain.overview.title')}>

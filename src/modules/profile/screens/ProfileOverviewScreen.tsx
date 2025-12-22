@@ -51,7 +51,7 @@ export const ProfileOverviewScreen: React.FC = () => {
 
   return (
     <div className="profile-page">
-      <SectionHeader className="page-title" title={t('profile.title')} subtitle={t('profile.subtitle')} />
+      <SectionHeader as="h1" className="page-title" title={t('profile.title')} subtitle={t('profile.subtitle')} />
 
       <Card className="profile-card">
         <div className="profile-avatar" aria-hidden>

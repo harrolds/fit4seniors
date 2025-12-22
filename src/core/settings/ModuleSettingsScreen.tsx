@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Card } from '../../shared/ui/Card';
 import { useI18n } from '../../shared/lib/i18n';
 import { getModuleById } from '../../shared/lib/modules';
+import { SectionHeader } from '../../shared/ui/SectionHeader';
 
 const moduleSettingsComponents: Record<string, React.FC> = {};
 
@@ -16,12 +17,17 @@ export const ModuleSettingsScreen: React.FC = () => {
   }
 
   const moduleDefinition = getModuleById(moduleId);
+  const pageTitle = moduleDefinition?.title ?? t('settings.title');
+  const pageSubtitle = moduleDefinition?.hasSettings ? undefined : t('settings.modules.unavailable');
 
   if (!moduleDefinition || !moduleDefinition.hasSettings) {
     return (
-      <Card>
-        <p className="settings-layout__muted">{t('settings.modules.unavailable')}</p>
-      </Card>
+      <>
+        <SectionHeader as="h1" className="page-title" title={pageTitle} subtitle={pageSubtitle} />
+        <Card>
+          <p className="settings-layout__muted">{t('settings.modules.unavailable')}</p>
+        </Card>
+      </>
     );
   }
 
@@ -29,12 +35,20 @@ export const ModuleSettingsScreen: React.FC = () => {
 
   if (!ModuleSettingsComponent) {
     return (
-      <Card>
-        <p className="settings-layout__muted">{t('settings.modules.unavailable')}</p>
-      </Card>
+      <>
+        <SectionHeader as="h1" className="page-title" title={pageTitle} subtitle={pageSubtitle} />
+        <Card>
+          <p className="settings-layout__muted">{t('settings.modules.unavailable')}</p>
+        </Card>
+      </>
     );
   }
 
-  return <ModuleSettingsComponent />;
+  return (
+    <>
+      <SectionHeader as="h1" className="page-title" title={pageTitle} />
+      <ModuleSettingsComponent />
+    </>
+  );
 };
 

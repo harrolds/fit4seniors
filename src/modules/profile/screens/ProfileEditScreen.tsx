@@ -3,6 +3,7 @@ import { useI18n } from '../../../shared/lib/i18n';
 import { Button } from '../../../shared/ui/Button';
 import { Card } from '../../../shared/ui/Card';
 import { Icon } from '../../../shared/ui/Icon';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { TextInput } from '../../../shared/ui/TextInput';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { ProfileState, saveProfile, useProfileState } from '../profileStorage';
@@ -100,7 +101,12 @@ export const ProfileEditScreen: React.FC = () => {
 
   return (
     <div className="profile-page">
-      <p className="profile-subtitle">{t('profile.edit.subtitle')}</p>
+      <SectionHeader
+        as="h1"
+        className="page-title"
+        title={t('profile.edit.title')}
+        subtitle={t('profile.edit.subtitle')}
+      />
 
       <form
         className="profile-form"

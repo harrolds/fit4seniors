@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useI18n } from '../../../shared/lib/i18n';
 import { Card } from '../../../shared/ui/Card';
 import { Icon } from '../../../shared/ui/Icon';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useTrainingCatalog, findModule, getIntensityLabel } from '../../../features/trainieren/catalog';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, loadCompletedSessions } from '../progressStorage';
 
@@ -55,10 +56,12 @@ export const ProgressHistoryScreen: React.FC = () => {
 
   return (
     <div className="hl-wrap">
-      <div className="hl-header">
-        <h1>{t('progress.history.title')}</h1>
-        {sessions.length > 0 ? <p>{t('progress.history.subtitleCount', { count: sessions.length })}</p> : null}
-      </div>
+      <SectionHeader
+        as="h1"
+        className="page-title hl-header"
+        title={t('progress.history.title')}
+        subtitle={sessions.length > 0 ? t('progress.history.subtitleCount', { count: sessions.length }) : undefined}
+      />
 
       {sessions.length === 0 ? (
         renderEmpty()

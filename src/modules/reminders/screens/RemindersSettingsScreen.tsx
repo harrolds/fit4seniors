@@ -4,6 +4,7 @@ import { useNotifications } from '../../../shared/lib/notifications';
 import { Card } from '../../../shared/ui/Card';
 import { Button } from '../../../shared/ui/Button';
 import { Icon } from '../../../shared/ui/Icon';
+import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import {
   ReminderDay,
   ReminderRule,
@@ -135,7 +136,7 @@ export const RemindersSettingsScreen: React.FC = () => {
 
   return (
     <div className="reminders-page">
-      <p className="reminders-intro">{t('reminders.intro')}</p>
+      <SectionHeader className="page-title" title={t('pageTitles.reminders')} subtitle={t('reminders.intro')} />
 
       <Card className="reminders-card">
         <div className="reminders-card__header">

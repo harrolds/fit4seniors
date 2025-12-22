@@ -49,6 +49,15 @@ export const screenConfigs: ScreenConfig[] = [
         navigationTarget: 'home',
       },
     ],
+    primaryActions: [
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings', navigationTarget: 'settings' },
+    ],
   },
   {
     id: 'more',

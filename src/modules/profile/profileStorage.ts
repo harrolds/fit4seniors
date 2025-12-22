@@ -10,7 +10,7 @@ export type AccessibilityPreferences = {
 export type ProfileState = {
   displayName: string;
   memberSinceYear: string;
-  ageCategory: '60_65' | '66_70' | '71_75' | '75_plus';
+  ageCategory: '50_55' | '55_60' | '60_65' | '65_70' | '70_75' | '75_plus';
   moveGoal: 'condition' | 'strength' | 'balance' | 'social';
   fitnessLevel: 'starter' | 'intermediate' | 'advanced';
   gender: 'male' | 'female' | 'unspecified';
@@ -29,7 +29,7 @@ const STORAGE_KEY = 'profile.state.v1';
 const defaultState = (): ProfileState => ({
   displayName: '',
   memberSinceYear: '2023',
-  ageCategory: '66_70',
+  ageCategory: '65_70',
   moveGoal: 'strength',
   fitnessLevel: 'intermediate',
   gender: 'male',
@@ -69,12 +69,26 @@ const sanitizeProfile = (value: ProfileState | null | undefined): ProfileState =
   const safe = defaultState();
   const incoming = value as Partial<ProfileState>;
 
+  const allowedAgeCategories: ProfileState['ageCategory'][] = ['50_55', '55_60', '60_65', '65_70', '70_75', '75_plus'];
+  const legacyAgeCategoryMap: Record<string, ProfileState['ageCategory']> = {
+    '66_70': '65_70',
+    '71_75': '70_75',
+  };
+  const sanitizeAgeCategory = (maybeAge: unknown): ProfileState['ageCategory'] => {
+    const raw = typeof maybeAge === 'string' ? maybeAge : '';
+    if (legacyAgeCategoryMap[raw]) {
+      return legacyAgeCategoryMap[raw];
+    }
+    if (allowedAgeCategories.includes(raw as ProfileState['ageCategory'])) {
+      return raw as ProfileState['ageCategory'];
+    }
+    return safe.ageCategory;
+  };
+
   return {
     displayName: typeof incoming.displayName === 'string' ? incoming.displayName : safe.displayName,
     memberSinceYear: typeof incoming.memberSinceYear === 'string' ? incoming.memberSinceYear : safe.memberSinceYear,
-    ageCategory: ['60_65', '66_70', '71_75', '75_plus'].includes(incoming.ageCategory as string)
-      ? (incoming.ageCategory as ProfileState['ageCategory'])
-      : safe.ageCategory,
+    ageCategory: sanitizeAgeCategory(incoming.ageCategory),
     moveGoal: ['condition', 'strength', 'balance', 'social'].includes(incoming.moveGoal as string)
       ? (incoming.moveGoal as ProfileState['moveGoal'])
       : safe.moveGoal,

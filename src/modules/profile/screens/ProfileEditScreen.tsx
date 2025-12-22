@@ -11,9 +11,11 @@ import { ProfileState, saveProfile, useProfileState } from '../profileStorage';
 type SelectOption<T extends string> = { value: T; labelKey: string };
 
 const ageOptions: SelectOption<ProfileState['ageCategory']>[] = [
+  { value: '50_55', labelKey: 'profile.age.50_55' },
+  { value: '55_60', labelKey: 'profile.age.55_60' },
   { value: '60_65', labelKey: 'profile.age.60_65' },
-  { value: '66_70', labelKey: 'profile.age.66_70' },
-  { value: '71_75', labelKey: 'profile.age.71_75' },
+  { value: '65_70', labelKey: 'profile.age.65_70' },
+  { value: '70_75', labelKey: 'profile.age.70_75' },
   { value: '75_plus', labelKey: 'profile.age.75_plus' },
 ];
 

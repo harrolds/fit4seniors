@@ -17,7 +17,7 @@ export const ModuleSettingsScreen: React.FC = () => {
   }
 
   const moduleDefinition = getModuleById(moduleId);
-  const pageTitle = moduleDefinition?.title ?? t('settings.title');
+  const pageTitle = moduleDefinition ? t(moduleDefinition.labelKey) : t('settings.title');
   const pageSubtitle = moduleDefinition?.hasSettings ? undefined : t('settings.modules.unavailable');
 
   if (!moduleDefinition || !moduleDefinition.hasSettings) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AppRoutes } from './router';
 import { AppFooter } from './AppFooter';
@@ -83,6 +83,13 @@ const AppShellContent: React.FC = () => {
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    // Make sure new screens always start at the top (some mobile browsers preserve scroll).
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, [location.pathname, location.search]);
 
   const rawConfig = getScreenConfigByPath(location.pathname);
   const screenConfig = mergeModuleActions(rawConfig);

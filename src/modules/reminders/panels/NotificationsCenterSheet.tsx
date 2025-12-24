@@ -1,6 +1,6 @@
 import React from 'react';
+import '../../../shared/panels/bottom-sheet.css';
 import { useI18n } from '../../../shared/lib/i18n';
-import { Button } from '../../../shared/ui/Button';
 import { Badge } from '../../../shared/ui/Badge';
 import { Icon } from '../../../shared/ui/Icon';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
@@ -55,62 +55,64 @@ export const NotificationsCenterSheet: React.FC<{ onClose?: () => void }> = ({ o
   };
 
   return (
-    <section className="reminders-center">
-      <header className="reminders-center__header">
+    <section className="bottom-sheet reminders-center">
+      <header className="bottom-sheet__header reminders-center__header">
         <div className="reminders-center__title">
-          <h2>{t('reminders.inbox.title')}</h2>
+          <h2 className="bottom-sheet__title">{t('reminders.inbox.title')}</h2>
           {unreadCount > 0 ? (
             <Badge variant="accent" aria-label={t('reminders.inbox.unread', { count: unreadCount })}>
               {unreadCount > 99 ? '99+' : unreadCount}
             </Badge>
           ) : null}
         </div>
-        <Button type="button" variant="ghost" className="reminders-center__clear" onClick={handleClear}>
+        <button type="button" className="bottom-sheet__reset reminders-center__clear" onClick={handleClear}>
           {t('reminders.inbox.clearAll')}
-        </Button>
+        </button>
       </header>
 
-      <div className="reminders-center__list">
-        {inbox.length === 0 ? (
-          <p className="reminders-center__empty">{t('reminders.inbox.empty')}</p>
-        ) : (
-          inbox.map((item) => {
-            const isUnread = !item.readAt;
-            const title = item.titleKey ? t(item.titleKey) : item.title ?? '';
-            const body = item.bodyKey ? t(item.bodyKey) : item.body ?? '';
+      <div className="bottom-sheet__body reminders-center__body">
+        <div className="reminders-center__list">
+          {inbox.length === 0 ? (
+            <p className="reminders-center__empty">{t('reminders.inbox.empty')}</p>
+          ) : (
+            inbox.map((item) => {
+              const isUnread = !item.readAt;
+              const title = item.titleKey ? t(item.titleKey) : item.title ?? '';
+              const body = item.bodyKey ? t(item.bodyKey) : item.body ?? '';
 
-            return (
-              <button
-                key={item.id}
-                type="button"
-                className={`reminders-center__item${isUnread ? ' reminders-center__item--new' : ''}`}
-                onClick={() => handleSelect(item)}
-              >
-                <div className={`reminders-center__icon reminders-center__icon--${item.kind ?? 'reminder'}`}>
-                  <Icon name={resolveIcon(item.kind)} size={22} />
-                </div>
-                <div className="reminders-center__content">
-                  <div className="reminders-center__row">
-                    <h3 className="reminders-center__title-text">{title}</h3>
-                    {isUnread ? (
-                      <Badge variant="accent" className="reminders-center__pill">
-                        {t('reminders.inbox.new')}
-                      </Badge>
-                    ) : null}
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`reminders-center__item${isUnread ? ' reminders-center__item--new' : ''}`}
+                  onClick={() => handleSelect(item)}
+                >
+                  <div className={`reminders-center__icon reminders-center__icon--${item.kind ?? 'reminder'}`}>
+                    <Icon name={resolveIcon(item.kind)} size={22} />
                   </div>
-                  <p className="reminders-center__body">{body}</p>
-                  <span className="reminders-center__time">{formatRelativeTime(item.createdAt, t)}</span>
-                </div>
-              </button>
-            );
-          })
-        )}
+                  <div className="reminders-center__content">
+                    <div className="reminders-center__row">
+                      <h3 className="reminders-center__title-text">{title}</h3>
+                      {isUnread ? (
+                        <Badge variant="accent" className="reminders-center__pill">
+                          {t('reminders.inbox.new')}
+                        </Badge>
+                      ) : null}
+                    </div>
+                    <p className="reminders-center__body">{body}</p>
+                    <span className="reminders-center__time">{formatRelativeTime(item.createdAt, t)}</span>
+                  </div>
+                </button>
+              );
+            })
+          )}
+        </div>
       </div>
 
-      <div className="reminders-center__footer">
-        <Button type="button" variant="secondary" fullWidth onClick={onClose}>
+      <div className="bottom-sheet__actions">
+        <button type="button" className="bottom-sheet__btn-secondary" onClick={onClose}>
           {t('reminders.inbox.close')}
-        </Button>
+        </button>
       </div>
     </section>
   );

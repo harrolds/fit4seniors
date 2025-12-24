@@ -242,6 +242,43 @@
   gap: var(--spacing-md);
 }
 
+.reminders-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  min-height: 0;
+}
+
+.reminders-toast {
+  gap: 0.5rem;
+}
+
+.reminders-toast__content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.reminders-toast__icon {
+  color: var(--color-success);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reminders-toast__text {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.reminders-center__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  min-height: 0;
+}
+
 .reminders-center__header {
   display: flex;
   align-items: center;
@@ -264,8 +301,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  max-height: 60vh;
-  overflow-y: auto;
   padding: 0 var(--spacing-xs);
 }
 
@@ -356,10 +391,6 @@
 
 .reminders-center__pill {
   padding-inline: var(--spacing-sm);
-}
-
-.reminders-center__footer {
-  padding-top: var(--spacing-sm);
 }
 
 .reminders-time__meta {

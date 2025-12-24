@@ -45,18 +45,15 @@ export const BottomToastSprache: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <div className="settings-bottom-toast">
-      <div className="settings-bottom-toast__header">
-        <div>
-          <p className="settings-bottom-toast__eyebrow">{t('settings.bottomToast.language.eyebrow')}</p>
-          <h2 className="settings-bottom-toast__title">{t('settings.bottomToast.language.title')}</h2>
-        </div>
-        <button type="button" className="settings-bottom-toast__reset" onClick={handleReset}>
+    <div className="bottom-sheet settings-bottom-toast">
+      <div className="bottom-sheet__header">
+        <h2 className="bottom-sheet__title">{t('settings.bottomToast.language.title')}</h2>
+        <button type="button" className="bottom-sheet__reset" onClick={handleReset}>
           {t('settings.bottomToast.actions.reset')}
         </button>
       </div>
 
-      <div className="settings-bottom-toast__body">
+      <div className="bottom-sheet__body settings-bottom-toast__body">
         <section className="settings-bottom-toast__section">
           <div className="settings-bottom-toast__section-head">
             <h3>{t('settings.bottomToast.language.section.title')}</h3>
@@ -98,12 +95,12 @@ export const BottomToastSprache: React.FC<Props> = ({ onClose }) => {
         </div>
       </div>
 
-      <div className="settings-bottom-toast__actions">
-        <button type="button" className="settings-bottom-toast__primary" onClick={handleApply}>
+      <div className="bottom-sheet__actions">
+        <button type="button" className="bottom-sheet__btn-primary" onClick={handleApply}>
           <Icon name="check_circle" size={22} />
           {t('settings.bottomToast.actions.apply')}
         </button>
-        <button type="button" className="settings-bottom-toast__ghost" onClick={handleCancel}>
+        <button type="button" className="bottom-sheet__btn-secondary" onClick={handleCancel}>
           {t('settings.bottomToast.actions.cancel')}
         </button>
       </div>

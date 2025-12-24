@@ -11,6 +11,8 @@ import { FilterSheet } from '../features/trainieren/FilterSheet';
 import { SessionInterruptSheet } from '../features/trainieren/SessionInterruptSheet';
 import { TrainingInfoPanelContent } from '../modules/trainingInfo';
 import { NotificationsCenterSheet } from '../modules/reminders';
+import { ReminderToastPanel } from '../modules/reminders/panels/ReminderToastPanel';
+import { SettingsRemindersSheet } from '../modules/reminders/panels/SettingsRemindersSheet';
 import { SettingsBottomToastHost } from '../modules/settings/bottomToast/SettingsBottomToastHost';
 import { InfoPanelContent } from '../modules/more/panels/InfoPanelContent';
 
@@ -69,5 +71,15 @@ export const panelRegistry: PanelRegistryEntry[] = [
     id: 'settings-bottom-toast',
     type: 'bottom',
     component: SettingsBottomToastHost,
+  },
+  {
+    id: 'reminders-toast',
+    type: 'bottom',
+    component: ReminderToastPanel,
+  },
+  {
+    id: 'settings-reminders',
+    type: 'bottom',
+    component: SettingsRemindersSheet,
   },
 ];

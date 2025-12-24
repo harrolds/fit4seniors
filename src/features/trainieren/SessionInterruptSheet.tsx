@@ -1,6 +1,6 @@
 import React from 'react';
+import '../../shared/panels/bottom-sheet.css';
 import { useI18n } from '../../shared/lib/i18n';
-import { Button } from '../../shared/ui/Button';
 import { Icon } from '../../shared/ui/Icon';
 import './trainieren.css';
 
@@ -13,23 +13,23 @@ export const SessionInterruptSheet: React.FC<SessionInterruptSheetProps> = ({ on
   const { t } = useI18n();
 
   return (
-    <div className="session-interrupt-sheet">
-      <div className="session-interrupt-sheet__icon">
-        <Icon name="info" filled size={26} />
+    <div className="bottom-sheet session-interrupt-sheet">
+      <div className="bottom-sheet__header session-interrupt-sheet__header">
+        <div className="session-interrupt-sheet__icon">
+          <Icon name="info" filled size={26} />
+        </div>
+        <h2 className="bottom-sheet__title session-interrupt-sheet__title">{t('trainieren.detail.confirm.message')}</h2>
       </div>
-      <h3 className="session-interrupt-sheet__title">
-        {t('trainieren.detail.confirm.message')}
-      </h3>
-      <p className="session-interrupt-sheet__subtitle">
-        {t('trainieren.detail.confirm.subtitle')}
-      </p>
-      <div className="session-interrupt-sheet__actions">
-        <Button variant="secondary" fullWidth onClick={onContinue}>
+      <div className="bottom-sheet__body session-interrupt-sheet__body">
+        <p className="session-interrupt-sheet__subtitle">{t('trainieren.detail.confirm.subtitle')}</p>
+      </div>
+      <div className="bottom-sheet__actions">
+        <button type="button" className="bottom-sheet__btn-secondary" onClick={onContinue}>
           {t('trainieren.detail.confirm.continue')}
-        </Button>
-        <Button variant="primary" fullWidth onClick={onExit}>
+        </button>
+        <button type="button" className="bottom-sheet__btn-primary" onClick={onExit}>
           {t('trainieren.detail.confirm.stop')}
-        </Button>
+        </button>
       </div>
     </div>
   );

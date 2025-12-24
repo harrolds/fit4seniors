@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../shared/panels/bottom-sheet.css';
 import { useI18n } from '../../shared/lib/i18n';
 import type { DurationBucket, TrainingIntensity } from './catalog';
 import { getIntensityLabel } from './catalog';
@@ -66,65 +67,67 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
   };
 
   return (
-    <div className="trainieren-filter-sheet">
-      <header className="trainieren-filter-sheet__header">
-        <h3 className="trainieren-filter-sheet__title">{t('trainieren.filters.title')}</h3>
+    <div className="bottom-sheet trainieren-filter-sheet">
+      <header className="bottom-sheet__header">
+        <h2 className="bottom-sheet__title">{t('trainieren.filters.title')}</h2>
       </header>
 
-      <section className="trainieren-filter-sheet__section">
-        <p className="trainieren-filter-sheet__label">{t('trainieren.filters.intensityLabel')}</p>
-        <div className="filter-card-group">
-          {intensityOptions.map((option) => {
-            const active = isIntensityActive(option.value);
-            const label = getIntensityLabel(t, option.value);
-            return (
-              <button
-                key={option.value}
-                type="button"
-                className={`filter-card ${active ? 'filter-card--active' : ''}`}
-                onClick={() => handleToggleIntensity(option.value)}
-              >
-                <div className={`filter-card__icon filter-card__icon--${option.value}`}>
-                  <span className="material-symbols-outlined">{option.icon}</span>
-                </div>
-                <span className="filter-card__label">{label}</span>
-                <span
-                  className={`material-symbols-outlined filter-card__check${active ? ' filter-card__check--active' : ''}`}
-                  aria-hidden="true"
+      <div className="bottom-sheet__body">
+        <section className="trainieren-filter-sheet__section">
+          <p className="trainieren-filter-sheet__label">{t('trainieren.filters.intensityLabel')}</p>
+          <div className="filter-card-group">
+            {intensityOptions.map((option) => {
+              const active = isIntensityActive(option.value);
+              const label = getIntensityLabel(t, option.value);
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  className={`filter-card ${active ? 'filter-card--active' : ''}`}
+                  onClick={() => handleToggleIntensity(option.value)}
                 >
-                  {active ? 'check_circle' : 'radio_button_unchecked'}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
+                  <div className={`filter-card__icon filter-card__icon--${option.value}`}>
+                    <span className="material-symbols-outlined">{option.icon}</span>
+                  </div>
+                  <span className="filter-card__label">{label}</span>
+                  <span
+                    className={`material-symbols-outlined filter-card__check${active ? ' filter-card__check--active' : ''}`}
+                    aria-hidden="true"
+                  >
+                    {active ? 'check_circle' : 'radio_button_unchecked'}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
 
-      <section className="trainieren-filter-sheet__section">
-        <p className="trainieren-filter-sheet__label">{t('trainieren.filters.durationLabel')}</p>
-        <div className="filter-duration-grid">
-          {durationOptions.map((option) => {
-            const active = isDurationActive(option.value);
-            return (
-              <button
-                key={option.value}
-                type="button"
-                className={`filter-duration ${active ? 'filter-duration--active' : ''}`}
-                onClick={() => handleToggleDuration(option.value)}
-              >
-                <span className="filter-duration__value">{option.label}</span>
-                <span className="filter-duration__unit">{t('trainieren.filters.durationUnit')}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
+        <section className="trainieren-filter-sheet__section">
+          <p className="trainieren-filter-sheet__label">{t('trainieren.filters.durationLabel')}</p>
+          <div className="filter-duration-grid">
+            {durationOptions.map((option) => {
+              const active = isDurationActive(option.value);
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  className={`filter-duration ${active ? 'filter-duration--active' : ''}`}
+                  onClick={() => handleToggleDuration(option.value)}
+                >
+                  <span className="filter-duration__value">{option.label}</span>
+                  <span className="filter-duration__unit">{t('trainieren.filters.durationUnit')}</span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      </div>
 
-      <div className="trainieren-filter-sheet__footer">
-        <button type="button" className="filter-apply" onClick={handleApply}>
+      <div className="bottom-sheet__actions">
+        <button type="button" className="bottom-sheet__btn-primary" onClick={handleApply}>
           {t('trainieren.filters.apply')}
         </button>
-        <button type="button" className="filter-reset" onClick={handleReset}>
+        <button type="button" className="bottom-sheet__btn-secondary" onClick={handleReset}>
           {t('trainieren.filters.reset')}
         </button>
       </div>

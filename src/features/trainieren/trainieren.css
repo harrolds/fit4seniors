@@ -316,20 +316,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  max-height: 85vh;
-  padding: var(--spacing-lg);
-}
-
-.trainieren-filter-sheet__header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.trainieren-filter-sheet__title {
-  margin: 0;
-  font-size: var(--font-size-2xl, 1.5rem);
-  font-weight: var(--font-weight-bold);
+  height: 100%;
+  min-height: 0;
 }
 
 .trainieren-filter-sheet__section {
@@ -472,37 +460,6 @@
   text-transform: uppercase;
   color: inherit;
 }
-
-.trainieren-filter-sheet__footer {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing-sm) + 5px);
-  padding-top: var(--spacing-md);
-}
-
-.filter-apply {
-  width: 100%;
-  padding: 12px;
-  border-radius: var(--radius-lg);
-  border: none;
-  background: var(--color-accent);
-  color: var(--color-on-primary);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  box-shadow: var(--shadow-md);
-}
-
-.filter-reset {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  background: transparent;
-  color: var(--color-text-secondary);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-}
-
 /* Training detail v4c */
 .training-detail-page {
   background: var(--color-app-bg);
@@ -954,6 +911,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  height: 100%;
+  min-height: 0;
+}
+
+.session-interrupt-sheet__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
 .session-interrupt-sheet__icon {
@@ -977,7 +942,7 @@
   color: var(--color-text-secondary);
 }
 
-.session-interrupt-sheet__actions {
+.session-interrupt-sheet__body {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);

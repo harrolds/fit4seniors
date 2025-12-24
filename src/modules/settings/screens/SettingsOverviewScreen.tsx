@@ -77,7 +77,7 @@ export const SettingsOverviewScreen: React.FC = () => {
           tone: 'red',
           titleKey: 'settings.overview.items.notifications.title',
           subtitle: t('settings.overview.items.notifications.subtitle'),
-          onClick: () => goTo('/reminders'),
+          onClick: () => openBottomSheet('settings-reminders'),
         },
         {
           key: 'language',

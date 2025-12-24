@@ -1,63 +1,9 @@
-.panel-surface--bottom[data-panel-id="settings-bottom-toast"] {
-  max-height: min(50vh, 560px);
-  background: var(--color-app-bg);
-  padding-bottom: max(1rem, env(safe-area-inset-bottom, 16px));
-}
-
-.panel-surface--bottom[data-panel-id="settings-bottom-toast"] .panel-surface__header {
-  display: none;
-}
-
-.panel-surface--bottom[data-panel-id="settings-bottom-toast"] .panel-surface__body {
-  padding: 0.5rem 0.75rem 0.75rem;
-}
-
-.panel-surface--bottom[data-panel-id="settings-bottom-toast"] .bottom-sheet__handle-bar {
-  margin-top: 0.4rem;
-}
-
 .settings-bottom-toast {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   height: 100%;
   color: var(--color-text-primary);
-}
-
-.settings-bottom-toast__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0 0.25rem;
-}
-
-.settings-bottom-toast__eyebrow {
-  margin: 0 0 0.2rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-
-.settings-bottom-toast__title {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: var(--font-weight-bold);
-}
-
-.settings-bottom-toast__reset {
-  border: none;
-  background: transparent;
-  color: var(--color-primary);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  padding: 0.4rem 0.6rem;
-  border-radius: var(--radius-md);
-}
-
-.settings-bottom-toast__reset:hover {
-  background: rgba(0, 0, 0, 0.04);
 }
 
 .settings-bottom-toast__body {
@@ -391,38 +337,3 @@
   font-size: 0.92rem;
   line-height: 1.5;
 }
-
-.settings-bottom-toast__actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  padding: 0 0.25rem 0.25rem;
-}
-
-.settings-bottom-toast__primary {
-  width: 100%;
-  border: none;
-  background: linear-gradient(90deg, #f4a261, #f09b5c);
-  color: #ffffff;
-  font-weight: var(--font-weight-bold);
-  padding: 0.85rem 1rem;
-  border-radius: 1rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  box-shadow: 0 12px 30px rgba(244, 162, 97, 0.35);
-  cursor: pointer;
-}
-
-.settings-bottom-toast__ghost {
-  width: 100%;
-  border: none;
-  background: transparent;
-  color: var(--color-text-secondary);
-  font-weight: var(--font-weight-medium);
-  padding: 0.7rem 1rem;
-  border-radius: 0.9rem;
-  cursor: pointer;
-}
-

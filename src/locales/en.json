@@ -224,6 +224,7 @@
   "settings.help.contact.subtitle": "Our support team is ready to help.",
   "settings.help.contact.cta": "Contact support",
   "common.back": "Back",
+  "common.ok": "OK",
   "common.close": "Close",
   "validation.required": "This field is required.",
   "validation.maxLength": "The text is too long. Please shorten it.",

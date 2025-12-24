@@ -92,7 +92,6 @@ export const ModuleLanding: React.FC = () => {
   return (
     <div className="trainieren-page trainieren-module-page" data-category={moduleDef.categoryId}>
       <section className="trainieren-module-hero">
-        <p className="trainieren-page__eyebrow">{t('trainieren.module.categoryLabel')}</p>
         <h1 className="trainieren-module-hero__title">{moduleDef.title}</h1>
         <p className="trainieren-module-hero__intro">
           {introText || moduleDef.description}

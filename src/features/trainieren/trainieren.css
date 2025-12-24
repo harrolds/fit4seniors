@@ -67,14 +67,6 @@
   --trainieren-icon-bg: #faf2ef;
 }
 
-.trainieren-page__eyebrow {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
 .trainieren-page__description {
   margin: 0;
   color: var(--color-text-secondary);

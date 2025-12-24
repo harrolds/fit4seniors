@@ -2,6 +2,12 @@ import { useCallback } from 'react';
 import { useI18n } from '../../shared/lib/i18n';
 import { useResource } from '../../shared/lib/data';
 import type { ModuleCardTone } from '../../shared/ui/ModuleCard';
+import {
+  categoryCssVar,
+  categoryTone,
+  normalizeCategoryId,
+  type CategoryId,
+} from '../../config/categoryColors';
 import seedCatalog from '../../seed/fit4seniors.catalog.seed.v1.json';
 
 export type TrainingIntensity = 'light' | 'medium' | 'heavy';
@@ -58,6 +64,7 @@ export interface TrainingModule {
   id: string;
   title: string;
   description: string;
+  categoryId: CategoryId;
   tone: ModuleCardTone;
   icon: string;
   accentColorVar: string;
@@ -80,11 +87,11 @@ export interface TrainingVariantItem {
   paceCue: string;
 }
 
-const moduleMeta: Record<string, { tone: ModuleCardTone; icon: string }> = {
-  cardio: { tone: 'module-1', icon: 'monitor_heart' },
-  muskel: { tone: 'module-2', icon: 'fitness_center' },
-  balance_flex: { tone: 'module-3', icon: 'accessibility_new' },
-  brain: { tone: 'module-4', icon: 'psychology' },
+const moduleMeta: Record<string, { categoryId: CategoryId; icon: string }> = {
+  cardio: { categoryId: 'cardio', icon: 'monitor_heart' },
+  muskel: { categoryId: 'muscle', icon: 'fitness_center' },
+  balance_flex: { categoryId: 'balance', icon: 'accessibility_new' },
+  brain: { categoryId: 'brain', icon: 'psychology' },
 };
 
 const toneColorVar: Record<ModuleCardTone, string> = {
@@ -129,15 +136,19 @@ const buildCatalog = (locale: Locale): TrainingCatalog => {
   const catalog = seedCatalog as SeedCatalog;
 
   const modules: TrainingModule[] = catalog.modules.map((module) => {
-    const meta = moduleMeta[module.id] ?? { tone: 'module-5', icon: 'widgets' };
-    const accentColorVar = `var(${toneColorVar[meta.tone] ?? '--color-card-module-1'})`;
+    const meta = moduleMeta[module.id];
+    const categoryId = meta?.categoryId ?? normalizeCategoryId(module.id) ?? 'cardio';
+    const tone = categoryTone(categoryId);
+    const accentColorVar = categoryCssVar(categoryId);
+    const icon = meta?.icon ?? 'widgets';
 
     return {
       id: module.id,
       title: pickLocale(locale, module, 'title'),
       description: pickLocale(locale, module, 'description'),
-      tone: meta.tone,
-      icon: meta.icon,
+      categoryId,
+      tone,
+      icon,
       accentColorVar,
     };
   });

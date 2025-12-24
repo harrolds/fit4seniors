@@ -381,10 +381,11 @@ export const TrainingDetail: React.FC = () => {
     }
   };
 
+  const categoryId = moduleDef.categoryId;
   const pageClassName = `training-detail-page${isPhysicalModule ? ' training-detail-page--physical' : ''}`;
 
   return (
-    <div className={pageClassName}>
+    <div className={pageClassName} data-category={categoryId}>
       <div className="td-metaRow">
         <span className="td-categoryPill">{moduleDef?.title ?? moduleId}</span>
         <button

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigation } from '../shared/lib/navigation/useNavigation';
 import { useI18n } from '../shared/lib/i18n';
 import { Icon } from '../shared/ui/Icon';
+import { categoryCssVar } from './categoryColors';
 
 type TileTone = 'dark' | 'light';
 
@@ -93,7 +94,7 @@ export const BrainTrainingWidget: React.FC = () => {
       icon="psychology"
       title={t('home.widgets.brainTraining.title')}
       subtitle={t('home.widgets.brainTraining.subtitle')}
-      backgroundVar="var(--color-card-module-1)"
+      backgroundVar={categoryCssVar('brain')}
       onClick={() => goTo('/brain')}
     />
   );
@@ -108,7 +109,7 @@ export const CardioWidget: React.FC = () => {
       icon="monitor_heart"
       title={t('home.widgets.cardio.title')}
       subtitle={t('home.widgets.cardio.subtitle')}
-      backgroundVar="var(--color-card-module-2)"
+      backgroundVar={categoryCssVar('cardio')}
       tone="light"
       onClick={() => goTo('/trainieren/cardio')}
     />
@@ -124,7 +125,7 @@ export const MuscleWidget: React.FC = () => {
       icon="fitness_center"
       title={t('home.widgets.muscle.title')}
       subtitle={t('home.widgets.muscle.subtitle')}
-      backgroundVar="var(--color-card-module-3)"
+      backgroundVar={categoryCssVar('muscle')}
       onClick={() => goTo('/trainieren/muskel')}
     />
   );
@@ -139,7 +140,7 @@ export const BalanceWidget: React.FC = () => {
       icon="accessibility_new"
       title={t('home.widgets.balance.title')}
       subtitle={t('home.widgets.balance.subtitle')}
-      backgroundVar="var(--color-card-module-4)"
+      backgroundVar={categoryCssVar('balance')}
       onClick={() => goTo('/trainieren/balance_flex')}
     />
   );
@@ -158,7 +159,7 @@ export const RecentTrainingWidget: React.FC = () => {
       <button
         type="button"
         className="home-history"
-        style={{ backgroundColor: 'var(--color-card-module-3)' }}
+        style={{ backgroundColor: categoryCssVar('muscle') }}
         onClick={() => goTo('/trainieren')}
       >
         <div className="home-history__icon">

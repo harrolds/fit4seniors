@@ -17,7 +17,14 @@ vi.mock('./catalog', () => ({
   useTrainingCatalog: () => ({
     data: {
       modules: [
-        { id: 'brain', title: 'Gehirntraining', description: 'Brain desc', tone: 'module-4', icon: 'psychology' },
+        {
+          id: 'brain',
+          title: 'Gehirntraining',
+          description: 'Brain desc',
+          tone: 'module-4',
+          icon: 'psychology',
+          categoryId: 'brain',
+        },
       ],
     },
     isLoading: false,
@@ -51,6 +58,7 @@ describe('TrainierenHub brain navigation', () => {
     container.remove();
   });
 });
+
 
 
 

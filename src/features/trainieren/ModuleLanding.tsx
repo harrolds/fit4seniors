@@ -5,8 +5,7 @@ import { useI18n } from '../../shared/lib/i18n';
 import { Icon } from '../../shared/ui/Icon';
 import { Badge } from '../../shared/ui/Badge';
 import { Button } from '../../shared/ui/Button';
-import { List, ListItem } from '../../shared/ui/List';
-import { SectionHeader } from '../../shared/ui/SectionHeader';
+import { List } from '../../shared/ui/List';
 import {
   useTrainingCatalog,
   findModule,
@@ -17,6 +16,13 @@ import {
 } from './catalog';
 import { usePanels } from '../../shared/lib/panels';
 import './trainieren.css';
+
+const introKeyByModule: Record<string, string> = {
+  cardio: 'trainieren.categories.cardio.intro',
+  muskel: 'trainieren.categories.strength.intro',
+  balance_flex: 'trainieren.categories.balance.intro',
+  brain: 'trainieren.categories.brain.intro',
+};
 
 export const ModuleLanding: React.FC = () => {
   const { moduleId } = useParams<{ moduleId: string }>();
@@ -80,15 +86,20 @@ export const ModuleLanding: React.FC = () => {
     });
   };
 
+  const introKey = introKeyByModule[moduleDef.id];
+  const introText = introKey ? t(introKey) : '';
+
   return (
-    <div className="trainieren-page">
-      <div className="trainieren-module-header">
-        <SectionHeader
-          as="h1"
-          className="page-title"
-          title={moduleDef.title}
-          subtitle={moduleDef.description}
-        />
+    <div className="trainieren-page trainieren-module-page">
+      <section className="trainieren-module-hero">
+        <p className="trainieren-page__eyebrow">{t('trainieren.module.categoryLabel')}</p>
+        <h1 className="trainieren-module-hero__title">{moduleDef.title}</h1>
+        <p className="trainieren-module-hero__intro">
+          {introText || moduleDef.description}
+        </p>
+      </section>
+
+      <div className="trainieren-filter-row">
         <button type="button" className="trainieren-filter-button" onClick={openFilterSheet}>
           <Icon name="tune" size={22} />
           <span>{t('trainieren.module.filterCta')}</span>
@@ -99,9 +110,9 @@ export const ModuleLanding: React.FC = () => {
         {visibleItems.length === 0 ? (
           <p className="trainieren-status">{t('trainieren.trainingList.empty')}</p>
         ) : (
-          <List>
+          <List className="trainieren-training-list__grid">
             {visibleItems.map((item) => (
-              <ListItem
+              <li
                 key={item.id}
                 className="training-variant-card"
                 role="button"
@@ -114,27 +125,41 @@ export const ModuleLanding: React.FC = () => {
                   }
                 }}
               >
-                <div className="training-variant-card__top">
-                  <Badge
-                    variant="neutral"
-                    className={`training-variant-card__badge training-variant-card__badge--${item.intensity}`}
-                  >
-                    {getIntensityLabel(t, item.intensity)}
-                  </Badge>
-                  <div className="training-variant-card__time">
-                    <Icon name="schedule" size={18} />
-                    <span>
-                      {item.durationMin} {t('trainieren.minutes')}
-                    </span>
+                <div className="training-variant-card__body">
+                  <div className="training-variant-card__icon-tile">
+                    <Icon name={moduleDef.icon ?? 'fitness_center'} size={28} />
+                  </div>
+                  <div className="training-variant-card__content">
+                    <div className="training-variant-card__meta">
+                      <Badge
+                        variant="neutral"
+                        className={`training-variant-card__badge training-variant-card__badge--${item.intensity}`}
+                      >
+                        {getIntensityLabel(t, item.intensity)}
+                      </Badge>
+                      <div className="training-variant-card__time">
+                        <Icon name="schedule" size={18} />
+                        <span>
+                          {item.durationMin} {t('trainieren.minutes')}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="training-variant-card__title">{item.title}</p>
+                    <p className="training-variant-card__description">{item.shortDesc}</p>
                   </div>
                 </div>
-                <p className="training-variant-card__title">{item.title}</p>
-                <p className="training-variant-card__description">{item.shortDesc}</p>
-                <p className="training-variant-card__cue">{item.paceCue}</p>
-                <div className="training-variant-card__chevron" aria-hidden="true">
-                  <Icon name="chevron_right" size={22} />
-                </div>
-              </ListItem>
+                <Button
+                  type="button"
+                  variant="primary"
+                  className="training-variant-card__cta"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleOpenTraining(item.trainingId, item.intensity);
+                  }}
+                >
+                  {t('trainieren.detail.startCta')}
+                </Button>
+              </li>
             ))}
           </List>
         )}

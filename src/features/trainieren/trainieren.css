@@ -1,14 +1,36 @@
 .trainieren-page {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-xl) var(--page-gutter-x) var(--spacing-xl);
+  gap: var(--spacing-xl);
+  padding: calc(var(--spacing-xl) + 4px) var(--page-gutter-x) var(--spacing-xl);
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--color-background);
 }
 
-.trainieren-page__intro {
+.trainieren-module-page {
+  width: 100%;
+}
+
+.trainieren-module-hero {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
+}
+
+.trainieren-module-hero__title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+  color: var(--color-text-primary);
+}
+
+.trainieren-module-hero__intro {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-normal);
 }
 
 .trainieren-page__eyebrow {
@@ -16,7 +38,7 @@
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
 }
 
 .trainieren-page__description {
@@ -101,54 +123,38 @@
 .trainieren-training-list {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--spacing-sm) + 4px);
+  gap: var(--spacing-md);
+  width: 100%;
 }
 
-.trainieren-module-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+.trainieren-training-list__grid.ui-list {
   gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-  flex-wrap: wrap;
+}
+
+.trainieren-filter-row {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .trainieren-filter-button {
-  margin-left: auto;
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
+  border: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
   background: var(--color-surface);
-  color: var(--color-text-primary);
+  color: var(--color-secondary);
   font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
   transition: background-color var(--motion-duration-normal) var(--motion-ease-standard);
 }
 
 .trainieren-filter-button:hover {
-  background: var(--color-background);
-}
-
-.trainieren-module-header__eyebrow {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-}
-
-.trainieren-module-header__title {
-  margin: 4px 0;
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-}
-
-.trainieren-module-header__description {
-  margin: 0;
-  color: var(--color-text-secondary);
+  background: color-mix(in srgb, var(--color-surface) 90%, var(--color-background));
 }
 
 .training-detail {
@@ -209,37 +215,72 @@
   color: var(--color-text-primary);
 }
 
+.training-variant-card {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  position: relative;
+  padding: var(--spacing-lg);
+  border-radius: calc(var(--radius-xl) - 4px);
+  border: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-normal) var(--motion-ease-standard);
+}
+
+.training-variant-card:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+.training-variant-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.training-variant-card__body {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.training-variant-card__icon-tile {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-active) 16%, var(--color-surface));
+  display: grid;
+  place-items: center;
+  color: var(--color-secondary);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.training-variant-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex: 1 1 auto;
+}
+
 .training-variant-card__meta {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-xs);
-}
-
-.training-variant-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-  position: relative;
-  padding-right: 36px;
-}
-
-.training-variant-card.ui-list-item {
-  align-items: flex-start;
-  gap: calc(var(--spacing-xs) + 2px);
-}
-
-.training-variant-card__top {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-xs);
+  margin-top: 0;
+  flex-wrap: wrap;
 }
 
 .training-variant-card__badge {
-  border: 1px solid var(--color-border);
-  font-weight: var(--font-weight-semibold);
+  border: none;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--font-size-xs);
+  padding: 4px 10px;
 }
 
 .training-variant-card .training-variant-card__badge--light {
@@ -250,8 +291,7 @@
 }
 
 .training-variant-card .training-variant-card__badge--medium {
-  background: #face85;
-  background: color-mix(in srgb, var(--color-warning) 50%, white);
+  background: color-mix(in srgb, var(--color-warning) 40%, white);
   color: var(--color-warning);
   border-color: var(--color-warning);
 }
@@ -271,20 +311,6 @@
   font-size: var(--font-size-sm);
 }
 
-.training-variant-card__top .material-symbols-outlined {
-  justify-self: end;
-}
-
-.training-variant-card__chevron {
-  position: absolute;
-  right: var(--spacing-md);
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-text-secondary);
-  display: flex;
-  align-items: center;
-}
-
 .training-variant-card__title {
   margin: 0;
   font-size: var(--font-size-lg);
@@ -293,24 +319,21 @@
 }
 
 .training-variant-card__description {
-  margin: var(--spacing-xs) 0 0;
-  color: var(--color-text-primary);
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
 }
 
-.training-variant-card__cue {
-  margin: var(--spacing-xs) 0 0;
-  color: var(--color-text-secondary);
-  font-style: italic;
-  font-size: var(--font-size-sm);
+.training-variant-card__cta {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  font-weight: var(--font-weight-bold);
+  padding: 14px var(--spacing-md);
 }
 
 .training-variant-card__duration {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
-}
-
-.training-variant-card__cue {
-  margin: var(--spacing-xs) 0 0;
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
 }

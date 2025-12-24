@@ -6,6 +6,7 @@ export type SettingsPreferences = {
   highContrast: boolean;
   soundEnabled: boolean;
   hapticsEnabled: boolean;
+  soundVolume: number;
   language: 'de' | 'en';
 };
 
@@ -18,6 +19,7 @@ const defaultPreferences = (): SettingsPreferences => ({
   highContrast: false,
   soundEnabled: true,
   hapticsEnabled: true,
+  soundVolume: 80,
   language: 'de',
 });
 
@@ -32,12 +34,17 @@ const sanitizePreferences = (value: StoredSettings | null | undefined): Settings
     : safe.textScale;
 
   const language = value.language === 'en' || value.language === 'de' ? value.language : safe.language;
+  const sanitizeVolume = (volume: unknown): number => {
+    const num = typeof volume === 'number' && Number.isFinite(volume) ? volume : safe.soundVolume;
+    return Math.min(100, Math.max(0, num));
+  };
 
   return {
     textScale,
     highContrast: Boolean(value.highContrast),
     soundEnabled: value.soundEnabled === undefined ? safe.soundEnabled : Boolean(value.soundEnabled),
     hapticsEnabled: value.hapticsEnabled === undefined ? safe.hapticsEnabled : Boolean(value.hapticsEnabled),
+    soundVolume: sanitizeVolume(value.soundVolume),
     language,
   };
 };

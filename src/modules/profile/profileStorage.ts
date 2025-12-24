@@ -1,27 +1,15 @@
 import { useSyncExternalStore } from 'react';
 import { getValue, setValue } from '../../shared/lib/storage';
 
-export type AccessibilityPreferences = {
-  largeText: boolean;
-  highContrast: boolean;
-  reduceMotion: boolean;
-};
-
 export type ProfileState = {
   displayName: string;
   memberSinceYear: string;
-  ageCategory: '50_55' | '55_60' | '60_65' | '65_70' | '70_75' | '75_plus';
   moveGoal: 'condition' | 'strength' | 'balance' | 'social';
   fitnessLevel: 'starter' | 'intermediate' | 'advanced';
-  gender: 'male' | 'female' | 'unspecified';
   focusPreference: 'balance_strength' | 'endurance' | 'mobility' | 'overall';
-  healthFocus: 'heart_bp' | 'mobility' | 'vitals';
-  weeklyGoalFrequency: number;
-  sessionDurationMinutes: number;
   trainingsCompleted: number;
   minutesSpent: number;
   weeksActive: number;
-  accessibility: AccessibilityPreferences;
 };
 
 const STORAGE_KEY = 'profile.state.v1';
@@ -29,38 +17,17 @@ const STORAGE_KEY = 'profile.state.v1';
 const defaultState = (): ProfileState => ({
   displayName: '',
   memberSinceYear: '2023',
-  ageCategory: '65_70',
   moveGoal: 'strength',
   fitnessLevel: 'intermediate',
-  gender: 'male',
   focusPreference: 'balance_strength',
-  healthFocus: 'heart_bp',
-  weeklyGoalFrequency: 3,
-  sessionDurationMinutes: 20,
   trainingsCompleted: 24,
   minutesSpent: 310,
   weeksActive: 8,
-  accessibility: {
-    largeText: false,
-    highContrast: false,
-    reduceMotion: false,
-  },
 });
 
 const coerceNumber = (value: unknown, fallback: number): number => {
   const num = typeof value === 'number' && Number.isFinite(value) ? value : fallback;
   return num < 0 ? fallback : num;
-};
-
-const sanitizeAccessibility = (value: AccessibilityPreferences | null | undefined): AccessibilityPreferences => {
-  if (!value) {
-    return { largeText: false, highContrast: false, reduceMotion: false };
-  }
-  return {
-    largeText: Boolean(value.largeText),
-    highContrast: Boolean(value.highContrast),
-    reduceMotion: Boolean(value.reduceMotion),
-  };
 };
 
 const sanitizeProfile = (value: ProfileState | null | undefined): ProfileState => {
@@ -69,47 +36,21 @@ const sanitizeProfile = (value: ProfileState | null | undefined): ProfileState =
   const safe = defaultState();
   const incoming = value as Partial<ProfileState>;
 
-  const allowedAgeCategories: ProfileState['ageCategory'][] = ['50_55', '55_60', '60_65', '65_70', '70_75', '75_plus'];
-  const legacyAgeCategoryMap: Record<string, ProfileState['ageCategory']> = {
-    '66_70': '65_70',
-    '71_75': '70_75',
-  };
-  const sanitizeAgeCategory = (maybeAge: unknown): ProfileState['ageCategory'] => {
-    const raw = typeof maybeAge === 'string' ? maybeAge : '';
-    if (legacyAgeCategoryMap[raw]) {
-      return legacyAgeCategoryMap[raw];
-    }
-    if (allowedAgeCategories.includes(raw as ProfileState['ageCategory'])) {
-      return raw as ProfileState['ageCategory'];
-    }
-    return safe.ageCategory;
-  };
-
   return {
     displayName: typeof incoming.displayName === 'string' ? incoming.displayName : safe.displayName,
     memberSinceYear: typeof incoming.memberSinceYear === 'string' ? incoming.memberSinceYear : safe.memberSinceYear,
-    ageCategory: sanitizeAgeCategory(incoming.ageCategory),
     moveGoal: ['condition', 'strength', 'balance', 'social'].includes(incoming.moveGoal as string)
       ? (incoming.moveGoal as ProfileState['moveGoal'])
       : safe.moveGoal,
     fitnessLevel: ['starter', 'intermediate', 'advanced'].includes(incoming.fitnessLevel as string)
       ? (incoming.fitnessLevel as ProfileState['fitnessLevel'])
       : safe.fitnessLevel,
-    gender: ['male', 'female', 'unspecified'].includes(incoming.gender as string)
-      ? (incoming.gender as ProfileState['gender'])
-      : safe.gender,
     focusPreference: ['balance_strength', 'endurance', 'mobility', 'overall'].includes(incoming.focusPreference as string)
       ? (incoming.focusPreference as ProfileState['focusPreference'])
       : safe.focusPreference,
-    healthFocus: ['heart_bp', 'mobility', 'vitals'].includes(incoming.healthFocus as string)
-      ? (incoming.healthFocus as ProfileState['healthFocus'])
-      : safe.healthFocus,
-    weeklyGoalFrequency: coerceNumber(incoming.weeklyGoalFrequency, safe.weeklyGoalFrequency),
-    sessionDurationMinutes: coerceNumber(incoming.sessionDurationMinutes, safe.sessionDurationMinutes),
     trainingsCompleted: coerceNumber(incoming.trainingsCompleted, safe.trainingsCompleted),
     minutesSpent: coerceNumber(incoming.minutesSpent, safe.minutesSpent),
     weeksActive: coerceNumber(incoming.weeksActive, safe.weeksActive),
-    accessibility: sanitizeAccessibility(incoming.accessibility),
   };
 };
 

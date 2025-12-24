@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react';
 import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useI18n } from '../../../shared/lib/i18n';
-import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { usePanels } from '../../../shared/lib/panels';
 import { useSettingsState } from '../settingsStorage';
 import { SETTINGS_BOTTOM_TOAST_ID, SettingsToastKind } from '../bottomToast/SettingsBottomToastHost';
@@ -18,7 +17,6 @@ type OverviewItem = {
 
 export const SettingsOverviewScreen: React.FC = () => {
   const { t } = useI18n();
-  const { goTo } = useNavigation();
   const { openBottomSheet } = usePanels();
   const preferences = useSettingsState();
 
@@ -40,19 +38,18 @@ export const SettingsOverviewScreen: React.FC = () => {
         contrast: contrastLabel,
       });
 
-      const soundLabel = preferences.soundEnabled ? t('settings.values.sound.on') : t('settings.values.sound.off');
-      const hapticsLabel = preferences.hapticsEnabled
-        ? t('settings.values.haptics.on')
-        : t('settings.values.haptics.off');
-      const soundSubtitle = t('settings.overview.items.sound.value', {
-        sound: soundLabel,
-        haptics: hapticsLabel,
-      });
-
       const languageSubtitle =
         preferences.language === 'en'
           ? t('settings.values.language.en')
           : t('settings.values.language.de');
+
+      const soundLabel = preferences.soundEnabled ? t('settings.values.sound.on') : t('settings.values.sound.off');
+      const hapticsLabel = preferences.hapticsEnabled ? t('settings.values.haptics.on') : t('settings.values.haptics.off');
+      const soundSubtitle = t('settings.overview.items.sound.value', {
+        sound: soundLabel,
+        haptics: hapticsLabel,
+        volume: `${preferences.soundVolume}%`,
+      });
 
       return [
         {
@@ -90,12 +87,12 @@ export const SettingsOverviewScreen: React.FC = () => {
       ];
     },
     [
-      goTo,
       openToast,
       preferences.highContrast,
-      preferences.hapticsEnabled,
       preferences.language,
       preferences.soundEnabled,
+      preferences.hapticsEnabled,
+      preferences.soundVolume,
       preferences.textScale,
       t,
     ],

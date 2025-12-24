@@ -94,7 +94,7 @@ describe('Settings module smoke test', () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    expect(container.textContent).toMatch(/Feedback|Haptik|Haptics/i);
+    expect(container.textContent).toMatch(/Vibration|Volume/i);
 
     cleanup();
   });

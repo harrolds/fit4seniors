@@ -17,6 +17,7 @@ import {
   getIntensityLabel,
 } from './catalog';
 import { addCompletedSession } from '../../modules/progress/progressStorage';
+import { playFeedback } from '../../app/services/feedbackService';
 import './trainieren.css';
 
 type SessionStatus = 'idle' | 'running' | 'paused' | 'completed';
@@ -164,6 +165,7 @@ export const TrainingDetail: React.FC = () => {
   useEffect(() => {
     if (session.status !== 'completed') return;
 
+    playFeedback('complete');
     if (training && variant) {
       const completedAt = Date.now();
       const durationMinPlanned = plannedDuration || variant.durationMin;
@@ -253,6 +255,7 @@ export const TrainingDetail: React.FC = () => {
     if (!variant) return;
     const baseDuration = plannedDuration || variant.durationMin;
     const totalSeconds = Math.max(1, Math.round(baseDuration * 60));
+    playFeedback('start');
     closePanel();
     setSession({
       status: 'running',
@@ -265,7 +268,10 @@ export const TrainingDetail: React.FC = () => {
 
   const togglePause = useCallback(() => {
     setSession((prev) => {
-      if (prev.status === 'running') return { ...prev, status: 'paused' };
+      if (prev.status === 'running') {
+        playFeedback('pause');
+        return { ...prev, status: 'paused' };
+      }
       if (prev.status === 'paused') return { ...prev, status: 'running' };
       return prev;
     });
@@ -298,6 +304,7 @@ export const TrainingDetail: React.FC = () => {
           closePanel();
           guardContextRef.current = null;
           resetSession();
+          playFeedback('stop');
           onExit?.();
         },
       });

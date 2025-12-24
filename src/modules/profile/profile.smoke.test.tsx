@@ -35,7 +35,7 @@ describe('Profile module smoke test', () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    expect(container.textContent).toMatch(/Movement goals|Bewegungsziele/);
+    expect(container.textContent).toMatch(/Movement goal|Bewegungsziel/);
 
     act(() => {
       root.unmount();

@@ -8,17 +8,7 @@ import { SectionHeader } from '../../../shared/ui/SectionHeader';
 
 const scaleSteps: Array<'small' | 'default' | 'large'> = ['small', 'default', 'large'];
 
-const sectionPlaceholders: Record<
-  string,
-  { titleKey: string; bodyKey: string; ctaKey: string; icon: string; target: string }
-> = {
-  sound: {
-    titleKey: 'settings.detail.sound.title',
-    bodyKey: 'settings.detail.sound.body',
-    ctaKey: 'settings.detail.sound.cta',
-    icon: 'volume_up',
-    target: '/trainieren',
-  },
+const sectionPlaceholders: Record<string, { titleKey: string; bodyKey: string; ctaKey: string; icon: string; target: string }> = {
   profile: {
     titleKey: 'settings.detail.profile.title',
     bodyKey: 'settings.detail.profile.body',
@@ -135,7 +125,7 @@ export const SettingsDetailScreen: React.FC = () => {
   const renderPlaceholder = () => {
     const key = sectionKey;
     const meta = sectionMeta;
-    const iconTone = key === 'sound' ? 'orange' : key === 'profile' ? 'green' : 'blue';
+    const iconTone = key === 'profile' ? 'green' : 'blue';
 
     return (
       <div className="settings-placeholder">

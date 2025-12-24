@@ -13,26 +13,18 @@ const fitnessLevelLabels: Record<string, string> = {
   advanced: 'profile.level.advanced',
 };
 
+const goalLabels: Record<string, string> = {
+  condition: 'profile.goal.condition',
+  strength: 'profile.goal.strength',
+  balance: 'profile.goal.balance',
+  social: 'profile.goal.social',
+};
+
 const focusLabels: Record<string, string> = {
   balance_strength: 'profile.focus.balanceStrength',
   endurance: 'profile.focus.endurance',
   mobility: 'profile.focus.mobility',
   overall: 'profile.focus.overall',
-};
-
-const healthLabels: Record<string, string> = {
-  heart_bp: 'profile.health.heartBp',
-  mobility: 'profile.health.mobility',
-  vitals: 'profile.health.vitals',
-};
-
-const accessibilitySummary = (t: (k: string) => string, flags: { largeText: boolean; highContrast: boolean; reduceMotion: boolean }): string => {
-  const active: string[] = [];
-  if (flags.largeText) active.push(t('profile.accessibility.largeText'));
-  if (flags.highContrast) active.push(t('profile.accessibility.highContrast'));
-  if (flags.reduceMotion) active.push(t('profile.accessibility.reduceMotion'));
-  if (active.length === 0) return t('profile.accessibility.none');
-  return active.join(' • ');
 };
 
 export const ProfileOverviewScreen: React.FC = () => {
@@ -43,11 +35,6 @@ export const ProfileOverviewScreen: React.FC = () => {
   const displayName = profile.displayName.trim().length > 0 ? profile.displayName : t('profile.displayName.placeholder');
   const fitnessLabel = t(fitnessLevelLabels[profile.fitnessLevel]);
   const memberMeta = t('profile.member.meta', { year: profile.memberSinceYear || '—', level: fitnessLabel });
-
-  const goalSummary = t('profile.goal.summary', {
-    count: profile.weeklyGoalFrequency,
-    minutes: profile.sessionDurationMinutes,
-  });
 
   return (
     <div className="profile-page">
@@ -93,7 +80,8 @@ export const ProfileOverviewScreen: React.FC = () => {
           </div>
           <div className="profile-tile__text">
             <h3>{t('profile.goal.title')}</h3>
-            <p>{goalSummary}</p>
+            <p>{t(goalLabels[profile.moveGoal])}</p>
+            <p>{t('profile.goal.hint')}</p>
           </div>
         </div>
       </Card>
@@ -106,30 +94,20 @@ export const ProfileOverviewScreen: React.FC = () => {
           <div className="profile-tile__text">
             <h3>{t('profile.focus.title')}</h3>
             <p>{t(focusLabels[profile.focusPreference])}</p>
+            <p>{t('profile.focus.hint')}</p>
           </div>
         </div>
       </Card>
 
       <Card className="profile-tile">
         <div className="profile-tile__left">
-          <div className="profile-tile__icon profile-icon--health">
-            <Icon name="favorite" size={28} />
+          <div className="profile-tile__icon profile-icon--mint">
+            <Icon name="insights" size={28} />
           </div>
           <div className="profile-tile__text">
-            <h3>{t('profile.health.title')}</h3>
-            <p>{t(healthLabels[profile.healthFocus])}</p>
-          </div>
-        </div>
-      </Card>
-
-      <Card className="profile-tile">
-        <div className="profile-tile__left">
-          <div className="profile-tile__icon profile-icon--accessibility">
-            <Icon name="visibility" size={28} />
-          </div>
-          <div className="profile-tile__text">
-            <h3>{t('profile.accessibility.title')}</h3>
-            <p>{accessibilitySummary(t, profile.accessibility)}</p>
+            <h3>{t('profile.level.title')}</h3>
+            <p>{fitnessLabel}</p>
+            <p>{t('profile.level.hint')}</p>
           </div>
         </div>
       </Card>

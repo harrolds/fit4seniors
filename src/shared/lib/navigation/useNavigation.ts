@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getModuleById } from '../modules';
 import { trackScreenView } from '../telemetry';
 import { usePanels } from '../panels';
+import { playFeedback } from '../../../app/services/feedbackService';
 
 type NavigationTarget = 'home' | 'notifications' | 'settings' | string;
 
@@ -131,6 +132,7 @@ export const useNavigation = (): NavigationApi => {
   );
 
   const openNotifications = useCallback(() => {
+    playFeedback('notify');
     if (openBottomSheet) {
       openBottomSheet('notifications-center');
       return;

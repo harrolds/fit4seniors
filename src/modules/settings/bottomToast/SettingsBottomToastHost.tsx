@@ -2,8 +2,8 @@ import React from 'react';
 import '../../../shared/panels/bottom-sheet.css';
 import './bottomToast.css';
 import { BottomToastTextContrast } from './BottomToastTextContrast';
-import { BottomToastTonFeedback } from './BottomToastTonFeedback';
 import { BottomToastSprache } from './BottomToastSprache';
+import { BottomToastTonFeedback } from './BottomToastTonFeedback';
 
 export type SettingsToastKind = 'text' | 'sound' | 'language';
 

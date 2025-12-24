@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Icon } from '../../../shared/ui/Icon';
 import { useI18n } from '../../../shared/lib/i18n';
 import { getDefaultPreferences, saveSettings, useSettingsState } from '../settingsStorage';
+import { playFeedback } from '../../../app/services/feedbackService';
 
 type Props = {
   onClose: () => void;
@@ -12,29 +13,40 @@ export const BottomToastTonFeedback: React.FC<Props> = ({ onClose }) => {
   const prefs = useSettingsState();
   const [soundEnabled, setSoundEnabled] = useState<boolean>(prefs.soundEnabled);
   const [hapticsEnabled, setHapticsEnabled] = useState<boolean>(prefs.hapticsEnabled);
-  const [volume, setVolume] = useState<number>(80);
+  const [volume, setVolume] = useState<number>(prefs.soundVolume);
 
   useEffect(() => {
     setSoundEnabled(prefs.soundEnabled);
     setHapticsEnabled(prefs.hapticsEnabled);
-  }, [prefs.hapticsEnabled, prefs.soundEnabled]);
+    setVolume(prefs.soundVolume);
+  }, [prefs.soundEnabled, prefs.hapticsEnabled, prefs.soundVolume]);
+
+  const preview = (next: { sound?: boolean; haptics?: boolean; volume?: number }) => {
+    const nextPrefs = {
+      soundEnabled: next.sound ?? soundEnabled,
+      hapticsEnabled: next.haptics ?? hapticsEnabled,
+      soundVolume: next.volume ?? volume,
+    };
+    playFeedback('notify', nextPrefs);
+  };
 
   const handleReset = () => {
     const defaults = getDefaultPreferences();
     setSoundEnabled(defaults.soundEnabled);
     setHapticsEnabled(defaults.hapticsEnabled);
-    setVolume(80);
+    setVolume(defaults.soundVolume);
+    preview({ sound: defaults.soundEnabled, haptics: defaults.hapticsEnabled, volume: defaults.soundVolume });
   };
 
   const handleApply = () => {
-    saveSettings({ soundEnabled, hapticsEnabled });
+    saveSettings({ soundEnabled, hapticsEnabled, soundVolume: volume });
     onClose();
   };
 
   const handleCancel = () => {
     setSoundEnabled(prefs.soundEnabled);
     setHapticsEnabled(prefs.hapticsEnabled);
-    setVolume(80);
+    setVolume(prefs.soundVolume);
     onClose();
   };
 
@@ -62,12 +74,15 @@ export const BottomToastTonFeedback: React.FC<Props> = ({ onClose }) => {
                 max={100}
                 step={5}
                 value={volume}
-                onChange={(event) => setVolume(Number(event.target.value))}
+                onChange={(event) => {
+                  const next = Number(event.target.value);
+                  setVolume(next);
+                  preview({ volume: next });
+                }}
                 aria-label={t('settings.bottomToast.sound.section.volume')}
               />
               <Icon name="volume_up" size={24} className="settings-bottom-toast__slider-icon" />
             </div>
-            <p className="settings-bottom-toast__hint">{t('settings.bottomToast.sound.volumeHint')}</p>
           </div>
         </section>
 
@@ -87,7 +102,13 @@ export const BottomToastTonFeedback: React.FC<Props> = ({ onClose }) => {
               <input
                 type="checkbox"
                 checked={soundEnabled}
-                onChange={(event) => setSoundEnabled(event.target.checked)}
+                onChange={(event) => {
+                  const next = event.target.checked;
+                  setSoundEnabled(next);
+                  if (next) {
+                    preview({ sound: next });
+                  }
+                }}
                 aria-label={t('settings.bottomToast.sound.sound.title')}
               />
               <span className={`settings-bottom-toast__switch ${soundEnabled ? 'is-on' : ''}`}>
@@ -106,7 +127,13 @@ export const BottomToastTonFeedback: React.FC<Props> = ({ onClose }) => {
               <input
                 type="checkbox"
                 checked={hapticsEnabled}
-                onChange={(event) => setHapticsEnabled(event.target.checked)}
+                onChange={(event) => {
+                  const next = event.target.checked;
+                  setHapticsEnabled(next);
+                  if (next) {
+                    preview({ haptics: next });
+                  }
+                }}
                 aria-label={t('settings.bottomToast.sound.haptics.title')}
               />
               <span className={`settings-bottom-toast__switch ${hapticsEnabled ? 'is-on' : ''}`}>
@@ -114,6 +141,18 @@ export const BottomToastTonFeedback: React.FC<Props> = ({ onClose }) => {
               </span>
             </label>
           </div>
+        </section>
+
+        <section className="settings-bottom-toast__section">
+          <button
+            type="button"
+            className="bottom-sheet__btn-secondary"
+            onClick={() => preview({})}
+            style={{ width: '100%' }}
+          >
+            <Icon name="play_circle" size={20} />
+            {t('settings.bottomToast.sound.test')}
+          </button>
         </section>
       </div>
 
@@ -129,4 +168,5 @@ export const BottomToastTonFeedback: React.FC<Props> = ({ onClose }) => {
     </div>
   );
 };
+
 

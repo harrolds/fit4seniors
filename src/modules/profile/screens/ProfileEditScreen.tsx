@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useI18n } from '../../../shared/lib/i18n';
 import { Button } from '../../../shared/ui/Button';
 import { Card } from '../../../shared/ui/Card';
@@ -9,15 +9,6 @@ import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { ProfileState, saveProfile, useProfileState } from '../profileStorage';
 
 type SelectOption<T extends string> = { value: T; labelKey: string };
-
-const ageOptions: SelectOption<ProfileState['ageCategory']>[] = [
-  { value: '50_55', labelKey: 'profile.age.50_55' },
-  { value: '55_60', labelKey: 'profile.age.55_60' },
-  { value: '60_65', labelKey: 'profile.age.60_65' },
-  { value: '65_70', labelKey: 'profile.age.65_70' },
-  { value: '70_75', labelKey: 'profile.age.70_75' },
-  { value: '75_plus', labelKey: 'profile.age.75_plus' },
-];
 
 const goalOptions: SelectOption<ProfileState['moveGoal']>[] = [
   { value: 'condition', labelKey: 'profile.goal.condition' },
@@ -39,51 +30,20 @@ const focusOptions: SelectOption<ProfileState['focusPreference']>[] = [
   { value: 'overall', labelKey: 'profile.focus.overall' },
 ];
 
-const healthOptions: SelectOption<ProfileState['healthFocus']>[] = [
-  { value: 'heart_bp', labelKey: 'profile.health.heartBp' },
-  { value: 'mobility', labelKey: 'profile.health.mobility' },
-  { value: 'vitals', labelKey: 'profile.health.vitals' },
-];
-
-const genderOptions: SelectOption<ProfileState['gender']>[] = [
-  { value: 'male', labelKey: 'profile.gender.male' },
-  { value: 'female', labelKey: 'profile.gender.female' },
-];
-
 export const ProfileEditScreen: React.FC = () => {
   const { t } = useI18n();
   const { goTo } = useNavigation();
   const profile = useProfileState();
 
   const [displayName, setDisplayName] = useState(profile.displayName);
-  const [ageCategory, setAgeCategory] = useState<ProfileState['ageCategory']>(profile.ageCategory);
   const [moveGoal, setMoveGoal] = useState<ProfileState['moveGoal']>(profile.moveGoal);
-  const [fitnessLevel, setFitnessLevel] = useState<ProfileState['fitnessLevel']>(profile.fitnessLevel);
   const [focusPreference, setFocusPreference] = useState<ProfileState['focusPreference']>(profile.focusPreference);
-  const [healthFocus, setHealthFocus] = useState<ProfileState['healthFocus']>(profile.healthFocus);
-  const [gender, setGender] = useState<ProfileState['gender']>(profile.gender);
-  const [weeklyGoalFrequency] = useState<number>(profile.weeklyGoalFrequency);
-  const [sessionDurationMinutes] = useState<number>(profile.sessionDurationMinutes);
-  const [largeText, setLargeText] = useState<boolean>(profile.accessibility.largeText);
-  const [highContrast, setHighContrast] = useState<boolean>(profile.accessibility.highContrast);
-  const [reduceMotion, setReduceMotion] = useState<boolean>(profile.accessibility.reduceMotion);
 
   const handleSave = () => {
     saveProfile({
       displayName: displayName.trim(),
-      ageCategory,
       moveGoal,
-      fitnessLevel,
       focusPreference,
-      healthFocus,
-      gender,
-      weeklyGoalFrequency,
-      sessionDurationMinutes,
-      accessibility: {
-        largeText,
-        highContrast,
-        reduceMotion,
-      },
     });
     goTo('/profile');
   };
@@ -91,15 +51,6 @@ export const ProfileEditScreen: React.FC = () => {
   const handleCancel = () => {
     goTo('/profile');
   };
-
-  const weeklyLabel = useMemo(
-    () =>
-      t('profile.goal.summary', {
-        count: weeklyGoalFrequency,
-        minutes: sessionDurationMinutes,
-      }),
-    [t, weeklyGoalFrequency, sessionDurationMinutes],
-  );
 
   return (
     <div className="profile-page">
@@ -138,25 +89,6 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon profile-icon--sky">
-              <Icon name="cake" size={22} />
-            </div>
-            <div>
-              <h2 className="profile-section__title">{t('profile.edit.age.title')}</h2>
-              <p className="profile-section__subtitle">{t('profile.edit.age.subtitle')}</p>
-            </div>
-          </div>
-          <select className="profile-select" value={ageCategory} onChange={(e) => setAgeCategory(e.target.value as ProfileState['ageCategory'])}>
-            {ageOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {t(opt.labelKey)}
-              </option>
-            ))}
-          </select>
-        </Card>
-
-        <Card className="profile-section">
-          <div className="profile-section__header">
             <div className="profile-section__icon profile-icon--amber">
               <Icon name="flag" size={22} />
             </div>
@@ -172,52 +104,6 @@ export const ProfileEditScreen: React.FC = () => {
               </option>
             ))}
           </select>
-          <div className="profile-section__subtitle">{weeklyLabel}</div>
-        </Card>
-
-        <Card className="profile-section">
-          <div className="profile-section__header">
-            <div className="profile-section__icon profile-icon--mint">
-              <Icon name="fitness_center" size={22} />
-            </div>
-            <div>
-              <h2 className="profile-section__title">{t('profile.edit.level.title')}</h2>
-              <p className="profile-section__subtitle">{t('profile.edit.level.subtitle')}</p>
-            </div>
-          </div>
-          <select className="profile-select" value={fitnessLevel} onChange={(e) => setFitnessLevel(e.target.value as ProfileState['fitnessLevel'])}>
-            {levelOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {t(opt.labelKey)}
-              </option>
-            ))}
-          </select>
-        </Card>
-
-        <Card className="profile-section">
-          <div className="profile-section__header">
-            <div className="profile-section__icon profile-icon--violet">
-              <Icon name="wc" size={22} />
-            </div>
-            <div>
-              <h2 className="profile-section__title">{t('profile.edit.gender.title')}</h2>
-              <p className="profile-section__subtitle">{t('profile.edit.gender.subtitle')}</p>
-            </div>
-          </div>
-          <div className="profile-radio-group">
-            {genderOptions.map((opt) => (
-              <label key={opt.value} className="profile-radio">
-                <input
-                  type="radio"
-                  name="gender"
-                  value={opt.value}
-                  checked={gender === opt.value}
-                  onChange={() => setGender(opt.value)}
-                />
-                <span className="profile-radio__label">{t(opt.labelKey)}</span>
-              </label>
-            ))}
-          </div>
         </Card>
 
         <Card className="profile-section">
@@ -241,57 +127,16 @@ export const ProfileEditScreen: React.FC = () => {
 
         <Card className="profile-section">
           <div className="profile-section__header">
-            <div className="profile-section__icon profile-icon--rose">
-              <Icon name="favorite" size={22} />
+            <div className="profile-section__icon profile-icon--mint">
+              <Icon name="fitness_center" size={22} />
             </div>
             <div>
-              <h2 className="profile-section__title">{t('profile.edit.health.title')}</h2>
-              <p className="profile-section__subtitle">{t('profile.edit.health.subtitle')}</p>
+              <h2 className="profile-section__title">{t('profile.edit.level.title')}</h2>
+              <p className="profile-section__subtitle">{t('profile.edit.level.subtitle')}</p>
             </div>
           </div>
-          <select className="profile-select" value={healthFocus} onChange={(e) => setHealthFocus(e.target.value as ProfileState['healthFocus'])}>
-            {healthOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {t(opt.labelKey)}
-              </option>
-            ))}
-          </select>
-        </Card>
-
-        <Card className="profile-section">
-          <div className="profile-section__header">
-            <div className="profile-section__icon profile-icon--gold">
-              <Icon name="accessibility_new" size={22} />
-            </div>
-            <div>
-              <h2 className="profile-section__title">{t('profile.edit.accessibility.title')}</h2>
-              <p className="profile-section__subtitle">{t('profile.edit.accessibility.subtitle')}</p>
-            </div>
-          </div>
-
-          <div className="profile-toggle">
-            <div className="profile-toggle__meta">
-              <p className="profile-toggle__title">{t('profile.accessibility.largeText')}</p>
-              <p className="profile-toggle__subtitle">{t('profile.edit.accessibility.largeTextHint')}</p>
-            </div>
-            <input type="checkbox" checked={largeText} onChange={(e) => setLargeText(e.target.checked)} />
-          </div>
-
-          <div className="profile-toggle">
-            <div className="profile-toggle__meta">
-              <p className="profile-toggle__title">{t('profile.accessibility.highContrast')}</p>
-              <p className="profile-toggle__subtitle">{t('profile.edit.accessibility.highContrastHint')}</p>
-            </div>
-            <input type="checkbox" checked={highContrast} onChange={(e) => setHighContrast(e.target.checked)} />
-          </div>
-
-          <div className="profile-toggle">
-            <div className="profile-toggle__meta">
-              <p className="profile-toggle__title">{t('profile.accessibility.reduceMotion')}</p>
-              <p className="profile-toggle__subtitle">{t('profile.edit.accessibility.reduceMotionHint')}</p>
-            </div>
-            <input type="checkbox" checked={reduceMotion} onChange={(e) => setReduceMotion(e.target.checked)} />
-          </div>
+          <div className="profile-section__subtitle">{t(levelOptions.find((option) => option.value === profile.fitnessLevel)?.labelKey || levelOptions[0].labelKey)}</div>
+          <div className="profile-section__subtitle">{t('profile.edit.level.hint')}</div>
         </Card>
 
         <div className="profile-actions">

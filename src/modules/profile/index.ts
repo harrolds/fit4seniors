@@ -9,4 +9,4 @@ export {
   getDisplayName,
   ensureProfileHydrated,
 } from './profileStorage';
-export type { ProfileState, AccessibilityPreferences } from './profileStorage';
+export type { ProfileState } from './profileStorage';

@@ -12,6 +12,7 @@ import {
   setRemindersState,
   useRemindersState,
 } from '../remindersStorage';
+import { playFeedback } from '../../../app/services/feedbackService';
 
 type RemindersViewProps = {
   variant?: 'page' | 'sheet';
@@ -137,6 +138,7 @@ export const RemindersView: React.FC<RemindersViewProps> = ({ variant = 'page' }
       permissionPrompted: snapshot.permissionPrompted,
     });
     openBottomSheet('reminders-toast', { messageKey: 'reminders.toast.saved' });
+    playFeedback('saved');
     resetForm();
   };
 

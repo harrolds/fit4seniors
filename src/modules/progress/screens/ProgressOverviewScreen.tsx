@@ -4,6 +4,7 @@ import { Card } from '../../../shared/ui/Card';
 import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, loadCompletedSessions } from '../progressStorage';
+import { getGoalStatus, getProfile } from '../../../app/services/profileMotor';
 
 const createWeekdayFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { weekday: 'short' });
 
@@ -63,6 +64,13 @@ export const ProgressOverviewScreen: React.FC = () => {
     return { activeDaysThisWeek: uniqueDays.size, sessionsThisWeek: weeklySessions, weeklyBrainSessions };
   }, [sessions, startOfWeek, endOfWeek]);
 
+  const goalStatus = useMemo(() => getGoalStatus(sessions, getProfile()), [sessions]);
+  const goalStatusLabel = useMemo(() => {
+    if (goalStatus.status === 'onTrack') return t('profileMotor.onTrack');
+    if (goalStatus.status === 'near') return t('profileMotor.almostThere');
+    return t('profileMotor.sessionsLeft', { n: goalStatus.remainingSessions });
+  }, [goalStatus.remainingSessions, goalStatus.status, t]);
+
   const totalMinutes = useMemo(() => {
     const totalSeconds = sessions.reduce((acc, session) => acc + (session.durationSecActual || 0), 0);
     return Math.round(totalSeconds / 60);
@@ -90,6 +98,18 @@ export const ProgressOverviewScreen: React.FC = () => {
   return (
     <div className="po-wrap">
       <SectionHeader as="h1" className="page-title" title={t('pageTitles.progress')} subtitle={t('progress.subtitle')} />
+
+      <Card className="po-goalCard" variant="elevated">
+        <div className="po-goalCard__row">
+          <div>
+            <p className="po-goalCard__eyebrow">{t('profileMotor.weeklyGoal')}</p>
+            <p className="po-goalCard__value">
+              {goalStatus.weekSessions} / {goalStatus.goalSessions}
+            </p>
+          </div>
+          <div className="po-goalCard__status">{goalStatusLabel}</div>
+        </div>
+      </Card>
 
       <Card variant="elevated" className="po-weekCard">
         <h2>{t('progress.kpi.activeDays')}</h2>

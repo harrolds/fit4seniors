@@ -1,4 +1,5 @@
 import { getItems, setItems } from '../../shared/lib/storage';
+import { deriveLevelFromHistory } from '../../app/services/profileMotor';
 import type { TrainingIntensity } from '../../features/trainieren/catalog';
 
 export interface SessionSummary {
@@ -34,7 +35,9 @@ const sortSessions = (records: CompletedSessionRecord[]): CompletedSessionRecord
 
 export const loadCompletedSessions = (): CompletedSessionRecord[] => {
   const records = getItems<CompletedSessionRecord>(PROGRESS_STORAGE_KEY);
-  return sortSessions(records);
+  const sorted = sortSessions(records);
+  deriveLevelFromHistory(sorted);
+  return sorted;
 };
 
 export const addCompletedSession = (record: CompletedSessionRecord): void => {
@@ -42,6 +45,7 @@ export const addCompletedSession = (record: CompletedSessionRecord): void => {
   const deduped = existing.filter((item) => item.id !== record.id);
   const next = sortSessions([record, ...deduped]);
   setItems<CompletedSessionRecord>(PROGRESS_STORAGE_KEY, next);
+  deriveLevelFromHistory(next);
 };
 
 export const getSessionById = (id: string): CompletedSessionRecord | null => {

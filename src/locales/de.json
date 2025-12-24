@@ -577,5 +577,12 @@
   "profile.edit.focus.subtitle": "Beeinflusst den Fokus, den wir im Profil zeigen.",
   "profile.level.starter": "Einsteiger (ruhig)",
   "profile.level.intermediate": "Mittel (aktiv)",
-  "profile.level.advanced": "Fortgeschritten (sportlich)"
+  "profile.level.advanced": "Fortgeschritten (sportlich)",
+  "profileMotor.recommendedForYou": "Empfohlen für dich",
+  "profileMotor.onTrack": "Auf Kurs",
+  "profileMotor.almostThere": "Fast geschafft",
+  "profileMotor.sessionsLeft": "Noch {{n}} Einheiten diese Woche",
+  "profileMotor.nextUp": "Als Nächstes",
+  "profileMotor.weeklyGoal": "Wochenziel",
+  "profileMotor.reminderNudge": "Möchtest du eine Erinnerung setzen, um dein Wochenziel zu erreichen?"
 }

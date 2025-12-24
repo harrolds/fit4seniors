@@ -188,7 +188,16 @@ export const TrainingDetail: React.FC = () => {
     }
 
     closePanel();
-    navigate('/completion?return=/trainieren');
+    navigate('/completion?return=/trainieren', {
+      state: {
+        moduleId,
+        trainingId,
+        trainingTitle: training?.title,
+        durationSec: Math.max(session.totalSeconds - session.remainingSeconds, 0),
+        returnPath: '/trainieren',
+        completed: true,
+      },
+    });
   }, [
     session.status,
     session.totalSeconds,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { useI18n } from '../../shared/lib/i18n';
 import { Icon } from '../../shared/ui/Icon';
@@ -6,6 +6,8 @@ import { ModuleCard } from '../../shared/ui/ModuleCard';
 import { Button } from '../../shared/ui/Button';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
 import { useTrainingCatalog, toneToCssVar } from './catalog';
+import { Badge } from '../../shared/ui/Badge';
+import { getProfile } from '../../app/services/profileMotor';
 import './trainieren.css';
 
 export const TrainierenHub: React.FC = () => {
@@ -13,6 +15,27 @@ export const TrainierenHub: React.FC = () => {
   const { t, locale } = useI18n();
   const { data, isLoading, error } = useTrainingCatalog();
   const [showMore, setShowMore] = useState(false);
+  const profile = useMemo(() => getProfile(), []);
+  const preferredModuleId = useMemo(() => {
+    const mapping: Record<string, string> = {
+      cardio: 'cardio',
+      strength: 'muskel',
+      balance: 'balance_flex',
+      brain: 'brain',
+    };
+    return mapping[profile.preferredFocus] ?? null;
+  }, [profile.preferredFocus]);
+
+  const orderedModules = useMemo(() => {
+    if (!data?.modules) return [];
+    const modules = [...data.modules];
+    if (!preferredModuleId) return modules;
+    return modules.sort((a, b) => {
+      if (a.id === preferredModuleId) return -1;
+      if (b.id === preferredModuleId) return 1;
+      return 0;
+    });
+  }, [data?.modules, preferredModuleId]);
 
   if (isLoading) {
     return <p className="trainieren-status">{t('trainieren.hub.loading')}</p>;
@@ -76,7 +99,7 @@ export const TrainierenHub: React.FC = () => {
       </>
 
       <div className="trainieren-grid">
-        {data.modules.map((module) => (
+        {orderedModules.map((module) => (
           /* Media renders first via CSS order for Trainieren page */
           <ModuleCard
             key={module.id}
@@ -101,6 +124,11 @@ export const TrainierenHub: React.FC = () => {
             style={{ cursor: 'pointer', backgroundColor: toneToCssVar(module.tone) }}
             aria-label={module.title}
           >
+            {preferredModuleId === module.id ? (
+              <Badge variant="accent" className="trainieren-reco-badge">
+                {t('profileMotor.recommendedForYou')}
+              </Badge>
+            ) : null}
             <div className="trainieren-card-media" aria-hidden="true">
               <img
                 className="trainieren-card-media__img"

@@ -7,6 +7,7 @@ import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { TextInput } from '../../../shared/ui/TextInput';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { ProfileState, saveProfile, useProfileState } from '../profileStorage';
+import { getProfile, setMovementGoal, setPreferredFocus } from '../../../app/services/profileMotor';
 
 type SelectOption<T extends string> = { value: T; labelKey: string };
 
@@ -34,10 +35,12 @@ export const ProfileEditScreen: React.FC = () => {
   const { t } = useI18n();
   const { goTo } = useNavigation();
   const profile = useProfileState();
+  const motorProfile = getProfile();
 
   const [displayName, setDisplayName] = useState(profile.displayName);
   const [moveGoal, setMoveGoal] = useState<ProfileState['moveGoal']>(profile.moveGoal);
   const [focusPreference, setFocusPreference] = useState<ProfileState['focusPreference']>(profile.focusPreference);
+  const [sessionsPerWeek, setSessionsPerWeek] = useState<number>(motorProfile.movementGoal.sessionsPerWeek);
 
   const handleSave = () => {
     saveProfile({
@@ -45,6 +48,16 @@ export const ProfileEditScreen: React.FC = () => {
       moveGoal,
       focusPreference,
     });
+    setMovementGoal({ sessionsPerWeek });
+    const mappedFocus =
+      focusPreference === 'endurance'
+        ? 'cardio'
+        : focusPreference === 'balance_strength'
+          ? 'balance'
+          : focusPreference === 'mobility'
+            ? 'balance'
+            : 'cardio';
+    setPreferredFocus(mappedFocus);
     goTo('/profile');
   };
 
@@ -104,6 +117,16 @@ export const ProfileEditScreen: React.FC = () => {
               </option>
             ))}
           </select>
+          <div className="profile-field-label">{t('profileMotor.weeklyGoal')}</div>
+          <input
+            type="number"
+            min={1}
+            max={21}
+            className="profile-select"
+            value={sessionsPerWeek}
+            onChange={(event) => setSessionsPerWeek(Math.max(1, Number(event.target.value) || 1))}
+            aria-label={t('profileMotor.weeklyGoal')}
+          />
         </Card>
 
         <Card className="profile-section">

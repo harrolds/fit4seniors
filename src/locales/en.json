@@ -577,6 +577,13 @@
   "profile.edit.focus.subtitle": "This influences the focus shown on your overview.",
   "profile.level.starter": "Starter (Easy)",
   "profile.level.intermediate": "Intermediate (Active)",
-  "profile.level.advanced": "Advanced (Sporty)"
+  "profile.level.advanced": "Advanced (Sporty)",
+  "profileMotor.recommendedForYou": "Recommended for you",
+  "profileMotor.onTrack": "On track",
+  "profileMotor.almostThere": "Almost there",
+  "profileMotor.sessionsLeft": "{n} sessions left this week",
+  "profileMotor.nextUp": "Next up",
+  "profileMotor.weeklyGoal": "Weekly goal",
+  "profileMotor.reminderNudge": "Want to set a reminder to reach your weekly goal?"
 }
 

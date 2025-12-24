@@ -4,6 +4,8 @@ import { usePanels } from '../../../shared/lib/panels';
 import { Card } from '../../../shared/ui/Card';
 import { Button } from '../../../shared/ui/Button';
 import { Icon } from '../../../shared/ui/Icon';
+import { getGoalStatus, getProfile } from '../../../app/services/profileMotor';
+import { loadCompletedSessions } from '../../progress/progressStorage';
 import {
   ReminderDay,
   ReminderRule,
@@ -59,8 +61,15 @@ const formatEndDate = (value: string | null, formatter: (date: Date) => string, 
 
 export const RemindersView: React.FC<RemindersViewProps> = ({ variant = 'page' }) => {
   const { t } = useI18n();
-  const { openBottomSheet, closePanel } = usePanels();
+  const { openBottomSheet } = usePanels();
   const remindersState = useRemindersState();
+  const history = useMemo(() => loadCompletedSessions(), []);
+  const goalStatus = useMemo(() => getGoalStatus(history, getProfile()), [history]);
+  const isMidWeek = useMemo(() => {
+    const day = new Date().getDay(); // 0 = Sun
+    return day >= 2 && day <= 4;
+  }, []);
+  const showGoalNudge = variant === 'page' && isMidWeek && goalStatus.status === 'behind';
 
   const [timeSlots, setTimeSlots] = useState<FormTimeSlot[]>([
     { id: createRuleId(), time: '', labelKey: 'reminders.defaults.additional' },
@@ -146,6 +155,24 @@ export const RemindersView: React.FC<RemindersViewProps> = ({ variant = 'page' }
 
   return (
     <div className={containerClass}>
+      {showGoalNudge ? (
+        <Card className="reminders-card">
+          <div className="reminders-card__header">
+            <div className="reminders-card__icon reminders-card__icon--alert">
+              <Icon name="flag" size={24} />
+            </div>
+            <div>
+              <h2 className="reminders-card__title">{t('profileMotor.weeklyGoal')}</h2>
+              <p className="reminders-description">{t('profileMotor.reminderNudge')}</p>
+            </div>
+          </div>
+          <Button type="button" variant="secondary" onClick={() => openBottomSheet('settings-reminders')}>
+            <Icon name="add_alert" size={20} />
+            {t('reminders.actions.addTime')}
+          </Button>
+        </Card>
+      ) : null}
+
       <Card className="reminders-card">
         <div className="reminders-card__header">
           <div className="reminders-card__icon reminders-card__icon--calendar">

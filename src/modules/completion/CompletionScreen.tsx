@@ -7,6 +7,8 @@ import { Button } from '../../shared/ui/Button';
 import { Card } from '../../shared/ui/Card';
 import { Icon } from '../../shared/ui/Icon';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
+import { getProfile } from '../../app/services/profileMotor';
+import { findModule, useTrainingCatalog } from '../../features/trainieren/catalog';
 import './completion.screen.css';
 
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
@@ -38,6 +40,8 @@ export const CompletionScreen: React.FC = () => {
   const { closePanel } = usePanels();
   const navigate = useNavigate();
   const location = useLocation();
+  const { data: catalog } = useTrainingCatalog();
+  const profile = useMemo(() => getProfile(), []);
 
   const [messageKey] = useState<string>(() => resolveNextMessageKey());
   const completionMessage = t(messageKey);
@@ -59,6 +63,16 @@ export const CompletionScreen: React.FC = () => {
 
   const backTarget = payload.returnPath ?? returnTarget;
 
+  const focusToModule: Record<string, string> = {
+    cardio: 'cardio',
+    strength: 'muskel',
+    balance: 'balance_flex',
+    brain: 'brain',
+  };
+  const nextModuleId = payload.moduleId && payload.moduleId !== 'unknown' ? payload.moduleId : focusToModule[profile.preferredFocus];
+  const nextModule = findModule(catalog, nextModuleId);
+  const nextRoute = nextModule ? `/trainieren/${nextModule.id}` : '/trainieren';
+
   const formatDuration = (value?: number): string => {
     if (!value || Number.isNaN(value)) return '00:00';
     const safe = Math.max(0, Math.round(value));
@@ -75,6 +89,10 @@ export const CompletionScreen: React.FC = () => {
 
   const handleProgress = () => {
     navigate('/progress');
+  };
+
+  const handleNext = () => {
+    navigate(nextRoute, { replace: true });
   };
 
   const stats = isBrain
@@ -120,6 +138,19 @@ export const CompletionScreen: React.FC = () => {
           ))}
         </div>
       </Card>
+
+      {nextRoute ? (
+        <Card className="c-next">
+          <div className="c-next__text">
+            <p className="c-next__eyebrow">{t('profileMotor.nextUp')}</p>
+            <p className="c-next__title">{nextModule?.title ?? t('trainierenHub.title')}</p>
+          </div>
+          <Button variant="primary" fullWidth className="c-next__cta" onClick={handleNext}>
+            <Icon name="navigate_next" size={22} />
+            {t('trainieren.detail.backToOverview')}
+          </Button>
+        </Card>
+      ) : null}
 
       <div className="c-actions">
         <Button variant="primary" fullWidth className="c-btnPrimary" onClick={handleBack}>

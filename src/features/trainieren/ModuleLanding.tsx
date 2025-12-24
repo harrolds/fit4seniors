@@ -15,6 +15,8 @@ import {
   type DurationBucket,
 } from './catalog';
 import { usePanels } from '../../shared/lib/panels';
+import { getProfile, getRecommendationsForTrainingList } from '../../app/services/profileMotor';
+import { loadCompletedSessions } from '../../modules/progress/progressStorage';
 import './trainieren.css';
 
 const introKeyByModule: Record<string, string> = {
@@ -36,12 +38,18 @@ export const ModuleLanding: React.FC = () => {
 
   const moduleDef = findModule(data, moduleId);
   const variantItems = listVariantItemsForModule(data, moduleId);
+  const history = useMemo(() => loadCompletedSessions(), []);
+
+  const recommendation = useMemo(() => {
+    const profile = getProfile();
+    return getRecommendationsForTrainingList(variantItems, profile, history);
+  }, [variantItems, history]);
 
   const visibleItems = useMemo(() => {
-    return variantItems.filter(
+    return recommendation.items.filter(
       (item) => activeIntensities.includes(item.intensity) && activeDurations.includes(item.durationBucket),
     );
-  }, [activeDurations, activeIntensities, variantItems]);
+  }, [activeDurations, activeIntensities, recommendation.items]);
 
   if (isLoading) {
     return <p className="trainieren-status">{t('trainieren.module.loading')}</p>;
@@ -129,6 +137,11 @@ export const ModuleLanding: React.FC = () => {
                     <Icon name={moduleDef.icon ?? 'fitness_center'} size={28} />
                   </div>
                   <div className="training-variant-card__content">
+                    {recommendation.recommendedIds.has(item.id) ? (
+                      <Badge variant="accent" className="training-variant-card__recommend">
+                        {t('profileMotor.recommendedForYou')}
+                      </Badge>
+                    ) : null}
                     <div className="training-variant-card__meta">
                       <Badge
                         variant="neutral"

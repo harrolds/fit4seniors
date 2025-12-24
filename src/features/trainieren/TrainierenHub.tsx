@@ -23,13 +23,13 @@ export const TrainierenHub: React.FC = () => {
   }
 
   const moduleImageMap: Record<string, string> = {
-    cardio: '/assets/trainieren/cardio_excercise.png',
-    strength: '/assets/trainieren/strength_exercise.png',
-    muskelaufbau: '/assets/trainieren/strength_exercise.png',
-    muskel: '/assets/trainieren/strength_exercise.png',
-    balance: '/assets/trainieren/balance_excercise.png',
-    balance_flex: '/assets/trainieren/balance_excercise.png',
-    brain: '/assets/trainieren/brain_excercise.png',
+    cardio: '/assets/trainieren/cardio_excercise.webp',
+    strength: '/assets/trainieren/strength_exercise.webp',
+    muskelaufbau: '/assets/trainieren/strength_exercise.webp',
+    muskel: '/assets/trainieren/strength_exercise.webp',
+    balance: '/assets/trainieren/balance_excercise.webp',
+    balance_flex: '/assets/trainieren/balance_excercise.webp',
+    brain: '/assets/trainieren/brain_excercise.webp',
   };
 
   return (

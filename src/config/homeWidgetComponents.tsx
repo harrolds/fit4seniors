@@ -56,7 +56,7 @@ export const HomeHeroWidget: React.FC = () => {
         }}
       >
         <img
-          src="/assets/trainieren/main_excercise.png"
+          src="/assets/trainieren/main_excercise.webp"
           alt={t('home.hero.imageAlt')}
           className="home-hero__image"
           style={{

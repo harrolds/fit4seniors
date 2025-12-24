@@ -1,5 +1,7 @@
 import { pwaManifest } from '../../config/pwa';
 
+const isDevEnv = (typeof import.meta !== 'undefined' && import.meta.env?.DEV) ?? process.env.NODE_ENV !== 'production';
+
 export const pwaOptions = {
   registerType: 'autoUpdate',
   manifest: pwaManifest,
@@ -8,6 +10,6 @@ export const pwaOptions = {
     navigateFallback: 'index.html', // Offline UI handled in React (AppShell + OfflineScreen)
   },
   devOptions: {
-    enabled: true
+    enabled: isDevEnv
   }
 } as const;

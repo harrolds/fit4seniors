@@ -76,6 +76,12 @@
   gap: 0.5rem;
 }
 
+.settings-bottom-toast__slider--wide {
+  width: 100%;
+  grid-template-columns: 28px 1fr 28px;
+  gap: 0.75rem;
+}
+
 .settings-bottom-toast__slider input[type='range'] {
   -webkit-appearance: none;
   appearance: none;

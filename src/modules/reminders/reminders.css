@@ -39,11 +39,13 @@
 }
 
 .reminders-card__icon--alert {
+  background-color: rgba(245, 158, 11, 0.18);
   background-color: color-mix(in srgb, var(--color-warning) 18%, transparent);
   color: var(--color-warning);
 }
 
 .reminders-card__icon--calendar {
+  background-color: rgba(136, 176, 165, 0.18);
   background-color: color-mix(in srgb, var(--color-active) 18%, transparent);
   color: var(--color-active);
 }
@@ -116,6 +118,7 @@
   justify-content: center;
   border: 1px solid var(--color-error);
   color: var(--color-error);
+  background: #f7a2a2;
   background: color-mix(in srgb, var(--color-error) 50%, white);
 }
 
@@ -344,16 +347,19 @@
 }
 
 .reminders-center__icon--reminder {
+  background-color: rgba(136, 176, 165, 0.18);
   background-color: color-mix(in srgb, var(--color-active) 18%, transparent);
   color: var(--color-active);
 }
 
 .reminders-center__icon--info {
+  background-color: rgba(246, 176, 109, 0.18);
   background-color: color-mix(in srgb, var(--color-accent) 18%, transparent);
   color: var(--color-accent);
 }
 
 .reminders-center__icon--system {
+  background-color: rgba(16, 53, 70, 0.11);
   background-color: color-mix(in srgb, var(--color-text-muted) 18%, transparent);
   color: var(--color-text-primary);
 }

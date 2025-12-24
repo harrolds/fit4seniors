@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cardio Training Blocks V1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#84A99C", // Sage green from the "Start Session" button
+              secondary: "#013B4F", // Dark teal text color
+              "background-light": "#FFF8EC", // Cream background from screenshots
+              "background-dark": "#1a1a1a", // Dark mode equivalent
+              "card-light": "#FFFFFF",
+              "card-dark": "#2d2d2d",
+              "text-light": "#4B5563",
+              "text-dark": "#D1D5DB",
+            },
+            fontFamily: {
+              display: ["Roboto", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "1rem", // Rounded corners as requested
+            },
+            boxShadow: {
+              'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+            }
+          },
+        },
+      };
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-secondary dark:text-gray-100 min-h-screen pb-24">
+<header class="fixed top-0 left-0 right-0 z-50 bg-background-light dark:bg-background-dark px-4 py-3 flex items-center justify-between border-b border-gray-200 dark:border-gray-700 shadow-sm">
+<button class="p-2 -ml-2 text-secondary dark:text-white">
+<span class="material-icons-outlined">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold text-secondary dark:text-white">Trainieren</h1>
+<div class="flex items-center space-x-2">
+<button class="p-2 text-secondary dark:text-white">
+<span class="material-icons-outlined">notifications</span>
+</button>
+<button class="p-2 text-secondary dark:text-white">
+<span class="material-icons-outlined">more_horiz</span>
+</button>
+</div>
+</header>
+<main class="pt-20 px-4 space-y-6">
+<div>
+<span class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">KATEGORIE</span>
+<h2 class="text-3xl font-bold text-secondary dark:text-white mt-1">Cardio</h2>
+<p class="text-gray-600 dark:text-gray-300 mt-1 text-base">Sanfte Ausdauer-Einheiten für den Alltag.</p>
+</div>
+<div class="flex justify-end">
+<button class="flex items-center space-x-2 bg-white dark:bg-card-dark px-4 py-2 rounded-lg shadow-sm border border-gray-100 dark:border-gray-600 text-secondary dark:text-white text-sm font-medium">
+<span class="material-icons-outlined text-lg">tune</span>
+<span>Filter</span>
+</button>
+</div>
+<div class="space-y-4">
+<div class="bg-white dark:bg-card-dark rounded-2xl p-5 shadow-card flex flex-col space-y-4">
+<div class="flex items-start space-x-4">
+<div class="bg-gray-100 dark:bg-gray-700 w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons-outlined text-3xl">directions_walk</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center space-x-2 mb-1">
+<span class="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Leicht</span>
+<span class="text-gray-500 dark:text-gray-400 text-xs flex items-center">
+<span class="material-icons-outlined text-sm mr-1">schedule</span> 6 Min
+                             </span>
+</div>
+<h3 class="text-lg font-bold text-secondary dark:text-white leading-tight">Marschieren am Platz</h3>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Ruhiges Marschieren mit aufrechter Haltung.</p>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-3 rounded-xl transition-colors shadow-sm">
+                    Sitzung starten
+                </button>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl p-5 shadow-card flex flex-col space-y-4">
+<div class="flex items-start space-x-4">
+<div class="bg-gray-100 dark:bg-gray-700 w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons-outlined text-3xl">compare_arrows</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center space-x-2 mb-1">
+<span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Mittel</span>
+<span class="text-gray-500 dark:text-gray-400 text-xs flex items-center">
+<span class="material-icons-outlined text-sm mr-1">schedule</span> 10 Min
+                             </span>
+</div>
+<h3 class="text-lg font-bold text-secondary dark:text-white leading-tight">Step-Touch seitlich</h3>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Seitliches Antippen, weich in den Knien.</p>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-3 rounded-xl transition-colors shadow-sm">
+                    Sitzung starten
+                </button>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl p-5 shadow-card flex flex-col space-y-4">
+<div class="flex items-start space-x-4">
+<div class="bg-gray-100 dark:bg-gray-700 w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons-outlined text-3xl">home</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center space-x-2 mb-1">
+<span class="bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Intensiv</span>
+<span class="text-gray-500 dark:text-gray-400 text-xs flex items-center">
+<span class="material-icons-outlined text-sm mr-1">schedule</span> 16 Min
+                             </span>
+</div>
+<h3 class="text-lg font-bold text-secondary dark:text-white leading-tight">Kurzer Spaziergang (Indoor)</h3>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Gehen in der Wohnung mit klarer Route.</p>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-3 rounded-xl transition-colors shadow-sm">
+                    Sitzung starten
+                </button>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl p-5 shadow-card flex flex-col space-y-4">
+<div class="flex items-start space-x-4">
+<div class="bg-gray-100 dark:bg-gray-700 w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons-outlined text-3xl">stairs</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center space-x-2 mb-1">
+<span class="bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Leicht</span>
+<span class="text-gray-500 dark:text-gray-400 text-xs flex items-center">
+<span class="material-icons-outlined text-sm mr-1">schedule</span> 5 Min
+                             </span>
+</div>
+<h3 class="text-lg font-bold text-secondary dark:text-white leading-tight">Mini-Treppen-Simulation</h3>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Alternierendes Auf- und Absetzen an einer Stufe.</p>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-3 rounded-xl transition-colors shadow-sm">
+                    Sitzung starten
+                </button>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl p-5 shadow-card flex flex-col space-y-4">
+<div class="flex items-start space-x-4">
+<div class="bg-gray-100 dark:bg-gray-700 w-16 h-16 rounded-xl flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-icons-outlined text-3xl">air</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center space-x-2 mb-1">
+<span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Mittel</span>
+<span class="text-gray-500 dark:text-gray-400 text-xs flex items-center">
+<span class="material-icons-outlined text-sm mr-1">schedule</span> 10 Min
+                             </span>
+</div>
+<h3 class="text-lg font-bold text-secondary dark:text-white leading-tight">Gehen + Atem-Rhythmus</h3>
+<p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Gehen mit einfachem Atemmuster.</p>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-opacity-90 text-white font-medium py-3 rounded-xl transition-colors shadow-sm">
+                    Sitzung starten
+                </button>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 w-full bg-white dark:bg-card-dark border-t border-gray-200 dark:border-gray-700 pb-safe pt-2">
+<div class="flex justify-around items-end h-14 pb-2">
+<button class="flex flex-col items-center justify-center w-full text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
+<span class="material-icons-outlined text-2xl">home</span>
+<span class="text-[10px] mt-1 font-medium">Heute</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full text-primary transition-colors">
+<span class="material-icons-outlined text-2xl">fitness_center</span>
+<span class="text-[10px] mt-1 font-medium">Trainieren</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
+<span class="material-icons-outlined text-2xl">psychology</span>
+<span class="text-[10px] mt-1 font-medium">Gehirn</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
+<span class="material-icons-outlined text-2xl">bar_chart</span>
+<span class="text-[10px] mt-1 font-medium">Fortschritt</span>
+</button>
+<button class="flex flex-col items-center justify-center w-full text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
+<span class="material-icons-outlined text-2xl">more_horiz</span>
+<span class="text-[10px] mt-1 font-medium">Mehr</span>
+</button>
+</div>
+</nav>
+<style>
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+    </style>
+
+</body></html>

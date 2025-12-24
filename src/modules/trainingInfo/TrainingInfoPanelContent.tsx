@@ -15,6 +15,7 @@ import { Icon } from '../../shared/ui/Icon';
 import { IconButton } from '../../shared/ui/IconButton';
 import { List, ListItem } from '../../shared/ui/List';
 import { Badge } from '../../shared/ui/Badge';
+import './trainingInfo.css';
 
 type TrainingInfoPanelProps = {
   moduleId?: string;
@@ -85,54 +86,24 @@ export const TrainingInfoPanelContent: React.FC<TrainingInfoPanelProps> = ({
   const headingTitle = title ?? training.title ?? t('trainingInfo.panel.title');
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--spacing-lg)',
-        padding: 'var(--spacing-lg)',
-        minHeight: '100%',
-      }}
-    >
+    <div className="training-info-panel">
       {onClose ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            marginBottom: 'var(--spacing-md)',
-          }}
-        >
+        <div className="training-info-panel__back">
           <IconButton ariaLabel={t('common.back')} onClick={onClose} variant="ghost">
             <Icon name="arrow_back" size={24} />
           </IconButton>
         </div>
       ) : null}
 
-      <header
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--spacing-xs)',
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
-          <span style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)' }}>
-            {moduleDef.title}
-          </span>
-          <h2 style={{ margin: 0, fontSize: 'var(--font-size-xl)', color: 'var(--color-text-primary)' }}>
-            {headingTitle}
-          </h2>
-          <p style={{ margin: 0, color: 'var(--color-text-secondary)' }}>{training.shortDesc}</p>
+      <header className="training-info-panel__header">
+        <div className="training-info-panel__heading-meta">
+          <span className="training-info-panel__eyebrow">{moduleDef.title}</span>
+          <h2 className="training-info-panel__title">{headingTitle}</h2>
+          <p className="training-info-panel__desc">{training.shortDesc}</p>
         </div>
       </header>
 
-      <section
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-          gap: 'var(--spacing-md)',
-        }}
-      >
+      <section className="training-info-panel__badge-grid">
         {resolvedIntensity ? (
           <Badge variant="accent">{getIntensityLabel(t, resolvedIntensity)}</Badge>
         ) : null}
@@ -141,38 +112,36 @@ export const TrainingInfoPanelContent: React.FC<TrainingInfoPanelProps> = ({
         ) : null}
       </section>
 
-      <Card variant="elevated" style={{ boxShadow: 'none' }}>
+      <Card variant="elevated" className="training-info-card">
         <CardHeader>
           <Icon name="info" size={24} />
           <div>
-            <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-sm)' }}>
-              {t('trainingInfo.panel.section.about')}
-            </p>
-            <strong style={{ color: 'var(--color-text-primary)' }}>{training.title}</strong>
+            <p className="training-info-card__meta">{t('trainingInfo.panel.section.about')}</p>
+            <strong className="training-info-card__strong">{training.title}</strong>
           </div>
         </CardHeader>
         <CardBody>
-          <p style={{ margin: 0, lineHeight: 'var(--line-height-normal)' }}>{moduleDef.description}</p>
+          <p className="training-info-text training-info-text--normal">{moduleDef.description}</p>
           <Divider />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-xs)' }}>
-            <span style={{ fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-primary)' }}>
+          <div className="training-info-card__body-stack">
+            <span className="training-info-text training-info-text--semibold training-info-text--primary">
               {training.shortDesc}
             </span>
           </div>
         </CardBody>
       </Card>
 
-      <Card style={{ boxShadow: 'none' }}>
+      <Card className="training-info-card">
         <CardHeader>
           <Icon name="directions_walk" size={22} />
-          <p style={{ margin: 0, fontWeight: 'var(--font-weight-semibold)' }}>
+          <p className="training-info-text training-info-text--semibold">
             {t('trainingInfo.panel.section.how')}
           </p>
         </CardHeader>
         <CardBody>
-          <p style={{ margin: 0, color: 'var(--color-text-secondary)' }}>{training.shortDesc}</p>
+          <p className="training-info-text training-info-text--muted">{training.shortDesc}</p>
           {variant ? (
-            <p style={{ margin: 0, color: 'var(--color-text-primary)', fontWeight: 'var(--font-weight-medium)' }}>
+            <p className="training-info-text training-info-text--primary training-info-text--medium">
               {variant.paceCue}
             </p>
           ) : null}
@@ -180,10 +149,10 @@ export const TrainingInfoPanelContent: React.FC<TrainingInfoPanelProps> = ({
       </Card>
 
       {variant && resolvedIntensity ? (
-        <Card style={{ boxShadow: 'none' }}>
+        <Card className="training-info-card">
           <CardHeader>
             <Icon name="insights" size={22} />
-            <p style={{ margin: 0, fontWeight: 'var(--font-weight-semibold)' }}>
+            <p className="training-info-text training-info-text--semibold">
               {t('trainingInfo.panel.section.intensity')}
             </p>
           </CardHeader>
@@ -197,7 +166,7 @@ export const TrainingInfoPanelContent: React.FC<TrainingInfoPanelProps> = ({
               <ListItem
                 title={t('trainingInfo.panel.section.duration')}
                 rightSlot={
-                  <span style={{ fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text-primary)' }}>
+                  <span className="training-info-text training-info-text--semibold training-info-text--primary">
                     {variant.durationMin} {t('trainieren.minutes')}
                   </span>
                 }
@@ -209,21 +178,19 @@ export const TrainingInfoPanelContent: React.FC<TrainingInfoPanelProps> = ({
       ) : null}
 
       {hasMedia ? (
-        <Card style={{ boxShadow: 'none' }}>
+        <Card className="training-info-card">
           <CardHeader>
             <Icon name="collections" size={22} />
-            <p style={{ margin: 0, fontWeight: 'var(--font-weight-semibold)' }}>
+            <p className="training-info-text training-info-text--semibold">
               {t('trainingInfo.panel.section.media')}
             </p>
           </CardHeader>
           <CardBody>
-            <p style={{ margin: 0, color: 'var(--color-text-secondary)' }}>
+            <p className="training-info-text training-info-text--muted">
               {trainingWithMedia?.media?.imageKey}
             </p>
             {trainingWithMedia?.media?.aspect ? (
-              <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)' }}>
-                {trainingWithMedia.media.aspect}
-              </p>
+              <p className="training-info-card__meta">{trainingWithMedia.media.aspect}</p>
             ) : null}
           </CardBody>
         </Card>

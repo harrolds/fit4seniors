@@ -1,5 +1,4 @@
 .panel-surface--bottom {
-  max-height: 85vh;
   background: var(--color-app-bg);
   border-radius: 1.25rem 1.25rem 0 0;
   box-shadow: var(--shadow-lg);

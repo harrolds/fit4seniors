@@ -243,18 +243,21 @@
 }
 
 .training-variant-card .training-variant-card__badge--light {
+  background: #90e2ae;
   background: color-mix(in srgb, var(--color-success) 50%, white);
   color: var(--color-success);
   border-color: var(--color-success);
 }
 
 .training-variant-card .training-variant-card__badge--medium {
+  background: #face85;
   background: color-mix(in srgb, var(--color-warning) 50%, white);
   color: var(--color-warning);
   border-color: var(--color-warning);
 }
 
 .training-variant-card .training-variant-card__badge--heavy {
+  background: #f7a1a1;
   background: color-mix(in srgb, var(--color-error) 50%, white);
   color: var(--color-error);
   border-color: var(--color-error);
@@ -399,16 +402,19 @@
 }
 
 .filter-card__icon--light {
+  background: #d7f5e2;
   background: color-mix(in srgb, var(--color-success) 18%, white);
   color: var(--color-success);
 }
 
 .filter-card__icon--medium {
+  background: #fdeed3;
   background: color-mix(in srgb, var(--color-warning) 18%, white);
   color: var(--color-warning);
 }
 
 .filter-card__icon--heavy {
+  background: #fcdedd;
   background: color-mix(in srgb, var(--color-error) 18%, white);
   color: var(--color-error);
 }
@@ -500,8 +506,10 @@
 }
 
 .training-detail__chip--intensity {
+  background: #ecf2f0;
   background: color-mix(in srgb, var(--color-active) 16%, var(--color-surface));
   color: var(--color-active);
+  border-color: rgba(136, 176, 165, 0.4);
   border-color: color-mix(in srgb, var(--color-active) 40%, var(--color-border));
 }
 
@@ -561,6 +569,7 @@
 .training-detail__card {
   width: 100%;
   background: var(--color-surface);
+  border: 1px solid rgba(16, 53, 70, 0.08);
   border: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
   border-radius: calc(var(--radius-xl) + 6px);
   box-shadow: var(--shadow-md);
@@ -572,12 +581,16 @@
 }
 
 .training-detail__card--active {
+  background: #fef5ed;
   background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  border-color: rgba(246, 176, 109, 0.4);
   border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-border));
 }
 
 .training-detail__card--positive {
+  background: #eef4f2;
   background: color-mix(in srgb, var(--color-active) 14%, var(--color-surface));
+  border-color: rgba(136, 176, 165, 0.45);
   border-color: color-mix(in srgb, var(--color-active) 45%, var(--color-border));
   align-items: flex-start;
   gap: var(--spacing-md);
@@ -607,6 +620,7 @@
 
 .training-detail__timer-track {
   fill: none;
+  stroke: #e7ebec;
   stroke: color-mix(in srgb, var(--color-text-primary) 10%, var(--color-surface));
   stroke-width: 8;
 }
@@ -700,6 +714,7 @@
 }
 
 .training-detail__start-button:not(:disabled):hover {
+  background: #f6b678;
   background: color-mix(in srgb, var(--color-accent) 92%, white);
 }
 
@@ -812,6 +827,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
+  background: #e9f1ee;
   background: color-mix(in srgb, var(--color-active) 18%, var(--color-surface));
   color: var(--color-text-primary);
   display: grid;
@@ -925,6 +941,7 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-lg);
+  background: #fdf1e4;
   background: color-mix(in srgb, var(--color-accent) 18%, white);
   display: grid;
   place-items: center;

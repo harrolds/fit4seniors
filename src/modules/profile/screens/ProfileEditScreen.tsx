@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useI18n } from '../../../shared/lib/i18n';
 import { Button } from '../../../shared/ui/Button';
 import { Card } from '../../../shared/ui/Card';
@@ -6,30 +6,19 @@ import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { TextInput } from '../../../shared/ui/TextInput';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
-import { ProfileState, saveProfile, useProfileState } from '../profileStorage';
-import { getProfile, setMovementGoal, setPreferredFocus } from '../../../app/services/profileMotor';
+import { saveProfile, useProfileState } from '../profileStorage';
+import { PreferredFocus, getLevelFromPoints, getProfile, setMovementGoal, setPreferredFocus } from '../../../app/services/profileMotor';
 
-type SelectOption<T extends string> = { value: T; labelKey: string };
+type FocusOption = { value: PreferredFocus; labelKey: string };
 
-const goalOptions: SelectOption<ProfileState['moveGoal']>[] = [
-  { value: 'condition', labelKey: 'profile.goal.condition' },
-  { value: 'strength', labelKey: 'profile.goal.strength' },
-  { value: 'balance', labelKey: 'profile.goal.balance' },
-  { value: 'social', labelKey: 'profile.goal.social' },
+const focusOptions: FocusOption[] = [
+  { value: 'cardio', labelKey: 'profile.focus.options.cardio' },
+  { value: 'strength', labelKey: 'profile.focus.options.strength' },
+  { value: 'balance', labelKey: 'profile.focus.options.balance' },
+  { value: 'brain', labelKey: 'profile.focus.options.brain' },
 ];
 
-const levelOptions: SelectOption<ProfileState['fitnessLevel']>[] = [
-  { value: 'starter', labelKey: 'profile.level.starter' },
-  { value: 'intermediate', labelKey: 'profile.level.intermediate' },
-  { value: 'advanced', labelKey: 'profile.level.advanced' },
-];
-
-const focusOptions: SelectOption<ProfileState['focusPreference']>[] = [
-  { value: 'balance_strength', labelKey: 'profile.focus.balanceStrength' },
-  { value: 'endurance', labelKey: 'profile.focus.endurance' },
-  { value: 'mobility', labelKey: 'profile.focus.mobility' },
-  { value: 'overall', labelKey: 'profile.focus.overall' },
-];
+const clampSessions = (value: number): number => Math.min(7, Math.max(1, Math.round(value || 0))) || 1;
 
 export const ProfileEditScreen: React.FC = () => {
   const { t } = useI18n();
@@ -37,27 +26,42 @@ export const ProfileEditScreen: React.FC = () => {
   const profile = useProfileState();
   const motorProfile = getProfile();
 
+  const initialSessions = clampSessions(motorProfile.movementGoal.sessionsPerWeek ?? profile.sessionsPerWeek ?? 3);
   const [displayName, setDisplayName] = useState(profile.displayName);
-  const [moveGoal, setMoveGoal] = useState<ProfileState['moveGoal']>(profile.moveGoal);
-  const [focusPreference, setFocusPreference] = useState<ProfileState['focusPreference']>(profile.focusPreference);
-  const [sessionsPerWeek, setSessionsPerWeek] = useState<number>(motorProfile.movementGoal.sessionsPerWeek);
+  const [sessionsPerWeekInput, setSessionsPerWeekInput] = useState<string>(String(initialSessions));
+  const [preferredFocus, setPreferredFocusState] = useState<PreferredFocus>(
+    motorProfile.preferredFocus ?? profile.preferredFocus ?? 'cardio',
+  );
+
+  const levelInfo = useMemo(() => getLevelFromPoints(motorProfile.totalPoints ?? 0), [motorProfile.totalPoints]);
+
+  const resolvedSessionsPerWeek = sessionsPerWeekInput === '' ? initialSessions : clampSessions(Number(sessionsPerWeekInput));
+
+  const handleSessionsChange = (nextValue: string) => {
+    if (nextValue === '' || /^[1-7]$/.test(nextValue)) {
+      setSessionsPerWeekInput(nextValue);
+    }
+  };
+
+  const handleSessionsBlur = () => {
+    setSessionsPerWeekInput(String(resolvedSessionsPerWeek));
+  };
+
+  const adjustSessions = (delta: number) => {
+    const current = sessionsPerWeekInput === '' ? resolvedSessionsPerWeek : clampSessions(Number(sessionsPerWeekInput));
+    const next = clampSessions(current + delta);
+    setSessionsPerWeekInput(String(next));
+  };
 
   const handleSave = () => {
+    const sessionsPerWeek = resolvedSessionsPerWeek;
     saveProfile({
       displayName: displayName.trim(),
-      moveGoal,
-      focusPreference,
+      sessionsPerWeek,
+      preferredFocus,
     });
     setMovementGoal({ sessionsPerWeek });
-    const mappedFocus =
-      focusPreference === 'endurance'
-        ? 'cardio'
-        : focusPreference === 'balance_strength'
-          ? 'balance'
-          : focusPreference === 'mobility'
-            ? 'balance'
-            : 'cardio';
-    setPreferredFocus(mappedFocus);
+    setPreferredFocus(preferredFocus);
     goTo('/profile');
   };
 
@@ -106,27 +110,43 @@ export const ProfileEditScreen: React.FC = () => {
               <Icon name="flag" size={22} />
             </div>
             <div>
-              <h2 className="profile-section__title">{t('profile.edit.goal.title')}</h2>
-              <p className="profile-section__subtitle">{t('profile.edit.goal.subtitle')}</p>
+              <h2 className="profile-section__title">{t('profile.edit.sessions.title')}</h2>
+              <p className="profile-section__subtitle">{t('profile.edit.sessions.subtitle')}</p>
             </div>
           </div>
-          <select className="profile-select" value={moveGoal} onChange={(e) => setMoveGoal(e.target.value as ProfileState['moveGoal'])}>
-            {goalOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {t(opt.labelKey)}
-              </option>
-            ))}
-          </select>
-          <div className="profile-field-label">{t('profileMotor.weeklyGoal')}</div>
-          <input
-            type="number"
-            min={1}
-            max={21}
-            className="profile-select"
-            value={sessionsPerWeek}
-            onChange={(event) => setSessionsPerWeek(Math.max(1, Number(event.target.value) || 1))}
-            aria-label={t('profileMotor.weeklyGoal')}
-          />
+          <div className="profile-stepper" role="group" aria-label={t('profile.edit.sessions.label')}>
+            <Button
+              type="button"
+              variant="ghost"
+              className="profile-stepper__button"
+              onClick={() => adjustSessions(-1)}
+              aria-label={t('profile.edit.sessions.decrease')}
+            >
+              <Icon name="remove" />
+            </Button>
+            <input
+              className="profile-stepper__input"
+              inputMode="numeric"
+              pattern="[1-7]"
+              min={1}
+              max={7}
+              step={1}
+              value={sessionsPerWeekInput}
+              onChange={(event) => handleSessionsChange(event.target.value)}
+              onBlur={handleSessionsBlur}
+              aria-label={t('profile.edit.sessions.label')}
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              className="profile-stepper__button"
+              onClick={() => adjustSessions(1)}
+              aria-label={t('profile.edit.sessions.increase')}
+            >
+              <Icon name="add" />
+            </Button>
+          </div>
+          <p className="profile-helper">{t('profile.edit.sessions.helper')}</p>
         </Card>
 
         <Card className="profile-section">
@@ -139,7 +159,15 @@ export const ProfileEditScreen: React.FC = () => {
               <p className="profile-section__subtitle">{t('profile.edit.focus.subtitle')}</p>
             </div>
           </div>
-          <select className="profile-select" value={focusPreference} onChange={(e) => setFocusPreference(e.target.value as ProfileState['focusPreference'])}>
+          <label className="profile-field-label" htmlFor="preferredFocus-select">
+            {t('profile.edit.focus.title')}
+          </label>
+          <select
+            id="preferredFocus-select"
+            className="profile-select profile-select--full"
+            value={preferredFocus}
+            onChange={(event) => setPreferredFocusState(event.target.value as PreferredFocus)}
+          >
             {focusOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {t(opt.labelKey)}
@@ -158,8 +186,14 @@ export const ProfileEditScreen: React.FC = () => {
               <p className="profile-section__subtitle">{t('profile.edit.level.subtitle')}</p>
             </div>
           </div>
-          <div className="profile-section__subtitle">{t(levelOptions.find((option) => option.value === profile.fitnessLevel)?.labelKey || levelOptions[0].labelKey)}</div>
-          <div className="profile-section__subtitle">{t('profile.edit.level.hint')}</div>
+          <div className="profile-level-pill">{t(levelInfo.labelKey)}</div>
+          <p className="profile-helper">
+            {`${t(levelInfo.descriptionKey)} ${
+              levelInfo.pointsToNext !== null
+                ? t('profile.level.progressToNext', { points: levelInfo.pointsToNext })
+                : t('profile.level.max')
+            }`}
+          </p>
         </Card>
 
         <div className="profile-actions">

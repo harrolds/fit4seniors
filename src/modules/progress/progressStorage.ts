@@ -23,6 +23,8 @@ export interface CompletedSessionRecord {
   unitTitle?: string;
   completed?: boolean;
   summary?: SessionSummary;
+  pointsEarned?: number;
+  points?: number;
 }
 
 export const PROGRESS_STORAGE_KEY = 'progress:completedSessions';

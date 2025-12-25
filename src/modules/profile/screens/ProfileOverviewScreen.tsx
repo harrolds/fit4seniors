@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '../../../shared/lib/i18n';
 import { Card } from '../../../shared/ui/Card';
 import { Icon } from '../../../shared/ui/Icon';
@@ -6,35 +6,62 @@ import { Button } from '../../../shared/ui/Button';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { useProfileState } from '../profileStorage';
-
-const fitnessLevelLabels: Record<string, string> = {
-  starter: 'profile.level.starter',
-  intermediate: 'profile.level.intermediate',
-  advanced: 'profile.level.advanced',
-};
-
-const goalLabels: Record<string, string> = {
-  condition: 'profile.goal.condition',
-  strength: 'profile.goal.strength',
-  balance: 'profile.goal.balance',
-  social: 'profile.goal.social',
-};
+import { getLevelFromPoints, getProfile as getMotorProfile } from '../../../app/services/profileMotor';
+import { loadCompletedSessions } from '../../progress/progressStorage';
 
 const focusLabels: Record<string, string> = {
-  balance_strength: 'profile.focus.balanceStrength',
-  endurance: 'profile.focus.endurance',
-  mobility: 'profile.focus.mobility',
-  overall: 'profile.focus.overall',
+  cardio: 'profile.focus.options.cardio',
+  strength: 'profile.focus.options.strength',
+  balance: 'profile.focus.options.balance',
+  brain: 'profile.focus.options.brain',
+};
+
+const coercePoints = (value: unknown): number => {
+  const numeric = typeof value === 'number' && Number.isFinite(value) ? value : 0;
+  return Math.max(0, Math.round(numeric));
 };
 
 export const ProfileOverviewScreen: React.FC = () => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { goTo } = useNavigation();
   const profile = useProfileState();
+  const motorProfile = getMotorProfile();
+
+  const [totalPoints, setTotalPoints] = useState<number>(motorProfile.totalPoints ?? 0);
+
+  useEffect(() => {
+    const history = loadCompletedSessions();
+    const summedPoints = history.reduce(
+      (acc, entry) =>
+        acc +
+        coercePoints(
+          (entry as { pointsEarned?: number; points?: number }).pointsEarned ??
+            (entry as { points?: number }).points,
+        ),
+      0,
+    );
+    setTotalPoints(summedPoints);
+  }, []);
+
+  const levelInfo = useMemo(() => getLevelFromPoints(totalPoints), [totalPoints]);
 
   const displayName = profile.displayName.trim().length > 0 ? profile.displayName : t('profile.displayName.placeholder');
-  const fitnessLabel = t(fitnessLevelLabels[profile.fitnessLevel]);
-  const memberMeta = t('profile.member.meta', { year: profile.memberSinceYear || '—', level: fitnessLabel });
+  const sessionsPerWeek = motorProfile.movementGoal.sessionsPerWeek ?? profile.sessionsPerWeek ?? 1;
+  const preferredFocus = motorProfile.preferredFocus ?? profile.preferredFocus ?? 'cardio';
+
+  const motorProfileHasUserData =
+    motorProfile.totalPoints > 0 ||
+    motorProfile.movementGoal.sessionsPerWeek !== 3 ||
+    motorProfile.preferredFocus !== 'cardio';
+
+  const createdAt =
+    profile.localProfileCreatedAt ?? (motorProfileHasUserData ? motorProfile.localProfileCreatedAt : undefined);
+  const formattedSince = useMemo(() => {
+    if (!createdAt) return null;
+    const parsed = Date.parse(createdAt);
+    if (Number.isNaN(parsed)) return null;
+    return new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(new Date(parsed));
+  }, [createdAt, locale]);
 
   return (
     <div className="profile-page">
@@ -49,10 +76,13 @@ export const ProfileOverviewScreen: React.FC = () => {
             <Icon name="edit" size={16} />
           </div>
         </div>
+        <p className="profile-avatar__hint">{t('profile.avatar.hint')}</p>
 
-        <div>
+        <div className="profile-card__identity">
           <h2 className="profile-card__title">{displayName}</h2>
-          <p className="profile-card__meta">{memberMeta}</p>
+          <p className="profile-card__metaTitle">{t('profile.member.localTitle')}</p>
+          <p className="profile-card__meta">{t('profile.member.localStatus')}</p>
+          {formattedSince ? <p className="profile-card__meta">{t('profile.member.since', { date: formattedSince })}</p> : null}
         </div>
 
         <div className="profile-card__divider" />
@@ -79,9 +109,9 @@ export const ProfileOverviewScreen: React.FC = () => {
             <Icon name="flag" size={28} />
           </div>
           <div className="profile-tile__text">
-            <h3>{t('profile.goal.title')}</h3>
-            <p>{t(goalLabels[profile.moveGoal])}</p>
-            <p>{t('profile.goal.hint')}</p>
+            <h3>{t('profile.sessionsPerWeek.title')}</h3>
+            <p className="profile-tile__value">{sessionsPerWeek}</p>
+            <p>{t('profile.sessionsPerWeek.helper')}</p>
           </div>
         </div>
       </Card>
@@ -93,8 +123,8 @@ export const ProfileOverviewScreen: React.FC = () => {
           </div>
           <div className="profile-tile__text">
             <h3>{t('profile.focus.title')}</h3>
-            <p>{t(focusLabels[profile.focusPreference])}</p>
-            <p>{t('profile.focus.hint')}</p>
+            <p className="profile-tile__value">{t(focusLabels[preferredFocus])}</p>
+            <p>{t('profile.focus.helper')}</p>
           </div>
         </div>
       </Card>
@@ -106,8 +136,13 @@ export const ProfileOverviewScreen: React.FC = () => {
           </div>
           <div className="profile-tile__text">
             <h3>{t('profile.level.title')}</h3>
-            <p>{fitnessLabel}</p>
-            <p>{t('profile.level.hint')}</p>
+            <p className="profile-tile__value">{t(levelInfo.labelKey)}</p>
+            <p>{t(levelInfo.descriptionKey)}</p>
+            <p className="profile-helper">
+              {levelInfo.pointsToNext !== null
+                ? t('profile.level.progressToNext', { points: levelInfo.pointsToNext })
+                : t('profile.level.max')}
+            </p>
           </div>
         </div>
       </Card>

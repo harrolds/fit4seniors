@@ -48,6 +48,18 @@
   display: grid;
   place-items: center;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+
+.profile-avatar__hint {
+  margin: 0;
+  color: var(--text-secondary, #6b7280);
+  font-size: 13px;
+  text-align: center;
+}
+
+.profile-card__identity {
+  text-align: center;
 }
 
 .profile-card__title {
@@ -56,9 +68,16 @@
   color: var(--text-primary, #0f2e45);
 }
 
+.profile-card__metaTitle {
+  margin: 4px 0 0;
+  color: var(--text-primary, #0f2e45);
+  font-weight: 700;
+}
+
 .profile-card__meta {
   color: var(--text-secondary, #6b7280);
   font-weight: 600;
+  margin: 2px 0 0;
 }
 
 .profile-card__divider {
@@ -188,6 +207,11 @@
   color: var(--text-primary, #0f2e45);
 }
 
+.profile-tile__value {
+  font-weight: 800;
+  color: var(--text-primary, #0f2e45);
+}
+
 .profile-tile__text p {
   margin: 4px 0 0 0;
   color: var(--text-secondary, #6b7280);
@@ -264,10 +288,20 @@
   color: #0f172a;
 }
 
+.profile-select--full {
+  width: 100%;
+}
+
 .profile-field-label {
   font-weight: 700;
   color: var(--text-primary, #112d42);
   margin-bottom: 8px;
+}
+
+.profile-helper {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: var(--text-secondary, #6b7280);
 }
 
 .profile-radio-group {
@@ -302,6 +336,46 @@
 .profile-radio input:checked + .profile-radio__label {
   border-color: #112d42;
   background: rgba(17, 45, 66, 0.08);
+}
+
+.profile-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.profile-stepper__button {
+  border-radius: 12px;
+  padding: 10px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+.profile-stepper__input {
+  min-width: 48px;
+  text-align: center;
+  border-radius: 16px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.profile-level-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(17, 45, 66, 0.08);
+  font-weight: 700;
+  color: var(--text-primary, #112d42);
 }
 
 .profile-toggle {

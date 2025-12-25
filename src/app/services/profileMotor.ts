@@ -15,6 +15,7 @@ export type LevelInfo = {
   descriptionKey: string;
   nextThreshold: number | null;
   pointsToNext: number | null;
+  nextLevelLabelKey: string | null;
 };
 
 export type ProfileMotorState = {
@@ -151,9 +152,11 @@ const persist = (next: ProfileMotorState) => {
 
 export const getLevelFromPoints = (totalPoints: number): LevelInfo => {
   const safePoints = Number.isFinite(totalPoints) ? Math.max(0, Math.floor(totalPoints)) : 0;
-  const level =
-    LEVELS.find((candidate) => safePoints >= candidate.min && (candidate.max === undefined || safePoints <= candidate.max)) ??
-    LEVELS[LEVELS.length - 1];
+  const index = LEVELS.findIndex(
+    (candidate) => safePoints >= candidate.min && (candidate.max === undefined || safePoints <= candidate.max),
+  );
+  const level = LEVELS[index === -1 ? LEVELS.length - 1 : index];
+  const nextLevel = LEVELS[(index === -1 ? LEVELS.length - 1 : index) + 1];
 
   const nextThreshold = level.max !== undefined ? level.max + 1 : null;
   const pointsToNext = nextThreshold !== null ? Math.max(nextThreshold - safePoints, 0) : null;
@@ -164,6 +167,7 @@ export const getLevelFromPoints = (totalPoints: number): LevelInfo => {
     descriptionKey: level.descriptionKey,
     nextThreshold,
     pointsToNext,
+    nextLevelLabelKey: nextLevel ? nextLevel.labelKey : null,
   };
 };
 

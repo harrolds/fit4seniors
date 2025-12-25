@@ -7,7 +7,7 @@ import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { useProfileState } from '../profileStorage';
 import { getLevelFromPoints, getProfile as getMotorProfile } from '../../../app/services/profileMotor';
-import { loadCompletedSessions } from '../../progress/progressStorage';
+import { PROGRESS_STORAGE_EVENT_KEY, getCompletedSessions } from '../../progress/progressStorage';
 
 const focusLabels: Record<string, string> = {
   cardio: 'profile.focus.options.cardio',
@@ -21,29 +21,53 @@ const coercePoints = (value: unknown): number => {
   return Math.max(0, Math.round(numeric));
 };
 
+const isoWeekKey = (date: Date): string => {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNum = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+  return `${d.getUTCFullYear()}-${weekNum}`;
+};
+
 export const ProfileOverviewScreen: React.FC = () => {
   const { t, locale } = useI18n();
   const { goTo } = useNavigation();
   const profile = useProfileState();
   const motorProfile = getMotorProfile();
 
-  const [totalPoints, setTotalPoints] = useState<number>(motorProfile.totalPoints ?? 0);
+  const [completedSessions, setCompletedSessions] = useState(getCompletedSessions());
 
   useEffect(() => {
-    const history = loadCompletedSessions();
-    const summedPoints = history.reduce(
-      (acc, entry) =>
-        acc +
-        coercePoints(
-          (entry as { pointsEarned?: number; points?: number }).pointsEarned ??
-            (entry as { points?: number }).points,
-        ),
-      0,
-    );
-    setTotalPoints(summedPoints);
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key !== PROGRESS_STORAGE_EVENT_KEY) return;
+      setCompletedSessions(getCompletedSessions());
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
-  const levelInfo = useMemo(() => getLevelFromPoints(totalPoints), [totalPoints]);
+  useEffect(() => {
+    setCompletedSessions(getCompletedSessions());
+  }, []);
+
+  const stats = useMemo(() => {
+    const sessionCount = completedSessions.length;
+    const totalSeconds = completedSessions.reduce((acc, session) => acc + (session.durationSecActual || 0), 0);
+    const minutes = Math.floor(totalSeconds / 60);
+    const weeks = new Set<string>();
+    completedSessions.forEach((session) => {
+      if (!session.completedAt) return;
+      weeks.add(isoWeekKey(new Date(session.completedAt)));
+    });
+    const totalPoints = completedSessions.reduce(
+      (acc, session) => acc + coercePoints(session.pointsEarned ?? session.points),
+      0,
+    );
+    return { sessionCount, minutes, weeksActive: sessionCount === 0 ? 0 : weeks.size, totalPoints };
+  }, [completedSessions]);
+
+  const levelInfo = useMemo(() => getLevelFromPoints(stats.totalPoints), [stats.totalPoints]);
 
   const displayName = profile.displayName.trim().length > 0 ? profile.displayName : t('profile.displayName.placeholder');
   const sessionsPerWeek = motorProfile.movementGoal.sessionsPerWeek ?? profile.sessionsPerWeek ?? 1;
@@ -89,15 +113,15 @@ export const ProfileOverviewScreen: React.FC = () => {
 
         <div className="profile-stats">
           <div className="profile-stat">
-            <span className="profile-stat__value">{profile.trainingsCompleted}</span>
+            <span className="profile-stat__value">{stats.sessionCount}</span>
             <span className="profile-stat__label">{t('profile.stats.trainings')}</span>
           </div>
           <div className="profile-stat">
-            <span className="profile-stat__value">{profile.minutesSpent}</span>
+            <span className="profile-stat__value">{stats.minutes}</span>
             <span className="profile-stat__label">{t('profile.stats.minutes')}</span>
           </div>
           <div className="profile-stat">
-            <span className="profile-stat__value">{profile.weeksActive}</span>
+            <span className="profile-stat__value">{stats.weeksActive}</span>
             <span className="profile-stat__label">{t('profile.stats.weeks')}</span>
           </div>
         </div>
@@ -137,11 +161,15 @@ export const ProfileOverviewScreen: React.FC = () => {
           <div className="profile-tile__text">
             <h3>{t('profile.level.title')}</h3>
             <p className="profile-tile__value">{t(levelInfo.labelKey)}</p>
-            <p>{t(levelInfo.descriptionKey)}</p>
-            <p className="profile-helper">
-              {levelInfo.pointsToNext !== null
-                ? t('profile.level.progressToNext', { points: levelInfo.pointsToNext })
-                : t('profile.level.max')}
+            <p>
+              {`${t(levelInfo.descriptionKey)} ${
+                levelInfo.pointsToNext !== null && levelInfo.nextLevelLabelKey
+                  ? t('profile.level.progressToNextNamed', {
+                      points: levelInfo.pointsToNext,
+                      level: t(levelInfo.nextLevelLabelKey),
+                    })
+                  : t('profile.level.max')
+              }`}
             </p>
           </div>
         </div>

@@ -42,6 +42,8 @@ export const loadCompletedSessions = (): CompletedSessionRecord[] => {
   return sorted;
 };
 
+export const getCompletedSessions = (): CompletedSessionRecord[] => loadCompletedSessions();
+
 export const addCompletedSession = (record: CompletedSessionRecord): void => {
   const existing = getItems<CompletedSessionRecord>(PROGRESS_STORAGE_KEY);
   const deduped = existing.filter((item) => item.id !== record.id);

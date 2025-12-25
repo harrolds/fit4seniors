@@ -565,6 +565,7 @@
   "profile.level.l4.label": "L4 Experienced",
   "profile.level.l4.description": "Routinely active – keep breaks and safety in mind.",
   "profile.level.progressToNext": "{points} points to the next level.",
+  "profile.level.progressToNextNamed": "{points} points to {level}.",
   "profile.level.max": "Highest level reached – stay consistent.",
   "profile.actions.edit": "Edit profile",
   "profile.actions.save": "Save",

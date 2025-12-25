@@ -565,6 +565,7 @@
   "profile.level.l4.label": "L4 Erfahren",
   "profile.level.l4.description": "Routiniert aktiv – halte Pausen und Sicherheit im Blick.",
   "profile.level.progressToNext": "Noch {points} Punkte bis zum nächsten Level.",
+  "profile.level.progressToNextNamed": "Noch {points} Punkte bis {level}.",
   "profile.level.max": "Höchstes Level erreicht – einfach weiter dranbleiben.",
   "profile.level.starter": "Einsteiger (ruhig)",
   "profile.level.intermediate": "Mittel (aktiv)",

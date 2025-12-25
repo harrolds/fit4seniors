@@ -9,7 +9,7 @@ import { Icon } from '../../shared/ui/Icon';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
 import { useProfileMotorState, getRecommendationsForTrainingList } from '../../app/services/profileMotor';
 import { findModule, listVariantItemsForModule, useTrainingCatalog } from '../../features/trainieren/catalog';
-import { loadCompletedSessions } from '../../modules/progress/progressStorage';
+import { loadCompletedSessions } from '../progress/progressStorage';
 import './completion.screen.css';
 
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
@@ -48,6 +48,44 @@ export const CompletionScreen: React.FC = () => {
   const completionMessage = t(messageKey);
   const payload = (location.state as CompletionPayload | undefined) ?? {};
   const isBrain = payload.moduleId === 'brain';
+
+  const sessionMinutes = useMemo(() => {
+    const sec = typeof payload.durationSec === 'number' && Number.isFinite(payload.durationSec) ? Math.max(0, payload.durationSec) : 0;
+    return Math.max(0, Math.round(sec / 60));
+  }, [payload.durationSec]);
+
+  const totalMinutes = useMemo(() => {
+    const sessions = loadCompletedSessions();
+    const totalSeconds = sessions.reduce((acc, s) => acc + (s.durationSecActual || 0), 0);
+
+    const payloadFinishedAt = typeof payload.finishedAt === 'number' ? payload.finishedAt : null;
+    const latestFinishedAt = sessions.reduce((max, s) => Math.max(max, s.completedAt || 0), 0);
+
+    const maybeAddCurrent =
+      payloadFinishedAt !== null && payloadFinishedAt > latestFinishedAt
+        ? (typeof payload.durationSec === 'number' && Number.isFinite(payload.durationSec) ? Math.max(0, payload.durationSec) : 0)
+        : 0;
+
+    return Math.max(0, Math.round((totalSeconds + maybeAddCurrent) / 60));
+  }, [payload.durationSec, payload.finishedAt]);
+
+  const levelLabel = useMemo(() => {
+    const resolveLabel = (key: string) => {
+      const raw = t(key);
+      return raw.replace(/^L\d+\s*/i, '').trim() || raw;
+    };
+
+    if (totalMinutes >= 1200) return resolveLabel('profile.level.l4.label');
+    if (totalMinutes >= 600) return resolveLabel('profile.level.l3.label');
+    if (totalMinutes >= 200) return resolveLabel('profile.level.l2.label');
+    return resolveLabel('profile.level.l1.label');
+  }, [t, totalMinutes]);
+
+  const minutesUnit = t('completion.stats.minutesUnit');
+  const sessionMinutesValue = String(sessionMinutes);
+  const totalMinutesValue = String(totalMinutes);
+  const sessionMinutesLabel = `${t('completion.stats.sessionMinutesLabel')} ${minutesUnit}`;
+
 
   useEffect(() => {
     closePanel();
@@ -120,8 +158,10 @@ export const CompletionScreen: React.FC = () => {
         },
       ]
     : [
-        { label: t('completion.stats.minutesLabel'), value: t('completion.stats.minutesValue') },
+        { label: sessionMinutesLabel, value: sessionMinutesValue },
+        { label: t('completion.stats.totalMinutesLabel'), value: totalMinutesValue },
         { label: t('completion.stats.pointsLabel'), value: t('completion.stats.pointsValue') },
+        { label: t('completion.stats.levelLabel'), value: levelLabel },
       ];
 
   const title = isBrain ? t('completion.brain.title') : t('completion.cardTitle');

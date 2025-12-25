@@ -2,18 +2,15 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
-  padding: var(--spacing-xl);
+  padding: 0;
   background: var(--color-background);
   min-height: 100%;
-  align-items: center;
-  max-width: 520px;
-  margin: 0 auto;
+  align-items: stretch;
   width: 100%;
 }
 
 .c-card {
   width: 100%;
-  max-width: 460px;
   background: var(--color-surface);
   border-radius: var(--radius-xl);
   padding: calc(var(--spacing-xl) * 1.25);
@@ -101,7 +98,6 @@
 
 .c-next {
   width: 100%;
-  max-width: 460px;
   background: var(--color-surface);
   border-radius: var(--radius-xl);
   padding: var(--spacing-lg);

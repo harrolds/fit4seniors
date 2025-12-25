@@ -7,7 +7,7 @@ import { Button } from '../../shared/ui/Button';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
 import { useTrainingCatalog, toneToCssVar } from './catalog';
 import { Badge } from '../../shared/ui/Badge';
-import { getProfile } from '../../app/services/profileMotor';
+import { useProfileMotorState } from '../../app/services/profileMotor';
 import './trainieren.css';
 
 export const TrainierenHub: React.FC = () => {
@@ -15,7 +15,7 @@ export const TrainierenHub: React.FC = () => {
   const { t, locale } = useI18n();
   const { data, isLoading, error } = useTrainingCatalog();
   const [showMore, setShowMore] = useState(false);
-  const profile = useMemo(() => getProfile(), []);
+  const profile = useProfileMotorState();
   const preferredModuleId = useMemo(() => {
     const mapping: Record<string, string> = {
       cardio: 'cardio',

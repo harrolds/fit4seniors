@@ -15,7 +15,7 @@ import {
   type DurationBucket,
 } from './catalog';
 import { usePanels } from '../../shared/lib/panels';
-import { getProfile, getRecommendationsForTrainingList } from '../../app/services/profileMotor';
+import { useProfileMotorState, getRecommendationsForTrainingList } from '../../app/services/profileMotor';
 import { loadCompletedSessions } from '../../modules/progress/progressStorage';
 import './trainieren.css';
 
@@ -39,11 +39,11 @@ export const ModuleLanding: React.FC = () => {
   const moduleDef = findModule(data, moduleId);
   const variantItems = listVariantItemsForModule(data, moduleId);
   const history = useMemo(() => loadCompletedSessions(), []);
+  const motorProfile = useProfileMotorState();
 
   const recommendation = useMemo(() => {
-    const profile = getProfile();
-    return getRecommendationsForTrainingList(variantItems, profile, history);
-  }, [variantItems, history]);
+    return getRecommendationsForTrainingList(variantItems, motorProfile, history);
+  }, [variantItems, history, motorProfile]);
 
   const visibleItems = useMemo(() => {
     return recommendation.items.filter(
@@ -65,6 +65,14 @@ export const ModuleLanding: React.FC = () => {
       </div>
     );
   }
+
+  const focusToModule: Record<string, string> = {
+    cardio: 'cardio',
+    strength: 'muskel',
+    balance: 'balance_flex',
+    brain: 'brain',
+  };
+  const isProfileMatchModule = focusToModule[motorProfile.preferredFocus] === moduleDef.id;
 
   const handleOpenTraining = (trainingId: string, intensity: TrainingIntensity) => {
     goTo(`/trainieren/${moduleDef.id}/${trainingId}/${intensity}`);
@@ -137,7 +145,7 @@ export const ModuleLanding: React.FC = () => {
                     <Icon name={moduleDef.icon ?? 'fitness_center'} size={28} />
                   </div>
                   <div className="training-variant-card__content">
-                    {recommendation.recommendedIds.has(item.id) ? (
+                    {isProfileMatchModule && recommendation.recommendedIds.has(item.id) ? (
                       <Badge variant="accent" className="training-variant-card__recommend">
                         {t('profileMotor.recommendedForYou')}
                       </Badge>

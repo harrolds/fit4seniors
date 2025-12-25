@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from 'react';
 import { getValue, setValue } from '../../shared/lib/storage';
 import type { TrainingVariantItem } from '../../features/trainieren/catalog';
 
@@ -145,9 +146,19 @@ const sanitizeProfile = (value: ProfileMotorState | null | undefined): ProfileMo
 
 let profileCache: ProfileMotorState = sanitizeProfile(getValue<ProfileMotorState | null>(STORAGE_KEY, null));
 
+type Listener = () => void;
+const listeners = new Set<Listener>();
+const emit = () => listeners.forEach((l) => l());
+
+export const subscribeProfileMotor = (listener: Listener): (() => void) => {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+};
+
 const persist = (next: ProfileMotorState) => {
   profileCache = sanitizeProfile(next);
   setValue<ProfileMotorState>(STORAGE_KEY, profileCache);
+  emit();
 };
 
 export const getLevelFromPoints = (totalPoints: number): LevelInfo => {
@@ -172,6 +183,9 @@ export const getLevelFromPoints = (totalPoints: number): LevelInfo => {
 };
 
 export const getProfile = (): ProfileMotorState => profileCache;
+
+export const useProfileMotorState = (): ProfileMotorState =>
+  useSyncExternalStore(subscribeProfileMotor, () => getProfile(), () => getProfile());
 
 export const setMovementGoal = (movementGoal: Partial<MovementGoal>): ProfileMotorState => {
   const current = getProfile();

@@ -7,8 +7,9 @@ import { Button } from '../../shared/ui/Button';
 import { Card } from '../../shared/ui/Card';
 import { Icon } from '../../shared/ui/Icon';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
-import { getProfile } from '../../app/services/profileMotor';
-import { findModule, useTrainingCatalog } from '../../features/trainieren/catalog';
+import { useProfileMotorState, getRecommendationsForTrainingList } from '../../app/services/profileMotor';
+import { findModule, listVariantItemsForModule, useTrainingCatalog } from '../../features/trainieren/catalog';
+import { loadCompletedSessions } from '../../modules/progress/progressStorage';
 import './completion.screen.css';
 
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
@@ -41,7 +42,7 @@ export const CompletionScreen: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data: catalog } = useTrainingCatalog();
-  const profile = useMemo(() => getProfile(), []);
+  const profile = useProfileMotorState();
 
   const [messageKey] = useState<string>(() => resolveNextMessageKey());
   const completionMessage = t(messageKey);
@@ -70,8 +71,19 @@ export const CompletionScreen: React.FC = () => {
     brain: 'brain',
   };
   const nextModuleId = payload.moduleId && payload.moduleId !== 'unknown' ? payload.moduleId : focusToModule[profile.preferredFocus];
+  const history = useMemo(() => loadCompletedSessions(), []);
+  const variantItems = useMemo(() => listVariantItemsForModule(catalog, nextModuleId), [catalog, nextModuleId]);
+  const recommendation = useMemo(
+    () => getRecommendationsForTrainingList(variantItems, profile, history),
+    [variantItems, profile, history],
+  );
   const nextModule = findModule(catalog, nextModuleId);
-  const nextRoute = nextModule ? `/trainieren/${nextModule.id}` : '/trainieren';
+  const recommendedVariant =
+    recommendation.items.find((item) => recommendation.recommendedIds.has(item.id)) ?? recommendation.items[0];
+
+  const nextRoute = recommendedVariant
+    ? `/trainieren/${recommendedVariant.moduleId}/${recommendedVariant.trainingId}/${recommendedVariant.intensity}`
+    : '/trainieren';
 
   const formatDuration = (value?: number): string => {
     if (!value || Number.isNaN(value)) return '00:00';
@@ -143,11 +155,13 @@ export const CompletionScreen: React.FC = () => {
         <Card className="c-next">
           <div className="c-next__text">
             <p className="c-next__eyebrow">{t('profileMotor.nextUp')}</p>
-            <p className="c-next__title">{nextModule?.title ?? t('trainierenHub.title')}</p>
+            <p className="c-next__title">
+              {recommendedVariant?.title ?? nextModule?.title ?? t('trainierenHub.title')}
+            </p>
           </div>
           <Button variant="primary" fullWidth className="c-next__cta" onClick={handleNext}>
             <Icon name="navigate_next" size={22} />
-            {t('trainieren.detail.backToOverview')}
+            {t('trainieren.detail.startCta')}
           </Button>
         </Card>
       ) : null}

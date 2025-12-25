@@ -17,6 +17,7 @@ import {
   getIntensityLabel,
 } from './catalog';
 import { addCompletedSession } from '../../modules/progress/progressStorage';
+import { computePointsAwardedV1 } from '../../app/services/profileMotor';
 import { playFeedback } from '../../app/services/feedbackService';
 import './trainieren.css';
 
@@ -165,11 +166,15 @@ export const TrainingDetail: React.FC = () => {
   useEffect(() => {
     if (session.status !== 'completed') return;
 
+    const activeSeconds = Math.max(session.totalSeconds - session.remainingSeconds, 0);
+    const activeMinutes = Math.max(0, Math.round(activeSeconds / 60));
+    const pointsAwarded = training && variant ? computePointsAwardedV1(activeMinutes, variant.intensity) : undefined;
+
     playFeedback('complete');
     if (training && variant) {
       const completedAt = Date.now();
       const durationMinPlanned = plannedDuration || variant.durationMin;
-      const durationSecActual = Math.max(session.totalSeconds - session.remainingSeconds, 0);
+      const durationSecActual = activeSeconds || Math.max(variant.durationMin * 60, 1);
       const stepsSummary =
         session.steps && session.steps.length ? session.steps.slice(0, 3).join(' • ') : undefined;
 
@@ -181,9 +186,12 @@ export const TrainingDetail: React.FC = () => {
         trainingTitle: training.title,
         intensity: variant.intensity,
         durationMinPlanned,
-        durationSecActual: durationSecActual || Math.max(variant.durationMin * 60, 1),
+        durationSecActual,
+        activeMinutes,
         paceCue: variant.paceCue,
         stepsSummary,
+        pointsAwarded,
+        pointsModelVersion: 'v1',
       });
     }
 
@@ -193,7 +201,10 @@ export const TrainingDetail: React.FC = () => {
         moduleId,
         trainingId,
         trainingTitle: training?.title,
-        durationSec: Math.max(session.totalSeconds - session.remainingSeconds, 0),
+        durationSec: activeSeconds,
+        activeMinutes,
+        pointsAwarded,
+        pointsModelVersion: 'v1',
         returnPath: '/trainieren',
         completed: true,
       },

@@ -19,6 +19,11 @@ const focusOptions: FocusOption[] = [
 ];
 
 const clampSessions = (value: number): number => Math.min(7, Math.max(1, Math.round(value || 0))) || 1;
+const clampMinutesTarget = (value: number | undefined): number | undefined => {
+  if (!Number.isFinite(value ?? NaN)) return undefined;
+  const rounded = Math.round((value as number) / 10) * 10;
+  return Math.min(600, Math.max(10, rounded));
+};
 
 export const ProfileEditScreen: React.FC = () => {
   const { t } = useI18n();
@@ -27,8 +32,12 @@ export const ProfileEditScreen: React.FC = () => {
   const motorProfile = getProfile();
 
   const initialSessions = clampSessions(motorProfile.movementGoal.sessionsPerWeek ?? profile.sessionsPerWeek ?? 3);
+  const initialMinutesTarget = motorProfile.movementGoal.minutesPerWeekTarget;
   const [displayName, setDisplayName] = useState(profile.displayName);
   const [sessionsPerWeekInput, setSessionsPerWeekInput] = useState<string>(String(initialSessions));
+  const [minutesPerWeekTargetInput, setMinutesPerWeekTargetInput] = useState<string>(
+    initialMinutesTarget !== undefined ? String(initialMinutesTarget) : '',
+  );
   const [preferredFocus, setPreferredFocusState] = useState<PreferredFocus>(
     motorProfile.preferredFocus ?? profile.preferredFocus ?? 'cardio',
   );
@@ -36,6 +45,8 @@ export const ProfileEditScreen: React.FC = () => {
   const levelInfo = useMemo(() => getLevelFromPoints(motorProfile.totalPoints ?? 0), [motorProfile.totalPoints]);
 
   const resolvedSessionsPerWeek = sessionsPerWeekInput === '' ? initialSessions : clampSessions(Number(sessionsPerWeekInput));
+  const resolvedMinutesPerWeekTarget =
+    minutesPerWeekTargetInput === '' ? undefined : clampMinutesTarget(Number(minutesPerWeekTargetInput));
 
   const handleSessionsChange = (nextValue: string) => {
     if (nextValue === '' || /^[1-7]$/.test(nextValue)) {
@@ -45,6 +56,20 @@ export const ProfileEditScreen: React.FC = () => {
 
   const handleSessionsBlur = () => {
     setSessionsPerWeekInput(String(resolvedSessionsPerWeek));
+  };
+
+  const handleMinutesTargetChange = (nextValue: string) => {
+    if (nextValue === '' || /^\d{1,3}$/.test(nextValue)) {
+      setMinutesPerWeekTargetInput(nextValue);
+    }
+  };
+
+  const handleMinutesTargetBlur = () => {
+    if (resolvedMinutesPerWeekTarget === undefined) {
+      setMinutesPerWeekTargetInput('');
+      return;
+    }
+    setMinutesPerWeekTargetInput(String(resolvedMinutesPerWeekTarget));
   };
 
   const adjustSessions = (delta: number) => {
@@ -60,7 +85,7 @@ export const ProfileEditScreen: React.FC = () => {
       sessionsPerWeek,
       preferredFocus,
     });
-    setMovementGoal({ sessionsPerWeek });
+    setMovementGoal({ sessionsPerWeek, minutesPerWeekTarget: resolvedMinutesPerWeekTarget });
     setPreferredFocus(preferredFocus);
     goTo('/profile');
   };
@@ -147,6 +172,48 @@ export const ProfileEditScreen: React.FC = () => {
             </Button>
           </div>
           <p className="profile-helper">{t('profile.edit.sessions.helper')}</p>
+          <p className="profile-field-label">{t('profile.minutesTarget.label')}</p>
+          <div className="profile-stepper" role="group" aria-label={t('profile.minutesTarget.label')}>
+            <Button
+              type="button"
+              variant="ghost"
+              className="profile-stepper__button"
+              onClick={() => {
+                const current = resolvedMinutesPerWeekTarget ?? 0;
+                const next = clampMinutesTarget((current || 0) - 10) ?? undefined;
+                setMinutesPerWeekTargetInput(next !== undefined ? String(next) : '');
+              }}
+              aria-label={t('profile.minutesTarget.label')}
+            >
+              <Icon name="remove" />
+            </Button>
+            <input
+              className="profile-stepper__input"
+              inputMode="numeric"
+              pattern="\\d{1,3}"
+              min={10}
+              max={600}
+              step={10}
+              value={minutesPerWeekTargetInput}
+              onChange={(event) => handleMinutesTargetChange(event.target.value)}
+              onBlur={handleMinutesTargetBlur}
+              aria-label={t('profile.minutesTarget.label')}
+              placeholder="—"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              className="profile-stepper__button"
+              onClick={() => {
+                const next = clampMinutesTarget((resolvedMinutesPerWeekTarget ?? 0) + 10);
+                setMinutesPerWeekTargetInput(next !== undefined ? String(next) : '');
+              }}
+              aria-label={t('profile.minutesTarget.label')}
+            >
+              <Icon name="add" />
+            </Button>
+          </div>
+          <p className="profile-helper">{t('profile.minutesTarget.helper')}</p>
         </Card>
 
         <Card className="profile-section">

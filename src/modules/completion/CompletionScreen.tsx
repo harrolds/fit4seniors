@@ -7,8 +7,18 @@ import { Button } from '../../shared/ui/Button';
 import { Card } from '../../shared/ui/Card';
 import { Icon } from '../../shared/ui/Icon';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
-import { useProfileMotorState, getRecommendationsForTrainingList } from '../../app/services/profileMotor';
-import { findModule, listVariantItemsForModule, useTrainingCatalog } from '../../features/trainieren/catalog';
+import {
+  useProfileMotorState,
+  getRecommendationsForTrainingList,
+  computePointsAwardedV1,
+  getLevelFromPoints,
+} from '../../app/services/profileMotor';
+import {
+  findModule,
+  listVariantItemsForModule,
+  useTrainingCatalog,
+  type TrainingIntensity,
+} from '../../features/trainieren/catalog';
 import { loadCompletedSessions } from '../progress/progressStorage';
 import './completion.screen.css';
 
@@ -19,6 +29,10 @@ type CompletionPayload = {
   moduleId?: string;
   unitTitle?: string;
   durationSec?: number;
+  activeMinutes?: number;
+  pointsAwarded?: number;
+  pointsModelVersion?: 'v1';
+  intensity?: TrainingIntensity;
   finishedAt?: number;
   summary?: { kind: 'found_word'; value?: string; success?: boolean };
   completed?: boolean;
@@ -50,9 +64,22 @@ export const CompletionScreen: React.FC = () => {
   const isBrain = payload.moduleId === 'brain';
 
   const sessionMinutes = useMemo(() => {
-    const sec = typeof payload.durationSec === 'number' && Number.isFinite(payload.durationSec) ? Math.max(0, payload.durationSec) : 0;
+    if (Number.isFinite(payload.activeMinutes ?? NaN)) {
+      return Math.max(0, Math.round(payload.activeMinutes as number));
+    }
+    const sec =
+      typeof payload.durationSec === 'number' && Number.isFinite(payload.durationSec)
+        ? Math.max(0, payload.durationSec)
+        : 0;
     return Math.max(0, Math.round(sec / 60));
-  }, [payload.durationSec]);
+  }, [payload.activeMinutes, payload.durationSec]);
+
+  const pointsAwarded = useMemo(() => {
+    if (Number.isFinite(payload.pointsAwarded ?? NaN)) {
+      return Math.max(0, Math.round(payload.pointsAwarded as number));
+    }
+    return computePointsAwardedV1(sessionMinutes, payload.intensity);
+  }, [payload.intensity, payload.pointsAwarded, sessionMinutes]);
 
   const totalMinutes = useMemo(() => {
     const sessions = loadCompletedSessions();
@@ -69,22 +96,19 @@ export const CompletionScreen: React.FC = () => {
     return Math.max(0, Math.round((totalSeconds + maybeAddCurrent) / 60));
   }, [payload.durationSec, payload.finishedAt]);
 
-  const levelLabel = useMemo(() => {
-    const resolveLabel = (key: string) => {
-      const raw = t(key);
-      return raw.replace(/^L\d+\s*/i, '').trim() || raw;
-    };
-
-    if (totalMinutes >= 1200) return resolveLabel('profile.level.l4.label');
-    if (totalMinutes >= 600) return resolveLabel('profile.level.l3.label');
-    if (totalMinutes >= 200) return resolveLabel('profile.level.l2.label');
-    return resolveLabel('profile.level.l1.label');
-  }, [t, totalMinutes]);
+  const levelInfo = useMemo(() => getLevelFromPoints(profile.totalPoints ?? 0), [profile.totalPoints]);
+  const levelLabel = t(levelInfo.labelKey);
+  const levelProgressText =
+    levelInfo.pointsToNext === null || !levelInfo.nextLevelLabelKey
+      ? null
+      : t('completion.levelProgress', { n: levelInfo.pointsToNext, next: t(levelInfo.nextLevelLabelKey) });
 
   const minutesUnit = t('completion.stats.minutesUnit');
   const sessionMinutesValue = String(sessionMinutes);
   const totalMinutesValue = String(totalMinutes);
   const sessionMinutesLabel = `${t('completion.stats.sessionMinutesLabel')} ${minutesUnit}`;
+  const pointsValue = `+${pointsAwarded}`;
+  const pointsLabel = t('completion.pointsLabel');
 
 
   useEffect(() => {
@@ -160,7 +184,7 @@ export const CompletionScreen: React.FC = () => {
     : [
         { label: sessionMinutesLabel, value: sessionMinutesValue },
         { label: t('completion.stats.totalMinutesLabel'), value: totalMinutesValue },
-        { label: t('completion.stats.pointsLabel'), value: t('completion.stats.pointsValue') },
+        { label: pointsLabel, value: pointsValue },
         { label: t('completion.stats.levelLabel'), value: levelLabel },
       ];
 
@@ -189,6 +213,7 @@ export const CompletionScreen: React.FC = () => {
             </div>
           ))}
         </div>
+        {levelProgressText ? <p className="c-levelProgress">{levelProgressText}</p> : null}
       </Card>
 
       {nextRoute ? (

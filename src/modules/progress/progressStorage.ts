@@ -17,12 +17,15 @@ export interface CompletedSessionRecord {
   intensity?: TrainingIntensity;
   durationMinPlanned?: number;
   durationSecActual: number;
+  activeMinutes?: number;
   paceCue?: string;
   stepsSummary?: string;
   notes?: string;
   unitTitle?: string;
   completed?: boolean;
   summary?: SessionSummary;
+  pointsAwarded?: number;
+  pointsModelVersion?: 'v1';
   pointsEarned?: number;
   points?: number;
 }

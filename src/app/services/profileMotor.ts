@@ -5,6 +5,7 @@ import type { TrainingVariantItem } from '../../features/trainieren/catalog';
 export type MovementGoal = {
   sessionsPerWeek: number;
   minutesPerSession?: number;
+  minutesPerWeekTarget?: number;
 };
 
 export type PreferredFocus = 'cardio' | 'strength' | 'balance' | 'brain';
@@ -33,6 +34,7 @@ export type HistoryEntry = {
   durationMinPlanned?: number;
   intensity?: 'light' | 'medium' | 'heavy' | string;
   moduleId?: string;
+  pointsAwarded?: number;
   pointsEarned?: number;
   points?: number;
 };
@@ -63,6 +65,13 @@ const clampMinutes = (value: number | undefined, fallback: number): number => {
   if (!Number.isFinite(value ?? NaN)) return fallback;
   const safe = Math.max(5, Math.round(value as number));
   return safe > 180 ? fallback : safe;
+};
+
+const clampMinutesTarget = (value: number | undefined): number | undefined => {
+  if (!Number.isFinite(value ?? NaN)) return undefined;
+  const rounded = Math.round((value as number) / 10) * 10;
+  const clamped = Math.min(600, Math.max(10, rounded));
+  return clamped;
 };
 
 const normalizeDate = (value: unknown): string | undefined => {
@@ -134,6 +143,7 @@ const sanitizeProfile = (value: ProfileMotorState | null | undefined): ProfileMo
         movementGoal?.minutesPerSession,
         movementGoal?.minutesPerSession ? movementGoal.minutesPerSession : safe.movementGoal.minutesPerSession ?? 20,
       ),
+      minutesPerWeekTarget: clampMinutesTarget(movementGoal?.minutesPerWeekTarget),
     },
     preferredFocus: normalizePreferredFocus(preferredFocus),
     levelDerived: levelDerived === 'l1' || levelDerived === 'l2' || levelDerived === 'l3' || levelDerived === 'l4'
@@ -200,6 +210,9 @@ export const setMovementGoal = (movementGoal: Partial<MovementGoal>): ProfileMot
         movementGoal.minutesPerSession ?? current.movementGoal.minutesPerSession ?? 20,
         current.movementGoal.minutesPerSession ?? 20,
       ),
+      minutesPerWeekTarget: clampMinutesTarget(
+        movementGoal.minutesPerWeekTarget ?? current.movementGoal.minutesPerWeekTarget,
+      ),
     },
   };
   persist(next);
@@ -234,9 +247,19 @@ const resolveEndOfWeek = (start: Date): Date => {
 
 const coercePoints = (entry: HistoryEntry | null | undefined): number => {
   if (!entry) return 0;
-  const candidate = entry.pointsEarned ?? entry.points;
+  const candidate = entry.pointsAwarded ?? entry.pointsEarned ?? entry.points;
   if (!Number.isFinite(candidate ?? NaN)) return 0;
   return Math.max(0, Math.round(candidate as number));
+};
+
+export const computePointsAwardedV1 = (
+  activeMinutes: number,
+  intensity: 'light' | 'medium' | 'heavy' | undefined,
+): number => {
+  const minutes = Number.isFinite(activeMinutes) ? Math.max(0, Math.round(activeMinutes)) : 0;
+  const base = minutes * 5;
+  const mult = intensity === 'medium' ? 1.2 : intensity === 'heavy' ? 1.4 : 1.0;
+  return Math.max(0, Math.round(base * mult));
 };
 
 export const deriveLevelFromHistory = (

@@ -61,7 +61,7 @@ export const ProfileOverviewScreen: React.FC = () => {
       weeks.add(isoWeekKey(new Date(session.completedAt)));
     });
     const totalPoints = completedSessions.reduce(
-      (acc, session) => acc + coercePoints(session.pointsEarned ?? session.points),
+      (acc, session) => acc + coercePoints(session.pointsAwarded ?? session.pointsEarned ?? session.points),
       0,
     );
     return { sessionCount, minutes, weeksActive: sessionCount === 0 ? 0 : weeks.size, totalPoints };

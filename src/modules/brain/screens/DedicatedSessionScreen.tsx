@@ -6,6 +6,7 @@ import { Icon } from '../../../shared/ui/Icon';
 import { useI18n } from '../../../shared/lib/i18n';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { addCompletedSession } from '../../progress/progressStorage';
+import { getExerciseById } from '../brainCatalog';
 
 const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
@@ -19,6 +20,7 @@ export const DedicatedSessionScreen: React.FC = () => {
   const { exerciseId } = useParams<{ exerciseId: string }>();
   const { t, locale } = useI18n();
   const navigate = useNavigate();
+  const exercise = exerciseId ? getExerciseById(exerciseId) : undefined;
 
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [isPaused, setIsPaused] = useState(false);
@@ -26,7 +28,6 @@ export const DedicatedSessionScreen: React.FC = () => {
   const startTimeRef = useRef<number>(Date.now());
   const hasLoggedRef = useRef(false);
 
-  const isWordPuzzle = exerciseId === 'wordpuzzle';
   const targetWord = useMemo(() => (locale === 'de' ? 'KAFFEE' : 'COFFEE'), [locale]);
 
   const letterGrid = useMemo(
@@ -63,8 +64,16 @@ export const DedicatedSessionScreen: React.FC = () => {
     };
   }, [isPaused, isSuccess]);
 
-  if (!isWordPuzzle) {
+  if (!exercise) {
     return <Navigate to="/brain" replace />;
+  }
+
+  if (!exercise.implemented) {
+    return <Navigate to={`/brain/exercise/${exercise.id}`} replace />;
+  }
+
+  if (exercise.id !== 'wordpuzzle') {
+    return <Navigate to={`/brain/exercise/${exercise.id}`} replace />;
   }
 
   const handleLetterClick = (index: number) => {

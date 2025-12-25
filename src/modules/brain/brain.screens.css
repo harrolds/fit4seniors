@@ -282,5 +282,179 @@
    font-weight: var(--font-weight-semibold);
  }
 
+.brain-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.brain-section__title {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.brain-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.brain-category-card {
+  padding: 0;
+}
+
+.brain-category-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
+  padding: var(--spacing-lg);
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.brain-category-card__body:focus-visible,
+.brain-exercise-item__body:focus-visible {
+  outline: 2px solid var(--color-active);
+  outline-offset: 2px;
+  border-radius: var(--radius-lg);
+}
+
+.brain-category-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.brain-exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.brain-exercise-item {
+  padding: 0;
+}
+
+.brain-exercise-item__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-md);
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.brain-exercise-item__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.brain-exercise-item__eyebrow {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.brain-exercise-item__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.brain-exercise-item__subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.brain-exercise-item__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.brain-exercise-item__chevron {
+  display: flex;
+  justify-content: flex-end;
+  color: var(--color-text-secondary);
+}
+
+.brain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.brain-badge--available {
+  background: rgba(136, 176, 165, 0.2);
+  color: var(--color-active);
+}
+
+.brain-badge--planned {
+  background: rgba(246, 176, 109, 0.18);
+  color: #a7631a;
+}
+
+.brain-exercise-detail__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.brain-exercise-detail__badge {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.brain-exercise-detail__description {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.brain-exercise-detail__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  color: var(--color-text-secondary);
+}
+
+.brain-exercise-detail__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.brain-exercise-detail__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.brain-exercise-detail__coming {
+  margin: 0;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
 
 

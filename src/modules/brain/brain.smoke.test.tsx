@@ -45,7 +45,9 @@ describe('Brain module smoke test', () => {
       await Promise.resolve();
     });
 
-    expect(container.textContent ?? '').toMatch(/Word puzzle|Wortpuzzle/i);
+    const content = container.textContent ?? '';
+    expect(content).toMatch(/Categories|Kategorien/i);
+    expect(content).toMatch(/Memory|Gedächtnis/i);
 
     cleanup();
   });

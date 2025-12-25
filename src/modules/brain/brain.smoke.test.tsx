@@ -63,6 +63,20 @@ describe('Brain module smoke test', () => {
 
     cleanup();
   });
+
+  it('renders a logic session with options when implemented', async () => {
+    const { container, cleanup } = renderBrain('/brain/session/logic_next_in_series');
+
+    await act(async () => {
+      await Promise.resolve();
+    });
+
+    expect(container.textContent ?? '').toMatch(/2, 4, 6/);
+    const options = container.querySelectorAll('.brain-session__option');
+    expect(options.length).toBeGreaterThanOrEqual(3);
+
+    cleanup();
+  });
 });
 
 

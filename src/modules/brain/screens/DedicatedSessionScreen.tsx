@@ -7,6 +7,13 @@ import { useI18n } from '../../../shared/lib/i18n';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { addCompletedSession } from '../../progress/progressStorage';
 import { getExerciseById } from '../brainCatalog';
+import { BrainSessionEngine } from '../session/BrainSessionEngine';
+import { BrainRoundResult } from '../session/types';
+import { getRuntimeConfig } from '../session/exerciseConfig';
+import { ChoiceTemplate, ChoiceRoundData } from '../templates/ChoiceTemplate';
+import { OddOneOutTemplate, OddOneOutRoundData } from '../templates/OddOneOutTemplate';
+
+type SupportedRound = ChoiceRoundData | OddOneOutRoundData;
 
 const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
@@ -16,12 +23,9 @@ const formatTime = (seconds: number): string => {
   return `${mins}:${secs}`;
 };
 
-export const DedicatedSessionScreen: React.FC = () => {
-  const { exerciseId } = useParams<{ exerciseId: string }>();
+const WordpuzzleSession: React.FC<{ exerciseId: string }> = ({ exerciseId }) => {
   const { t, locale } = useI18n();
   const navigate = useNavigate();
-  const exercise = exerciseId ? getExerciseById(exerciseId) : undefined;
-
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [isPaused, setIsPaused] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -63,18 +67,6 @@ export const DedicatedSessionScreen: React.FC = () => {
       window.clearInterval(interval);
     };
   }, [isPaused, isSuccess]);
-
-  if (!exercise) {
-    return <Navigate to="/brain" replace />;
-  }
-
-  if (!exercise.implemented) {
-    return <Navigate to={`/brain/exercise/${exercise.id}`} replace />;
-  }
-
-  if (exercise.id !== 'wordpuzzle') {
-    return <Navigate to={`/brain/exercise/${exercise.id}`} replace />;
-  }
 
   const handleLetterClick = (index: number) => {
     if (isPaused || isSuccess) return;
@@ -234,6 +226,52 @@ export const DedicatedSessionScreen: React.FC = () => {
         <span>{formatTime(elapsedSeconds)}</span>
       </div>
     </div>
+  );
+};
+
+type ResolvedRuntimeConfig = ReturnType<typeof getRuntimeConfig> extends infer T ? NonNullable<T> : never;
+
+const renderTemplate = (template: ResolvedRuntimeConfig['template'], round: SupportedRound, onAnswer: (result: BrainRoundResult) => void) => {
+  if (template === 'choice') {
+    return <ChoiceTemplate round={round as ChoiceRoundData} onAnswer={onAnswer} />;
+  }
+
+  if (template === 'odd_one_out') {
+    return <OddOneOutTemplate round={round as OddOneOutRoundData} onAnswer={onAnswer} />;
+  }
+
+  return null;
+};
+
+export const DedicatedSessionScreen: React.FC = () => {
+  const { exerciseId } = useParams<{ exerciseId: string }>();
+  const exercise = exerciseId ? getExerciseById(exerciseId) : undefined;
+
+  if (!exercise) {
+    return <Navigate to="/brain" replace />;
+  }
+
+  if (!exercise.implemented) {
+    return <Navigate to={`/brain/exercise/${exercise.id}`} replace />;
+  }
+
+  if (exercise.uiTemplate === 'wordpuzzle') {
+    return <WordpuzzleSession exerciseId={exerciseId ?? exercise.id} />;
+  }
+
+  const config = getRuntimeConfig(exercise.id);
+
+  if (!config) {
+    return <Navigate to={`/brain/exercise/${exercise.id}`} replace />;
+  }
+
+  return (
+    <BrainSessionEngine
+      exercise={exercise}
+      roundsTotal={config.roundsTotal}
+      generator={(index) => config.buildRound(index) as SupportedRound}
+      renderer={(round, onAnswer) => renderTemplate(config.template, round, onAnswer)}
+    />
   );
 };
 

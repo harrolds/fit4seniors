@@ -71,7 +71,7 @@ describe('Brain module smoke test', () => {
       await Promise.resolve();
     });
 
-    expect(container.textContent ?? '').toMatch(/2, 4, 6/);
+    expect(container.textContent ?? '').toMatch(/2, 4, 6|5, 10, 15|1, 3, 6, 10|9, 7, 5|4, 8, 16|10, 20, 40|1, 2, 4, 8|3, 6, 9/);
     const options = container.querySelectorAll('.brain-session__option');
     expect(options.length).toBeGreaterThanOrEqual(3);
 

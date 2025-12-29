@@ -13,8 +13,11 @@ import { BrainRoundResult } from '../session/types';
 import { getRuntimeConfig } from '../session/exerciseConfig';
 import { ChoiceTemplate, ChoiceRoundData } from '../templates/ChoiceTemplate';
 import { OddOneOutTemplate, OddOneOutRoundData } from '../templates/OddOneOutTemplate';
+import { PairsTemplate, PairsRoundData } from '../templates/PairsTemplate';
+import { SequenceTemplate, SequenceRoundData } from '../templates/SequenceTemplate';
+import { ReactionTemplate, ReactionRoundData } from '../templates/ReactionTemplate';
 
-type SupportedRound = ChoiceRoundData | OddOneOutRoundData;
+type SupportedRound = ChoiceRoundData | OddOneOutRoundData | PairsRoundData | SequenceRoundData | ReactionRoundData;
 
 const useOptionalPanels = () => {
   try {
@@ -302,6 +305,18 @@ const renderTemplate = (template: ResolvedRuntimeConfig['template'], round: Supp
     return <OddOneOutTemplate round={round as OddOneOutRoundData} onAnswer={onAnswer} />;
   }
 
+  if (template === 'pairs') {
+    return <PairsTemplate round={round as PairsRoundData} onAnswer={onAnswer} />;
+  }
+
+  if (template === 'sequence') {
+    return <SequenceTemplate round={round as SequenceRoundData} onAnswer={onAnswer} />;
+  }
+
+  if (template === 'reaction') {
+    return <ReactionTemplate round={round as ReactionRoundData} onAnswer={onAnswer} />;
+  }
+
   return null;
 };
 
@@ -335,8 +350,7 @@ export const DedicatedSessionScreen: React.FC = () => {
   return (
     <BrainSessionEngine
       exercise={exercise}
-      roundsTotal={runtimeConfig.roundsTotal}
-      generator={(index) => runtimeConfig.buildRound(index) as SupportedRound}
+      config={{ roundsTotal: runtimeConfig.roundsTotal, pool: runtimeConfig.pool as SupportedRound[], seedKey: runtimeConfig.seedKey }}
       renderer={(round, onAnswer) => renderTemplate(runtimeConfig.template, round, onAnswer)}
     />
   );

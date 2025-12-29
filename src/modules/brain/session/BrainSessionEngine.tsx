@@ -10,12 +10,17 @@ import { BrainExercise } from '../types';
 import { BRAIN_CATEGORIES } from '../brainCatalog';
 import { BrainRoundResult } from './types';
 import { logBrainSession } from '../../../state/brainSessions';
+import { hashSeed } from './seed';
+import { pickUniqueRoundIndices } from './pickUnique';
 
 type BrainSessionEngineProps<TRoundData> = {
   exercise: BrainExercise;
-  generator: (roundIndex: number) => TRoundData;
+  config: {
+    roundsTotal: number;
+    pool: TRoundData[];
+    seedKey?: string;
+  };
   renderer: (round: TRoundData, onAnswer: (result: BrainRoundResult) => void) => React.ReactNode;
-  roundsTotal?: number;
 };
 
 const formatTime = (seconds: number): string => {
@@ -28,9 +33,8 @@ const formatTime = (seconds: number): string => {
 
 export const BrainSessionEngine = <TRoundData,>({
   exercise,
-  generator,
+  config,
   renderer,
-  roundsTotal = 8,
 }: BrainSessionEngineProps<TRoundData>) => {
   const { t } = useI18n();
   const navigate = useNavigate();
@@ -39,8 +43,16 @@ export const BrainSessionEngine = <TRoundData,>({
   const categoryLabel = category ? t(category.titleKey) : t('brain.header.title');
   const levelTextRaw = t('brain.levelLabelShort', { level: exercise.difficulty ?? 'L2' });
   const levelText = levelTextRaw === 'brain.levelLabelShort' ? `Level ${exercise.difficulty ?? 'L2'}` : levelTextRaw;
-  const roundsTextRaw = t('brain.session.roundsShort');
-  const roundsText = roundsTextRaw === 'brain.session.roundsShort' ? 'Runden' : roundsTextRaw;
+  const roundsText = t('brain.session.roundsShort');
+  const seed = useMemo(
+    () => hashSeed(`${exercise.id}::${config.seedKey ?? exercise.id}::${new Date().toISOString().slice(0, 10)}`),
+    [config.seedKey, exercise.id],
+  );
+  const sessionRounds = useMemo(() => {
+    const indices = pickUniqueRoundIndices(config.pool.length, config.roundsTotal, seed);
+    return indices.map((index) => config.pool[index]);
+  }, [config.pool, config.roundsTotal, seed]);
+  const roundsTotal = config.roundsTotal;
   const [roundIndex, setRoundIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [startedAt, setStartedAt] = useState<number>(() => Date.now());
@@ -63,7 +75,7 @@ export const BrainSessionEngine = <TRoundData,>({
     };
   }, [startedAt, finishedAt]);
 
-  const currentRound = useMemo(() => generator(roundIndex), [generator, roundIndex]);
+  const currentRound = useMemo(() => sessionRounds[roundIndex], [sessionRounds, roundIndex]);
   const progressValue = Math.min((roundIndex + 1) / roundsTotal, 1);
   const isCompleted = finishedAt !== null;
   const durationSec = isCompleted

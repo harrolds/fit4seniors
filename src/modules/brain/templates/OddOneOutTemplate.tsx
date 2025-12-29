@@ -3,6 +3,7 @@ import { useI18n } from '../../../shared/lib/i18n';
 import { BrainRoundResult } from '../session/types';
 
 export type OddOneOutRoundData = {
+  id: string;
   prompt: string;
   options: string[];
   oddIndex: number;

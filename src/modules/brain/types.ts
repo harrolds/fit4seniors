@@ -15,6 +15,7 @@ export type BrainTemplate =
   | 'wordpuzzle'
   | 'pairs'
   | 'sequence'
+  | 'reaction'
   | 'association'
   | 'recall'
   | 'fill_gaps'

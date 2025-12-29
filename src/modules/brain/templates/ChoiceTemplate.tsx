@@ -19,29 +19,29 @@ export const ChoiceTemplate: React.FC<ChoiceTemplateProps> = ({ round, onAnswer 
   const { t } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
-  const timeoutRef = useRef<number>();
   const startedAtRef = useRef<number>(performance.now());
+  const answeredRef = useRef(false);
 
   useEffect(() => {
     setSelectedIndex(null);
     setFeedback(null);
     startedAtRef.current = performance.now();
-    return () => {
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
-      }
-    };
+    answeredRef.current = false;
   }, [round]);
 
-  const handleSelect = (index: number) => {
-    if (selectedIndex !== null) return;
+  const handleSelect = (event: React.PointerEvent<HTMLButtonElement>, index: number) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if ('pointerId' in event) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+    if (answeredRef.current) return;
+    answeredRef.current = true;
     const isCorrect = index === round.correctIndex;
     setSelectedIndex(index);
     setFeedback(isCorrect ? 'correct' : 'incorrect');
     const reactionMs = Math.max(0, Math.round(performance.now() - startedAtRef.current));
-    timeoutRef.current = window.setTimeout(() => {
-      onAnswer({ correct: isCorrect, reactionMs });
-    }, 600);
+    onAnswer({ correct: isCorrect, reactionMs });
   };
 
   return (
@@ -61,10 +61,10 @@ export const ChoiceTemplate: React.FC<ChoiceTemplateProps> = ({ round, onAnswer 
 
           return (
             <button
-              key={`${option}-${index}`}
+              key={`${round.id}::opt::${index}`}
               type="button"
               className={optionClass}
-              onClick={() => handleSelect(index)}
+              onPointerDown={(event) => handleSelect(event, index)}
               disabled={selectedIndex !== null}
               aria-pressed={isSelected}
             >

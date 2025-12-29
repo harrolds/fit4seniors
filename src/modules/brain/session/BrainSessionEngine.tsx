@@ -20,7 +20,7 @@ type BrainSessionEngineProps<TRoundData> = {
     pool: TRoundData[];
     seedKey?: string;
   };
-  renderer: (round: TRoundData, onAnswer: (result: BrainRoundResult) => void) => React.ReactNode;
+  renderer: (round: TRoundData, onAnswer: (result: BrainRoundResult) => void, roundIndex: number) => React.ReactNode;
 };
 
 const formatTime = (seconds: number): string => {
@@ -226,7 +226,7 @@ export const BrainSessionEngine = <TRoundData,>({
             </div>
           </div>
         ) : (
-          renderer(currentRound, handleAnswer)
+          renderer(currentRound, handleAnswer, roundIndex)
         )}
       </div>
     </div>

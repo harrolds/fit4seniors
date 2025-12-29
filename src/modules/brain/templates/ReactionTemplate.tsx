@@ -20,35 +20,59 @@ export const ReactionTemplate: React.FC<ReactionTemplateProps> = ({ round, onAns
   const [hitCount, setHitCount] = useState(0);
   const [falseHitCount, setFalseHitCount] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [lateFeedback, setLateFeedback] = useState<string | null>(null);
+  const [tapFeedback, setTapFeedback] = useState<string | null>(null);
   const hitCountRef = useRef(0);
   const falseHitCountRef = useRef(0);
   const answeredRef = useRef(false);
   const currentIdxRef = useRef(0);
   const startMsRef = useRef<number | null>(null);
   const firstHitMsRef = useRef<number | null>(null);
+  const stimulusWindowRef = useRef<{ index: number; expiresAt: number }>({ index: 0, expiresAt: 0 });
+  const tapFeedbackTimeoutRef = useRef<number>();
 
   const targetTotal = useMemo(() => round.stimuli.filter((item) => item.isTarget).length, [round.stimuli]);
   const currentStimulus = round.stimuli[currentIndex];
+  const clampedPace = useMemo(() => Math.max(round.paceMs, 700), [round.paceMs]);
 
   useEffect(() => {
     setCurrentIndex(0);
     setHitCount(0);
     setFalseHitCount(0);
     setFinished(false);
+    setLateFeedback(null);
     hitCountRef.current = 0;
     falseHitCountRef.current = 0;
     answeredRef.current = false;
     currentIdxRef.current = 0;
     startMsRef.current = null;
     firstHitMsRef.current = null;
-  }, [round]);
+    if (tapFeedbackTimeoutRef.current) {
+      window.clearTimeout(tapFeedbackTimeoutRef.current);
+      tapFeedbackTimeoutRef.current = undefined;
+    }
+    setTapFeedback(null);
+    const now = performance.now();
+    stimulusWindowRef.current = { index: 0, expiresAt: now + Math.max(clampedPace, 300) };
+  }, [round, clampedPace]);
+
+  useEffect(() => () => {
+    if (tapFeedbackTimeoutRef.current) {
+      window.clearTimeout(tapFeedbackTimeoutRef.current);
+    }
+  }, []);
 
   useEffect(() => {
     currentIdxRef.current = currentIndex;
     if (startMsRef.current === null && round.stimuli.length > 0) {
       startMsRef.current = performance.now();
     }
-  }, [currentIndex, round.stimuli.length]);
+    const now = performance.now();
+    stimulusWindowRef.current = {
+      index: currentIndex,
+      expiresAt: now + Math.max(clampedPace, 300),
+    };
+  }, [currentIndex, round.stimuli.length, clampedPace]);
 
   useEffect(() => {
     if (finished || round.stimuli.length === 0) return undefined;
@@ -58,10 +82,10 @@ export const ReactionTemplate: React.FC<ReactionTemplateProps> = ({ round, onAns
         return;
       }
       setCurrentIndex((prev) => prev + 1);
-    }, round.paceMs);
+    }, clampedPace);
 
     return () => window.clearTimeout(timer);
-  }, [finished, round.paceMs, round.stimuli.length, currentIndex]);
+  }, [finished, clampedPace, round.stimuli.length, currentIndex]);
 
   useEffect(() => {
     if (round.stimuli.length === 0 && !answeredRef.current) {
@@ -82,10 +106,36 @@ export const ReactionTemplate: React.FC<ReactionTemplateProps> = ({ round, onAns
     onAnswer({ correct, reactionMs });
   }, [finished, onAnswer]);
 
-  const handleTap = () => {
+  const handleTap = (event: React.PointerEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if ('pointerId' in event) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
     if (finished) return;
+    const now = performance.now();
     const stimulus = round.stimuli[currentIdxRef.current];
     if (!stimulus) return;
+
+    if (tapFeedbackTimeoutRef.current) {
+      window.clearTimeout(tapFeedbackTimeoutRef.current);
+    }
+    const tapRegisteredText = t('brain.session.tapRegistered');
+    const fallbackTapText = 'Tap registered';
+    const tapText = tapRegisteredText === 'brain.session.tapRegistered' ? fallbackTapText : tapRegisteredText;
+    setTapFeedback(tapText);
+    tapFeedbackTimeoutRef.current = window.setTimeout(() => setTapFeedback(null), 220);
+
+    const windowExpired = now > stimulusWindowRef.current.expiresAt;
+
+    if (windowExpired) {
+      falseHitCountRef.current += 1;
+      setFalseHitCount(falseHitCountRef.current);
+      const lateText = t('brain.session.reaction.late');
+      setLateFeedback(lateText === 'brain.session.reaction.late' ? 'Zu spät' : lateText);
+      window.setTimeout(() => setLateFeedback(null), 600);
+      return;
+    }
 
     if (stimulus.isTarget) {
       if (hitCountRef.current === 0 && firstHitMsRef.current === null && startMsRef.current !== null) {
@@ -105,18 +155,34 @@ export const ReactionTemplate: React.FC<ReactionTemplateProps> = ({ round, onAns
       <div className="brain-session__helper">{t('brain.session.reaction.hint')}</div>
       <div
         className="brain-session__option brain-session__option--neutral"
-        style={{ minHeight: 96, fontSize: 32, justifyContent: 'center' }}
+        style={{ minHeight: 96, fontSize: 32, justifyContent: 'center', pointerEvents: 'none' }}
       >
         {currentStimulus ? currentStimulus.label : '—'}
       </div>
       <div className="brain-session__controls" style={{ gap: 12 }}>
-        <button type="button" className="brain-session__option" onClick={handleTap} disabled={finished} style={{ fontSize: 18 }}>
+        <button
+          type="button"
+          className="brain-session__option"
+          onPointerDown={handleTap}
+          disabled={finished}
+          style={{ fontSize: 18, pointerEvents: 'auto' }}
+        >
           {t('brain.session.tapNow')}
         </button>
       </div>
       <div className="brain-session__helper">
         {t('brain.session.matched')}: {hitCount}/{targetTotal} • {t('brain.session.missed')}: {falseHitCount}
       </div>
+      {tapFeedback && (
+        <div className="brain-session__feedback brain-session__feedback--correct" aria-live="polite">
+          {tapFeedback}
+        </div>
+      )}
+      {lateFeedback && (
+        <div className="brain-session__feedback brain-session__feedback--incorrect" aria-live="polite">
+          {lateFeedback}
+        </div>
+      )}
     </div>
   );
 };

@@ -75,12 +75,12 @@ export const ProgressHistoryScreen: React.FC = () => {
                   <div className="hl-item__top">
                     <div className="hl-item__left">
                       <div className="hl-item__icon">
-                        <Icon name={session.moduleId === 'brain' ? 'psychology' : 'history'} size={26} />
+                        <Icon name="history" size={26} />
                       </div>
                       <div className="hl-item__text">
                         <h3 className="hl-item__title">{session.trainingTitle}</h3>
                         <div className="hl-item__tags">
-                          <span className={`hl-tag hl-tag--module${session.moduleId === 'brain' ? ' hl-tag--module-brain' : ''}`}>
+                          <span className="hl-tag hl-tag--module">
                             {getModuleLabel(session.moduleId)}
                           </span>
                           <span className="hl-tag hl-tag--intensity">

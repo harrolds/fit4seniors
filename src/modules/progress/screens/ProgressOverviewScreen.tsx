@@ -4,11 +4,6 @@ import { Card } from '../../../shared/ui/Card';
 import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, loadCompletedSessions } from '../progressStorage';
-import {
-  BRAIN_SESSIONS_STORAGE_EVENT_KEY,
-  type BrainSession,
-  loadBrainSessions,
-} from '../../../state/brainSessions';
 import { getGoalStatus, getLevelFromPoints, useProfileMotorState } from '../../../app/services/profileMotor';
 
 const createWeekdayFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { weekday: 'short' });
@@ -33,15 +28,11 @@ export const ProgressOverviewScreen: React.FC = () => {
   const { t, locale } = useI18n();
   const profile = useProfileMotorState();
   const [sessions, setSessions] = useState<CompletedSessionRecord[]>(() => loadCompletedSessions());
-  const [brainSessions, setBrainSessions] = useState<BrainSession[]>(() => loadBrainSessions());
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
       if (event.key === PROGRESS_STORAGE_EVENT_KEY) {
         setSessions(loadCompletedSessions());
-      }
-      if (event.key === BRAIN_SESSIONS_STORAGE_EVENT_KEY) {
-        setBrainSessions(loadBrainSessions());
       }
     };
 
@@ -51,7 +42,6 @@ export const ProgressOverviewScreen: React.FC = () => {
 
   useEffect(() => {
     setSessions(loadCompletedSessions());
-    setBrainSessions(loadBrainSessions());
   }, []);
 
   const weekdayFormatter = useMemo(() => createWeekdayFormatter(locale), [locale]);
@@ -71,14 +61,6 @@ export const ProgressOverviewScreen: React.FC = () => {
     });
     return { activeDaysThisWeek: uniqueDays.size, sessionsThisWeek: weeklySessions };
   }, [sessions, startOfWeek, endOfWeek]);
-
-  const weeklyBrainSessions = useMemo(() => {
-    return brainSessions.filter((session) => {
-      if (!session.completed) return false;
-      const date = new Date(session.timestamp);
-      return date >= startOfWeek && date <= endOfWeek;
-    }).length;
-  }, [brainSessions, endOfWeek, startOfWeek]);
 
   const goalStatus = useMemo(() => getGoalStatus(sessions, profile), [sessions, profile]);
   const goalStatusLabel = useMemo(() => {
@@ -221,21 +203,6 @@ export const ProgressOverviewScreen: React.FC = () => {
         {minutesPerWeekTarget !== undefined && remainingMinutesToGoal !== null && remainingMinutesToGoal > 0 ? (
           <p className="po-helper">{t('progress.minutesToGoal', { n: remainingMinutesToGoal })}</p>
         ) : null}
-
-        <Card className="po-kpiCard po-kpiCard--brain">
-          <div className="po-kpiCard__left">
-            <div className="po-kpiCard__icon po-kpiCard__icon--brain">
-              <Icon name="psychology" size={26} />
-            </div>
-            <div className="po-kpiCard__meta">
-              <p className="po-kpiCard__label">{t('progress.brain.title')}</p>
-              <p className="po-kpiCard__value">{weeklyBrainSessions}</p>
-            </div>
-          </div>
-          <span className="po-kpiCard__badge po-kpiCard__badge--brain">
-            {t('progress.brain.weeklyCount', { count: weeklyBrainSessions })}
-          </span>
-        </Card>
       </div>
 
       <Card className="po-motivation">

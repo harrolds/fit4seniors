@@ -18,23 +18,23 @@ vi.mock('./catalog', () => ({
     data: {
       modules: [
         {
-          id: 'brain',
-          title: 'Gehirntraining',
-          description: 'Brain desc',
-          tone: 'module-4',
-          icon: 'psychology',
-          categoryId: 'brain',
+          id: 'cardio',
+          title: 'Cardio',
+          description: 'Cardio desc',
+          tone: 'module-1',
+          icon: 'monitor_heart',
+          categoryId: 'cardio',
         },
       ],
     },
     isLoading: false,
     error: null,
   }),
-  toneToCssVar: () => 'var(--color-card-module-4)',
+  toneToCssVar: () => 'var(--color-card-module-1)',
 }));
 
-describe('TrainierenHub brain navigation', () => {
-  it('navigates to /brain for brain module', () => {
+describe('TrainierenHub navigation', () => {
+  it('navigates to module detail for training modules', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
@@ -50,7 +50,7 @@ describe('TrainierenHub brain navigation', () => {
       tile?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    expect(goToMock).toHaveBeenCalledWith('/brain');
+    expect(goToMock).toHaveBeenCalledWith('/trainieren/cardio');
 
     act(() => {
       root.unmount();

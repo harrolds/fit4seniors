@@ -85,21 +85,6 @@ export const HomeHeroWidget: React.FC = () => {
   );
 };
 
-export const BrainTrainingWidget: React.FC = () => {
-  const { t } = useI18n();
-  const { goTo } = useNavigation();
-
-  return (
-    <HomeTile
-      icon="psychology"
-      title={t('home.widgets.brainTraining.title')}
-      subtitle={t('home.widgets.brainTraining.subtitle')}
-      backgroundVar={categoryCssVar('brain')}
-      onClick={() => goTo('/brain')}
-    />
-  );
-};
-
 export const CardioWidget: React.FC = () => {
   const { t } = useI18n();
   const { goTo } = useNavigation();

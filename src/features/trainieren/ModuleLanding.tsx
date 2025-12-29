@@ -23,7 +23,6 @@ const introKeyByModule: Record<string, string> = {
   cardio: 'trainieren.categories.cardio.intro',
   muskel: 'trainieren.categories.strength.intro',
   balance_flex: 'trainieren.categories.balance.intro',
-  brain: 'trainieren.categories.brain.intro',
 };
 
 export const ModuleLanding: React.FC = () => {
@@ -70,7 +69,6 @@ export const ModuleLanding: React.FC = () => {
     cardio: 'cardio',
     strength: 'muskel',
     balance: 'balance_flex',
-    brain: 'brain',
   };
   const isProfileMatchModule = focusToModule[motorProfile.preferredFocus] === moduleDef.id;
 

@@ -21,11 +21,13 @@ export const OddOneOutTemplate: React.FC<OddOneOutTemplateProps> = ({ round, onA
   const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
   const timeoutRef = useRef<number>();
   const startedAtRef = useRef<number>(performance.now());
+  const answeredRef = useRef(false);
 
   useEffect(() => {
     setSelectedIndex(null);
     setFeedback(null);
     startedAtRef.current = performance.now();
+    answeredRef.current = false;
     return () => {
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
@@ -34,14 +36,15 @@ export const OddOneOutTemplate: React.FC<OddOneOutTemplateProps> = ({ round, onA
   }, [round]);
 
   const handleSelect = (index: number) => {
-    if (selectedIndex !== null) return;
+    if (answeredRef.current) return;
+    answeredRef.current = true;
     const isCorrect = index === round.oddIndex;
     setSelectedIndex(index);
     setFeedback(isCorrect ? 'correct' : 'incorrect');
     const reactionMs = Math.max(0, Math.round(performance.now() - startedAtRef.current));
     timeoutRef.current = window.setTimeout(() => {
       onAnswer({ correct: isCorrect, reactionMs });
-    }, 600);
+    }, 300);
   };
 
   return (
@@ -61,10 +64,10 @@ export const OddOneOutTemplate: React.FC<OddOneOutTemplateProps> = ({ round, onA
 
           return (
             <button
-              key={`${option}-${index}`}
+              key={`${round.id}::opt::${index}`}
               type="button"
               className={optionClass}
-              onClick={() => handleSelect(index)}
+              onPointerDown={() => handleSelect(index)}
               disabled={selectedIndex !== null}
               aria-pressed={isSelected}
             >

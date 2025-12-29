@@ -3,6 +3,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { MemoryRouter } from 'react-router-dom';
 import { DedicatedSessionScreen } from './screens/DedicatedSessionScreen';
+import { hashSeed, mulberry32 } from './session/seed';
+import { pickUniqueRoundIndices } from './session/pickUnique';
 import { I18nProvider } from '../../shared/lib/i18n';
 
 const navigateMock = vi.fn();
@@ -38,10 +40,47 @@ describe('Brain session completion payload', () => {
     const buttons = Array.from(container.querySelectorAll('.brain-grid__cell'));
     expect(buttons.length).toBeGreaterThanOrEqual(6);
 
+    // Recompute the deterministic target word and shuffled grid to click the correct letters
+    const targetMask = container.querySelector('.brain-session__target')?.textContent ?? '';
+    const maskedLength = (targetMask.match(/_/g) ?? []).length;
+
+    const WORDS_DE = ['KAFFEE', 'BANANE', 'APFEL', 'BLUME', 'WASSER', 'FAMILIE', 'REISE', 'MUSIK', 'GARTEN', 'SONNE', 'HERZ', 'KÜCHE'];
+    const WORDS_EN = ['COFFEE', 'BANANA', 'APPLE', 'FLOWER', 'WATER', 'FAMILY', 'TRAVEL', 'MUSIC', 'GARDEN', 'SUNNY', 'HEART', 'KITCHEN'];
+
+    const gridLetters = buttons.map((btn) => btn.textContent ?? '');
+
+    const fitsGrid = (word: string): boolean => {
+      if (maskedLength > 0 && word.length !== maskedLength) return false;
+      const counts = new Map<string, number>();
+      gridLetters.forEach((ch) => counts.set(ch, (counts.get(ch) ?? 0) + 1));
+      for (const ch of word) {
+        const remaining = counts.get(ch) ?? 0;
+        if (remaining <= 0) return false;
+        counts.set(ch, remaining - 1);
+      }
+      return true;
+    };
+
+    const targetWord = [...WORDS_DE, ...WORDS_EN].find(fitsGrid) ?? WORDS_DE[0];
+
+    const letterGrid = gridLetters;
+    const selectionIndices: number[] = [];
+    const used = new Set<number>();
+    for (const char of targetWord) {
+      const idx = letterGrid.findIndex((c, i) => c === char && !used.has(i));
+      if (idx >= 0) {
+        selectionIndices.push(idx);
+        used.add(idx);
+      }
+    }
+
     vi.setSystemTime(new Date('2024-01-01T00:00:05Z'));
 
     act(() => {
-      buttons.slice(0, 6).forEach((btn) => btn.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+      selectionIndices.forEach((idx) => {
+        buttons[idx]?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      });
+      vi.advanceTimersByTime(2000);
     });
 
     const finishButton = container.querySelector('.brain-session__success button');

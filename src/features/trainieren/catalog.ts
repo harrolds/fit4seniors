@@ -91,7 +91,6 @@ const moduleMeta: Record<string, { categoryId: CategoryId; icon: string }> = {
   cardio: { categoryId: 'cardio', icon: 'monitor_heart' },
   muskel: { categoryId: 'muscle', icon: 'fitness_center' },
   balance_flex: { categoryId: 'balance', icon: 'accessibility_new' },
-  brain: { categoryId: 'brain', icon: 'psychology' },
 };
 
 const toneColorVar: Record<ModuleCardTone, string> = {
@@ -135,43 +134,47 @@ const normalizeVariant = (
 const buildCatalog = (locale: Locale): TrainingCatalog => {
   const catalog = seedCatalog as SeedCatalog;
 
-  const modules: TrainingModule[] = catalog.modules.map((module) => {
-    const meta = moduleMeta[module.id];
-    const categoryId = meta?.categoryId ?? normalizeCategoryId(module.id) ?? 'cardio';
-    const tone = categoryTone(categoryId);
-    const accentColorVar = categoryCssVar(categoryId);
-    const icon = meta?.icon ?? 'widgets';
+  const modules: TrainingModule[] = catalog.modules
+    .filter((module) => module.id !== 'brain')
+    .map((module) => {
+      const meta = moduleMeta[module.id];
+      const categoryId = meta?.categoryId ?? normalizeCategoryId(module.id) ?? 'cardio';
+      const tone = categoryTone(categoryId);
+      const accentColorVar = categoryCssVar(categoryId);
+      const icon = meta?.icon ?? 'widgets';
 
-    return {
-      id: module.id,
-      title: pickLocale(locale, module, 'title'),
-      description: pickLocale(locale, module, 'description'),
-      categoryId,
-      tone,
-      icon,
-      accentColorVar,
-    };
-  });
-
-  const trainings: TrainingItem[] = catalog.trainings.map((training) => {
-    const localizedVariants: Partial<Record<TrainingIntensity, TrainingVariant>> = {};
-
-    (['light', 'medium', 'heavy'] as TrainingIntensity[]).forEach((intensity) => {
-      const variant = training.variants[intensity];
-      if (variant) {
-        localizedVariants[intensity] = normalizeVariant(intensity, variant, locale);
-      }
+      return {
+        id: module.id,
+        title: pickLocale(locale, module, 'title'),
+        description: pickLocale(locale, module, 'description'),
+        categoryId,
+        tone,
+        icon,
+        accentColorVar,
+      };
     });
 
-    return {
-      id: training.id,
-      moduleId: training.moduleId,
-      title: pickLocale(locale, training, 'title'),
-      shortDesc: pickLocale(locale, training, 'shortDesc'),
-      intensityScale: training.intensityScale,
-      variants: localizedVariants as Record<TrainingIntensity, TrainingVariant>,
-    };
-  });
+  const trainings: TrainingItem[] = catalog.trainings
+    .filter((training) => training.moduleId !== 'brain')
+    .map((training) => {
+      const localizedVariants: Partial<Record<TrainingIntensity, TrainingVariant>> = {};
+
+      (['light', 'medium', 'heavy'] as TrainingIntensity[]).forEach((intensity) => {
+        const variant = training.variants[intensity];
+        if (variant) {
+          localizedVariants[intensity] = normalizeVariant(intensity, variant, locale);
+        }
+      });
+
+      return {
+        id: training.id,
+        moduleId: training.moduleId,
+        title: pickLocale(locale, training, 'title'),
+        shortDesc: pickLocale(locale, training, 'shortDesc'),
+        intensityScale: training.intensityScale,
+        variants: localizedVariants as Record<TrainingIntensity, TrainingVariant>,
+      };
+    });
 
   return { modules, trainings };
 };

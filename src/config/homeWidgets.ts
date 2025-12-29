@@ -8,10 +8,9 @@ export interface HomeWidgetConfig {
 
 export const homeWidgets: HomeWidgetConfig[] = [
   { id: 'start-exercise', moduleId: 'home-start', priority: 1, span: 2 },
-  { id: 'brain-training', moduleId: 'home-brain', priority: 2 },
-  { id: 'cardio', moduleId: 'home-cardio', priority: 3 },
-  { id: 'muscle', moduleId: 'home-muscle', priority: 4 },
-  { id: 'balance', moduleId: 'home-balance', priority: 5 },
-  { id: 'recent', moduleId: 'home-recent', priority: 6, span: 2 },
+  { id: 'cardio', moduleId: 'home-cardio', priority: 2 },
+  { id: 'muscle', moduleId: 'home-muscle', priority: 3 },
+  { id: 'balance', moduleId: 'home-balance', priority: 4 },
+  { id: 'recent', moduleId: 'home-recent', priority: 5, span: 2 },
 ];
 

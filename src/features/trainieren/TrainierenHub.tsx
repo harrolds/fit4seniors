@@ -21,7 +21,6 @@ export const TrainierenHub: React.FC = () => {
       cardio: 'cardio',
       strength: 'muskel',
       balance: 'balance_flex',
-      brain: 'brain',
     };
     return mapping[profile.preferredFocus] ?? null;
   }, [profile.preferredFocus]);
@@ -52,7 +51,6 @@ export const TrainierenHub: React.FC = () => {
     muskel: '/assets/trainieren/strength_exercise.webp',
     balance: '/assets/trainieren/balance_excercise.webp',
     balance_flex: '/assets/trainieren/balance_excercise.webp',
-    brain: '/assets/trainieren/brain_excercise.webp',
   };
 
   return (
@@ -90,7 +88,6 @@ export const TrainierenHub: React.FC = () => {
               <li>{t('trainierenHub.bullets.cardio')}</li>
               <li>{t('trainierenHub.bullets.strength')}</li>
               <li>{t('trainierenHub.bullets.balance')}</li>
-              <li>{t('trainierenHub.bullets.brain')}</li>
             </ul>
 
             <p className="training-intro-goal">{t('trainierenHub.intro.p2')}</p>
@@ -109,15 +106,11 @@ export const TrainierenHub: React.FC = () => {
             rightSlot={<Icon name={module.icon} size={28} />}
             role="button"
             tabIndex={0}
-            onClick={() => (module.id === 'brain' ? goTo('/brain') : goTo(`/trainieren/${module.id}`))}
+            onClick={() => goTo(`/trainieren/${module.id}`)}
             onKeyDown={(event) => {
               if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                if (module.id === 'brain') {
-                  goTo('/brain');
-                } else {
-                  goTo(`/trainieren/${module.id}`);
-                }
+                goTo(`/trainieren/${module.id}`);
               }
             }}
             className="trainieren-module-card"
@@ -132,7 +125,7 @@ export const TrainierenHub: React.FC = () => {
             <div className="trainieren-card-media" aria-hidden="true">
               <img
                 className="trainieren-card-media__img"
-                src={moduleImageMap[module.id]}
+                src={moduleImageMap[module.id] ?? '/assets/trainieren/main_excercise.webp'}
                 alt=""
                 loading="lazy"
               />

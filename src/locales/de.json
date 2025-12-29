@@ -326,6 +326,8 @@
   "brain.exercises.difficulty": "Level {{level}}",
   "brain.exercises.duration": "~{{minutes}} Min",
   "brain.exercise.detail.start": "Starten",
+  "brain.detail.infoLabel": "Info",
+  "brain.panel.title": "Übungsinfo",
   "brain.session.headerTitle": "Wortpuzzle",
   "brain.session.section.focusLabel": "Kognitive Fokussierung",
   "brain.session.levelLabel": "Niveau: ",

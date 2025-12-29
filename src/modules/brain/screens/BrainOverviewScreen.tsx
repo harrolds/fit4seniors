@@ -12,7 +12,7 @@ export const BrainOverviewScreen: React.FC = () => {
   const { goTo } = useNavigation();
 
   const handleStart = () => {
-    goTo('/brain/exercise/wordpuzzle');
+    goTo('/brain/session/wordpuzzle');
   };
 
   const handleCategoryClick = (categoryId: string) => {

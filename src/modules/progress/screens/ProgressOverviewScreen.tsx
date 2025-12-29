@@ -4,6 +4,11 @@ import { Card } from '../../../shared/ui/Card';
 import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, loadCompletedSessions } from '../progressStorage';
+import {
+  BRAIN_SESSIONS_STORAGE_EVENT_KEY,
+  type BrainSession,
+  loadBrainSessions,
+} from '../../../state/brainSessions';
 import { getGoalStatus, getLevelFromPoints, useProfileMotorState } from '../../../app/services/profileMotor';
 
 const createWeekdayFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { weekday: 'short' });
@@ -28,11 +33,16 @@ export const ProgressOverviewScreen: React.FC = () => {
   const { t, locale } = useI18n();
   const profile = useProfileMotorState();
   const [sessions, setSessions] = useState<CompletedSessionRecord[]>(() => loadCompletedSessions());
+  const [brainSessions, setBrainSessions] = useState<BrainSession[]>(() => loadBrainSessions());
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
-      if (event.key !== PROGRESS_STORAGE_EVENT_KEY) return;
-      setSessions(loadCompletedSessions());
+      if (event.key === PROGRESS_STORAGE_EVENT_KEY) {
+        setSessions(loadCompletedSessions());
+      }
+      if (event.key === BRAIN_SESSIONS_STORAGE_EVENT_KEY) {
+        setBrainSessions(loadBrainSessions());
+      }
     };
 
     window.addEventListener('storage', handleStorage);
@@ -41,6 +51,7 @@ export const ProgressOverviewScreen: React.FC = () => {
 
   useEffect(() => {
     setSessions(loadCompletedSessions());
+    setBrainSessions(loadBrainSessions());
   }, []);
 
   const weekdayFormatter = useMemo(() => createWeekdayFormatter(locale), [locale]);
@@ -48,22 +59,26 @@ export const ProgressOverviewScreen: React.FC = () => {
   const startOfWeek = useMemo(() => getStartOfWeek(new Date()), []);
   const endOfWeek = useMemo(() => getEndOfWeek(startOfWeek), [startOfWeek]);
 
-  const { activeDaysThisWeek, sessionsThisWeek, weeklyBrainSessions } = useMemo(() => {
+  const { activeDaysThisWeek, sessionsThisWeek } = useMemo(() => {
     const uniqueDays = new Set<string>();
     let weeklySessions = 0;
-    let weeklyBrainSessions = 0;
     sessions.forEach((session) => {
       const date = new Date(session.completedAt);
       if (date >= startOfWeek && date <= endOfWeek) {
         weeklySessions += 1;
-        if (session.moduleId === 'brain') {
-          weeklyBrainSessions += 1;
-        }
         uniqueDays.add(date.toDateString());
       }
     });
-    return { activeDaysThisWeek: uniqueDays.size, sessionsThisWeek: weeklySessions, weeklyBrainSessions };
+    return { activeDaysThisWeek: uniqueDays.size, sessionsThisWeek: weeklySessions };
   }, [sessions, startOfWeek, endOfWeek]);
+
+  const weeklyBrainSessions = useMemo(() => {
+    return brainSessions.filter((session) => {
+      if (!session.completed) return false;
+      const date = new Date(session.timestamp);
+      return date >= startOfWeek && date <= endOfWeek;
+    }).length;
+  }, [brainSessions, endOfWeek, startOfWeek]);
 
   const goalStatus = useMemo(() => getGoalStatus(sessions, profile), [sessions, profile]);
   const goalStatusLabel = useMemo(() => {

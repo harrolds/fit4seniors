@@ -5,8 +5,9 @@ import { Button } from '../../../shared/ui/Button';
 import { Icon } from '../../../shared/ui/Icon';
 import { useI18n } from '../../../shared/lib/i18n';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
-import { addCompletedSession } from '../../progress/progressStorage';
-import { getExerciseById } from '../brainCatalog';
+import { usePanels } from '../../../shared/lib/panels';
+import { logBrainSession } from '../../../state/brainSessions';
+import { BRAIN_CATEGORIES, getExerciseById } from '../brainCatalog';
 import { BrainSessionEngine } from '../session/BrainSessionEngine';
 import { BrainRoundResult } from '../session/types';
 import { getRuntimeConfig } from '../session/exerciseConfig';
@@ -14,6 +15,14 @@ import { ChoiceTemplate, ChoiceRoundData } from '../templates/ChoiceTemplate';
 import { OddOneOutTemplate, OddOneOutRoundData } from '../templates/OddOneOutTemplate';
 
 type SupportedRound = ChoiceRoundData | OddOneOutRoundData;
+
+const useOptionalPanels = () => {
+  try {
+    return usePanels();
+  } catch {
+    return null;
+  }
+};
 
 const formatTime = (seconds: number): string => {
   const mins = Math.floor(seconds / 60)
@@ -25,7 +34,19 @@ const formatTime = (seconds: number): string => {
 
 const WordpuzzleSession: React.FC<{ exerciseId: string }> = ({ exerciseId }) => {
   const { t, locale } = useI18n();
+  const panels = useOptionalPanels();
   const navigate = useNavigate();
+  const exerciseDef = getExerciseById(exerciseId);
+  const category =
+    exerciseDef ? BRAIN_CATEGORIES.find((c) => c.id === exerciseDef.category) : BRAIN_CATEGORIES.find((c) => c.id === 'memory');
+  const categoryLabel = category ? t(category.titleKey) : t('brain.header.title');
+  const levelLabel = exerciseDef?.difficulty ?? 'L2';
+  const minutesLabel = exerciseDef?.estimatedMinutes ?? 5;
+  const roundsLabel = 1;
+  const levelTextRaw = t('brain.levelLabelShort', { level: levelLabel });
+  const levelText = levelTextRaw === 'brain.levelLabelShort' ? `Level ${levelLabel}` : levelTextRaw;
+  const roundsTextRaw = t('brain.session.roundsShort');
+  const roundsText = roundsTextRaw === 'brain.session.roundsShort' ? 'Runden' : roundsTextRaw;
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [isPaused, setIsPaused] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -85,6 +106,10 @@ const WordpuzzleSession: React.FC<{ exerciseId: string }> = ({ exerciseId }) => 
     hasLoggedRef.current = false;
   };
 
+  const handleInfoClick = () => {
+    panels?.openRightPanel('brain-exercise-info', { exerciseId });
+  };
+
   const handleStop = () => {
     const durationSec = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
     navigate('/completion', {
@@ -104,18 +129,17 @@ const WordpuzzleSession: React.FC<{ exerciseId: string }> = ({ exerciseId }) => 
     const durationSec = Math.max(1, Math.round((completedAt - startTimeRef.current) / 1000));
 
     if (!hasLoggedRef.current) {
-      addCompletedSession({
-        id: `brain-${exerciseId ?? 'session'}-${completedAt}`,
-        completedAt,
-        moduleId: 'brain',
-        trainingId: exerciseId ?? 'wordpuzzle',
-        trainingTitle: t('brain.session.headerTitle'),
-        unitTitle: t('brain.session.headerTitle'),
-        intensity: 'medium',
-        durationMinPlanned: 0,
+      const durationMinutes = Math.max(1, Math.round(durationSec / 60));
+      logBrainSession({
+        exerciseId: exerciseId ?? 'wordpuzzle',
+        category: exerciseDef?.category,
+        durationMinutes,
         durationSecActual: durationSec,
-        summary: { kind: 'found_word', value: targetWord, success: true },
         completed: true,
+        timestamp: completedAt,
+        trainingTitle: t(exerciseDef?.titleKey ?? 'brain.session.headerTitle'),
+        unitTitle: t('brain.session.headerTitle'),
+        summary: { kind: 'found_word', value: targetWord, success: true },
       });
       hasLoggedRef.current = true;
     }
@@ -135,7 +159,45 @@ const WordpuzzleSession: React.FC<{ exerciseId: string }> = ({ exerciseId }) => 
 
   return (
     <div className="brain-page brain-session">
-      <SectionHeader as="h1" className="page-title" title={t('brain.session.headerTitle')} />
+      <div className="td-metaRow">
+        <span className="td-categoryPill">{categoryLabel}</span>
+        <button
+          type="button"
+          className="td-infoBtn"
+          aria-label={t('brain.detail.infoLabel')}
+          onClick={handleInfoClick}
+        >
+          <Icon name="info" filled size={20} />
+        </button>
+      </div>
+
+      <div className="td-subMeta">
+        <span className="training-detail__chip">
+          <Icon name="military_tech" size={18} />
+          {levelText}
+        </span>
+        <span className="training-detail__chip">
+          <Icon name="schedule" size={18} />
+          ~{minutesLabel} {t('trainieren.minutes')}
+        </span>
+        <span className="training-detail__chip">
+          <Icon name="repeat" size={18} />
+          {roundsLabel} {roundsText}
+        </span>
+      </div>
+
+      <div className="training-detail__header">
+        <SectionHeader
+          as="h1"
+          className="page-title training-detail__title"
+          title={t(exerciseDef?.titleKey ?? 'brain.session.headerTitle')}
+          subtitle={t(exerciseDef?.subtitleKey ?? 'brain.session.headerTitle')}
+        />
+        <p className="training-detail__description">
+          {t(exerciseDef?.descriptionKey ?? exerciseDef?.subtitleKey ?? 'brain.session.headerTitle')}
+        </p>
+      </div>
+
       <Card className="brain-session__summary" variant="elevated">
         <div className="brain-session__summary-header">
           <div className="brain-session__summary-left">
@@ -144,14 +206,14 @@ const WordpuzzleSession: React.FC<{ exerciseId: string }> = ({ exerciseId }) => 
             </div>
             <div className="brain-session__summary-meta">
               <p className="brain-session__eyebrow">{t('brain.session.section.focusLabel')}</p>
-              <h3 className="brain-session__title">{t('brain.session.headerTitle')}</h3>
-              <p className="brain-session__level">
-                {t('brain.session.levelLabel')}
-                <strong>{t('brain.session.level.medium')}</strong>
-              </p>
             </div>
           </div>
-          <Icon name="info" size={24} />
+          <div className="brain-session__summary-right">
+            <div className="brain-session__timer">
+              <Icon name="timer" size={22} />
+              <span>{formatTime(elapsedSeconds)}</span>
+            </div>
+          </div>
         </div>
 
         <p className="brain-session__description">{t('brain.overview.card.wordpuzzle.subtitle')}</p>
@@ -245,32 +307,37 @@ const renderTemplate = (template: ResolvedRuntimeConfig['template'], round: Supp
 
 export const DedicatedSessionScreen: React.FC = () => {
   const { exerciseId } = useParams<{ exerciseId: string }>();
+  const { t } = useI18n();
   const exercise = exerciseId ? getExerciseById(exerciseId) : undefined;
+  const category = exercise ? BRAIN_CATEGORIES.find((item) => item.id === exercise.category) : undefined;
+  const runtimeConfig = useMemo(() => (exercise ? getRuntimeConfig(exercise.id) : undefined), [exercise]);
+  const isAvailable = Boolean(exercise?.implemented);
 
   if (!exercise) {
     return <Navigate to="/brain" replace />;
   }
 
-  if (!exercise.implemented) {
-    return <Navigate to={`/brain/exercise/${exercise.id}`} replace />;
+  if (!isAvailable) {
+    if (category) {
+      return <Navigate to={`/brain/category/${category.id}`} replace />;
+    }
+    return <Navigate to="/brain" replace />;
   }
 
   if (exercise.uiTemplate === 'wordpuzzle') {
     return <WordpuzzleSession exerciseId={exerciseId ?? exercise.id} />;
   }
 
-  const config = getRuntimeConfig(exercise.id);
-
-  if (!config) {
-    return <Navigate to={`/brain/exercise/${exercise.id}`} replace />;
+  if (!runtimeConfig) {
+    return <Navigate to="/brain" replace />;
   }
 
   return (
     <BrainSessionEngine
       exercise={exercise}
-      roundsTotal={config.roundsTotal}
-      generator={(index) => config.buildRound(index) as SupportedRound}
-      renderer={(round, onAnswer) => renderTemplate(config.template, round, onAnswer)}
+      roundsTotal={runtimeConfig.roundsTotal}
+      generator={(index) => runtimeConfig.buildRound(index) as SupportedRound}
+      renderer={(round, onAnswer) => renderTemplate(runtimeConfig.template, round, onAnswer)}
     />
   );
 };

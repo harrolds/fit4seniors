@@ -1,12 +1,15 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { Card } from '../../../shared/ui/Card';
 import { Button } from '../../../shared/ui/Button';
 import { Icon } from '../../../shared/ui/Icon';
 import { useI18n } from '../../../shared/lib/i18n';
+import { usePanels } from '../../../shared/lib/panels';
 import { BrainExercise } from '../types';
+import { BRAIN_CATEGORIES } from '../brainCatalog';
 import { BrainRoundResult } from './types';
+import { logBrainSession } from '../../../state/brainSessions';
 
 type BrainSessionEngineProps<TRoundData> = {
   exercise: BrainExercise;
@@ -31,11 +34,19 @@ export const BrainSessionEngine = <TRoundData,>({
 }: BrainSessionEngineProps<TRoundData>) => {
   const { t } = useI18n();
   const navigate = useNavigate();
+  const panels = usePanels();
+  const category = BRAIN_CATEGORIES.find((c) => c.id === exercise.category);
+  const categoryLabel = category ? t(category.titleKey) : t('brain.header.title');
+  const levelTextRaw = t('brain.levelLabelShort', { level: exercise.difficulty ?? 'L2' });
+  const levelText = levelTextRaw === 'brain.levelLabelShort' ? `Level ${exercise.difficulty ?? 'L2'}` : levelTextRaw;
+  const roundsTextRaw = t('brain.session.roundsShort');
+  const roundsText = roundsTextRaw === 'brain.session.roundsShort' ? 'Runden' : roundsTextRaw;
   const [roundIndex, setRoundIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [startedAt, setStartedAt] = useState<number>(() => Date.now());
   const [finishedAt, setFinishedAt] = useState<number | null>(null);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const hasLoggedRef = useRef(false);
 
   useEffect(() => {
     if (finishedAt) {
@@ -59,6 +70,25 @@ export const BrainSessionEngine = <TRoundData,>({
     ? Math.max(1, Math.round(((finishedAt ?? Date.now()) - startedAt) / 1000))
     : elapsedSeconds;
 
+  useEffect(() => {
+    if (!finishedAt || hasLoggedRef.current) return;
+
+    const durationMinutes = Math.max(1, Math.round(durationSec / 60));
+
+    logBrainSession({
+      exerciseId: exercise.id,
+      category: exercise.category,
+      durationMinutes,
+      durationSecActual: durationSec,
+      completed: true,
+      timestamp: finishedAt,
+      trainingTitle: t(exercise.titleKey),
+      unitTitle: t(exercise.titleKey),
+    });
+
+    hasLoggedRef.current = true;
+  }, [durationSec, exercise, finishedAt, t]);
+
   const handleAnswer = useCallback(
     (result: BrainRoundResult) => {
       setCorrectCount((prev) => prev + (result.correct ? 1 : 0));
@@ -80,15 +110,55 @@ export const BrainSessionEngine = <TRoundData,>({
     setStartedAt(Date.now());
     setFinishedAt(null);
     setElapsedSeconds(0);
+    hasLoggedRef.current = false;
   };
 
   const handleBack = () => {
     navigate('/brain');
   };
 
+  const handleInfoClick = () => {
+    panels?.openRightPanel('brain-exercise-info', { exerciseId: exercise.id });
+  };
+
   return (
     <div className="brain-page brain-session">
-      <SectionHeader as="h1" className="page-title" title={t(exercise.titleKey)} subtitle={t(exercise.subtitleKey)} />
+      <div className="td-metaRow">
+        <span className="td-categoryPill">{categoryLabel}</span>
+        <button
+          type="button"
+          className="td-infoBtn"
+          aria-label={t('brain.detail.infoLabel')}
+          onClick={handleInfoClick}
+        >
+          <Icon name="info" filled size={22} />
+        </button>
+      </div>
+
+      <div className="td-subMeta">
+        <span className="training-detail__chip">
+          <Icon name="military_tech" size={18} />
+          {levelText}
+        </span>
+        <span className="training-detail__chip">
+          <Icon name="schedule" size={18} />
+          ~{exercise.estimatedMinutes} {t('trainieren.minutes')}
+        </span>
+        <span className="training-detail__chip">
+          <Icon name="repeat" size={18} />
+          {roundsTotal} {roundsText}
+        </span>
+      </div>
+
+      <div className="training-detail__header">
+        <SectionHeader
+          as="h1"
+          className="page-title training-detail__title"
+          title={t(exercise.titleKey)}
+          subtitle={t(exercise.subtitleKey)}
+        />
+        <p className="training-detail__description">{t(exercise.descriptionKey ?? exercise.subtitleKey)}</p>
+      </div>
 
       <Card className="brain-session__summary" variant="elevated">
         <div className="brain-session__summary-header">
@@ -98,15 +168,21 @@ export const BrainSessionEngine = <TRoundData,>({
             </div>
             <div className="brain-session__summary-meta">
               <p className="brain-session__eyebrow">{t('brain.session.section.focusLabel')}</p>
-              <h3 className="brain-session__title">{t(exercise.titleKey)}</h3>
-              <p className="brain-session__level">
-                {t('brain.session.roundLabel', { current: Math.min(roundIndex + 1, roundsTotal), total: roundsTotal })}
-              </p>
             </div>
           </div>
-          <div className="brain-session__timer">
-            <Icon name="timer" size={22} />
-            <span>{formatTime(durationSec)}</span>
+          <div className="brain-session__summary-right">
+            <div className="brain-session__timer">
+              <Icon name="timer" size={22} />
+              <span>{formatTime(durationSec)}</span>
+            </div>
+            <button
+              type="button"
+              className="brain-session__infoBtn"
+              aria-label={t('brain.detail.infoLabel')}
+              onClick={handleInfoClick}
+            >
+              <Icon name="info" filled size={20} />
+            </button>
           </div>
         </div>
 

@@ -5,41 +5,7 @@ import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useI18n } from '../../../shared/lib/i18n';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
-import type { ScreenConfig } from '../../../core/screenConfig';
-import { screenConfigs } from '../../../config/navigation';
 import { BRAIN_CATEGORIES, getExercisesByCategory } from '../brainCatalog';
-
-const ensureBrainCategoryScreenConfig = () => {
-  const exists = screenConfigs.some((config) => config.id === 'brain-category');
-  if (exists) return;
-
-  const categoryScreenConfig: ScreenConfig = {
-    id: 'brain-category',
-    route: '/brain/category/:categoryId',
-    titleKey: 'brain.header.title',
-    actions: [
-      {
-        id: 'goBack',
-        labelKey: 'common.back',
-        icon: 'back',
-        onClick: { type: 'navigate', target: '/brain' },
-      },
-    ],
-    primaryActions: [
-      {
-        id: 'openNotifications',
-        labelKey: 'app.header.notifications',
-        icon: 'notifications',
-        onClick: { type: 'panel', panelId: 'notifications-center' },
-      },
-      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings', navigationTarget: 'settings' },
-    ],
-  };
-
-  screenConfigs.push(categoryScreenConfig);
-};
-
-ensureBrainCategoryScreenConfig();
 
 export const BrainCategoryScreen: React.FC = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -65,7 +31,14 @@ export const BrainCategoryScreen: React.FC = () => {
             const badgeLabel = exercise.implemented ? t('brain.catalog.badge.available') : t('brain.catalog.badge.planned');
             return (
               <Card key={exercise.id} className="brain-exercise-item" variant="elevated">
-                <button type="button" className="brain-exercise-item__body" onClick={() => goTo(`/brain/exercise/${exercise.id}`)}>
+                <button
+                  type="button"
+                  className="brain-exercise-item__body"
+                  onClick={() => exercise.implemented && goTo(`/brain/session/${exercise.id}`)}
+                  disabled={!exercise.implemented}
+                  aria-disabled={!exercise.implemented}
+                  title={!exercise.implemented ? badgeLabel : undefined}
+                >
                   <div className="brain-exercise-item__header">
                     <div>
                       <p className="brain-exercise-item__eyebrow">{t(category.titleKey)}</p>

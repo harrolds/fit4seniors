@@ -98,10 +98,10 @@
  }
 
  .brain-session__summary-header {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   gap: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
  }
 
  .brain-session__summary-left {
@@ -109,6 +109,38 @@
    align-items: center;
    gap: var(--spacing-md);
  }
+
+.brain-page .td-metaRow {
+  margin-bottom: var(--spacing-sm);
+}
+
+.brain-page .td-subMeta {
+  margin-bottom: var(--spacing-md);
+}
+
+.brain-page .td-categoryPill {
+  background: rgba(136, 176, 165, 0.18);
+  color: var(--color-text);
+}
+
+.brain-session__summary-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.brain-session__infoBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
 
  .brain-session__summary-icon {
    width: 54px;
@@ -421,6 +453,25 @@
   gap: var(--spacing-md);
 }
 
+.brain-exercise-detail__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.brain-exercise-detail__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(136, 176, 165, 0.15);
+  color: var(--color-active);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+}
+
 .brain-exercise-detail__badge {
   display: flex;
   justify-content: flex-start;
@@ -455,6 +506,19 @@
   margin: 0;
   color: var(--color-text-secondary);
   text-align: center;
+}
+
+.td-infoBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
 }
 
 .brain-session__round {

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from 'react';
 import type { PanelType } from '../core/panels/PanelHost';
 
@@ -10,6 +11,7 @@ export type PanelRegistryEntry = {
 import { FilterSheet } from '../features/trainieren/FilterSheet';
 import { SessionInterruptSheet } from '../features/trainieren/SessionInterruptSheet';
 import { TrainingInfoPanelContent } from '../modules/trainingInfo';
+import { BrainExerciseInfoPanelContent } from '../modules/brain/panels/BrainExerciseInfoPanelContent';
 import { NotificationsCenterSheet } from '../modules/reminders';
 import { ReminderToastPanel } from '../modules/reminders/panels/ReminderToastPanel';
 import { SettingsRemindersSheet } from '../modules/reminders/panels/SettingsRemindersSheet';
@@ -41,6 +43,11 @@ export const panelRegistry: PanelRegistryEntry[] = [
     id: 'training-info',
     type: 'right',
     component: TrainingInfoPanelContent,
+  },
+  {
+    id: 'brain-exercise-info',
+    type: 'right',
+    component: BrainExerciseInfoPanelContent,
   },
   {
     id: 'more-help',

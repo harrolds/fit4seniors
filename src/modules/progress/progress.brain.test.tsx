@@ -7,6 +7,7 @@ import { PanelProvider } from '../../shared/lib/panels';
 import { setItems } from '../../shared/lib/storage';
 import { ProgressRoutes } from './ProgressRoutes';
 import { PROGRESS_STORAGE_KEY, type CompletedSessionRecord } from './progressStorage';
+import { BRAIN_SESSIONS_STORAGE_KEY } from '../../state/brainSessions';
 
 const renderProgress = (entry: string) => {
   const container = document.createElement('div');
@@ -41,8 +42,8 @@ describe('Progress brain integration', () => {
       id: 'brain-1',
       completedAt: Date.now(),
       moduleId: 'brain',
-      trainingId: 'wordpuzzle',
-      trainingTitle: 'Wortpuzzle',
+      trainingId: 'odd_one_out',
+      trainingTitle: 'Odd One Out',
       durationSecActual: 90,
       durationMinPlanned: 0,
       completed: true,
@@ -64,13 +65,22 @@ describe('Progress brain integration', () => {
       id: 'brain-2',
       completedAt: Date.now(),
       moduleId: 'brain',
-      trainingId: 'wordpuzzle',
-      trainingTitle: 'Wortpuzzle',
+      trainingId: 'choice',
+      trainingTitle: 'Choice',
       durationSecActual: 120,
       durationMinPlanned: 0,
       completed: true,
     };
     setItems(PROGRESS_STORAGE_KEY, [session]);
+    setItems(BRAIN_SESSIONS_STORAGE_KEY, [
+      {
+        exerciseId: 'choice',
+        category: 'memory',
+        durationMinutes: 2,
+        completed: true,
+        timestamp: Date.now(),
+      },
+    ]);
 
     const { container, cleanup } = renderProgress('/progress');
 

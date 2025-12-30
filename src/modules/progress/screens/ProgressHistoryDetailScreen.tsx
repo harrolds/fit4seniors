@@ -7,13 +7,10 @@ import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useTrainingCatalog, findModule } from '../../../features/trainieren/catalog';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, getSessionById } from '../progressStorage';
-import { getValue, setValue } from '../../../shared/lib/storage';
 import { useDisplayName } from '../../profile';
 
 const createDateFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
 const createTimeFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { timeStyle: 'short' });
-
-type MoodValue = 'poor' | 'ok' | 'good' | 'great';
 
 export const ProgressHistoryDetailScreen: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,18 +22,6 @@ export const ProgressHistoryDetailScreen: React.FC = () => {
   const [session, setSession] = useState<CompletedSessionRecord | null>(() =>
     id ? getSessionById(id) : null,
   );
-  const [mood, setMood] = useState<MoodValue>('good');
-  const [showToast, setShowToast] = useState(false);
-
-  const moodKey = id ? `progress:mood:${id}` : null;
-
-  useEffect(() => {
-    if (moodKey) {
-      const stored = getValue<MoodValue | null>(moodKey, null);
-      if (stored) setMood(stored);
-    }
-  }, [moodKey]);
-
   useEffect(() => {
     if (!id) return;
     setSession(getSessionById(id));
@@ -66,25 +51,6 @@ export const ProgressHistoryDetailScreen: React.FC = () => {
     [session],
   );
 
-  const handleMood = (value: MoodValue) => {
-    setMood(value);
-    if (moodKey) {
-      setValue<MoodValue>(moodKey, value);
-    }
-  };
-
-  const handleShare = () => {
-    setShowToast(true);
-    window.setTimeout(() => setShowToast(false), 2000);
-  };
-
-  const moodOptions: { value: MoodValue; emoji: string; label: string }[] = [
-    { value: 'poor', emoji: '🙁', label: t('progress.history.detail.mood.poor') },
-    { value: 'ok', emoji: '😐', label: t('progress.history.detail.mood.ok') },
-    { value: 'good', emoji: '🙂', label: t('progress.history.detail.mood.good') },
-    { value: 'great', emoji: '😃', label: t('progress.history.detail.mood.great') },
-  ];
-
   if (!session) {
     return (
       <div className="hd-wrap">
@@ -101,11 +67,6 @@ export const ProgressHistoryDetailScreen: React.FC = () => {
 
   return (
     <div className="hd-wrap">
-      <Button onClick={goBack} variant="ghost" className="hd-back">
-        <Icon name="arrow_back" size={20} />
-        {t('common.back')}
-      </Button>
-
       <SectionHeader
         as="h1"
         className="page-title hd-intro"
@@ -127,10 +88,6 @@ export const ProgressHistoryDetailScreen: React.FC = () => {
           <div>
             <p className="hd-stat__label">{t('progress.history.detail.fields.durationActual')}</p>
             <p className="hd-stat__value">{durationActualMinutes} {t('trainieren.minutes')}</p>
-          </div>
-          <div>
-            <p className="hd-stat__label">{t('progress.history.detail.fields.calories')}</p>
-            <p className="hd-stat__value">—</p>
           </div>
         </div>
       </Card>
@@ -158,30 +115,6 @@ export const ProgressHistoryDetailScreen: React.FC = () => {
           <p className="hd-info__value">{timeFormatter.format(new Date(session.completedAt))}</p>
         </div>
       </Card>
-
-      <Card className="hd-card hd-mood">
-        <h3>{t('progress.history.detail.mood.title')}</h3>
-        <div className="hd-mood__options">
-          {moodOptions.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              className={`hd-mood__option ${mood === option.value ? 'hd-mood__option--active' : ''}`}
-              onClick={() => handleMood(option.value)}
-            >
-              <span className="hd-mood__emoji">{option.emoji}</span>
-              <span className="hd-mood__label">{option.label}</span>
-            </button>
-          ))}
-        </div>
-      </Card>
-
-      <Button className="hd-cta" variant="primary" onClick={handleShare}>
-        <Icon name="share" size={20} />
-        {t('progress.history.detail.share')}
-      </Button>
-
-      {showToast ? <div className="hd-toast">{t('progress.history.detail.shareToast')}</div> : null}
     </div>
   );
 };

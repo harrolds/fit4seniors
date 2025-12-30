@@ -12,7 +12,6 @@ import { useI18n } from '../../shared/lib/i18n';
 import { Card, CardBody, CardHeader } from '../../shared/ui/Card';
 import { Divider } from '../../shared/ui/Divider';
 import { Icon } from '../../shared/ui/Icon';
-import { IconButton } from '../../shared/ui/IconButton';
 import { List, ListItem } from '../../shared/ui/List';
 import { Badge } from '../../shared/ui/Badge';
 import './trainingInfo.css';
@@ -87,114 +86,116 @@ export const TrainingInfoPanelContent: React.FC<TrainingInfoPanelProps> = ({
 
   return (
     <div className="training-info-panel">
-      {onClose ? (
-        <div className="training-info-panel__back">
-          <IconButton ariaLabel={t('common.back')} onClick={onClose} variant="ghost">
+      <div className="training-info-panel__header">
+        {onClose ? (
+          <button
+            type="button"
+            className="training-info-panel__close"
+            aria-label={t('common.close')}
+            onClick={onClose}
+          >
             <Icon name="arrow_back" size={24} />
-          </IconButton>
-        </div>
-      ) : null}
-
-      <header className="training-info-panel__header">
-        <div className="training-info-panel__heading-meta">
-          <span className="training-info-panel__eyebrow">{moduleDef.title}</span>
-          <h2 className="training-info-panel__title">{headingTitle}</h2>
-          <p className="training-info-panel__desc">{training.shortDesc}</p>
-        </div>
-      </header>
-
-      <section className="training-info-panel__badge-grid">
-        {resolvedIntensity ? (
-          <Badge variant="accent">{getIntensityLabel(t, resolvedIntensity)}</Badge>
+          </button>
         ) : null}
-        {variant ? (
-          <Badge>{`${variant.durationMin} ${t('trainieren.minutes')}`}</Badge>
-        ) : null}
-      </section>
 
-      <Card variant="elevated" className="training-info-card">
-        <CardHeader>
-          <Icon name="info" size={24} />
-          <div>
-            <p className="training-info-card__meta">{t('trainingInfo.panel.section.about')}</p>
-            <strong className="training-info-card__strong">{training.title}</strong>
-          </div>
-        </CardHeader>
-        <CardBody>
-          <p className="training-info-text training-info-text--normal">{moduleDef.description}</p>
-          <Divider />
-          <div className="training-info-card__body-stack">
-            <span className="training-info-text training-info-text--semibold training-info-text--primary">
-              {training.shortDesc}
-            </span>
-          </div>
-        </CardBody>
-      </Card>
+        <div>
+          <h1 className="ui-section-header__title training-info-panel__headline">{headingTitle}</h1>
+        </div>
+      </div>
 
-      <Card className="training-info-card">
-        <CardHeader>
-          <Icon name="directions_walk" size={22} />
-          <p className="training-info-text training-info-text--semibold">
-            {t('trainingInfo.panel.section.how')}
-          </p>
-        </CardHeader>
-        <CardBody>
-          <p className="training-info-text training-info-text--muted">{training.shortDesc}</p>
-          {variant ? (
-            <p className="training-info-text training-info-text--primary training-info-text--medium">
-              {variant.paceCue}
-            </p>
+      <div className="training-info-panel__body">
+        <section className="training-info-panel__badge-grid">
+          {resolvedIntensity ? (
+            <Badge variant="accent">{getIntensityLabel(t, resolvedIntensity)}</Badge>
           ) : null}
-        </CardBody>
-      </Card>
+          {variant ? (
+            <Badge>{`${variant.durationMin} ${t('trainieren.minutes')}`}</Badge>
+          ) : null}
+        </section>
 
-      {variant && resolvedIntensity ? (
-        <Card className="training-info-card">
+        <Card variant="elevated" className="training-info-card">
           <CardHeader>
-            <Icon name="insights" size={22} />
-            <p className="training-info-text training-info-text--semibold">
-              {t('trainingInfo.panel.section.intensity')}
-            </p>
+            <Icon name="info" size={24} />
+            <div>
+              <p className="training-info-card__meta">{t('trainingInfo.panel.section.about')}</p>
+            </div>
           </CardHeader>
           <CardBody>
-            <List>
-              <ListItem
-                title={t('trainingInfo.panel.section.intensity')}
-                subtitle={getIntensityLabel(t, resolvedIntensity)}
-                rightSlot={<Badge variant="accent">{getIntensityLabel(t, resolvedIntensity)}</Badge>}
-              />
-              <ListItem
-                title={t('trainingInfo.panel.section.duration')}
-                rightSlot={
-                  <span className="training-info-text training-info-text--semibold training-info-text--primary">
-                    {variant.durationMin} {t('trainieren.minutes')}
-                  </span>
-                }
-              />
-              <ListItem title={t('trainingInfo.panel.section.pace')} subtitle={variant.paceCue} />
-            </List>
+            <p className="training-info-text training-info-text--normal">{moduleDef.description}</p>
+            <Divider />
+            <div className="training-info-card__body-stack">
+              <span className="training-info-text training-info-text--semibold training-info-text--primary">
+                {training.shortDesc}
+              </span>
+            </div>
           </CardBody>
         </Card>
-      ) : null}
 
-      {hasMedia ? (
         <Card className="training-info-card">
           <CardHeader>
-            <Icon name="collections" size={22} />
+            <Icon name="directions_walk" size={22} />
             <p className="training-info-text training-info-text--semibold">
-              {t('trainingInfo.panel.section.media')}
+              {t('trainingInfo.panel.section.how')}
             </p>
           </CardHeader>
           <CardBody>
-            <p className="training-info-text training-info-text--muted">
-              {trainingWithMedia?.media?.imageKey}
-            </p>
-            {trainingWithMedia?.media?.aspect ? (
-              <p className="training-info-card__meta">{trainingWithMedia.media.aspect}</p>
+            <p className="training-info-text training-info-text--muted">{training.shortDesc}</p>
+            {variant ? (
+              <p className="training-info-text training-info-text--primary training-info-text--medium">
+                {variant.paceCue}
+              </p>
             ) : null}
           </CardBody>
         </Card>
-      ) : null}
+
+        {variant && resolvedIntensity ? (
+          <Card className="training-info-card">
+            <CardHeader>
+              <Icon name="insights" size={22} />
+              <p className="training-info-text training-info-text--semibold">
+                {t('trainingInfo.panel.section.intensity')}
+              </p>
+            </CardHeader>
+            <CardBody>
+              <List>
+                <ListItem
+                  title={t('trainingInfo.panel.section.intensity')}
+                  subtitle={getIntensityLabel(t, resolvedIntensity)}
+                  rightSlot={<Badge variant="accent">{getIntensityLabel(t, resolvedIntensity)}</Badge>}
+                />
+                <ListItem
+                  title={t('trainingInfo.panel.section.duration')}
+                  rightSlot={
+                    <span className="training-info-text training-info-text--semibold training-info-text--primary">
+                      {variant.durationMin} {t('trainieren.minutes')}
+                    </span>
+                  }
+                />
+                <ListItem title={t('trainingInfo.panel.section.pace')} subtitle={variant.paceCue} />
+              </List>
+            </CardBody>
+          </Card>
+        ) : null}
+
+        {hasMedia ? (
+          <Card className="training-info-card">
+            <CardHeader>
+              <Icon name="collections" size={22} />
+              <p className="training-info-text training-info-text--semibold">
+                {t('trainingInfo.panel.section.media')}
+              </p>
+            </CardHeader>
+            <CardBody>
+              <p className="training-info-text training-info-text--muted">
+                {trainingWithMedia?.media?.imageKey}
+              </p>
+              {trainingWithMedia?.media?.aspect ? (
+                <p className="training-info-card__meta">{trainingWithMedia.media.aspect}</p>
+              ) : null}
+            </CardBody>
+          </Card>
+        ) : null}
+      </div>
     </div>
   );
 };

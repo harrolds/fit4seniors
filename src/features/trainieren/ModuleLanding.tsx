@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { useI18n } from '../../shared/lib/i18n';
@@ -13,6 +13,8 @@ import {
   getIntensityLabel,
   type TrainingIntensity,
   type DurationBucket,
+  type BrainType,
+  brainTypesAll,
 } from './catalog';
 import { usePanels } from '../../shared/lib/panels';
 import { useProfileMotorState, getRecommendationsForTrainingList } from '../../app/services/profileMotor';
@@ -25,8 +27,13 @@ const introKeyByModule: Record<string, string> = {
   balance_flex: 'trainieren.categories.balance.intro',
 };
 
-export const ModuleLanding: React.FC = () => {
-  const { moduleId } = useParams<{ moduleId: string }>();
+type ModuleLandingProps = {
+  moduleIdOverride?: string;
+};
+
+export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }) => {
+  const { moduleId: moduleIdFromRoute } = useParams<{ moduleId: string }>();
+  const moduleId = moduleIdOverride ?? moduleIdFromRoute;
   const { goBack, goTo } = useNavigation();
   const { t } = useI18n();
   const { openBottomSheet, closePanel } = usePanels();
@@ -34,21 +41,36 @@ export const ModuleLanding: React.FC = () => {
 
   const [activeIntensities, setActiveIntensities] = useState<TrainingIntensity[]>(['light', 'medium', 'heavy']);
   const [activeDurations, setActiveDurations] = useState<DurationBucket[]>(['short', 'medium', 'long']);
+  const [activeBrainTypes, setActiveBrainTypes] = useState<BrainType[]>(brainTypesAll);
 
   const moduleDef = findModule(data, moduleId);
   const variantItems = listVariantItemsForModule(data, moduleId);
   const history = useMemo(() => loadCompletedSessions(), []);
   const motorProfile = useProfileMotorState();
 
+  const isBrainModule = moduleId === 'brain';
+
   const recommendation = useMemo(() => {
     return getRecommendationsForTrainingList(variantItems, motorProfile, history);
   }, [variantItems, history, motorProfile]);
 
   const visibleItems = useMemo(() => {
-    return recommendation.items.filter(
-      (item) => activeIntensities.includes(item.intensity) && activeDurations.includes(item.durationBucket),
-    );
-  }, [activeDurations, activeIntensities, recommendation.items]);
+    const intensityFiltered = recommendation.items.filter((item) => activeIntensities.includes(item.intensity));
+
+    if (isBrainModule) {
+      return intensityFiltered.filter((item) =>
+        item.brainType ? activeBrainTypes.includes(item.brainType) : activeBrainTypes.length > 0,
+      );
+    }
+
+    return intensityFiltered.filter((item) => activeDurations.includes(item.durationBucket));
+  }, [activeDurations, activeBrainTypes, activeIntensities, isBrainModule, recommendation.items]);
+
+  useEffect(() => {
+    setActiveIntensities(['light', 'medium', 'heavy']);
+    setActiveDurations(['short', 'medium', 'long']);
+    setActiveBrainTypes(brainTypesAll);
+  }, [moduleId]);
 
   if (isLoading) {
     return <p className="trainieren-status">{t('trainieren.module.loading')}</p>;
@@ -84,17 +106,25 @@ export const ModuleLanding: React.FC = () => {
     setActiveDurations((prev) => (prev.includes(value) ? prev.filter((d) => d !== value) : [...prev, value]));
   };
 
+  const toggleBrainType = (value: BrainType) => {
+    setActiveBrainTypes((prev) => (prev.includes(value) ? prev.filter((type) => type !== value) : [...prev, value]));
+  };
+
   const resetFilters = () => {
     setActiveIntensities(['light', 'medium', 'heavy']);
     setActiveDurations(['short', 'medium', 'long']);
+    setActiveBrainTypes(brainTypesAll);
   };
 
   const openFilterSheet = () => {
     openBottomSheet('trainieren-filter', {
+      moduleId,
       intensities: activeIntensities,
       durations: activeDurations,
+      brainTypes: activeBrainTypes,
       onToggleIntensity: toggleIntensity,
       onToggleDuration: toggleDuration,
+      onToggleBrainType: toggleBrainType,
       onReset: resetFilters,
       onApply: closePanel,
     });

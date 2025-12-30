@@ -1,15 +1,18 @@
 import React from 'react';
 import '../../shared/panels/bottom-sheet.css';
 import { useI18n } from '../../shared/lib/i18n';
-import type { DurationBucket, TrainingIntensity } from './catalog';
-import { getIntensityLabel } from './catalog';
+import type { BrainType, DurationBucket, TrainingIntensity } from './catalog';
+import { brainTypesAll, getIntensityLabel } from './catalog';
 import './trainieren.css';
 
 type FilterSheetProps = {
+  moduleId?: string;
   intensities: TrainingIntensity[];
   durations: DurationBucket[];
+  brainTypes?: BrainType[];
   onToggleIntensity: (value: TrainingIntensity) => void;
   onToggleDuration: (value: DurationBucket) => void;
+  onToggleBrainType?: (value: BrainType) => void;
   onReset: () => void;
   onApply: () => void;
 };
@@ -26,25 +29,38 @@ const durationOptions: { value: DurationBucket; label: string }[] = [
   { value: 'long', label: '20+' },
 ];
 
+const brainTypeOptions: { value: BrainType; labelKey: string }[] = [
+  { value: 'memory', labelKey: 'brain.types.memory' },
+  { value: 'language', labelKey: 'brain.types.language' },
+  { value: 'patterns', labelKey: 'brain.types.patterns' },
+];
+
 export const FilterSheet: React.FC<FilterSheetProps> = ({
+  moduleId,
   intensities,
   durations,
+  brainTypes,
   onToggleIntensity,
   onToggleDuration,
+  onToggleBrainType,
   onReset,
   onApply,
 }) => {
   const { t } = useI18n();
   const [localIntensities, setLocalIntensities] = React.useState<TrainingIntensity[]>(intensities);
   const [localDurations, setLocalDurations] = React.useState<DurationBucket[]>(durations);
+  const [localBrainTypes, setLocalBrainTypes] = React.useState<BrainType[]>(brainTypes ?? brainTypesAll);
+  const isBrainModule = moduleId === 'brain';
 
   React.useEffect(() => {
     setLocalIntensities(intensities);
     setLocalDurations(durations);
-  }, [intensities, durations]);
+    setLocalBrainTypes(brainTypes ?? brainTypesAll);
+  }, [brainTypes, durations, intensities]);
 
   const isIntensityActive = (value: TrainingIntensity) => localIntensities.includes(value);
   const isDurationActive = (value: DurationBucket) => localDurations.includes(value);
+  const isBrainTypeActive = (value: BrainType) => localBrainTypes.includes(value);
 
   const handleToggleIntensity = (value: TrainingIntensity) => {
     setLocalIntensities((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]));
@@ -56,10 +72,16 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
     onToggleDuration(value);
   };
 
+  const handleToggleBrainType = (value: BrainType) => {
+    setLocalBrainTypes((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]));
+    onToggleBrainType?.(value);
+  };
+
   const handleReset = () => {
     onReset();
     setLocalIntensities(['light', 'medium', 'heavy']);
     setLocalDurations(['short', 'medium', 'long']);
+    setLocalBrainTypes(brainTypesAll);
   };
 
   const handleApply = () => {
@@ -102,25 +124,46 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
           </div>
         </section>
 
-        <section className="trainieren-filter-sheet__section">
-          <p className="trainieren-filter-sheet__label">{t('trainieren.filters.durationLabel')}</p>
-          <div className="filter-duration-grid">
-            {durationOptions.map((option) => {
-              const active = isDurationActive(option.value);
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  className={`filter-duration ${active ? 'filter-duration--active' : ''}`}
-                  onClick={() => handleToggleDuration(option.value)}
-                >
-                  <span className="filter-duration__value">{option.label}</span>
-                  <span className="filter-duration__unit">{t('trainieren.filters.durationUnit')}</span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
+        {isBrainModule ? (
+          <section className="trainieren-filter-sheet__section">
+            <p className="trainieren-filter-sheet__label">{t('brain.filter.label')}</p>
+            <div className="filter-duration-grid">
+              {brainTypeOptions.map((option) => {
+                const active = isBrainTypeActive(option.value);
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={`filter-duration ${active ? 'filter-duration--active' : ''}`}
+                    onClick={() => handleToggleBrainType(option.value)}
+                  >
+                    <span className="filter-duration__value">{t(option.labelKey)}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        ) : (
+          <section className="trainieren-filter-sheet__section">
+            <p className="trainieren-filter-sheet__label">{t('trainieren.filters.durationLabel')}</p>
+            <div className="filter-duration-grid">
+              {durationOptions.map((option) => {
+                const active = isDurationActive(option.value);
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={`filter-duration ${active ? 'filter-duration--active' : ''}`}
+                    onClick={() => handleToggleDuration(option.value)}
+                  >
+                    <span className="filter-duration__value">{option.label}</span>
+                    <span className="filter-duration__unit">{t('trainieren.filters.durationUnit')}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        )}
       </div>
 
       <div className="bottom-sheet__actions">

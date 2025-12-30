@@ -9,16 +9,11 @@ import { Icon } from '../../shared/ui/Icon';
 import { ProgressBar } from '../../shared/ui/ProgressBar';
 import { usePanels } from '../../shared/lib/panels';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
-import {
-  findModule,
-  findTraining,
-  useTrainingCatalog,
-  type TrainingIntensity,
-  getIntensityLabel,
-} from './catalog';
+import { findModule, findTraining, useTrainingCatalog, type TrainingIntensity } from './catalog';
 import { addCompletedSession } from '../../modules/progress/progressStorage';
 import { computePointsAwardedV1 } from '../../app/services/profileMotor';
 import { playFeedback } from '../../app/services/feedbackService';
+import { BrainExerciseSlot } from '../../modules/brain/components/BrainExerciseSlot';
 import './trainieren.css';
 
 type SessionStatus = 'idle' | 'running' | 'paused' | 'completed';
@@ -74,6 +69,7 @@ export const TrainingDetail: React.FC = () => {
   const moduleDef = findModule(data, moduleId);
   const training = findTraining(data, moduleId, trainingId);
   const variant = intensity && training ? training.variants[intensity] : undefined;
+  const isBrainModule = moduleId === 'brain';
   const isPhysicalModule =
     moduleId === 'cardio' || moduleId === 'muskel' || moduleId === 'balance_flex';
   const physicalIntroKey = useMemo(() => {
@@ -105,6 +101,7 @@ export const TrainingDetail: React.FC = () => {
   }, [training, variant, defaultSteps]);
 
   const [plannedDuration, setPlannedDuration] = useState<number>(variant?.durationMin ?? 0);
+  const [isActive, setIsActive] = useState(false);
   const [session, setSession] = useState<SessionState>({
     status: 'idle',
     totalSeconds: (variant?.durationMin ?? 0) * 60,
@@ -119,6 +116,7 @@ export const TrainingDetail: React.FC = () => {
     if (!variant) return;
     const safeDuration = variant.durationMin;
     const totalSeconds = Math.max(1, Math.round(safeDuration * 60));
+    setIsActive(false);
     setPlannedDuration(safeDuration);
     setSession({
       status: 'idle',
@@ -273,10 +271,14 @@ export const TrainingDetail: React.FC = () => {
 
   const handleStart = useCallback(() => {
     if (!variant) return;
-    const baseDuration = plannedDuration || variant.durationMin;
-    const totalSeconds = Math.max(1, Math.round(baseDuration * 60));
     playFeedback('start');
     closePanel();
+    if (isBrainModule) {
+      setIsActive(true);
+      return;
+    }
+    const baseDuration = plannedDuration || variant.durationMin;
+    const totalSeconds = Math.max(1, Math.round(baseDuration * 60));
     setSession({
       status: 'running',
       totalSeconds,
@@ -284,7 +286,7 @@ export const TrainingDetail: React.FC = () => {
       currentStepIndex: 0,
       steps: resolvedSteps.length ? resolvedSteps : defaultSteps,
     });
-  }, [variant, plannedDuration, resolvedSteps, defaultSteps, closePanel]);
+  }, [variant, plannedDuration, resolvedSteps, defaultSteps, closePanel, isBrainModule]);
 
   const togglePause = useCallback(() => {
     setSession((prev) => {
@@ -388,17 +390,27 @@ export const TrainingDetail: React.FC = () => {
   }
 
   const activeSteps = session.steps.length ? session.steps : resolvedSteps;
-  const isActive = session.status === 'running' || session.status === 'paused';
+  const isTimerActive = session.status === 'running' || session.status === 'paused';
   const stepProgress =
     activeSteps.length > 0 ? ((session.currentStepIndex + 1) / activeSteps.length) * 100 : 0;
   const ringProgress =
-    isActive && session.totalSeconds > 0
+    isTimerActive && session.totalSeconds > 0
       ? Math.min(Math.max(session.remainingSeconds / session.totalSeconds, 0), 1)
       : 1;
   const ringDashOffset = TIMER_CIRCUMFERENCE * (1 - ringProgress);
-  const timerLabel = isActive ? formatSeconds(session.remainingSeconds) : formatMinutesToTime(plannedDuration);
+  const timerLabel = isTimerActive
+    ? formatSeconds(session.remainingSeconds)
+    : formatMinutesToTime(plannedDuration);
   const instructionSteps = resolvedSteps.slice(0, 4);
   const stepProgressLabel = `${t('trainieren.detail.stepPrefix')} ${session.currentStepIndex + 1}/${activeSteps.length}`;
+  const puzzleDifficulty =
+    variant?.intensity === 'heavy'
+      ? 'hard'
+      : variant?.intensity === 'medium'
+        ? 'medium'
+        : variant?.intensity ?? 'light';
+  const isBrainActive = isBrainModule && isActive;
+  const shouldShowActiveCard = !isBrainModule && isTimerActive;
 
   const goToOverview = () => {
     if (moduleDef) {
@@ -413,19 +425,6 @@ export const TrainingDetail: React.FC = () => {
 
   return (
     <div className={pageClassName} data-category={categoryId}>
-      {!isPhysicalModule && (
-        <div className="td-subMeta">
-          <span className="training-detail__chip training-detail__chip--intensity">
-            <Icon name="favorite" filled size={18} />
-            {getIntensityLabel(t, variant.intensity)}
-          </span>
-          <span className="training-detail__chip">
-            <Icon name="schedule" size={18} />
-            {variant.durationMin} {t('trainieren.minutes')}
-          </span>
-        </div>
-      )}
-
       <div className="training-detail__header">
         <SectionHeader
           as="h1"
@@ -457,7 +456,7 @@ export const TrainingDetail: React.FC = () => {
         )}
       </div>
 
-      {isActive ? (
+      {shouldShowActiveCard ? (
         <div className="training-detail__card training-detail__card--active">
           <div className="training-detail__section-top">
             <Badge variant="accent">{t('trainieren.detail.activeLabel')}</Badge>
@@ -508,6 +507,31 @@ export const TrainingDetail: React.FC = () => {
               {t('trainieren.detail.stop')}
             </Button>
           </div>
+        </div>
+      ) : moduleId === 'brain' ? (
+        <div className="training-detail__card td-puzzleCard">
+          <div className="training-detail__timer-card td-puzzle">
+            <BrainExerciseSlot
+              training={training}
+              difficulty={puzzleDifficulty}
+              isActive={isBrainActive}
+              onComplete={() => {}}
+            />
+          </div>
+          {!isBrainActive && (
+            <div className="training-detail__cta td-cta">
+              <Button
+                fullWidth
+                className="training-detail__start-button"
+                onClick={handleStart}
+                disabled={isBrainActive}
+              >
+                <Icon name="play_circle" filled size={28} />
+                {t('trainieren.detail.startCta')}
+              </Button>
+              <p className="training-detail__safety">{t('trainieren.detail.safety')}</p>
+            </div>
+          )}
         </div>
       ) : (
         <div className="training-detail__card td-timerCard">
@@ -566,7 +590,7 @@ export const TrainingDetail: React.FC = () => {
         </div>
       )}
 
-      {isActive || isPhysicalModule ? null : (
+      {shouldShowActiveCard || isPhysicalModule || isBrainModule ? null : (
         <section className="training-detail__section">
           <div className="training-detail__section-top">
             <h2 className="training-detail__section-title">{t('trainieren.detail.instructions')}</h2>

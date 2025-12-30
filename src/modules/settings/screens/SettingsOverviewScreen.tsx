@@ -88,6 +88,7 @@ export const SettingsOverviewScreen: React.FC = () => {
     },
     [
       openToast,
+      openBottomSheet,
       preferences.highContrast,
       preferences.language,
       preferences.soundEnabled,

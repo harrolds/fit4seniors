@@ -858,6 +858,16 @@
   border-radius: var(--radius-xl);
 }
 
+.td-puzzleCard {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-xl);
+  align-items: stretch;
+}
+
+.td-puzzle {
+  width: 100%;
+}
+
 .td-ring {
   justify-content: center;
 }

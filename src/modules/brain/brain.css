@@ -1,0 +1,135 @@
+.td-puzzleCard {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-xl);
+  align-items: stretch;
+}
+
+.td-puzzle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.brain-slot {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.brain-slot__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.brain-slot__title {
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.brain-slot__status {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.brain-slot__prompt {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.brain-slot__hint {
+  margin: 0;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.brain-slot--inactive {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.brain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.brain-grid--words,
+.brain-grid--answers {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.brain-grid__cell,
+.brain-word {
+  min-height: 56px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  display: grid;
+  place-items: center;
+  padding: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-normal) var(--motion-ease-standard);
+}
+
+.brain-grid__cell:focus-visible,
+.brain-word:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.brain-grid__cell:active,
+.brain-word:active {
+  transform: translateY(1px);
+}
+
+.brain-grid__cell--active {
+  background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-border));
+}
+
+.brain-word {
+  width: 100%;
+  text-align: center;
+}
+
+.brain-pattern {
+  width: 100%;
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.brain-pattern__item {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 10px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  display: grid;
+  place-items: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--color-text-primary);
+}
+
+.brain-pattern__item--missing {
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+.brain-actions {
+  width: 100%;
+}
+

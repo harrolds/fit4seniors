@@ -191,6 +191,27 @@ export const screenConfigs: ScreenConfig[] = [
     ],
   },
   {
+    id: 'brain-module',
+    route: '/brain/*',
+    titleKey: 'trainieren.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+      },
+    ],
+    primaryActions: [
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings', navigationTarget: 'settings' },
+    ],
+  },
+  {
     id: 'trainieren-detail',
     route: '/trainieren/:moduleId/:trainingId/:intensity',
     titleKey: 'trainieren.detail.headerTitle',

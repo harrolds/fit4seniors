@@ -51,6 +51,7 @@ export const TrainierenHub: React.FC = () => {
     muskel: '/assets/trainieren/strength_exercise.webp',
     balance: '/assets/trainieren/balance_excercise.webp',
     balance_flex: '/assets/trainieren/balance_excercise.webp',
+    brain: '/assets/trainieren/brain_excercise.webp',
   };
 
   return (

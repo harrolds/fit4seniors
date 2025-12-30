@@ -59,8 +59,6 @@ export const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<HomeScreen />} />
       <Route path="/notifications" element={<NotificationsScreen />} />
-      <Route path="/brain" element={<Navigate to="/trainieren" replace />} />
-      <Route path="/brain/*" element={<Navigate to="/trainieren" replace />} />
       {moduleRegistry.map((module) => {
         const ModuleComponent = module.component;
         return (

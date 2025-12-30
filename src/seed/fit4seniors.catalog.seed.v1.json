@@ -26,6 +26,13 @@
       "title_en": "Balance & Flexibility",
       "description_de": "Stabilität, Mobilität und ruhige Dehnung.",
       "description_en": "Stability, mobility and calm stretching."
+    },
+    {
+      "id": "brain",
+      "title_de": "Gehirntraining",
+      "title_en": "Brain Training",
+      "description_de": "Einfache Übungen für Gedächtnis, Sprache und Muster.",
+      "description_en": "Simple exercises for memory, language, and pattern work."
     }
   ],
   "trainings": [
@@ -1192,6 +1199,411 @@
           "durationMin": 14,
           "paceCue_de": "Länger halten, bewusst atmen.",
           "paceCue_en": "Hold longer, mindful breathing."
+        }
+      }
+    },
+    {
+      "id": "brain_memory_path_01",
+      "moduleId": "brain",
+      "title_de": "Merkwege kurz",
+      "title_en": "Memory Paths",
+      "shortDesc_de": "Drei Begriffe merken und wiedergeben.",
+      "shortDesc_en": "Remember three simple words and repeat them.",
+      "intensityScale": 1,
+      "brainType": "memory",
+      "variants": {
+        "light": {
+          "durationMin": 6,
+          "paceCue_de": "Ruhig lesen, einmal wiederholen.",
+          "paceCue_en": "Read calmly, repeat once."
+        },
+        "medium": {
+          "durationMin": 10,
+          "paceCue_de": "Zwei Durchgänge, laut sprechen.",
+          "paceCue_en": "Two rounds, say them out loud."
+        },
+        "heavy": {
+          "durationMin": 12,
+          "paceCue_de": "Drei Durchgänge, Reihenfolge ändern.",
+          "paceCue_en": "Three rounds, change the order."
+        }
+      }
+    },
+    {
+      "id": "brain_memory_objects_02",
+      "moduleId": "brain",
+      "title_de": "Alltagsgegenstände merken",
+      "title_en": "Household Recall",
+      "shortDesc_de": "Fünf Gegenstände kurz merken.",
+      "shortDesc_en": "Remember five household items.",
+      "intensityScale": 1,
+      "brainType": "memory",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Bilder sammeln, ruhig atmen.",
+          "paceCue_en": "Gather the images, steady breathing."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Zweimal wiederholen, Details nennen.",
+          "paceCue_en": "Repeat twice and add a detail."
+        },
+        "heavy": {
+          "durationMin": 15,
+          "paceCue_de": "Drei Wiederholungen, Reihenfolge wechseln.",
+          "paceCue_en": "Three repeats, change the order."
+        }
+      }
+    },
+    {
+      "id": "brain_memory_faces_03",
+      "moduleId": "brain",
+      "title_de": "Namen & Gesichter",
+      "title_en": "Names and Faces",
+      "shortDesc_de": "Namen laut mit Merkbild verknüpfen.",
+      "shortDesc_en": "Link names to simple mental images.",
+      "intensityScale": 2,
+      "brainType": "memory",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Langsam sprechen, Bild finden.",
+          "paceCue_en": "Speak slowly, find an image."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Namen wiederholen, Merkbild festigen.",
+          "paceCue_en": "Repeat names, lock the image in."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Reihenfolge ändern, laut aufsagen.",
+          "paceCue_en": "Change order, say them aloud."
+        }
+      }
+    },
+    {
+      "id": "brain_memory_numbers_04",
+      "moduleId": "brain",
+      "title_de": "Zahlenkette",
+      "title_en": "Number Chain",
+      "shortDesc_de": "Kurze Zahlenfolgen merken und prüfen.",
+      "shortDesc_en": "Remember short number strings and check.",
+      "intensityScale": 2,
+      "brainType": "memory",
+      "variants": {
+        "light": {
+          "durationMin": 7,
+          "paceCue_de": "Langsam sprechen, rhythmisch zählen.",
+          "paceCue_en": "Say them slowly with a rhythm."
+        },
+        "medium": {
+          "durationMin": 11,
+          "paceCue_de": "Zwei Durchgänge, rückwärts prüfen.",
+          "paceCue_en": "Two rounds, check backwards once."
+        },
+        "heavy": {
+          "durationMin": 14,
+          "paceCue_de": "Längere Ketten, Reihenfolge wechseln.",
+          "paceCue_en": "Longer strings, change the order."
+        }
+      }
+    },
+    {
+      "id": "brain_memory_story_05",
+      "moduleId": "brain",
+      "title_de": "Mini-Geschichte",
+      "title_en": "Mini Story",
+      "shortDesc_de": "Kurze Story mit drei Details merken.",
+      "shortDesc_en": "Hold a short story with three details.",
+      "intensityScale": 3,
+      "brainType": "memory",
+      "variants": {
+        "light": {
+          "durationMin": 9,
+          "paceCue_de": "Ruhig lesen, Kernpunkte finden.",
+          "paceCue_en": "Read calmly, find key points."
+        },
+        "medium": {
+          "durationMin": 13,
+          "paceCue_de": "Story nacherzählen, Reihenfolge halten.",
+          "paceCue_en": "Retell the story, keep the order."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Details vertauschen, erneut erzählen.",
+          "paceCue_en": "Swap details, tell it again."
+        }
+      }
+    },
+    {
+      "id": "brain_language_words_01",
+      "moduleId": "brain",
+      "title_de": "Wortfindung leicht",
+      "title_en": "Word Finder",
+      "shortDesc_de": "Begriffe zu einem Startbuchstaben sammeln.",
+      "shortDesc_en": "Collect words for one starting letter.",
+      "intensityScale": 1,
+      "brainType": "language",
+      "variants": {
+        "light": {
+          "durationMin": 7,
+          "paceCue_de": "Langsam denken, drei Wörter nennen.",
+          "paceCue_en": "Think slowly, name three words."
+        },
+        "medium": {
+          "durationMin": 10,
+          "paceCue_de": "Zwei Buchstaben, laut aussprechen.",
+          "paceCue_en": "Use two letters, speak aloud."
+        },
+        "heavy": {
+          "durationMin": 13,
+          "paceCue_de": "Buchstaben wechseln, fünf Wörter finden.",
+          "paceCue_en": "Switch letters, find five words."
+        }
+      }
+    },
+    {
+      "id": "brain_language_categories_02",
+      "moduleId": "brain",
+      "title_de": "Kategorien wechseln",
+      "title_en": "Category Switch",
+      "shortDesc_de": "Begriffe aus wechselnden Kategorien nennen.",
+      "shortDesc_en": "Name words from changing categories.",
+      "intensityScale": 2,
+      "brainType": "language",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Langsam wechseln, laut sprechen.",
+          "paceCue_en": "Switch slowly, speak out loud."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Zwei schnelle Wechsel pro Runde.",
+          "paceCue_en": "Two quick switches per round."
+        },
+        "heavy": {
+          "durationMin": 15,
+          "paceCue_de": "Ohne Pause wechseln, ruhig atmen.",
+          "paceCue_en": "Switch without pause, steady breath."
+        }
+      }
+    },
+    {
+      "id": "brain_language_sentences_03",
+      "moduleId": "brain",
+      "title_de": "Sätze bauen",
+      "title_en": "Build Sentences",
+      "shortDesc_de": "Kurze Sätze mit vorgegebenen Wörtern bilden.",
+      "shortDesc_en": "Build short sentences from given words.",
+      "intensityScale": 2,
+      "brainType": "language",
+      "variants": {
+        "light": {
+          "durationMin": 9,
+          "paceCue_de": "Langsam sortieren, klar sprechen.",
+          "paceCue_en": "Arrange slowly, speak clearly."
+        },
+        "medium": {
+          "durationMin": 13,
+          "paceCue_de": "Zwei Varianten je Satz erstellen.",
+          "paceCue_en": "Create two versions per sentence."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Tempo erhöhen, Reihenfolge wechseln.",
+          "paceCue_en": "Increase pace, swap the order."
+        }
+      }
+    },
+    {
+      "id": "brain_language_rhymes_04",
+      "moduleId": "brain",
+      "title_de": "Reime finden",
+      "title_en": "Find Rhymes",
+      "shortDesc_de": "Kurze Reime auf einfache Wörter finden.",
+      "shortDesc_en": "Find quick rhymes for simple words.",
+      "intensityScale": 1,
+      "brainType": "language",
+      "variants": {
+        "light": {
+          "durationMin": 6,
+          "paceCue_de": "Zeit lassen, leise sprechen.",
+          "paceCue_en": "Take time, speak softly."
+        },
+        "medium": {
+          "durationMin": 9,
+          "paceCue_de": "Zwei Reime pro Wort, laut aussprechen.",
+          "paceCue_en": "Two rhymes per word, say aloud."
+        },
+        "heavy": {
+          "durationMin": 12,
+          "paceCue_de": "Rhythmus halten, Reihenfolge variieren.",
+          "paceCue_en": "Keep a rhythm, vary the order."
+        }
+      }
+    },
+    {
+      "id": "brain_language_lists_05",
+      "moduleId": "brain",
+      "title_de": "Listen erzählen",
+      "title_en": "List Builder",
+      "shortDesc_de": "Kurze Listen erzählen und erweitern.",
+      "shortDesc_en": "Tell short lists and extend them.",
+      "intensityScale": 3,
+      "brainType": "language",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Drei Punkte nennen, ruhig atmen.",
+          "paceCue_en": "Name three items, breathe calmly."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Liste erweitern, einmal wiederholen.",
+          "paceCue_en": "Extend the list, repeat once."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Listen wechseln, ohne Pause sprechen.",
+          "paceCue_en": "Switch lists, speak without pause."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_sequences_01",
+      "moduleId": "brain",
+      "title_de": "Einfache Reihen",
+      "title_en": "Simple Sequences",
+      "shortDesc_de": "Zahlen- oder Buchstabenreihen fortsetzen.",
+      "shortDesc_en": "Continue simple number or letter runs.",
+      "intensityScale": 1,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 7,
+          "paceCue_de": "Ruhig zählen, Muster erkennen.",
+          "paceCue_en": "Count calmly, spot the pattern."
+        },
+        "medium": {
+          "durationMin": 11,
+          "paceCue_de": "Zwei Muster mischen, laut sprechen.",
+          "paceCue_en": "Mix two patterns, say them aloud."
+        },
+        "heavy": {
+          "durationMin": 14,
+          "paceCue_de": "Schneller wechseln, ohne Pause zählen.",
+          "paceCue_en": "Switch faster, count without pause."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_shapes_02",
+      "moduleId": "brain",
+      "title_de": "Formen merken",
+      "title_en": "Shape Recall",
+      "shortDesc_de": "Kleine Formfolgen erinnern und ordnen.",
+      "shortDesc_en": "Recall small sequences of shapes.",
+      "intensityScale": 2,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Formen benennen, ruhig wiederholen.",
+          "paceCue_en": "Name shapes, repeat calmly."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Reihenfolge drehen, erneut nennen.",
+          "paceCue_en": "Flip the order, name again."
+        },
+        "heavy": {
+          "durationMin": 15,
+          "paceCue_de": "Zusätzliche Form einfügen, schneller sprechen.",
+          "paceCue_en": "Add a shape, speak faster."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_steps_03",
+      "moduleId": "brain",
+      "title_de": "Schrittfolgen",
+      "title_en": "Step Patterns",
+      "shortDesc_de": "Kurze Bewegungsabfolge im Kopf planen.",
+      "shortDesc_en": "Plan a short movement pattern mentally.",
+      "intensityScale": 2,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 9,
+          "paceCue_de": "Langsam zählen, Reihen merken.",
+          "paceCue_en": "Count slowly, remember the order."
+        },
+        "medium": {
+          "durationMin": 13,
+          "paceCue_de": "Abfolge umkehren, erneut planen.",
+          "paceCue_en": "Reverse the steps, plan again."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Tempo leicht erhöhen, klar benennen.",
+          "paceCue_en": "Raise the pace, name clearly."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_grids_04",
+      "moduleId": "brain",
+      "title_de": "Gitter merken",
+      "title_en": "Grid Recall",
+      "shortDesc_de": "Kleine Positionen in einem Gitter merken.",
+      "shortDesc_en": "Remember small grid positions.",
+      "intensityScale": 3,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 10,
+          "paceCue_de": "Drei Felder merken, langsam wiedergeben.",
+          "paceCue_en": "Hold three spots, repeat slowly."
+        },
+        "medium": {
+          "durationMin": 14,
+          "paceCue_de": "Mehr Felder, Reihenfolge ändern.",
+          "paceCue_en": "Add more spots, change order."
+        },
+        "heavy": {
+          "durationMin": 18,
+          "paceCue_de": "Ohne Pause wiedergeben, ruhig atmen.",
+          "paceCue_en": "Recall without pause, steady breath."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_switch_05",
+      "moduleId": "brain",
+      "title_de": "Muster wechseln",
+      "title_en": "Pattern Switch",
+      "shortDesc_de": "Zwischen zwei einfachen Mustern wechseln.",
+      "shortDesc_en": "Switch between two simple patterns.",
+      "intensityScale": 2,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 7,
+          "paceCue_de": "Ruhig sprechen, Muster klar halten.",
+          "paceCue_en": "Speak calmly, hold the pattern."
+        },
+        "medium": {
+          "durationMin": 11,
+          "paceCue_de": "Wechsel alle 30 Sekunden.",
+          "paceCue_en": "Switch every 30 seconds."
+        },
+        "heavy": {
+          "durationMin": 15,
+          "paceCue_de": "Schneller wechseln, Reihenfolge drehen.",
+          "paceCue_en": "Switch faster, flip the order."
         }
       }
     }

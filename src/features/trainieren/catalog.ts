@@ -2,16 +2,13 @@ import { useCallback } from 'react';
 import { useI18n } from '../../shared/lib/i18n';
 import { useResource } from '../../shared/lib/data';
 import type { ModuleCardTone } from '../../shared/ui/ModuleCard';
-import {
-  categoryCssVar,
-  categoryTone,
-  normalizeCategoryId,
-  type CategoryId,
-} from '../../config/categoryColors';
+import { categoryCssVar, categoryTone, normalizeCategoryId, type CategoryId } from '../../config/categoryColors';
 import seedCatalog from '../../seed/fit4seniors.catalog.seed.v1.json';
 
 export type TrainingIntensity = 'light' | 'medium' | 'heavy';
 export type DurationBucket = 'short' | 'medium' | 'long';
+export type BrainType = 'memory' | 'language' | 'patterns';
+export const brainTypesAll: BrainType[] = ['memory', 'language', 'patterns'];
 
 type Locale = 'de' | 'en';
 
@@ -30,6 +27,7 @@ type SeedTraining = {
   shortDesc_en: string;
   intensityScale: number;
   variants: Record<TrainingIntensity, SeedVariant>;
+  brainType?: BrainType;
 };
 
 type SeedModule = {
@@ -58,6 +56,7 @@ export interface TrainingItem {
   shortDesc: string;
   intensityScale: number;
   variants: Record<TrainingIntensity, TrainingVariant>;
+  brainType?: BrainType;
 }
 
 export interface TrainingModule {
@@ -85,9 +84,11 @@ export interface TrainingVariantItem {
   durationMin: number;
   durationBucket: DurationBucket;
   paceCue: string;
+  brainType?: BrainType;
 }
 
 const moduleMeta: Record<string, { categoryId: CategoryId; icon: string }> = {
+  brain: { categoryId: 'brain', icon: 'psychology' },
   cardio: { categoryId: 'cardio', icon: 'monitor_heart' },
   muskel: { categoryId: 'muscle', icon: 'fitness_center' },
   balance_flex: { categoryId: 'balance', icon: 'accessibility_new' },
@@ -134,47 +135,44 @@ const normalizeVariant = (
 const buildCatalog = (locale: Locale): TrainingCatalog => {
   const catalog = seedCatalog as SeedCatalog;
 
-  const modules: TrainingModule[] = catalog.modules
-    .filter((module) => module.id !== 'brain')
-    .map((module) => {
-      const meta = moduleMeta[module.id];
-      const categoryId = meta?.categoryId ?? normalizeCategoryId(module.id) ?? 'cardio';
-      const tone = categoryTone(categoryId);
-      const accentColorVar = categoryCssVar(categoryId);
-      const icon = meta?.icon ?? 'widgets';
+  const modules: TrainingModule[] = catalog.modules.map((module) => {
+    const meta = moduleMeta[module.id];
+    const categoryId = meta?.categoryId ?? normalizeCategoryId(module.id) ?? 'cardio';
+    const tone = categoryTone(categoryId);
+    const accentColorVar = categoryCssVar(categoryId);
+    const icon = meta?.icon ?? 'widgets';
 
-      return {
-        id: module.id,
-        title: pickLocale(locale, module, 'title'),
-        description: pickLocale(locale, module, 'description'),
-        categoryId,
-        tone,
-        icon,
-        accentColorVar,
-      };
+    return {
+      id: module.id,
+      title: pickLocale(locale, module, 'title'),
+      description: pickLocale(locale, module, 'description'),
+      categoryId,
+      tone,
+      icon,
+      accentColorVar,
+    };
+  });
+
+  const trainings: TrainingItem[] = catalog.trainings.map((training) => {
+    const localizedVariants: Partial<Record<TrainingIntensity, TrainingVariant>> = {};
+
+    (['light', 'medium', 'heavy'] as TrainingIntensity[]).forEach((intensity) => {
+      const variant = training.variants[intensity];
+      if (variant) {
+        localizedVariants[intensity] = normalizeVariant(intensity, variant, locale);
+      }
     });
 
-  const trainings: TrainingItem[] = catalog.trainings
-    .filter((training) => training.moduleId !== 'brain')
-    .map((training) => {
-      const localizedVariants: Partial<Record<TrainingIntensity, TrainingVariant>> = {};
-
-      (['light', 'medium', 'heavy'] as TrainingIntensity[]).forEach((intensity) => {
-        const variant = training.variants[intensity];
-        if (variant) {
-          localizedVariants[intensity] = normalizeVariant(intensity, variant, locale);
-        }
-      });
-
-      return {
-        id: training.id,
-        moduleId: training.moduleId,
-        title: pickLocale(locale, training, 'title'),
-        shortDesc: pickLocale(locale, training, 'shortDesc'),
-        intensityScale: training.intensityScale,
-        variants: localizedVariants as Record<TrainingIntensity, TrainingVariant>,
-      };
-    });
+    return {
+      id: training.id,
+      moduleId: training.moduleId,
+      title: pickLocale(locale, training, 'title'),
+      shortDesc: pickLocale(locale, training, 'shortDesc'),
+      intensityScale: training.intensityScale,
+      variants: localizedVariants as Record<TrainingIntensity, TrainingVariant>,
+      brainType: training.brainType,
+    };
+  });
 
   return { modules, trainings };
 };
@@ -240,6 +238,7 @@ export const listVariantItemsForModule = (
         durationMin: variant!.durationMin,
         durationBucket: resolveDurationBucket(variant!.durationMin),
         paceCue: variant!.paceCue,
+        brainType: training.brainType,
       })),
   );
 };

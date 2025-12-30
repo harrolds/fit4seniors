@@ -15,6 +15,7 @@ import {
   MuscleWidget,
   RecentTrainingWidget,
 } from './homeWidgetComponents';
+import { BrainModule } from '../modules/brain';
 
 export interface ModuleDefinition {
   id: string;
@@ -24,6 +25,7 @@ export interface ModuleDefinition {
   hasSettings: boolean;
   settingsRoute?: string;
   component: ComponentType;
+  categoryType?: 'training' | 'info' | 'profile' | 'settings';
   headerActions?: {
     primaryActions?: ScreenAction[];
     menuActions?: ScreenAction[];
@@ -78,6 +80,15 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: TrainierenModule,
+  },
+  {
+    id: 'brain',
+    labelKey: 'trainieren.brain.title',
+    routeBase: '/brain/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: BrainModule,
+    categoryType: 'training',
   },
   {
     id: 'trainingInfo',

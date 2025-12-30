@@ -413,18 +413,6 @@ export const TrainingDetail: React.FC = () => {
 
   return (
     <div className={pageClassName} data-category={categoryId}>
-      <div className="td-metaRow">
-        <span className="td-categoryPill">{moduleDef?.title ?? moduleId}</span>
-        <button
-          type="button"
-          className="td-infoBtn"
-          aria-label={t('trainieren.detail.infoLabel')}
-          onClick={handleInfoClick}
-        >
-          <Icon name="info" filled size={22} />
-        </button>
-      </div>
-
       {!isPhysicalModule && (
         <div className="td-subMeta">
           <span className="training-detail__chip training-detail__chip--intensity">
@@ -439,7 +427,21 @@ export const TrainingDetail: React.FC = () => {
       )}
 
       <div className="training-detail__header">
-        <SectionHeader as="h1" className="page-title training-detail__title" title={training.title} />
+        <SectionHeader
+          as="h1"
+          className="page-title training-detail__title"
+          title={training.title}
+          action={
+            <button
+              type="button"
+              className="td-infoBtn"
+              aria-label={t('trainieren.detail.infoLabel')}
+              onClick={handleInfoClick}
+            >
+              <Icon name="info" filled size={22} />
+            </button>
+          }
+        />
         {isPhysicalModule ? (
           <>
             <p className="training-detail__description">

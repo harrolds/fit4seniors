@@ -124,61 +124,65 @@ export const ModuleLanding: React.FC = () => {
           <p className="trainieren-status">{t('trainieren.trainingList.empty')}</p>
         ) : (
           <List className="trainieren-training-list__grid">
-            {visibleItems.map((item) => (
-              <li
-                key={item.id}
-                className="training-variant-card"
-                role="button"
-                tabIndex={0}
-                onClick={() => handleOpenTraining(item.trainingId, item.intensity)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    handleOpenTraining(item.trainingId, item.intensity);
-                  }
-                }}
-              >
-                <div className="training-variant-card__body">
-                  <div className="training-variant-card__icon-tile">
-                    <Icon name={moduleDef.icon ?? 'fitness_center'} size={28} />
-                  </div>
-                  <div className="training-variant-card__content">
-                    {isProfileMatchModule && recommendation.recommendedIds.has(item.id) ? (
-                      <Badge variant="accent" className="training-variant-card__recommend">
-                        {t('profileMotor.recommendedForYou')}
-                      </Badge>
-                    ) : null}
-                    <div className="training-variant-card__meta">
-                      <Badge
-                        variant="neutral"
-                        className={`training-variant-card__badge training-variant-card__badge--${item.intensity}`}
-                      >
-                        {getIntensityLabel(t, item.intensity)}
-                      </Badge>
-                      <div className="training-variant-card__time">
-                        <Icon name="schedule" size={18} />
-                        <span>
-                          {item.durationMin} {t('trainieren.minutes')}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="training-variant-card__title">{item.title}</p>
-                    <p className="training-variant-card__description">{item.shortDesc}</p>
-                  </div>
-                </div>
-                <Button
-                  type="button"
-                  variant="primary"
-                  className="training-variant-card__cta"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleOpenTraining(item.trainingId, item.intensity);
+            {visibleItems.map((item) => {
+              const isRecommended = isProfileMatchModule && recommendation.recommendedIds.has(item.id);
+
+              return (
+                <li
+                  key={item.id}
+                  className={`training-variant-card${isRecommended ? ' training-variant-card--has-recommend' : ''}`}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleOpenTraining(item.trainingId, item.intensity)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      handleOpenTraining(item.trainingId, item.intensity);
+                    }
                   }}
                 >
-                  {t('trainieren.detail.startCta')}
-                </Button>
-              </li>
-            ))}
+                  {isRecommended ? (
+                    <Badge variant="accent" className="training-variant-card__recommend">
+                      {t('profileMotor.recommendedForYou')}
+                    </Badge>
+                  ) : null}
+                  <div className="training-variant-card__body">
+                    <div className="training-variant-card__icon-tile">
+                      <Icon name={moduleDef.icon ?? 'fitness_center'} size={28} />
+                    </div>
+                    <div className="training-variant-card__content">
+                      <div className="training-variant-card__meta">
+                        <Badge
+                          variant="neutral"
+                          className={`training-variant-card__badge training-variant-card__badge--${item.intensity}`}
+                        >
+                          {getIntensityLabel(t, item.intensity)}
+                        </Badge>
+                        <div className="training-variant-card__time">
+                          <Icon name="schedule" size={18} />
+                          <span>
+                            {item.durationMin} {t('trainieren.minutes')}
+                          </span>
+                        </div>
+                      </div>
+                      <p className="training-variant-card__title">{item.title}</p>
+                      <p className="training-variant-card__description">{item.shortDesc}</p>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="primary"
+                    className="training-variant-card__cta"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleOpenTraining(item.trainingId, item.intensity);
+                    }}
+                  >
+                    {t('trainieren.detail.startCta')}
+                  </Button>
+                </li>
+              );
+            })}
           </List>
         )}
       </div>

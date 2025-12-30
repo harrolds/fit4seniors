@@ -50,11 +50,10 @@ export const InfoPanelContent: React.FC<{ variant: InfoVariant; onClose?: () => 
     <div className="info-panel">
       <div className="info-panel__header">
         <button type="button" className="info-panel__close" aria-label={t('common.close')} onClick={handleClose}>
-          <Icon name="close" size={22} />
+          <Icon name="arrow_back" size={24} />
         </button>
         <div>
-          <p className="info-panel__eyebrow">{t('more.info.eyebrow')}</p>
-          <h2 className="info-panel__headline">{t(content.titleKey)}</h2>
+          <h1 className="ui-section-header__title info-panel__headline">{t(content.titleKey)}</h1>
         </div>
       </div>
 

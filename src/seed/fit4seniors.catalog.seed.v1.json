@@ -1203,43 +1203,14 @@
       }
     },
     {
-      "id": "brain_memory_everyday_light",
+      "id": "brain_memory_everyday",
       "moduleId": "brain",
       "title_de": "Alltag merken",
       "title_en": "Everyday Recall",
-      "shortDesc_de": "Drei vertraute Alltagsobjekte als Positionen merken.",
-      "shortDesc_en": "Remember three everyday object spots.",
-      "longDesc_de": "Diese Übung stärkt dein Kurzzeitgedächtnis mit Alltagsgegenständen. Du siehst 3 Positionen im Gitter, die kurz aufleuchten, und tippst sie danach in derselben Reihenfolge an. Tipps: • Atme ruhig und sprich die Plätze leise mit. • Stell dir kleine Geschichten zu den Positionen vor. Mit höherer Intensität kommen mehr Felder und längere Reihenfolgen hinzu.",
-      "longDesc_en": "This exercise trains your short-term memory with familiar everyday items. You see 3 grid positions light up briefly and then tap them in the same order. Tips: • Breathe calmly and whisper the spots to yourself. • Build a tiny story around each position. As difficulty increases, more spots appear and the sequence gets longer.",
-      "intensityScale": 1,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_everyday_medium",
-      "moduleId": "brain",
-      "title_de": "Alltag merken",
-      "title_en": "Everyday Recall",
-      "shortDesc_de": "Vier Alltagssymbole kurz merken und exakt tippen.",
-      "shortDesc_en": "Hold four everyday icons and tap them in order.",
-      "longDesc_de": "Diese Übung festigt dein Gedächtnis für Alltagsdetails. Vier Felder leuchten nacheinander auf, du merkst dir die Reihenfolge und wiederholst sie ohne Hektik. Tipps: • Nimm dir den Moment, bevor du startest. • Wiederhole die Reihenfolge leise, bevor du tippst. Mit höherer Intensität verlängert sich die Kette und verlangt mehr Fokus.",
-      "longDesc_en": "This training strengthens memory for everyday details. Four cells light up in sequence; you remember the order and repeat it without hurry. Tips: • Pause briefly before starting. • Repeat the sequence quietly before tapping. As intensity rises, the chain gets longer and needs more focus.",
+      "shortDesc_de": "Alltagspositionen merken und ruhig wiedergeben.",
+      "shortDesc_en": "Remember everyday spots and replay calmly.",
+      "longDesc_de": "Diese Übung trainiert dein Kurzzeitgedächtnis mit vertrauten Alltagssymbolen. Du siehst Positionen im Gitter, prägst dir die Reihenfolge ein und tippst sie anschließend nach. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This exercise trains short-term memory with familiar everyday icons. You see grid spots, remember the order, and tap them afterwards. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "memory",
       "variants": {
@@ -1261,72 +1232,14 @@
       }
     },
     {
-      "id": "brain_memory_everyday_hard",
-      "moduleId": "brain",
-      "title_de": "Alltag merken",
-      "title_en": "Everyday Recall",
-      "shortDesc_de": "Fünf Alltagspositionen im Kopf behalten und wiedergeben.",
-      "shortDesc_en": "Keep five everyday positions in mind and repeat.",
-      "longDesc_de": "Diese Einheit fordert dein Gedächtnis mit fünf Alltagspositionen. Die Felder leuchten kurz auf, danach gibst du die komplette Reihenfolge ruhig wieder. Tipps: • Teile die fünf Plätze in kleine Paare und einen Einzelpunkt. • Atme ruhig aus, bevor du startest. Mit jeder Stufe werden mehr Felder gezeigt und die Reihenfolge wird anspruchsvoller.",
-      "longDesc_en": "This session challenges memory with five everyday positions. The cells flash briefly, then you calmly replay the full order. Tips: • Group the five spots into small pairs plus a single anchor. • Exhale gently before you begin. Each level adds more fields and a trickier order.",
-      "intensityScale": 3,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_kitchen_light",
+      "id": "brain_memory_kitchen",
       "moduleId": "brain",
       "title_de": "Küchenmuster",
       "title_en": "Kitchen Grid",
-      "shortDesc_de": "Drei Küchenobjekte im Gitter merken und antippen.",
-      "shortDesc_en": "Remember three kitchen spots in the grid.",
-      "longDesc_de": "Hier trainierst du dein Gedächtnis mit einfachen Küchenbegriffen. Drei Felder leuchten auf, die du danach in gleicher Reihenfolge antippst. Tipps: • Stell dir jedes Feld als Teller, Tasse oder Löffel vor. • Sag die Reihenfolge leise auf, bevor du tippst. Mit höherer Intensität kommen mehr Felder und längere Reihen.",
-      "longDesc_en": "This trains memory using simple kitchen themes. Three cells light up and you tap them in the same order. Tips: • Imagine each spot as a plate, cup, or spoon. • Say the order quietly before tapping. As intensity rises, more cells and longer runs appear.",
-      "intensityScale": 1,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_kitchen_medium",
-      "moduleId": "brain",
-      "title_de": "Küchenmuster",
-      "title_en": "Kitchen Grid",
-      "shortDesc_de": "Vier Küchenpositionen merken und ruhig nachklicken.",
-      "shortDesc_en": "Hold four kitchen positions and replay calmly.",
-      "longDesc_de": "Diese Einheit verbindet Küchenbegriffe mit Reihenfolgen. Vier Felder blinken auf, du prägst sie dir ein und wiederholst sie ohne Hektik. Tipps: • Gruppiere die Felder zu zwei kleinen Paaren. • Nutze die Pausen zwischen den Blinks zum Einprägen. Mit steigender Intensität wächst die Kette und braucht mehr Konzentration.",
-      "longDesc_en": "This session links kitchen words with sequences. Four cells flash; you imprint them and repeat without rush. Tips: • Group the cells into two small pairs. • Use the pause between flashes to lock them in. As intensity rises, the chain grows and needs more concentration.",
+      "shortDesc_de": "Küchenpositionen merken und sicher abrufen.",
+      "shortDesc_en": "Remember kitchen spots and recall them calmly.",
+      "longDesc_de": "Diese Übung nutzt einfache Küchenmotive. Du beobachtest Positionen im Gitter, merkst dir die Reihenfolge und gibst sie in Ruhe wieder. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This exercise uses simple kitchen themes. You watch grid positions, memorize the order, and replay it calmly. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "memory",
       "variants": {
@@ -1348,72 +1261,14 @@
       }
     },
     {
-      "id": "brain_memory_kitchen_hard",
-      "moduleId": "brain",
-      "title_de": "Küchenmuster",
-      "title_en": "Kitchen Grid",
-      "shortDesc_de": "Fünf Küchenplätze merken und sicher abrufen.",
-      "shortDesc_en": "Remember five kitchen spots and recall cleanly.",
-      "longDesc_de": "Diese Stufe fordert fünf Küchenpositionen in Folge. Die Felder leuchten kurz, du merkst sie dir und tippst sie ruhig in der richtigen Reihenfolge. Tipps: • Teile die Reihenfolge in Anfang, Mitte und Ende. • Wenn ein Fehler passiert, atme durch und starte neu. Mit höherer Intensität verlängern sich die Ketten und brauchen mehr Ruhe.",
-      "longDesc_en": "This level challenges you with five kitchen positions. Cells light up briefly; you remember them and tap in the correct order calmly. Tips: • Break the order into a start, middle, and end. • If you slip, breathe and restart. Higher intensity means longer chains and more composure.",
-      "intensityScale": 3,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_clothing_light",
+      "id": "brain_memory_clothing",
       "moduleId": "brain",
       "title_de": "Kleidung merken",
       "title_en": "Clothing Recall",
-      "shortDesc_de": "Drei Kleidungsplätze merken und nachtippen.",
-      "shortDesc_en": "Remember three clothing spots and replay.",
-      "longDesc_de": "Du trainierst dein Gedächtnis mit einfachen Kleidungsstücken. Drei Felder blinken auf, du prägst sie dir ein und wiederholst sie in Ruhe. Tipps: • Verknüpfe jedes Feld mit Hut, Jacke oder Schuh. • Nutze den Rhythmus der Blinks als Anker. Mit jeder Stufe kommen mehr Felder hinzu und die Reihen werden länger.",
-      "longDesc_en": "You train memory with simple clothing items. Three cells blink; you imprint them and repeat calmly. Tips: • Link each spot with a hat, jacket, or shoe. • Use the blink rhythm as an anchor. Each level adds more cells and longer runs.",
-      "intensityScale": 1,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_clothing_medium",
-      "moduleId": "brain",
-      "title_de": "Kleidung merken",
-      "title_en": "Clothing Recall",
-      "shortDesc_de": "Vier Kleidungspositionen ruhig einprägen.",
-      "shortDesc_en": "Hold four clothing positions calmly.",
-      "longDesc_de": "Diese Einheit fordert vier Positionen mit Kleidungsbezug. Du siehst die Reihenfolge, merkst sie dir und wiederholst sie ohne Zeitdruck. Tipps: • Ordne zwei Felder oben, zwei unten im Gitter. • Wiederhole leise, bevor du startest. Mit höherer Intensität wird die Reihenfolge länger und dichter.",
-      "longDesc_en": "This session uses four clothing-related positions. You watch the order, remember it, and repeat without pressure. Tips: • Map two cells to the top, two to the bottom of the grid. • Repeat quietly before starting. With higher intensity the order gets longer and tighter.",
+      "shortDesc_de": "Kleidungsplätze merken und ruhig nachtippen.",
+      "shortDesc_en": "Remember clothing spots and replay steadily.",
+      "longDesc_de": "Du trainierst dein Gedächtnis mit einfachen Kleidungsstücken. Du merkst dir Positionen, prägst dir die Reihenfolge ein und gibst sie gelassen wieder. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "You train memory with simple clothing items. You memorize positions, keep the order, and replay it calmly. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "memory",
       "variants": {
@@ -1435,72 +1290,14 @@
       }
     },
     {
-      "id": "brain_memory_clothing_hard",
-      "moduleId": "brain",
-      "title_de": "Kleidung merken",
-      "title_en": "Clothing Recall",
-      "shortDesc_de": "Fünf Kleidungsfelder in korrekter Reihenfolge erinnern.",
-      "shortDesc_en": "Recall five clothing fields in correct order.",
-      "longDesc_de": "Diese Übung bringt fünf Kleidungspositionen ins Spiel. Die Felder leuchten kurz, du prägst sie dir ein und rufst sie klar ab. Tipps: • Fasse die ersten zwei Felder als Set zusammen. • Atme langsam, wenn du die letzten Felder antippst. Mit steigender Intensität kommen mehr Felder und längere Abfolgen hinzu.",
-      "longDesc_en": "This drill uses five clothing positions. Cells light briefly; you imprint them and recall cleanly. Tips: • Bundle the first two cells as one set. • Breathe slowly when tapping the final spots. As intensity grows, more fields and longer sequences appear.",
-      "intensityScale": 3,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_household_light",
+      "id": "brain_memory_household",
       "moduleId": "brain",
       "title_de": "Haushalt merken",
       "title_en": "Household Grid",
-      "shortDesc_de": "Drei Haushaltsfelder merken und in Ruhe wiedergeben.",
-      "shortDesc_en": "Remember three household fields and recall calmly.",
-      "longDesc_de": "Diese Einheit nutzt vertraute Haushaltsmotive. Drei Felder leuchten nacheinander; du speicherst sie und tippst sie erneut an. Tipps: • Stell dir die Felder als Lampe, Schlüssel oder Buch vor. • Halte den Blick ruhig, während die Felder aufleuchten. Mit höherer Stufe werden mehr Felder gezeigt und die Reihen länger.",
-      "longDesc_en": "This session uses familiar household themes. Three cells light one after another; you store them and tap again. Tips: • Imagine the spots as a lamp, key, or book. • Keep your gaze steady while cells light up. Higher levels show more fields and longer runs.",
-      "intensityScale": 1,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_household_medium",
-      "moduleId": "brain",
-      "title_de": "Haushalt merken",
-      "title_en": "Household Grid",
-      "shortDesc_de": "Vier Haushaltspositionen merken, dann nachklicken.",
-      "shortDesc_en": "Hold four household positions, then replay.",
-      "longDesc_de": "Vier Haushaltsfelder werden gezeigt, du merkst dir die Reihenfolge und spielst sie nach. Tipps: • Denke an Räume: zwei Felder links, zwei rechts. • Wiederhole die Reihenfolge im Kopf, bevor du startest. Mit höherer Intensität verlängert sich die Folge und braucht klare Aufmerksamkeit.",
-      "longDesc_en": "Four household fields appear; you remember the order and replay it. Tips: • Think in rooms: two spots left, two right. • Repeat the order in your head before starting. With higher intensity the sequence gets longer and needs clear attention.",
+      "shortDesc_de": "Haushaltsplätze merken und abrufen.",
+      "shortDesc_en": "Remember household spots and recall steadily.",
+      "longDesc_de": "Diese Einheit nutzt vertraute Haushaltsmotive. Du siehst Positionen im Gitter, merkst dir die Reihenfolge und tippst sie danach in Ruhe nach. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This session uses familiar household themes. You see grid positions, remember the order, and tap them calmly afterwards. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "memory",
       "variants": {
@@ -1522,72 +1319,14 @@
       }
     },
     {
-      "id": "brain_memory_household_hard",
-      "moduleId": "brain",
-      "title_de": "Haushalt merken",
-      "title_en": "Household Grid",
-      "shortDesc_de": "Fünf Haushaltsfelder halten und exakt wiederholen.",
-      "shortDesc_en": "Hold five household fields and repeat precisely.",
-      "longDesc_de": "Diese Stufe nutzt fünf Haushaltsfelder in Folge. Du siehst sie kurz aufleuchten und gibst die gesamte Reihe ruhig zurück. Tipps: • Markiere geistig Anfang und Ende der Kette. • Bleib gelassen, auch wenn du korrigieren musst. Mit zunehmender Intensität wachsen Länge und Tempo der Abfolge.",
-      "longDesc_en": "This level uses five household fields in sequence. They flash briefly and you return the full chain calmly. Tips: • Mark the start and end of the chain in your mind. • Stay calm even if you need to correct. As intensity increases, length and pace of the sequence grow.",
-      "intensityScale": 3,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_nature_light",
+      "id": "brain_memory_nature",
       "moduleId": "brain",
       "title_de": "Natur merken",
       "title_en": "Nature Recall",
-      "shortDesc_de": "Drei Naturpositionen merken und wiedergeben.",
-      "shortDesc_en": "Remember three nature spots and recall them.",
-      "longDesc_de": "Diese Übung nutzt Naturmotive für dein Gedächtnis. Drei Felder leuchten auf, du merkst sie dir und tippst sie nacheinander an. Tipps: • Stell dir Blätter, Steine oder Wasserstellen vor. • Halte den Blick ruhig, wenn du die Reihenfolge speicherst. Mit höherer Stufe wächst die Anzahl der Felder und die Abfolge wird länger.",
-      "longDesc_en": "This exercise uses nature cues for memory. Three cells light up; you remember them and tap one by one. Tips: • Imagine leaves, stones, or water spots. • Keep your gaze steady while storing the order. At higher levels more cells appear and the sequence lengthens.",
-      "intensityScale": 1,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_memory_nature_medium",
-      "moduleId": "brain",
-      "title_de": "Natur merken",
-      "title_en": "Nature Recall",
-      "shortDesc_de": "Vier Naturfelder behalten und ruhig tippen.",
-      "shortDesc_en": "Hold four nature fields and tap calmly.",
-      "longDesc_de": "Vier Naturpositionen werden gezeigt, du prägst sie dir ein und rufst sie ab. Tipps: • Nutze Bilder wie Baum, Bach, Wiese, Weg. • Wiederhole die Reihenfolge leise, bevor du startest. Mit mehr Intensität verlängert sich die Kette und erfordert mehr Fokus.",
-      "longDesc_en": "Four nature positions appear; you imprint them and recall them. Tips: • Use images like tree, stream, meadow, path. • Repeat the order quietly before starting. With more intensity the chain lengthens and needs more focus.",
+      "shortDesc_de": "Naturpositionen merken und ruhig wiedergeben.",
+      "shortDesc_en": "Remember nature spots and replay calmly.",
+      "longDesc_de": "Diese Übung nutzt Naturmotive für dein Gedächtnis. Du beobachtest Positionen, merkst dir die Reihenfolge und tippst sie in Ruhe nach. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This exercise uses nature cues for memory. You watch positions, memorize the order, and replay them calmly. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "memory",
       "variants": {
@@ -1609,72 +1348,14 @@
       }
     },
     {
-      "id": "brain_memory_nature_hard",
-      "moduleId": "brain",
-      "title_de": "Natur merken",
-      "title_en": "Nature Recall",
-      "shortDesc_de": "Fünf Naturplätze im Kopf ordnen und abrufen.",
-      "shortDesc_en": "Arrange five nature spots in mind and recall.",
-      "longDesc_de": "Diese Stufe verlangt fünf Naturpositionen in Folge. Du merkst dir die blinkenden Felder und tippst sie sauber nach. Tipps: • Setze dir Start- und Endpunkt wie einen Pfad. • Falls du unsicher bist, atme und beginne ruhig erneut. Mit höherer Intensität werden die Sequenzen länger und dichter.",
-      "longDesc_en": "This level asks for five nature spots in sequence. You memorize the flashing cells and replay them cleanly. Tips: • Mark a start and end point like a path. • If unsure, breathe and restart calmly. Higher intensity brings longer, denser sequences.",
-      "intensityScale": 3,
-      "brainType": "memory",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "3 Felder merken, ruhig wiedergeben.",
-          "paceCue_en": "Remember 3 spots, recall calmly."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "4 Felder merken, Reihenfolge halten.",
-          "paceCue_en": "Remember 4 spots, keep the order."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "5 Felder merken, ohne Eile tippen.",
-          "paceCue_en": "Remember 5 spots, tap without rushing."
-        }
-      }
-    },
-    {
-      "id": "brain_language_everyday_light",
+      "id": "brain_language_everyday",
       "moduleId": "brain",
       "title_de": "Wortwahl Alltag",
       "title_en": "Everyday Odd Word",
-      "shortDesc_de": "Das Wort auswählen, das nicht zum Alltagsthema passt.",
-      "shortDesc_en": "Pick the word that doesn’t fit the everyday theme.",
-      "longDesc_de": "Dieses Training schärft dein Sprachgefühl im Alltag. Du siehst vier Wörter, drei gehören zusammen, eines passt nicht. Tippe das unpassende Wort in deinem Tempo an. Tipps: • Lies die Wörter leise vor und achte auf den Sinn. • Streiche im Kopf die passenden Wörter, um das Ausreißer-Wort zu finden. Mit steigender Stufe liegen die Begriffe näher beieinander.",
-      "longDesc_en": "This exercise sharpens language sense for daily topics. You see four words; three belong together and one does not. Tap the word that doesn’t fit at your own pace. Tips: • Read the words softly and consider their meaning. • Mentally cross out the matching ones to spot the odd word. As levels rise, the words are closer in meaning.",
-      "intensityScale": 1,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_everyday_medium",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Alltag",
-      "title_en": "Everyday Odd Word",
-      "shortDesc_de": "Vier Alltagswörter vergleichen und das Ausreißer-Wort tippen.",
-      "shortDesc_en": "Compare four daily words and tap the odd one out.",
-      "longDesc_de": "Hier vertiefst du Sprachverständnis im Alltagsthema. Vier Wörter erscheinen, eines passt nicht. Wähle es ohne Eile. Tipps: • Achte auf Bedeutung, nicht nur auf den Klang. • Wenn zwei ähnlich wirken, prüfe den Kontext der anderen. Mit höherer Stufe werden die Unterschiede feiner und erfordern genaues Lesen.",
-      "longDesc_en": "Deepen language sense in everyday topics. Four words appear, one does not belong. Choose it without hurry. Tips: • Focus on meaning, not just sound. • If two feel similar, check the context of the others. At higher levels differences are subtle and need careful reading.",
+      "shortDesc_de": "Das unpassende Alltagswort finden.",
+      "shortDesc_en": "Find the odd everyday word.",
+      "longDesc_de": "Dieses Training schärft dein Sprachgefühl für Alltagsthemen. Du siehst mehrere Wörter, drei gehören zusammen, eines passt nicht. Wähle in Ruhe das unpassende Wort. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This training sharpens language sense for everyday topics. You see several words; three belong together, one does not. Calmly pick the odd word. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "language",
       "variants": {
@@ -1696,72 +1377,14 @@
       }
     },
     {
-      "id": "brain_language_everyday_hard",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Alltag",
-      "title_en": "Everyday Odd Word",
-      "shortDesc_de": "Sehr ähnliche Alltagswörter prüfen und das Ausreißer-Wort finden.",
-      "shortDesc_en": "Check closely related everyday words and find the odd one.",
-      "longDesc_de": "Diese Stufe nutzt eng verwandte Alltagsbegriffe. Vier Wörter stehen da, drei gehören zusammen. Wähle das Wort, das nicht passt, in ruhigem Tempo. Tipps: • Lies zweimal, bevor du tippst. • Denke an Gemeinsamkeiten der drei passenden Wörter. Mit höherer Intensität werden die Abweichungen sehr klein.",
-      "longDesc_en": "This level uses closely related everyday terms. Four words show up; three belong together. Pick the one that doesn’t fit at a calm pace. Tips: • Read twice before tapping. • Think about what the three matching words share. As intensity increases, differences become very small.",
-      "intensityScale": 3,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_food_light",
+      "id": "brain_language_food",
       "moduleId": "brain",
       "title_de": "Wortwahl Essen",
       "title_en": "Food Odd Word",
-      "shortDesc_de": "Das unpassende Wort rund um Essen und Trinken wählen.",
-      "shortDesc_en": "Pick the odd word in food and drink sets.",
-      "longDesc_de": "Dieses Training prüft dein Sprachgefühl bei Essen und Trinken. Vier Begriffe erscheinen, drei gehören zusammen. Tippe das Wort, das nicht dazugehört. Tipps: • Lies langsam und stell dir die Dinge vor. • Nutze die Kategorie (z. B. Getränke vs. Speisen), um zu sortieren. Mit höherer Stufe werden die Begriffe ähnlicher.",
-      "longDesc_en": "This exercise checks language sense for food and drink. Four terms appear; three belong together. Tap the one that doesn’t belong. Tips: • Read slowly and picture the items. • Use category cues (drinks vs. foods) to sort them. At higher levels the terms get closer.",
-      "intensityScale": 1,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_food_medium",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Essen",
-      "title_en": "Food Odd Word",
-      "shortDesc_de": "Vier Essensbegriffe vergleichen, das Ausreißer-Wort tippen.",
-      "shortDesc_en": "Compare four food terms, tap the odd one out.",
-      "longDesc_de": "Hier werden Essensbegriffe genauer verglichen. Drei passen, eins nicht. Wähle das unpassende Wort ohne Eile. Tipps: • Achte auf Unterkategorien wie Obst, Gemüse, Getreide. • Wenn du unsicher bist, streiche die klar passenden Wörter zuerst. Mit höherer Stufe unterscheiden sich die Wörter nur noch in Nuancen.",
-      "longDesc_en": "Food terms are compared more closely here. Three fit, one does not. Choose the odd word without rushing. Tips: • Watch subcategories like fruit, vegetables, grains. • If unsure, cross off the clearly matching words first. At higher levels the differences are only nuances.",
+      "shortDesc_de": "Das unpassende Wort zu Essen und Trinken wählen.",
+      "shortDesc_en": "Pick the odd word about food and drink.",
+      "longDesc_de": "Dieses Training prüft dein Sprachgefühl rund um Essen und Trinken. Du siehst mehrere Begriffe, drei gehören zusammen, einer nicht. Wähle in Ruhe das Ausreißer-Wort. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This exercise checks language around food and drinks. You see several terms; three belong together, one does not. Calmly pick the odd word. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "language",
       "variants": {
@@ -1783,72 +1406,14 @@
       }
     },
     {
-      "id": "brain_language_food_hard",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Essen",
-      "title_en": "Food Odd Word",
-      "shortDesc_de": "Feine Unterschiede bei Essensbegriffen erkennen und wählen.",
-      "shortDesc_en": "Spot subtle differences in food terms and choose.",
-      "longDesc_de": "Diese Stufe nutzt eng verwandte Essensbegriffe. Vier Wörter stehen da, eins gehört nicht dazu. Wähle ruhig das Ausreißer-Wort. Tipps: • Denke an Zubereitung oder Herkunft, um zu unterscheiden. • Lies die Worte zweimal, bevor du entscheidest. Mit höherer Intensität werden die Begriffe sehr ähnlich.",
-      "longDesc_en": "This level uses closely related food terms. Four words appear; one does not belong. Choose the odd word calmly. Tips: • Think about preparation or origin to distinguish. • Read twice before deciding. As intensity rises, the words become very similar.",
-      "intensityScale": 3,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_travel_light",
+      "id": "brain_language_travel",
       "moduleId": "brain",
       "title_de": "Wortwahl Reisen",
       "title_en": "Travel Odd Word",
-      "shortDesc_de": "Das unpassende Wort rund um Reisebegriffe wählen.",
-      "shortDesc_en": "Pick the odd travel-related word.",
-      "longDesc_de": "Diese Übung trainiert Sprache mit Reisevokabular. Vier Wörter erscheinen, drei passen zusammen. Tippe das unpassende Wort. Tipps: • Stell dir die Situation (Bahnhof, Flughafen, Hotel) vor. • Lies die Wörter in Ruhe, bevor du tippst. Mit höherer Stufe werden die Begriffe ähnlicher.",
-      "longDesc_en": "This exercise trains language with travel words. Four appear; three belong together. Tap the odd word. Tips: • Picture the setting (station, airport, hotel). • Read the words calmly before tapping. As levels rise, the terms become closer.",
-      "intensityScale": 1,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_travel_medium",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Reisen",
-      "title_en": "Travel Odd Word",
-      "shortDesc_de": "Vier Reisebegriffe vergleichen, das Ausreißer-Wort tippen.",
-      "shortDesc_en": "Compare four travel terms and tap the odd one.",
-      "longDesc_de": "Hier werden Reisebegriffe genauer geprüft. Drei passen zusammen, eins fällt heraus. Wähle ruhig. Tipps: • Achte auf Verkehrsmittel vs. Orte. • Sortiere zuerst die klar zusammengehörenden Wörter. Mit höherer Stufe werden die Unterschiede kleiner.",
-      "longDesc_en": "Travel terms are examined more closely. Three fit, one is odd. Choose calmly. Tips: • Notice transport vs. places. • First group the clearly related words. At higher levels the differences shrink.",
+      "shortDesc_de": "Das unpassende Reise-Wort erkennen.",
+      "shortDesc_en": "Spot the odd travel word.",
+      "longDesc_de": "Diese Übung trainiert Sprache mit Reisevokabular. Du siehst mehrere Begriffe, drei gehören zusammen, einer passt nicht. Wähle in Ruhe das unpassende Wort. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This exercise trains language with travel vocabulary. You see several terms; three belong together and one does not. Calmly pick the odd word. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "language",
       "variants": {
@@ -1870,72 +1435,14 @@
       }
     },
     {
-      "id": "brain_language_travel_hard",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Reisen",
-      "title_en": "Travel Odd Word",
-      "shortDesc_de": "Eng verwandte Reisebegriffe lesen und das unpassende finden.",
-      "shortDesc_en": "Read closely related travel terms and find the odd one.",
-      "longDesc_de": "Diese Stufe nutzt feine Reisebegriffe. Vier Wörter stehen, drei gehören zusammen. Tippe ruhig das unpassende Wort. Tipps: • Denke an Funktion (Ort, Ticket, Gerät) zur Unterscheidung. • Lies zweimal, bevor du wählst. Mit höherer Intensität werden die Abweichungen minimal.",
-      "longDesc_en": "This level uses fine-grained travel terms. Four words show up; three belong together. Tap the odd word calmly. Tips: • Think of function (place, ticket, device) to tell them apart. • Read twice before choosing. At higher intensity, differences are minimal.",
-      "intensityScale": 3,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_nature_light",
+      "id": "brain_language_nature",
       "moduleId": "brain",
       "title_de": "Wortwahl Natur",
       "title_en": "Nature Odd Word",
-      "shortDesc_de": "Das unpassende Wort aus Naturbegriffen wählen.",
-      "shortDesc_en": "Pick the odd word among nature terms.",
-      "longDesc_de": "Diese Übung fördert Sprachgefühl mit Naturbegriffen. Vier Wörter erscheinen, drei gehören zusammen. Tippe das unpassende Wort in Ruhe. Tipps: • Stell dir die Naturbilder kurz vor. • Nutze Oberbegriffe wie Bäume, Tiere, Wetter. Mit höherer Stufe rücken die Begriffe enger zusammen.",
-      "longDesc_en": "This exercise trains language with nature terms. Four words appear; three belong together. Tap the odd one calmly. Tips: • Picture the nature images briefly. • Use umbrellas like trees, animals, weather. As levels rise, the terms get closer.",
-      "intensityScale": 1,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_nature_medium",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Natur",
-      "title_en": "Nature Odd Word",
-      "shortDesc_de": "Vier Naturwörter vergleichen, das Ausreißer-Wort tippen.",
-      "shortDesc_en": "Compare four nature words and tap the odd one.",
-      "longDesc_de": "Hier prüfst du feiner Naturbegriffe. Drei passen zusammen, eins nicht. Wähle ohne Hektik. Tipps: • Achte auf Lebensräume oder Wetterlagen. • Streiche zuerst die klar passenden Begriffe. Mit höherer Stufe unterscheiden sich die Wörter nur leicht.",
-      "longDesc_en": "Here you examine nature words more closely. Three fit, one does not. Choose without rush. Tips: • Notice habitats or weather types. • Cross off the clearly matching terms first. At higher levels the words differ only slightly.",
+      "shortDesc_de": "Das unpassende Naturwort wählen.",
+      "shortDesc_en": "Pick the odd nature word.",
+      "longDesc_de": "Diese Übung fördert Sprachgefühl mit Naturbegriffen. Du siehst mehrere Wörter, drei gehören zusammen, eines passt nicht. Wähle in Ruhe das unpassende Wort. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This exercise trains language with nature terms. You see several words; three belong together, one does not. Calmly pick the odd word. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "language",
       "variants": {
@@ -1957,72 +1464,14 @@
       }
     },
     {
-      "id": "brain_language_nature_hard",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Natur",
-      "title_en": "Nature Odd Word",
-      "shortDesc_de": "Sehr ähnliche Naturbegriffe lesen und das unpassende finden.",
-      "shortDesc_en": "Read very similar nature terms and find the odd one.",
-      "longDesc_de": "Diese Stufe arbeitet mit eng verwandten Naturwörtern. Vier Begriffe stehen, drei passen zusammen. Tippe ruhig das Wort, das nicht dazu gehört. Tipps: • Denke an Jahreszeit, Landschaft oder Tierart. • Lies zweimal, bevor du auswählst. Mit höherer Intensität werden die Unterschiede sehr fein.",
-      "longDesc_en": "This level uses closely related nature words. Four terms appear; three belong together. Tap the word that doesn’t fit, calmly. Tips: • Think about season, landscape, or animal type. • Read twice before choosing. As intensity grows, differences are very subtle.",
-      "intensityScale": 3,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_home_light",
+      "id": "brain_language_home",
       "moduleId": "brain",
       "title_de": "Wortwahl Zuhause",
       "title_en": "Home Odd Word",
-      "shortDesc_de": "Das Wort finden, das nicht in die Wohnumgebung passt.",
-      "shortDesc_en": "Find the word that doesn’t fit the home setting.",
-      "longDesc_de": "Dieses Training nutzt Wohn- und Haushaltsbegriffe. Vier Wörter erscheinen, eines passt nicht. Tippe das Ausreißer-Wort in Ruhe. Tipps: • Stell dir Raum und Möbel kurz vor. • Achte auf Funktion: Was gehört wirklich ins Zimmer? Mit höherer Stufe werden die Begriffe ähnlicher.",
-      "longDesc_en": "This training uses home and household terms. Four words appear; one does not belong. Tap the odd word calmly. Tips: • Picture the room and furniture briefly. • Check function: what truly belongs in the room? As levels rise, the words grow more alike.",
-      "intensityScale": 1,
-      "brainType": "language",
-      "variants": {
-        "light": {
-          "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
-        },
-        "medium": {
-          "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
-        },
-        "heavy": {
-          "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_language_home_medium",
-      "moduleId": "brain",
-      "title_de": "Wortwahl Zuhause",
-      "title_en": "Home Odd Word",
-      "shortDesc_de": "Vier Wohnbegriffe vergleichen, das Ausreißer-Wort tippen.",
-      "shortDesc_en": "Compare four home words and tap the odd one.",
-      "longDesc_de": "Hier prüfst du Wohn- und Haushaltsbegriffe genauer. Drei gehören zusammen, eins nicht. Wähle das unpassende Wort. Tipps: • Sortiere nach Raum (Küche, Bad, Wohnzimmer). • Lies langsam, bevor du entscheidest. Mit höherer Stufe werden die Unterschiede kleiner.",
-      "longDesc_en": "Here you examine home and household terms more closely. Three belong together, one does not. Pick the odd word. Tips: • Sort by room (kitchen, bath, living room). • Read slowly before deciding. Higher levels make the differences smaller.",
+      "shortDesc_de": "Das Wort finden, das nicht ins Zuhause passt.",
+      "shortDesc_en": "Find the word that does not fit home life.",
+      "longDesc_de": "Dieses Training nutzt Wohn- und Haushaltsbegriffe. Du siehst mehrere Wörter, drei gehören zusammen, eines passt nicht. Wähle in Ruhe das unpassende Wort. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This training uses home and household terms. You see several words; three belong together, one does not. Calmly choose the odd word. With higher intensity the task becomes more challenging.",
       "intensityScale": 2,
       "brainType": "language",
       "variants": {
@@ -2044,379 +1493,147 @@
       }
     },
     {
-      "id": "brain_language_home_hard",
+      "id": "brain_patterns_series",
       "moduleId": "brain",
-      "title_de": "Wortwahl Zuhause",
-      "title_en": "Home Odd Word",
-      "shortDesc_de": "Sehr ähnliche Wohnbegriffe lesen und das Ausreißer-Wort wählen.",
-      "shortDesc_en": "Read very similar home terms and choose the odd one.",
-      "longDesc_de": "Diese Stufe nutzt eng verwandte Wohnbegriffe. Vier Wörter stehen bereit, drei gehören zusammen. Tippe ruhig das unpassende. Tipps: • Überlege, was denselben Raum oder Zweck hat. • Lies zweimal, um kleine Unterschiede zu bemerken. Mit höherer Intensität werden die Abweichungen minimal.",
-      "longDesc_en": "This level uses closely related home terms. Four words are shown; three belong together. Tap the odd one calmly. Tips: • Consider what shares the same room or purpose. • Read twice to notice small differences. As intensity increases, variations are minimal.",
-      "intensityScale": 3,
-      "brainType": "language",
+      "title_de": "Formfolgen",
+      "title_en": "Shape Sequences",
+      "shortDesc_de": "Musterfolgen erkennen und ergänzen.",
+      "shortDesc_en": "Spot pattern sequences and complete them.",
+      "longDesc_de": "Dieses Training schärft dein Mustergefühl in Reihen. Du beobachtest Formen oder Farben und wählst das nächste passende Element. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This training sharpens pattern sense in sequences. You watch shapes or colors and choose the next fitting element. With higher intensity the task becomes more challenging.",
+      "intensityScale": 2,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
+          "paceCue_en": "Watch the simple run, choose the next."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
+          "paceCue_en": "Spot repetitions, tap calmly."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
+          "paceCue_en": "Check dual rules, solve without rush."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_grid",
+      "moduleId": "brain",
+      "title_de": "Gittermuster",
+      "title_en": "Grid Patterns",
+      "shortDesc_de": "Gittermuster erkennen und ergänzen.",
+      "shortDesc_en": "Identify grid patterns and fill them.",
+      "longDesc_de": "Dieses Training übt das Erkennen von Mustern im Gitter. Du vergleichst Zeilen und Spalten und ergänzt das fehlende Symbol. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This training practices spotting patterns in a grid. You compare rows and columns and fill the missing symbol. With higher intensity the task becomes more challenging.",
+      "intensityScale": 2,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
+          "paceCue_en": "Watch the simple run, choose the next."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
+          "paceCue_en": "Spot repetitions, tap calmly."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
+          "paceCue_en": "Check dual rules, solve without rush."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_switch",
+      "moduleId": "brain",
+      "title_de": "Wechselmuster",
+      "title_en": "Switch Patterns",
+      "shortDesc_de": "Wechselmuster erkennen und fortsetzen.",
+      "shortDesc_en": "Spot switching patterns and continue them.",
+      "longDesc_de": "Dieses Training übt das Erkennen von Wechseln in Reihen. Du beobachtest die Folge und ergänzt das nächste Element passend. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This training practices spotting alternations in sequences. You watch the run and add the next fitting element. With higher intensity the task becomes more challenging.",
+      "intensityScale": 2,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
+          "paceCue_en": "Watch the simple run, choose the next."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
+          "paceCue_en": "Spot repetitions, tap calmly."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
+          "paceCue_en": "Check dual rules, solve without rush."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_dual",
+      "moduleId": "brain",
+      "title_de": "Dual-Regel",
+      "title_en": "Dual Rule",
+      "shortDesc_de": "Zwei Musterregeln gleichzeitig erkennen.",
+      "shortDesc_en": "Recognize two pattern rules at once.",
+      "longDesc_de": "Dieses Training führt dich in doppelte Regeln ein. Du suchst nach Form und Reihenfolge und ergänzt das Zeichen, das beide Regeln fortsetzt. Mit höherer Intensität wird die Aufgabe anspruchsvoller.",
+      "longDesc_en": "This training introduces dual rules. You look for shape and order and add the symbol that continues both. With higher intensity the task becomes more challenging.",
+      "intensityScale": 2,
+      "brainType": "patterns",
+      "variants": {
+        "light": {
+          "durationMin": 8,
+          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
+          "paceCue_en": "Watch the simple run, choose the next."
+        },
+        "medium": {
+          "durationMin": 12,
+          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
+          "paceCue_en": "Spot repetitions, tap calmly."
+        },
+        "heavy": {
+          "durationMin": 16,
+          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
+          "paceCue_en": "Check dual rules, solve without rush."
+        }
+      }
+    },
+    {
+      "id": "brain_patterns_mirror",
+      "moduleId": "brain",
+      "title_de": "Spiegelmuster",
+      "title_en": "Mirror Patterns",
+      "shortDesc_de": "Muster erkennen und logisch fortsetzen.",
+      "shortDesc_en": "Recognize patterns and complete them logically.",
+      "longDesc_de": "Diese Übung trainiert das Erkennen von Mustern und Regeln. Du siehst eine Folge oder Anordnung von Formen und ergänzt das passende nächste Element. Achte darauf, ob sich Farben, Formen oder die Reihenfolge wiederholen oder spiegeln. Tipps: • Schau zuerst nach Wiederholungen. • Wenn es schwer wirkt, suche nach zwei einfachen Regeln. Mit höherer Intensität werden mehr Regeln kombiniert.",
+      "longDesc_en": "This exercise trains pattern recognition and simple rule finding. You see a sequence or layout of shapes and choose what comes next. Look for repetition, switching, or mirroring in shapes and colors. Tips: • First, look for repetition. • If it feels hard, search for two small rules. Higher intensity combines more rules.",
+      "intensityScale": 2,
+      "brainType": "patterns",
       "variants": {
         "light": {
           "durationMin": 6,
-          "paceCue_de": "Langsam lesen, das unpassende Wort wählen.",
-          "paceCue_en": "Read slowly, pick the odd word."
+          "paceCue_de": "Einfaches Muster ergänzen.",
+          "paceCue_en": "Complete a simple pattern."
         },
         "medium": {
           "durationMin": 10,
-          "paceCue_de": "Genau hinschauen, ruhig entscheiden.",
-          "paceCue_en": "Look closely, decide calmly."
+          "paceCue_de": "Muster mit Wechsel erkennen.",
+          "paceCue_en": "Notice a switching pattern."
         },
         "heavy": {
           "durationMin": 14,
-          "paceCue_de": "Ähnliche Wörter prüfen, Zeit lassen.",
-          "paceCue_en": "Check similar words, take your time."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_series_light",
-      "moduleId": "brain",
-      "title_de": "Formfolgen",
-      "title_en": "Shape Sequences",
-      "shortDesc_de": "Einfache Muster erkennen und vervollständigen.",
-      "shortDesc_en": "Spot simple patterns and complete them.",
-      "longDesc_de": "Dieses Training schärft dein Mustergefühl mit klaren Formen. Du siehst eine kurze Reihe und wählst das nächste Symbol, das logisch passt. Tipps: • Suche zuerst nach Wiederholungen. • Prüfe, ob sich die Symbole abwechseln. Mit steigender Stufe werden die Reihen länger und dichter.",
-      "longDesc_en": "This training sharpens pattern sense with clear shapes. You see a short row and choose the next logical symbol. Tips: • Look for repetitions first. • Check if symbols alternate. As levels rise, rows get longer and tighter.",
-      "intensityScale": 1,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_series_medium",
-      "moduleId": "brain",
-      "title_de": "Formfolgen",
-      "title_en": "Shape Sequences",
-      "shortDesc_de": "Form- und Farbmuster ruhig fortsetzen.",
-      "shortDesc_en": "Calmly continue shape and color patterns.",
-      "longDesc_de": "Diese Übung vertieft das Erkennen von Reihen. Du beobachtest eine Folge und ergänzt das Symbol, das das Muster fortsetzt. Tipps: • Achte auf Rhythmus und wiederkehrende Gruppen. • Prüfe, ob zwei Regeln gleichzeitig laufen. Mit höherer Stufe werden die Folgen länger und variabler.",
-      "longDesc_en": "This exercise deepens pattern spotting. You observe a sequence and add the symbol that continues it. Tips: • Watch rhythm and recurring groups. • Check if two rules run at once. As levels increase, sequences grow longer and more varied.",
-      "intensityScale": 2,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_series_hard",
-      "moduleId": "brain",
-      "title_de": "Formfolgen",
-      "title_en": "Shape Sequences",
-      "shortDesc_de": "Längere Muster mit klaren Regeln vollenden.",
-      "shortDesc_en": "Complete longer patterns with clear rules.",
-      "longDesc_de": "Diese Stufe nutzt längere Reihen aus Formen. Du beobachtest das Muster und wählst das nächste Zeichen. Tipps: • Suche nach Blöcken aus zwei oder drei Symbolen. • Halte den Blick ruhig, bevor du entscheidest. Mit höherer Intensität kommen zwei Regeln zusammen, etwa Reihenfolge und Wiederholung.",
-      "longDesc_en": "This level uses longer shape rows. You watch the pattern and pick the next symbol. Tips: • Look for blocks of two or three symbols. • Keep your gaze steady before deciding. At higher intensity two rules can combine, like order and repetition.",
-      "intensityScale": 3,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_grid_light",
-      "moduleId": "brain",
-      "title_de": "Gittermuster",
-      "title_en": "Grid Patterns",
-      "shortDesc_de": "Einfache Gittermuster erkennen und ergänzen.",
-      "shortDesc_en": "Identify simple grid patterns and fill them.",
-      "longDesc_de": "Dieses Training übt das Erkennen von Gitterfolgen. Du siehst ein Muster und wählst das Symbol, das fehlt. Tipps: • Prüfe Zeile und Spalte auf Wiederholung. • Vergleiche das fehlende Feld mit den Nachbarn. Mit steigender Stufe wird das Gitter dichter.",
-      "longDesc_en": "This training practices spotting grid sequences. You see a pattern and choose the missing symbol. Tips: • Check row and column for repetition. • Compare the missing spot with neighbors. As levels rise, the grid gets denser.",
-      "intensityScale": 1,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_grid_medium",
-      "moduleId": "brain",
-      "title_de": "Gittermuster",
-      "title_en": "Grid Patterns",
-      "shortDesc_de": "Form- und Positionmuster im Gitter logisch fortsetzen.",
-      "shortDesc_en": "Continue grid patterns of form and position.",
-      "longDesc_de": "Du ergänzt Muster in einem Gitter mit mehr Symbolen. Beobachte die Abfolge und wähle das passende Element. Tipps: • Prüfe zuerst die horizontale, dann die vertikale Folge. • Suche nach kleinen Gruppen, die sich wiederholen. Mit höherer Intensität greifen zwei Regeln gleichzeitig.",
-      "longDesc_en": "You complete patterns in a fuller grid. Watch the sequence and choose the fitting element. Tips: • Check horizontal, then vertical order. • Look for small groups that repeat. At higher intensity, two rules apply at once.",
-      "intensityScale": 2,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_grid_hard",
-      "moduleId": "brain",
-      "title_de": "Gittermuster",
-      "title_en": "Grid Patterns",
-      "shortDesc_de": "Komplexe Gittermuster mit zwei Regeln lösen.",
-      "shortDesc_en": "Solve complex grid patterns with dual rules.",
-      "longDesc_de": "Diese Stufe fordert dich mit komplexeren Gittern. Du erkennst das Muster und ergänzt das fehlende Symbol. Tipps: • Achte auf zwei Regeln: Formfolge und Position. • Vergleiche Zeilen und Spalten, bevor du wählst. Mit höherer Intensität laufen zwei Logiken parallel.",
-      "longDesc_en": "This level challenges you with more complex grids. You detect the pattern and fill the missing symbol. Tips: • Watch for two rules: shape order and position. • Compare rows and columns before choosing. As intensity rises, two logics run in parallel.",
-      "intensityScale": 3,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_switch_light",
-      "moduleId": "brain",
-      "title_de": "Wechselmuster",
-      "title_en": "Switch Patterns",
-      "shortDesc_de": "Einfache Wechsel erkennen und fortsetzen.",
-      "shortDesc_en": "Spot simple switches and continue them.",
-      "longDesc_de": "Dieses Training übt den Wechsel zwischen zwei Symbolen. Du siehst eine Folge und ergänzt das nächste Element. Tipps: • Schau, ob Symbole abwechselnd kommen. • Halte den Blick ruhig, bevor du wählst. Mit höherer Stufe werden die Wechsel schneller.",
-      "longDesc_en": "This training practices switching between two symbols. You see a sequence and add the next element. Tips: • Check if symbols alternate. • Keep your gaze steady before choosing. As levels rise, switches come faster.",
-      "intensityScale": 1,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_switch_medium",
-      "moduleId": "brain",
-      "title_de": "Wechselmuster",
-      "title_en": "Switch Patterns",
-      "shortDesc_de": "Wechsel mit kleinen Blöcken logisch ergänzen.",
-      "shortDesc_en": "Complete switches with small repeating blocks.",
-      "longDesc_de": "Hier beobachtest du Wechsel in kleinen Gruppen. Du erkennst das Muster und ergänzt das nächste Symbol. Tipps: • Achte auf Zweier- oder Dreierblöcke. • Prüfe, ob Form und Wiederholung zusammenwirken. Mit höherer Stufe laufen zwei Regeln parallel.",
-      "longDesc_en": "Here you watch switches in small groups. You detect the pattern and add the next symbol. Tips: • Look for blocks of two or three. • Check if shape and repetition work together. At higher levels, two rules run in parallel.",
-      "intensityScale": 2,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_switch_hard",
-      "moduleId": "brain",
-      "title_de": "Wechselmuster",
-      "title_en": "Switch Patterns",
-      "shortDesc_de": "Wechsel mit zwei Regeln gleichzeitig lösen.",
-      "shortDesc_en": "Solve switches that follow two rules at once.",
-      "longDesc_de": "Diese Stufe kombiniert Wechsel und zweite Regel. Du beobachtest die Folge und ergänzt das passende Symbol. Tipps: • Prüfe Formwechsel und Wiederholung gemeinsam. • Nimm dir einen Atemzug, bevor du wählst. Mit höherer Intensität greifen zwei Logiken parallel und erfordern Ruhe.",
-      "longDesc_en": "This level combines switching with a second rule. You watch the sequence and add the fitting symbol. Tips: • Check shape changes and repetition together. • Take a breath before choosing. As intensity rises, two logics run in parallel and need calm focus.",
-      "intensityScale": 3,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_dual_light",
-      "moduleId": "brain",
-      "title_de": "Dual-Regel",
-      "title_en": "Dual Rule",
-      "shortDesc_de": "Form- und Reihenfolge-Regel gemeinsam erkennen.",
-      "shortDesc_en": "Spot both shape and order rules together.",
-      "longDesc_de": "Dieses Training führt dich sanft in doppelte Regeln ein. Du siehst eine Folge und wählst das Symbol, das beide Regeln fortsetzt. Tipps: • Prüfe zuerst die Form, dann die Position im Ablauf. • Bleib ruhig, wenn zwei Hinweise gleichzeitig kommen. Mit höherer Stufe werden die Regeln klarer und enger.",
-      "longDesc_en": "This training gently introduces dual rules. You see a sequence and choose the symbol that continues both rules. Tips: • Check the shape first, then its place in the flow. • Stay calm when two cues appear at once. As levels rise, rules get tighter and clearer.",
-      "intensityScale": 1,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_dual_medium",
-      "moduleId": "brain",
-      "title_de": "Dual-Regel",
-      "title_en": "Dual Rule",
-      "shortDesc_de": "Zwei Musterregeln ruhig kombinieren und ergänzen.",
-      "shortDesc_en": "Combine two pattern rules calmly and complete.",
-      "longDesc_de": "Hier laufen zwei Regeln gleichzeitig, z. B. Wiederholung und Reihenfolge. Du ergänzt das Symbol, das beide erfüllt. Tipps: • Suche zuerst nach der Hauptreihenfolge. • Prüfe danach die zweite Änderung (z. B. jede dritte Form). Mit höherer Stufe werden die Regeln enger verknüpft.",
-      "longDesc_en": "Two rules run together here, such as repetition and order. You add the symbol that satisfies both. Tips: • Find the main order first. • Then check the second change (e.g., every third shape). As levels increase, the rules link more tightly.",
-      "intensityScale": 2,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
-        }
-      }
-    },
-    {
-      "id": "brain_patterns_dual_hard",
-      "moduleId": "brain",
-      "title_de": "Dual-Regel",
-      "title_en": "Dual Rule",
-      "shortDesc_de": "Komplexe Muster mit zwei gleichzeitigen Regeln lösen.",
-      "shortDesc_en": "Solve complex patterns using two rules at once.",
-      "longDesc_de": "Diese Stufe nutzt anspruchsvolle Doppelregeln. Du erkennst die Abfolge und ergänzt das Zeichen, das Form und zweite Logik fortsetzt. Tipps: • Prüfe Reihenfolge und Zusatzregel (z. B. Zählen oder Richtung). • Nimm dir einen Moment, bevor du auswählst. Mit höherer Intensität greifen zwei Regeln gleichzeitig und verlangen ruhige Analyse.",
-      "longDesc_en": "This level uses demanding dual rules. You detect the sequence and choose the symbol that continues both shape and secondary logic. Tips: • Check the order and the extra rule (like counting or direction). • Take a moment before selecting. As intensity increases, both rules operate together and need calm analysis.",
-      "intensityScale": 3,
-      "brainType": "patterns",
-      "variants": {
-        "light": {
-          "durationMin": 8,
-          "paceCue_de": "Einfache Folge ansehen, passend ergänzen.",
-          "paceCue_en": "Watch the simple run, choose the next."
-        },
-        "medium": {
-          "durationMin": 12,
-          "paceCue_de": "Wiederholungen finden, ruhig tippen.",
-          "paceCue_en": "Spot repetitions, tap calmly."
-        },
-        "heavy": {
-          "durationMin": 16,
-          "paceCue_de": "Zwei Regeln prüfen, ohne Hektik lösen.",
-          "paceCue_en": "Check dual rules, solve without rush."
+          "paceCue_de": "Zwei Regeln kombinieren, ruhig bleiben.",
+          "paceCue_en": "Combine two rules calmly."
         }
       }
     }

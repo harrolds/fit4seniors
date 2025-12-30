@@ -218,7 +218,19 @@ export const findTraining = (
   trainingId?: string,
 ): TrainingItem | undefined => {
   if (!catalog || !moduleId || !trainingId) return undefined;
-  return catalog.trainings.find((training) => training.moduleId === moduleId && training.id === trainingId);
+  const directHit = catalog.trainings.find((training) => training.moduleId === moduleId && training.id === trainingId);
+  if (directHit) return directHit;
+
+  if (moduleId === 'brain') {
+    const suffixes = ['_light', '_medium', '_hard', '-light', '-medium', '-heavy'];
+    const suffix = suffixes.find((candidate) => trainingId.endsWith(candidate));
+    if (suffix) {
+      const baseId = trainingId.slice(0, -suffix.length);
+      return catalog.trainings.find((training) => training.moduleId === moduleId && training.id === baseId);
+    }
+  }
+
+  return undefined;
 };
 
 const resolveDurationBucket = (durationMin: number): DurationBucket => {

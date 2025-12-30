@@ -10,6 +10,7 @@ export interface SessionSummary {
 
 export interface CompletedSessionRecord {
   id: string;
+  startedAt?: number;
   completedAt: number;
   moduleId: string;
   trainingId: string;
@@ -24,6 +25,14 @@ export interface CompletedSessionRecord {
   unitTitle?: string;
   completed?: boolean;
   summary?: SessionSummary;
+  brain?: {
+    brainType?: string;
+    difficulty?: string;
+    attempts?: number;
+    errors?: number;
+    [key: string]: unknown;
+  };
+  meta?: Record<string, unknown>;
   pointsAwarded?: number;
   pointsModelVersion?: 'v1';
   pointsEarned?: number;

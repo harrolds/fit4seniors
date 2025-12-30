@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../../../shared/ui/Button';
-
-type BrainDifficulty = 'light' | 'medium' | 'hard';
+import { useI18n } from '../../../shared/lib/i18n';
+import type { BrainDifficulty, BrainMetrics } from '../components/BrainExerciseSlot';
 
 type WordSet = {
   prompt: string;
@@ -11,7 +11,8 @@ type WordSet = {
 
 type LanguagePuzzleProps = {
   difficulty: BrainDifficulty;
-  onComplete: () => void;
+  disabled?: boolean;
+  onComplete: (metrics: BrainMetrics) => void;
 };
 
 const languageSets: Record<BrainDifficulty, WordSet[]> = {
@@ -35,10 +36,13 @@ const languageSets: Record<BrainDifficulty, WordSet[]> = {
   ],
 };
 
-export const LanguagePuzzle: React.FC<LanguagePuzzleProps> = ({ difficulty, onComplete }) => {
+export const LanguagePuzzle: React.FC<LanguagePuzzleProps> = ({ difficulty, disabled = false, onComplete }) => {
+  const { t } = useI18n();
   const [status, setStatus] = useState<'playing' | 'completed'>('playing');
-  const [feedback, setFeedback] = useState('Tap the word that does not fit.');
+  const [feedback, setFeedback] = useState('');
   const [currentSet, setCurrentSet] = useState<WordSet>(() => languageSets[difficulty][0]);
+  const [attempts, setAttempts] = useState(0);
+  const [errors, setErrors] = useState(0);
   const completionFiredRef = useRef(false);
 
   const puzzleSet = useMemo(() => {
@@ -49,37 +53,41 @@ export const LanguagePuzzle: React.FC<LanguagePuzzleProps> = ({ difficulty, onCo
 
   useEffect(() => {
     setStatus('playing');
-    setFeedback('Tap the word that does not fit.');
+    setFeedback(t('brain.ui.promptOddOneOut'));
+    setAttempts(0);
+    setErrors(0);
     completionFiredRef.current = false;
     setCurrentSet(puzzleSet);
-  }, [puzzleSet]);
+  }, [puzzleSet, t]);
 
   const handleSelect = (index: number) => {
-    if (status === 'completed') return;
+    if (disabled || status === 'completed') return;
+    setAttempts((prev) => prev + 1);
     if (index === currentSet.oddIndex) {
       setStatus('completed');
-      setFeedback('Completed! Tap Finish to continue.');
+      setFeedback(t('brain.ui.completed'));
     } else {
-      setFeedback('Not quite, try again.');
+      setErrors((prev) => prev + 1);
+      setFeedback(t('brain.ui.tryAgain'));
     }
   };
 
   const handleFinish = () => {
-    if (completionFiredRef.current || status !== 'completed') return;
+    if (disabled || completionFiredRef.current || status !== 'completed') return;
     completionFiredRef.current = true;
-    onComplete();
+    onComplete({ brainType: 'language', difficulty, attempts, errors });
   };
 
   return (
     <div className="brain-slot">
       <div className="brain-slot__header">
-        <p className="brain-slot__title">Language</p>
+        <p className="brain-slot__title">{t('brain.type.language')}</p>
         <span className="brain-slot__status">
-          {status === 'completed' ? 'Completed' : 'Odd one out'}
+          {status === 'completed' ? t('brain.ui.completed') : t('brain.ui.promptOddOneOut')}
         </span>
       </div>
 
-      <p className="brain-slot__prompt">{currentSet.prompt}</p>
+      <p className="brain-slot__prompt">{t('brain.ui.promptOddOneOut')}</p>
 
       <div className="brain-grid brain-grid--words" role="group" aria-label="Word choices">
         {currentSet.words.map((word, index) => (
@@ -88,7 +96,7 @@ export const LanguagePuzzle: React.FC<LanguagePuzzleProps> = ({ difficulty, onCo
             type="button"
             className="brain-word"
             onClick={() => handleSelect(index)}
-            disabled={status === 'completed'}
+            disabled={disabled || status === 'completed'}
           >
             {word}
           </button>
@@ -100,7 +108,7 @@ export const LanguagePuzzle: React.FC<LanguagePuzzleProps> = ({ difficulty, onCo
       {status === 'completed' ? (
         <div className="brain-actions">
           <Button fullWidth onClick={handleFinish}>
-            Finish
+            {t('brain.ui.finish')}
           </Button>
         </div>
       ) : null}

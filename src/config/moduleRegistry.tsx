@@ -12,6 +12,7 @@ import {
   BalanceWidget,
   CardioWidget,
   HomeHeroWidget,
+  BrainWidget,
   MuscleWidget,
   RecentTrainingWidget,
 } from './homeWidgetComponents';
@@ -56,6 +57,14 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: true,
     hasSettings: false,
     component: MuscleWidget,
+  },
+  {
+    id: 'home-brain',
+    labelKey: 'trainieren.brain.title',
+    routeBase: '/home/brain',
+    hasHomeWidget: true,
+    hasSettings: false,
+    component: BrainWidget,
   },
   {
     id: 'home-balance',

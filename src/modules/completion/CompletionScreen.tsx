@@ -171,10 +171,13 @@ export const CompletionScreen: React.FC = () => {
 
   const stats = isBrain
     ? [
-        { label: t('completion.brain.stat.time'), value: formatDuration(payload.durationSec) },
-        { label: t('completion.brain.stat.unit'), value: payload.unitTitle ?? t('brain.session.headerTitle') },
+        { label: t('completion.brain.stat.timeLabel'), value: formatDuration(payload.durationSec) },
         {
-          label: t('completion.brain.stat.result'),
+          label: t('completion.brain.session.headerTitle'),
+          value: payload.unitTitle ?? t('completion.brain.session.headerTitle'),
+        },
+        {
+          label: t('completion.brain.stat.resultLabel'),
           value:
             payload.summary?.kind === 'found_word'
               ? t('completion.brain.result.foundWord', { word: payload.summary.value ?? '' })

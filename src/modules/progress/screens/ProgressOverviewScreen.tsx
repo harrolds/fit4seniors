@@ -80,6 +80,16 @@ export const ProgressOverviewScreen: React.FC = () => {
     return Math.round(totalSeconds / 60);
   }, [endOfWeek, sessions, startOfWeek]);
 
+  const brainSessionsThisWeek = useMemo(() => {
+    return sessions.reduce((acc, session) => {
+      const date = new Date(session.completedAt);
+      if (session.moduleId === 'brain' && date >= startOfWeek && date <= endOfWeek) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+  }, [sessions, startOfWeek, endOfWeek]);
+
   const levelInfo = useMemo(() => getLevelFromPoints(profile.totalPoints ?? 0), [profile.totalPoints]);
   const levelLabel = t(levelInfo.labelKey);
   const levelProgressText =
@@ -199,6 +209,22 @@ export const ProgressOverviewScreen: React.FC = () => {
               {t('progress.minutesTargetLabel')}: {activeMinutesThisWeek} / {minutesPerWeekTarget}
             </span>
           ) : null}
+        </Card>
+        <Card className="po-kpiCard po-kpiCard--brain">
+          <div className="po-kpiCard__left">
+            <div className="po-kpiCard__icon po-kpiCard__icon--brain">
+              <Icon name="psychology" size={26} />
+            </div>
+            <div className="po-kpiCard__meta">
+              <p className="po-kpiCard__label">{t('progress.brain.title')}</p>
+              <p className="po-kpiCard__value">
+                {t('progress.brain.sessions', { count: brainSessionsThisWeek })}
+              </p>
+            </div>
+          </div>
+          <span className="po-kpiCard__badge po-kpiCard__badge--brain">
+            {t('progress.brain.subtitle')}
+          </span>
         </Card>
         {minutesPerWeekTarget !== undefined && remainingMinutesToGoal !== null && remainingMinutesToGoal > 0 ? (
           <p className="po-helper">{t('progress.minutesToGoal', { n: remainingMinutesToGoal })}</p>

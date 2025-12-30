@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../../../shared/ui/Button';
+import { useI18n } from '../../../shared/lib/i18n';
+import type { BrainDifficulty, BrainMetrics } from '../components/BrainExerciseSlot';
 
-type BrainDifficulty = 'light' | 'medium' | 'hard';
 type Phase = 'showing' | 'input' | 'completed';
 
 type MemoryPuzzleProps = {
   difficulty: BrainDifficulty;
-  onComplete: () => void;
+  disabled?: boolean;
+  onComplete: (metrics: BrainMetrics) => void;
 };
 
 const highlightOnMs = 600;
@@ -17,12 +19,15 @@ const sequenceByDifficulty: Record<BrainDifficulty, number> = {
   hard: 5,
 };
 
-export const MemoryPuzzle: React.FC<MemoryPuzzleProps> = ({ difficulty, onComplete }) => {
+export const MemoryPuzzle: React.FC<MemoryPuzzleProps> = ({ difficulty, disabled = false, onComplete }) => {
+  const { t } = useI18n();
   const [sequence, setSequence] = useState<number[]>([]);
   const [phase, setPhase] = useState<Phase>('showing');
   const [activeCell, setActiveCell] = useState<number | null>(null);
   const [inputIndex, setInputIndex] = useState(0);
-  const [message, setMessage] = useState('Watch the pattern, then repeat it.');
+  const [message, setMessage] = useState('');
+  const [attempts, setAttempts] = useState(0);
+  const [errors, setErrors] = useState(0);
   const timersRef = useRef<number[]>([]);
   const completionFiredRef = useRef(false);
 
@@ -39,7 +44,7 @@ export const MemoryPuzzle: React.FC<MemoryPuzzleProps> = ({ difficulty, onComple
       setPhase('showing');
       setInputIndex(0);
       setActiveCell(null);
-      setMessage('Watch the pattern, then repeat it.');
+      setMessage(t('brain.memory.watch'));
       let delay = 200;
 
       seq.forEach((cell, idx) => {
@@ -54,14 +59,14 @@ export const MemoryPuzzle: React.FC<MemoryPuzzleProps> = ({ difficulty, onComple
             setActiveCell(null);
             if (idx === seq.length - 1) {
               setPhase('input');
-              setMessage('Now tap the same cells in order.');
+              setMessage(t('brain.memory.repeat'));
             }
           }, delay),
         );
         delay += highlightOffMs;
       });
     },
-    [clearTimers],
+    [clearTimers, t],
   );
 
   const startRound = useCallback(() => {
@@ -76,19 +81,35 @@ export const MemoryPuzzle: React.FC<MemoryPuzzleProps> = ({ difficulty, onComple
     setSequence(nextSequence);
     setPhase('showing');
     setInputIndex(0);
+    setAttempts(0);
+    setErrors(0);
     playSequence(nextSequence);
   }, [difficulty, gridCells, playSequence]);
 
   useEffect(() => {
+    if (disabled) {
+      clearTimers();
+      const seqLength = sequenceByDifficulty[difficulty] ?? 3;
+      setSequence(gridCells.slice(0, seqLength));
+      setPhase('showing');
+      setInputIndex(0);
+      setActiveCell(null);
+      setMessage(t('brain.memory.watch'));
+      setAttempts(0);
+      setErrors(0);
+      return () => clearTimers();
+    }
+
     startRound();
     return () => clearTimers();
-  }, [startRound, clearTimers]);
+  }, [startRound, clearTimers, disabled, difficulty, gridCells, t]);
 
   const handleCellClick = (index: number) => {
-    if (phase !== 'input' || completionFiredRef.current) return;
+    if (disabled || phase !== 'input' || completionFiredRef.current) return;
     const expected = sequence[inputIndex];
     if (expected === undefined) return;
 
+    setAttempts((prev) => prev + 1);
     setActiveCell(index);
     timersRef.current.push(
       window.setTimeout(() => {
@@ -100,41 +121,42 @@ export const MemoryPuzzle: React.FC<MemoryPuzzleProps> = ({ difficulty, onComple
       const nextIndex = inputIndex + 1;
       if (nextIndex >= sequence.length) {
         setPhase('completed');
-        setMessage('Completed! Tap Finish to continue.');
+        setMessage(t('brain.ui.completed'));
       }
       setInputIndex(nextIndex);
     } else {
-      setMessage('Try again. Watch the pattern.');
+      setErrors((prev) => prev + 1);
+      setMessage(t('brain.ui.tryAgain'));
       playSequence(sequence);
     }
   };
 
   const handleFinish = () => {
-    if (completionFiredRef.current) return;
+    if (disabled || completionFiredRef.current) return;
     completionFiredRef.current = true;
-    onComplete();
+    onComplete({ brainType: 'memory', difficulty, attempts, errors });
   };
 
   return (
     <div className="brain-slot">
       <div className="brain-slot__header">
-        <p className="brain-slot__title">Memory</p>
+        <p className="brain-slot__title">{t('brain.type.memory')}</p>
         <span className="brain-slot__status">
-          {phase === 'completed' ? 'Completed' : 'Repeat the pattern'}
+          {phase === 'completed' ? t('brain.ui.completed') : t('brain.memory.status')}
         </span>
       </div>
 
-      <div className="brain-grid" aria-label="Memory grid">
+      <div className="brain-grid" aria-label={t('brain.type.memory')}>
         {gridCells.map((cell) => {
           const isLit = activeCell === cell;
-          const isDisabled = phase === 'completed';
+          const isCellDisabled = disabled || phase === 'completed';
           return (
             <button
               key={cell}
               type="button"
               className={`brain-grid__cell${isLit ? ' brain-grid__cell--active' : ''}`}
               onClick={() => handleCellClick(cell)}
-              disabled={isDisabled}
+              disabled={isCellDisabled}
             >
               {cell + 1}
             </button>
@@ -147,7 +169,7 @@ export const MemoryPuzzle: React.FC<MemoryPuzzleProps> = ({ difficulty, onComple
       {phase === 'completed' ? (
         <div className="brain-actions">
           <Button fullWidth onClick={handleFinish}>
-            Finish
+            {t('brain.ui.finish')}
           </Button>
         </div>
       ) : null}

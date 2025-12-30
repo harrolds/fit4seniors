@@ -13,7 +13,11 @@ import { findModule, findTraining, useTrainingCatalog, type TrainingIntensity } 
 import { addCompletedSession } from '../../modules/progress/progressStorage';
 import { computePointsAwardedV1 } from '../../app/services/profileMotor';
 import { playFeedback } from '../../app/services/feedbackService';
-import { BrainExerciseSlot } from '../../modules/brain/components/BrainExerciseSlot';
+import {
+  BrainExerciseSlot,
+  type BrainDifficulty,
+  type BrainMetrics,
+} from '../../modules/brain/components/BrainExerciseSlot';
 import './trainieren.css';
 
 type SessionStatus = 'idle' | 'running' | 'paused' | 'completed';
@@ -38,6 +42,17 @@ const formatSeconds = (value: number): string => {
 const formatMinutesToTime = (minutes: number): string => {
   const safe = Math.max(1, Math.round(minutes));
   return `${safe.toString().padStart(2, '0')}:00`;
+};
+
+const computeBrainPoints = (difficulty: BrainDifficulty): number => {
+  switch (difficulty) {
+    case 'hard':
+      return 30;
+    case 'medium':
+      return 20;
+    default:
+      return 10;
+  }
 };
 
 const TIMER_RADIUS = 52;
@@ -111,12 +126,14 @@ export const TrainingDetail: React.FC = () => {
   });
   const guardContextRef = useRef<{ wasRunning: boolean; onExit?: () => void } | null>(null);
   const previousPanelIdRef = useRef<string | null>(null);
+  const brainStartedAtRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!variant) return;
     const safeDuration = variant.durationMin;
     const totalSeconds = Math.max(1, Math.round(safeDuration * 60));
     setIsActive(false);
+    brainStartedAtRef.current = null;
     setPlannedDuration(safeDuration);
     setSession({
       status: 'idle',
@@ -275,6 +292,7 @@ export const TrainingDetail: React.FC = () => {
     closePanel();
     if (isBrainModule) {
       setIsActive(true);
+      brainStartedAtRef.current = Date.now();
       return;
     }
     const baseDuration = plannedDuration || variant.durationMin;
@@ -381,14 +399,6 @@ export const TrainingDetail: React.FC = () => {
     });
   }, [moduleId, trainingId, intensity, training?.title, moduleDef?.title, openRightPanel]);
 
-  if (isLoading) {
-    return <p className="trainieren-status">{t('trainieren.detail.loading')}</p>;
-  }
-
-  if (error || !moduleDef || !training || !variant) {
-    return <p className="trainieren-status">{t('trainieren.detail.notFound')}</p>;
-  }
-
   const activeSteps = session.steps.length ? session.steps : resolvedSteps;
   const isTimerActive = session.status === 'running' || session.status === 'paused';
   const stepProgress =
@@ -403,14 +413,72 @@ export const TrainingDetail: React.FC = () => {
     : formatMinutesToTime(plannedDuration);
   const instructionSteps = resolvedSteps.slice(0, 4);
   const stepProgressLabel = `${t('trainieren.detail.stepPrefix')} ${session.currentStepIndex + 1}/${activeSteps.length}`;
-  const puzzleDifficulty =
+  const puzzleDifficulty: BrainDifficulty =
     variant?.intensity === 'heavy'
       ? 'hard'
       : variant?.intensity === 'medium'
         ? 'medium'
-        : variant?.intensity ?? 'light';
+        : (variant?.intensity ?? 'light');
   const isBrainActive = isBrainModule && isActive;
   const shouldShowActiveCard = !isBrainModule && isTimerActive;
+
+  const handleBrainComplete = useCallback(
+    (metrics: BrainMetrics) => {
+      if (!training || !variant || !isBrainModule) return;
+
+      const completedAt = Date.now();
+      const startedAt = brainStartedAtRef.current ?? completedAt;
+      const elapsedMs = Math.max(completedAt - startedAt, 0);
+      const actualMinutes = Math.max(1, Math.round(elapsedMs / 60000));
+      const durationSecActual = Math.max(Math.round(elapsedMs / 1000), actualMinutes * 60);
+      const pointsAwarded = computeBrainPoints(metrics.difficulty ?? puzzleDifficulty);
+
+      playFeedback('complete');
+
+      addCompletedSession({
+        id: `${moduleId ?? 'module'}-${trainingId ?? 'training'}-${completedAt}`,
+        startedAt,
+        completedAt,
+        moduleId: moduleId ?? 'brain',
+        trainingId: trainingId ?? 'unknown',
+        trainingTitle: training.title,
+        intensity: variant.intensity,
+        durationMinPlanned: variant.durationMin,
+        durationSecActual,
+        activeMinutes: actualMinutes,
+        paceCue: variant.paceCue,
+        completed: true,
+        brain: { ...metrics },
+        pointsAwarded,
+        pointsModelVersion: 'v1',
+      });
+
+      setIsActive(false);
+
+      navigate('/completion?return=/trainieren', {
+        state: {
+          moduleId,
+          trainingId,
+          trainingTitle: training.title,
+          durationSec: durationSecActual,
+          activeMinutes: actualMinutes,
+          pointsAwarded,
+          pointsModelVersion: 'v1',
+          returnPath: '/trainieren',
+          completed: true,
+        },
+      });
+    },
+    [training, variant, isBrainModule, puzzleDifficulty, moduleId, trainingId, navigate],
+  );
+
+  if (isLoading) {
+    return <p className="trainieren-status">{t('trainieren.detail.loading')}</p>;
+  }
+
+  if (error || !moduleDef || !training || !variant) {
+    return <p className="trainieren-status">{t('trainieren.detail.notFound')}</p>;
+  }
 
   const goToOverview = () => {
     if (moduleDef) {
@@ -514,8 +582,8 @@ export const TrainingDetail: React.FC = () => {
             <BrainExerciseSlot
               training={training}
               difficulty={puzzleDifficulty}
-              isActive={isBrainActive}
-              onComplete={() => {}}
+              mode={isBrainActive ? 'active' : 'preview'}
+              onComplete={handleBrainComplete}
             />
           </div>
           {!isBrainActive && (
@@ -524,12 +592,10 @@ export const TrainingDetail: React.FC = () => {
                 fullWidth
                 className="training-detail__start-button"
                 onClick={handleStart}
-                disabled={isBrainActive}
               >
                 <Icon name="play_circle" filled size={28} />
                 {t('trainieren.detail.startCta')}
               </Button>
-              <p className="training-detail__safety">{t('trainieren.detail.safety')}</p>
             </div>
           )}
         </div>

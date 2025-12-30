@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../../../shared/ui/Button';
-
-type BrainDifficulty = 'light' | 'medium' | 'hard';
+import { useI18n } from '../../../shared/lib/i18n';
+import type { BrainDifficulty, BrainMetrics } from '../components/BrainExerciseSlot';
 
 type PatternSet = {
   sequence: string[];
@@ -12,7 +12,8 @@ type PatternSet = {
 
 type PatternsPuzzleProps = {
   difficulty: BrainDifficulty;
-  onComplete: () => void;
+  disabled?: boolean;
+  onComplete: (metrics: BrainMetrics) => void;
 };
 
 const patternSets: Record<BrainDifficulty, PatternSet[]> = {
@@ -33,10 +34,13 @@ const patternSets: Record<BrainDifficulty, PatternSet[]> = {
   ],
 };
 
-export const PatternsPuzzle: React.FC<PatternsPuzzleProps> = ({ difficulty, onComplete }) => {
+export const PatternsPuzzle: React.FC<PatternsPuzzleProps> = ({ difficulty, disabled = false, onComplete }) => {
+  const { t } = useI18n();
   const [status, setStatus] = useState<'playing' | 'completed'>('playing');
-  const [feedback, setFeedback] = useState('Choose the item that completes the pattern.');
+  const [feedback, setFeedback] = useState('');
   const [currentSet, setCurrentSet] = useState<PatternSet>(() => patternSets[difficulty][0]);
+  const [attempts, setAttempts] = useState(0);
+  const [errors, setErrors] = useState(0);
   const completionFiredRef = useRef(false);
 
   const puzzleSet = useMemo(() => {
@@ -47,33 +51,37 @@ export const PatternsPuzzle: React.FC<PatternsPuzzleProps> = ({ difficulty, onCo
 
   useEffect(() => {
     setStatus('playing');
-    setFeedback('Choose the item that completes the pattern.');
+    setFeedback(t('brain.ui.promptPattern'));
+    setAttempts(0);
+    setErrors(0);
     completionFiredRef.current = false;
     setCurrentSet(puzzleSet);
-  }, [puzzleSet]);
+  }, [puzzleSet, t]);
 
   const handleSelect = (index: number) => {
-    if (status === 'completed') return;
+    if (disabled || status === 'completed') return;
+    setAttempts((prev) => prev + 1);
     if (index === currentSet.answerIndex) {
       setStatus('completed');
-      setFeedback('Completed! Tap Finish to continue.');
+      setFeedback(t('brain.ui.completed'));
     } else {
-      setFeedback('Not quite, try again.');
+      setErrors((prev) => prev + 1);
+      setFeedback(t('brain.ui.tryAgain'));
     }
   };
 
   const handleFinish = () => {
-    if (completionFiredRef.current || status !== 'completed') return;
+    if (disabled || completionFiredRef.current || status !== 'completed') return;
     completionFiredRef.current = true;
-    onComplete();
+    onComplete({ brainType: 'patterns', difficulty, attempts, errors });
   };
 
   return (
     <div className="brain-slot">
       <div className="brain-slot__header">
-        <p className="brain-slot__title">Patterns</p>
+        <p className="brain-slot__title">{t('brain.type.patterns')}</p>
         <span className="brain-slot__status">
-          {status === 'completed' ? 'Completed' : 'Pattern completion'}
+          {status === 'completed' ? t('brain.ui.completed') : t('brain.ui.promptPattern')}
         </span>
       </div>
 
@@ -89,7 +97,7 @@ export const PatternsPuzzle: React.FC<PatternsPuzzleProps> = ({ difficulty, onCo
         ))}
       </div>
 
-      <p className="brain-slot__hint">{currentSet.hint}</p>
+      <p className="brain-slot__hint">{t('brain.ui.promptPattern')}</p>
 
       <div className="brain-grid brain-grid--answers" role="group" aria-label="Answer choices">
         {currentSet.options.map((option, index) => (
@@ -98,7 +106,7 @@ export const PatternsPuzzle: React.FC<PatternsPuzzleProps> = ({ difficulty, onCo
             type="button"
             className="brain-word"
             onClick={() => handleSelect(index)}
-            disabled={status === 'completed'}
+            disabled={disabled || status === 'completed'}
           >
             {option}
           </button>
@@ -110,7 +118,7 @@ export const PatternsPuzzle: React.FC<PatternsPuzzleProps> = ({ difficulty, onCo
       {status === 'completed' ? (
         <div className="brain-actions">
           <Button fullWidth onClick={handleFinish}>
-            Finish
+            {t('brain.ui.finish')}
           </Button>
         </div>
       ) : null}

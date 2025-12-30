@@ -505,12 +505,12 @@ body {
 }
 
 .home-tile--light {
-  color: var(--color-on-primary);
+  color: var(--color-text-primary);
 }
 
 .home-tile--light .home-tile__subtitle {
-  color: var(--color-on-primary);
-  opacity: 0.8;
+  color: var(--color-text-secondary);
+  opacity: 1;
 }
 
 .home-section-heading {

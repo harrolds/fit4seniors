@@ -131,6 +131,22 @@ export const BalanceWidget: React.FC = () => {
   );
 };
 
+export const BrainWidget: React.FC = () => {
+  const { t } = useI18n();
+  const { goTo } = useNavigation();
+
+  return (
+    <HomeTile
+      icon="psychology"
+      title={t('trainieren.brain.title')}
+      subtitle={t('brain.home.subtitle')}
+      backgroundVar={categoryCssVar('brain')}
+      tone="light"
+      onClick={() => goTo('/trainieren/brain')}
+    />
+  );
+};
+
 export const RecentTrainingWidget: React.FC = () => {
   const { t } = useI18n();
   const { goTo } = useNavigation();

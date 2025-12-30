@@ -21,16 +21,37 @@ const patternSets: Record<BrainDifficulty, PatternSet[]> = {
     { sequence: ['▲', '●', '▲', '?'], options: ['●', '■', '★'], answerIndex: 0, hint: 'Shapes alternate.' },
     { sequence: ['●', '★', '●', '★', '?'], options: ['●', '▲', '■'], answerIndex: 0, hint: 'Repeats two symbols.' },
     { sequence: ['■', '■', '▲', '■', '■', '?'], options: ['▲', '■', '●'], answerIndex: 0, hint: 'Two squares then a triangle.' },
+    { sequence: ['★', '★', '●', '★', '★', '?'], options: ['●', '★', '■'], answerIndex: 0, hint: 'Two stars then a circle.' },
+    {
+      sequence: ['▲', '▲', '●', '▲', '▲', '●', '?'],
+      options: ['▲', '●', '■'],
+      answerIndex: 0,
+      hint: 'Pairs of triangles followed by a circle.',
+    },
   ],
   medium: [
     { sequence: ['▲', '■', '▲', '■', '?'], options: ['▲', '■', '★'], answerIndex: 0, hint: 'ABAB pattern continues.' },
     { sequence: ['★', '▲', '★', '▲', '★', '?'], options: ['▲', '★', '■'], answerIndex: 0, hint: 'Alternating shapes.' },
     { sequence: ['●', '■', '★', '●', '■', '?'], options: ['★', '●', '■'], answerIndex: 0, hint: 'ABC then A B ...' },
+    { sequence: ['■', '●', '●', '■', '●', '●', '?'], options: ['■', '●', '★'], answerIndex: 0, hint: 'One square, two circles repeat.' },
+    { sequence: ['▲', '★', '★', '▲', '★', '★', '?'], options: ['▲', '★', '■'], answerIndex: 0, hint: 'Triangle then two stars repeat.' },
   ],
   hard: [
     { sequence: ['▲', '▲', '■', '▲', '▲', '■', '?'], options: ['▲', '■', '★'], answerIndex: 0, hint: 'Two triangles then a square.' },
     { sequence: ['●', '■', '●', '●', '■', '●', '?'], options: ['●', '■', '▲'], answerIndex: 0, hint: 'Repeating trio: circle, square, circle.' },
     { sequence: ['★', '▲', '▲', '★', '▲', '▲', '?'], options: ['★', '▲', '■'], answerIndex: 0, hint: 'Star then two triangles.' },
+    {
+      sequence: ['▲1', '▲2', '▲3', '●1', '●2', '?'],
+      options: ['●3', '■1', '▲1'],
+      answerIndex: 0,
+      hint: 'Numbers climb; shape switches after three.',
+    },
+    {
+      sequence: ['■↗', '■↘', '●↗', '●↘', '■↗', '?'],
+      options: ['■↘', '●↗', '●↘'],
+      answerIndex: 0,
+      hint: 'Shape holds for two steps while arrows flip.',
+    },
   ],
 };
 

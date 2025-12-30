@@ -73,6 +73,8 @@ export const TrainingInfoPanelContent: React.FC<TrainingInfoPanelProps> = ({
         trainingWithMedia?.media?.videoUrl ??
         trainingWithMedia?.media?.aspect,
     );
+  const hasLongDesc = Boolean(training?.longDesc);
+  const showHowSection = !training?.brainType;
 
   if (isLoading) {
     return <p>{t('trainingInfo.panel.loading')}</p>;
@@ -121,32 +123,40 @@ export const TrainingInfoPanelContent: React.FC<TrainingInfoPanelProps> = ({
             </div>
           </CardHeader>
           <CardBody>
-            <p className="training-info-text training-info-text--normal">{moduleDef.description}</p>
-            <Divider />
-            <div className="training-info-card__body-stack">
-              <span className="training-info-text training-info-text--semibold training-info-text--primary">
-                {training.shortDesc}
-              </span>
-            </div>
+            <p className="training-info-text training-info-text--normal">
+              {hasLongDesc ? training.longDesc : moduleDef.description}
+            </p>
+            {hasLongDesc ? null : (
+              <>
+                <Divider />
+                <div className="training-info-card__body-stack">
+                  <span className="training-info-text training-info-text--semibold training-info-text--primary">
+                    {training.shortDesc}
+                  </span>
+                </div>
+              </>
+            )}
           </CardBody>
         </Card>
 
-        <Card className="training-info-card">
-          <CardHeader>
-            <Icon name="directions_walk" size={22} />
-            <p className="training-info-text training-info-text--semibold">
-              {t('trainingInfo.panel.section.how')}
-            </p>
-          </CardHeader>
-          <CardBody>
-            <p className="training-info-text training-info-text--muted">{training.shortDesc}</p>
-            {variant ? (
-              <p className="training-info-text training-info-text--primary training-info-text--medium">
-                {variant.paceCue}
+        {showHowSection ? (
+          <Card className="training-info-card">
+            <CardHeader>
+              <Icon name="directions_walk" size={22} />
+              <p className="training-info-text training-info-text--semibold">
+                {t('trainingInfo.panel.section.how')}
               </p>
-            ) : null}
-          </CardBody>
-        </Card>
+            </CardHeader>
+            <CardBody>
+              <p className="training-info-text training-info-text--muted">{training.shortDesc}</p>
+              {variant ? (
+                <p className="training-info-text training-info-text--primary training-info-text--medium">
+                  {variant.paceCue}
+                </p>
+              ) : null}
+            </CardBody>
+          </Card>
+        ) : null}
 
         {variant && resolvedIntensity ? (
           <Card className="training-info-card">

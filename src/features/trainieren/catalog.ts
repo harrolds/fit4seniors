@@ -25,9 +25,13 @@ type SeedTraining = {
   title_en: string;
   shortDesc_de: string;
   shortDesc_en: string;
+  longDesc_de?: string;
+  longDesc_en?: string;
   intensityScale: number;
   variants: Record<TrainingIntensity, SeedVariant>;
   brainType?: BrainType;
+  shortHint_de?: string;
+  shortHint_en?: string;
 };
 
 type SeedModule = {
@@ -54,6 +58,8 @@ export interface TrainingItem {
   moduleId: string;
   title: string;
   shortDesc: string;
+  longDesc?: string;
+  shortHint?: string;
   intensityScale: number;
   variants: Record<TrainingIntensity, TrainingVariant>;
   brainType?: BrainType;
@@ -168,6 +174,8 @@ const buildCatalog = (locale: Locale): TrainingCatalog => {
       moduleId: training.moduleId,
       title: pickLocale(locale, training, 'title'),
       shortDesc: pickLocale(locale, training, 'shortDesc'),
+      longDesc: pickLocale(locale, training, 'longDesc'),
+      shortHint: pickLocale(locale, training, 'shortHint'),
       intensityScale: training.intensityScale,
       variants: localizedVariants as Record<TrainingIntensity, TrainingVariant>,
       brainType: training.brainType,

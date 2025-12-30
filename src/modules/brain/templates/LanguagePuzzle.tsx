@@ -21,18 +21,21 @@ const languageSets: Record<BrainDifficulty, WordSet[]> = {
     { prompt: 'Pick the word that does NOT belong', words: ['red', 'blue', 'green', 'table'], oddIndex: 3 },
     { prompt: 'Pick the word that does NOT belong', words: ['cat', 'dog', 'bird', 'chair'], oddIndex: 3 },
     { prompt: 'Pick the word that does NOT belong', words: ['water', 'tea', 'milk', 'rock'], oddIndex: 3 },
+    { prompt: 'Pick the word that does NOT belong', words: ['spring', 'summer', 'autumn', 'spoon'], oddIndex: 3 },
   ],
   medium: [
     { prompt: 'Pick the word that does NOT belong', words: ['bus', 'train', 'bicycle', 'sofa'], oddIndex: 3 },
     { prompt: 'Pick the word that does NOT belong', words: ['scarf', 'gloves', 'jacket', 'spoon'], oddIndex: 3 },
     { prompt: 'Pick the word that does NOT belong', words: ['piano', 'violin', 'drums', 'garden'], oddIndex: 3 },
     { prompt: 'Pick the word that does NOT belong', words: ['toast', 'cereal', 'yogurt', 'pillow'], oddIndex: 3 },
+    { prompt: 'Pick the word that does NOT belong', words: ['silver', 'gold', 'bronze', 'window'], oddIndex: 3 },
   ],
   hard: [
     { prompt: 'Pick the word that does NOT belong', words: ['tiny', 'minute', 'huge', 'little'], oddIndex: 2 },
     { prompt: 'Pick the word that does NOT belong', words: ['ponder', 'consider', 'imagine', 'sprint'], oddIndex: 3 },
     { prompt: 'Pick the word that does NOT belong', words: ['novel', 'poem', 'essay', 'banana'], oddIndex: 3 },
     { prompt: 'Pick the word that does NOT belong', words: ['rapid', 'swift', 'slow', 'brisk'], oddIndex: 2 },
+    { prompt: 'Pick the word that does NOT belong', words: ['ancient', 'old', 'modern', 'aged'], oddIndex: 2 },
   ],
 };
 

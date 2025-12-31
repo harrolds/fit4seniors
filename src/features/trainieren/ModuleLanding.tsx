@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { useI18n } from '../../shared/lib/i18n';
 import { Icon } from '../../shared/ui/Icon';
 import { Badge } from '../../shared/ui/Badge';
 import { Button } from '../../shared/ui/Button';
 import { List } from '../../shared/ui/List';
+import { getValue, setValue } from '../../shared/lib/storage';
 import {
   useTrainingCatalog,
   findModule,
@@ -21,6 +22,30 @@ import { useProfileMotorState, getRecommendationsForTrainingList } from '../../a
 import { loadCompletedSessions } from '../../modules/progress/progressStorage';
 import './trainieren.css';
 
+const BRAIN_FILTERS_KEY = 'trainieren:brainFilters:v1';
+
+type StoredBrainFilters = {
+  intensities: TrainingIntensity[];
+  brainTypes: BrainType[];
+};
+
+const allIntensities: TrainingIntensity[] = ['light', 'medium', 'heavy'];
+const allDurations: DurationBucket[] = ['short', 'medium', 'long'];
+
+const validateIntensities = (values?: TrainingIntensity[]): TrainingIntensity[] => {
+  const filtered = Array.isArray(values)
+    ? values.filter((value): value is TrainingIntensity => allIntensities.includes(value as TrainingIntensity))
+    : [];
+  return filtered.length ? Array.from(new Set(filtered)) : allIntensities;
+};
+
+const validateBrainTypes = (values?: BrainType[]): BrainType[] => {
+  const filtered = Array.isArray(values)
+    ? values.filter((value): value is BrainType => brainTypesAll.includes(value as BrainType))
+    : [];
+  return filtered.length ? Array.from(new Set(filtered)) : brainTypesAll;
+};
+
 const introKeyByModule: Record<string, string> = {
   cardio: 'trainieren.categories.cardio.intro',
   muskel: 'trainieren.categories.strength.intro',
@@ -33,15 +58,17 @@ type ModuleLandingProps = {
 
 export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }) => {
   const { moduleId: moduleIdFromRoute } = useParams<{ moduleId: string }>();
+  const { pathname } = useLocation();
   const moduleId = moduleIdOverride ?? moduleIdFromRoute;
   const { goBack, goTo } = useNavigation();
   const { t } = useI18n();
   const { openBottomSheet, closePanel } = usePanels();
   const { data, isLoading, error } = useTrainingCatalog();
 
-  const [activeIntensities, setActiveIntensities] = useState<TrainingIntensity[]>(['light', 'medium', 'heavy']);
-  const [activeDurations, setActiveDurations] = useState<DurationBucket[]>(['short', 'medium', 'long']);
+  const [activeIntensities, setActiveIntensities] = useState<TrainingIntensity[]>(allIntensities);
+  const [activeDurations, setActiveDurations] = useState<DurationBucket[]>(allDurations);
   const [activeBrainTypes, setActiveBrainTypes] = useState<BrainType[]>(brainTypesAll);
+  const [brainFiltersHydrated, setBrainFiltersHydrated] = useState(false);
 
   const moduleDef = findModule(data, moduleId);
   const variantItems = listVariantItemsForModule(data, moduleId);
@@ -66,11 +93,43 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
     return intensityFiltered.filter((item) => activeDurations.includes(item.durationBucket));
   }, [activeDurations, activeBrainTypes, activeIntensities, isBrainModule, recommendation.items]);
 
+  const applyStoredBrainFilters = useCallback(() => {
+    const stored = getValue<StoredBrainFilters | null>(BRAIN_FILTERS_KEY, null);
+    const nextIntensities = validateIntensities(stored?.intensities);
+    const nextBrainTypes = validateBrainTypes(stored?.brainTypes);
+    setActiveIntensities(nextIntensities);
+    setActiveBrainTypes(nextBrainTypes);
+    setBrainFiltersHydrated(true);
+  }, []);
+
   useEffect(() => {
-    setActiveIntensities(['light', 'medium', 'heavy']);
-    setActiveDurations(['short', 'medium', 'long']);
+    setActiveDurations(allDurations);
+
+    if (moduleId === 'brain') {
+      applyStoredBrainFilters();
+      return;
+    }
+
+    setActiveIntensities(allIntensities);
     setActiveBrainTypes(brainTypesAll);
-  }, [moduleId]);
+    setBrainFiltersHydrated(false);
+  }, [applyStoredBrainFilters, moduleId]);
+
+  useEffect(() => {
+    if (!isBrainModule) return;
+    if (pathname === '/trainieren/brain') {
+      applyStoredBrainFilters();
+    }
+  }, [applyStoredBrainFilters, isBrainModule, pathname]);
+
+  useEffect(() => {
+    if (!isBrainModule || !brainFiltersHydrated) return;
+    const payload: StoredBrainFilters = {
+      intensities: validateIntensities(activeIntensities),
+      brainTypes: validateBrainTypes(activeBrainTypes),
+    };
+    setValue<StoredBrainFilters>(BRAIN_FILTERS_KEY, payload);
+  }, [activeIntensities, activeBrainTypes, brainFiltersHydrated, isBrainModule]);
 
   if (isLoading) {
     return <p className="trainieren-status">{t('trainieren.module.loading')}</p>;
@@ -111,9 +170,15 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
   };
 
   const resetFilters = () => {
-    setActiveIntensities(['light', 'medium', 'heavy']);
-    setActiveDurations(['short', 'medium', 'long']);
+    setActiveIntensities(allIntensities);
+    setActiveDurations(allDurations);
     setActiveBrainTypes(brainTypesAll);
+    if (isBrainModule) {
+      setValue<StoredBrainFilters>(BRAIN_FILTERS_KEY, {
+        intensities: allIntensities,
+        brainTypes: brainTypesAll,
+      });
+    }
   };
 
   const openFilterSheet = () => {

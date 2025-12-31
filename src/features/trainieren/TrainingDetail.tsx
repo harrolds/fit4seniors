@@ -87,6 +87,7 @@ export const TrainingDetail: React.FC = () => {
   const isBrainModule = moduleId === 'brain';
   const isPhysicalModule =
     moduleId === 'cardio' || moduleId === 'muskel' || moduleId === 'balance_flex';
+  const completionReturnPath = isBrainModule ? '/trainieren/brain' : '/trainieren';
   const physicalIntroKey = useMemo(() => {
     if (!isPhysicalModule) return null;
     switch (moduleId) {
@@ -211,7 +212,7 @@ export const TrainingDetail: React.FC = () => {
     }
 
     closePanel();
-    navigate('/completion?return=/trainieren', {
+    navigate(`/completion?return=${completionReturnPath}`, {
       state: {
         moduleId,
         trainingId,
@@ -220,8 +221,14 @@ export const TrainingDetail: React.FC = () => {
         activeMinutes,
         pointsAwarded,
         pointsModelVersion: 'v1',
-        returnPath: '/trainieren',
+        returnPath: completionReturnPath,
         completed: true,
+        intensity: variant?.intensity,
+        ...(isBrainModule
+          ? {
+              brainType: training?.brainType,
+            }
+          : {}),
       },
     });
   }, [
@@ -236,6 +243,7 @@ export const TrainingDetail: React.FC = () => {
     moduleId,
     variant,
     plannedDuration,
+    completionReturnPath,
   ]);
 
   useEffect(() => {
@@ -455,7 +463,7 @@ export const TrainingDetail: React.FC = () => {
 
       setIsActive(false);
 
-      navigate('/completion?return=/trainieren', {
+      navigate(`/completion?return=${completionReturnPath}`, {
         state: {
           moduleId,
           trainingId,
@@ -464,12 +472,14 @@ export const TrainingDetail: React.FC = () => {
           activeMinutes: actualMinutes,
           pointsAwarded,
           pointsModelVersion: 'v1',
-          returnPath: '/trainieren',
+          returnPath: completionReturnPath,
           completed: true,
+          intensity: variant.intensity,
+        brainType: training.brainType,
         },
       });
     },
-    [training, variant, isBrainModule, puzzleDifficulty, moduleId, trainingId, navigate],
+    [training, variant, isBrainModule, puzzleDifficulty, moduleId, trainingId, navigate, completionReturnPath],
   );
 
   if (isLoading) {

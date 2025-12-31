@@ -18,21 +18,47 @@ import {
   listVariantItemsForModule,
   useTrainingCatalog,
   type TrainingIntensity,
+  type BrainType,
+  brainTypesAll,
 } from '../../features/trainieren/catalog';
 import { loadCompletedSessions } from '../progress/progressStorage';
 import './completion.screen.css';
 
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
+const BRAIN_FILTERS_KEY = 'trainieren:brainFilters:v1';
 const COMPLETION_MESSAGE_COUNT = 10;
+
+type StoredBrainFilters = {
+  intensities: TrainingIntensity[];
+  brainTypes: BrainType[];
+};
+
+const allBrainIntensities: TrainingIntensity[] = ['light', 'medium', 'heavy'];
+
+const validateBrainIntensities = (values?: TrainingIntensity[]): TrainingIntensity[] => {
+  const filtered = Array.isArray(values)
+    ? values.filter((value): value is TrainingIntensity => allBrainIntensities.includes(value as TrainingIntensity))
+    : [];
+  return filtered.length ? Array.from(new Set(filtered)) : allBrainIntensities;
+};
+
+const validateBrainTypes = (values?: BrainType[]): BrainType[] => {
+  const filtered = Array.isArray(values)
+    ? values.filter((value): value is BrainType => brainTypesAll.includes(value as BrainType))
+    : [];
+  return filtered.length ? Array.from(new Set(filtered)) : brainTypesAll;
+};
 
 type CompletionPayload = {
   moduleId?: string;
+  trainingId?: string;
   unitTitle?: string;
   durationSec?: number;
   activeMinutes?: number;
   pointsAwarded?: number;
   pointsModelVersion?: 'v1';
   intensity?: TrainingIntensity;
+  brainType?: BrainType;
   finishedAt?: number;
   summary?: { kind: 'found_word'; value?: string; success?: boolean };
   completed?: boolean;
@@ -62,6 +88,24 @@ export const CompletionScreen: React.FC = () => {
   const completionMessage = t(messageKey);
   const payload = (location.state as CompletionPayload | undefined) ?? {};
   const isBrain = payload.moduleId === 'brain';
+  const brainFilters = useMemo(() => {
+    if (!isBrain) {
+      return { intensities: allBrainIntensities, brainTypes: brainTypesAll };
+    }
+    const stored = getValue<StoredBrainFilters | null>(BRAIN_FILTERS_KEY, null);
+    return {
+      intensities: validateBrainIntensities(stored?.intensities),
+      brainTypes: validateBrainTypes(stored?.brainTypes),
+    };
+  }, [isBrain]);
+  const allowedBrainIntensities = useMemo(
+    () => (payload.intensity ? [payload.intensity] : brainFilters.intensities),
+    [payload.intensity, brainFilters.intensities],
+  );
+  const allowedBrainTypes = useMemo(
+    () => (payload.brainType ? [payload.brainType] : brainFilters.brainTypes),
+    [payload.brainType, brainFilters.brainTypes],
+  );
 
   const sessionMinutes = useMemo(() => {
     if (Number.isFinite(payload.activeMinutes ?? NaN)) {
@@ -139,13 +183,41 @@ export const CompletionScreen: React.FC = () => {
     () => getRecommendationsForTrainingList(variantItems, profile, history),
     [variantItems, profile, history],
   );
+  const brainItems = useMemo(() => listVariantItemsForModule(catalog, 'brain'), [catalog]);
+  const brainRecommendation = useMemo(
+    () => getRecommendationsForTrainingList(brainItems, profile, history),
+    [brainItems, profile, history],
+  );
   const nextModule = findModule(catalog, nextModuleId);
   const recommendedVariant =
     recommendation.items.find((item) => recommendation.recommendedIds.has(item.id)) ?? recommendation.items[0];
+  const brainCandidates = useMemo(
+    () =>
+      isBrain
+        ? brainItems.filter(
+            (item) =>
+              allowedBrainIntensities.includes(item.intensity) &&
+              item.brainType &&
+              allowedBrainTypes.includes(item.brainType) &&
+              item.trainingId !== payload.trainingId,
+          )
+        : [],
+    [allowedBrainIntensities, allowedBrainTypes, brainItems, isBrain, payload.trainingId],
+  );
+  const brainNextVariant = useMemo(() => {
+    if (!isBrain) return null;
+    const recommended = brainCandidates.find((item) => brainRecommendation.recommendedIds.has(item.id));
+    return recommended ?? brainCandidates[0] ?? null;
+  }, [brainCandidates, brainRecommendation.recommendedIds, isBrain]);
+  const nextVariant = isBrain ? brainNextVariant ?? recommendedVariant : recommendedVariant;
 
-  const nextRoute = recommendedVariant
-    ? `/trainieren/${recommendedVariant.moduleId}/${recommendedVariant.trainingId}/${recommendedVariant.intensity}`
-    : '/trainieren';
+  const nextRoute = isBrain
+    ? brainNextVariant
+      ? `/trainieren/${brainNextVariant.moduleId}/${brainNextVariant.trainingId}/${brainNextVariant.intensity}`
+      : '/trainieren/brain'
+    : recommendedVariant
+      ? `/trainieren/${recommendedVariant.moduleId}/${recommendedVariant.trainingId}/${recommendedVariant.intensity}`
+      : '/trainieren';
 
   const formatDuration = (value?: number): string => {
     if (!value || Number.isNaN(value)) return '00:00';
@@ -224,7 +296,7 @@ export const CompletionScreen: React.FC = () => {
           <div className="c-next__text">
             <p className="c-next__eyebrow">{t('profileMotor.nextUp')}</p>
             <p className="c-next__title">
-              {recommendedVariant?.title ?? nextModule?.title ?? t('trainierenHub.title')}
+              {nextVariant?.title ?? nextModule?.title ?? t('trainierenHub.title')}
             </p>
           </div>
           <Button variant="primary" fullWidth className="c-next__cta" onClick={handleNext}>

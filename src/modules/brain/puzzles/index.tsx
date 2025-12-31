@@ -40,6 +40,7 @@ export const MemoryGridPuzzle: React.FC<BasePuzzleProps<MemoryGridDataset>> = ({
   const [sequence, setSequence] = useState<number[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [inputIndex, setInputIndex] = useState(0);
+  const [selected, setSelected] = useState<number[]>([]);
   const [feedback, setFeedback] = useState<string>(dataset.titleHint_en ?? '');
   const [attempts, setAttempts] = useState(0);
   const [errors, setErrors] = useState(0);
@@ -111,6 +112,7 @@ export const MemoryGridPuzzle: React.FC<BasePuzzleProps<MemoryGridDataset>> = ({
     completedRef.current = false;
     setGridItems(items);
     setSequence(seq);
+    setSelected([]);
     setAttempts(0);
     setErrors(0);
     playSequence(seq);
@@ -123,6 +125,7 @@ export const MemoryGridPuzzle: React.FC<BasePuzzleProps<MemoryGridDataset>> = ({
       clearTimers();
       setGridItems(dataset.items.slice(0, 9));
       setSequence([]);
+      setSelected([]);
       setPhase('preview');
       setFeedback(t('brain.ui.tapStart'));
     }
@@ -145,6 +148,7 @@ export const MemoryGridPuzzle: React.FC<BasePuzzleProps<MemoryGridDataset>> = ({
     if (expected === undefined) return;
 
     setAttempts((prev) => prev + 1);
+    setSelected((prev) => (prev.includes(index) ? prev : [...prev, index]));
 
     if (index === expected) {
       const nextIndex = inputIndex + 1;
@@ -157,8 +161,13 @@ export const MemoryGridPuzzle: React.FC<BasePuzzleProps<MemoryGridDataset>> = ({
     } else {
       setErrors((prev) => prev + 1);
       setFeedback(t('brain.ui.tryAgain'));
-      setInputIndex(0);
-      playSequence(sequence);
+      setPhase('show');
+      setActiveIndex(null);
+      window.setTimeout(() => {
+        setSelected([]);
+        setInputIndex(0);
+        playSequence(sequence);
+      }, 450);
     }
   };
 
@@ -176,8 +185,16 @@ export const MemoryGridPuzzle: React.FC<BasePuzzleProps<MemoryGridDataset>> = ({
       <div className="brain-grid brain-grid--memory" aria-label="Memory grid">
         {gridItems.map((item, idx) => {
           const isActive = activeIndex === idx && phase === 'show';
-          const showDot = phase === 'recall' || phase === 'preview';
+          const isSelected = selected.includes(idx);
           const label = getLocaleLabel(locale, item.label_de, item.label_en);
+          const content =
+            phase === 'recall'
+              ? isSelected
+                ? label
+                : '•'
+              : phase === 'preview'
+                ? '•'
+                : label;
           return (
             <button
               key={item.id + idx}
@@ -186,7 +203,7 @@ export const MemoryGridPuzzle: React.FC<BasePuzzleProps<MemoryGridDataset>> = ({
               onClick={() => handleCellClick(idx)}
               disabled={phase === 'show' || phase === 'done' || mode === 'preview'}
             >
-              {isActive ? label : showDot ? '•' : label}
+              {isActive ? label : content}
             </button>
           );
         })}
@@ -385,6 +402,7 @@ export const LanguageOddWordPuzzle: React.FC<BasePuzzleProps<LanguageOddWordData
   const completedRef = useRef(false);
 
   const currentSet = useMemo(() => dataset.sets[setIndex] ?? dataset.sets[0], [dataset.sets, setIndex]);
+  const options = locale === 'de' ? currentSet?.options_de : currentSet?.options_en;
 
   useEffect(() => {
     const next = chooseRandom(dataset.sets);
@@ -432,7 +450,7 @@ export const LanguageOddWordPuzzle: React.FC<BasePuzzleProps<LanguageOddWordData
       </p>
 
       <div className="brain-grid brain-grid--words" role="group" aria-label="Odd word choices">
-        {currentSet?.options.map((option, idx) => (
+        {(options ?? []).map((option, idx) => (
           <button
             key={`${option}-${idx}`}
             type="button"
@@ -464,6 +482,7 @@ export const LanguageCategoryPickPuzzle: React.FC<BasePuzzleProps<LanguageCatego
   const completedRef = useRef(false);
 
   const currentSet = useMemo(() => dataset.sets[setIndex] ?? dataset.sets[0], [dataset.sets, setIndex]);
+  const options = locale === 'de' ? currentSet?.options_de : currentSet?.options_en;
 
   useEffect(() => {
     const next = chooseRandom(dataset.sets);
@@ -507,7 +526,7 @@ export const LanguageCategoryPickPuzzle: React.FC<BasePuzzleProps<LanguageCatego
       <p className="brain-slot__prompt">{prompt}</p>
 
       <div className="brain-grid brain-grid--words" role="group" aria-label="Category options">
-        {currentSet?.options.map((option, idx) => (
+        {(options ?? []).map((option, idx) => (
           <button
             key={`${option}-${idx}`}
             type="button"

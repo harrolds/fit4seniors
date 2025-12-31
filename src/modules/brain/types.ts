@@ -44,7 +44,8 @@ export type MemoryPairsDataset = {
 export type LanguageOddWordSet = {
   category_de: string;
   category_en: string;
-  options: string[];
+  options_de: string[];
+  options_en: string[];
   answerIndex: number;
 };
 
@@ -57,7 +58,8 @@ export type LanguageOddWordDataset = {
 export type LanguageCategoryPickSet = {
   prompt_de: string;
   prompt_en: string;
-  options: string[];
+  options_de: string[];
+  options_en: string[];
   answerIndex: number;
 };
 

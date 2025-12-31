@@ -78,7 +78,14 @@ export const LanguagePuzzle: React.FC<LanguagePuzzleProps> = ({ difficulty, disa
   const handleFinish = () => {
     if (disabled || completionFiredRef.current || status !== 'completed') return;
     completionFiredRef.current = true;
-    onComplete({ brainType: 'language', difficulty, attempts, errors });
+    onComplete({
+      brainType: 'language',
+      puzzleType: 'language-oddword',
+      datasetKey: 'legacy',
+      difficulty,
+      attempts,
+      errors,
+    });
   };
 
   return (

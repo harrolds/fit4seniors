@@ -59,6 +59,10 @@
   width: 100%;
 }
 
+.brain-grid--memory {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .brain-grid--words,
 .brain-grid--answers {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -102,6 +106,34 @@
   text-align: center;
 }
 
+.brain-card-grid {
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.brain-card {
+  min-height: 72px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  place-items: center;
+  padding: var(--spacing-sm);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+}
+
+.brain-card--matched {
+  background: color-mix(in srgb, var(--color-accent) 16%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-border));
+}
+
+.brain-card__face {
+  width: 100%;
+  text-align: center;
+}
+
 .brain-pattern {
   width: 100%;
   display: flex;
@@ -125,6 +157,50 @@
 }
 
 .brain-pattern__item--missing {
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+.brain-token {
+  min-width: 48px;
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border-strong);
+  font-size: 1.4rem;
+  font-weight: var(--font-weight-bold);
+  padding: 6px;
+}
+
+.brain-token--missing {
+  border-style: dashed;
+  color: var(--color-text-muted);
+}
+
+.brain-token-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brain-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.brain-matrix__cell {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  min-height: 64px;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
+}
+
+.brain-matrix__cell--missing {
   border-style: dashed;
   color: var(--color-text-muted);
 }

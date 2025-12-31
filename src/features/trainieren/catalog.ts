@@ -4,6 +4,7 @@ import { useResource } from '../../shared/lib/data';
 import type { ModuleCardTone } from '../../shared/ui/ModuleCard';
 import { categoryCssVar, categoryTone, normalizeCategoryId, type CategoryId } from '../../config/categoryColors';
 import seedCatalog from '../../seed/fit4seniors.catalog.seed.v1.json';
+import type { BrainTrainingConfig } from '../../modules/brain/types';
 
 export type TrainingIntensity = 'light' | 'medium' | 'heavy';
 export type DurationBucket = 'short' | 'medium' | 'long';
@@ -30,6 +31,7 @@ type SeedTraining = {
   intensityScale: number;
   variants: Record<TrainingIntensity, SeedVariant>;
   brainType?: BrainType;
+  brainConfig?: BrainTrainingConfig;
   shortHint_de?: string;
   shortHint_en?: string;
 };
@@ -63,6 +65,7 @@ export interface TrainingItem {
   intensityScale: number;
   variants: Record<TrainingIntensity, TrainingVariant>;
   brainType?: BrainType;
+  brainConfig?: BrainTrainingConfig;
 }
 
 export interface TrainingModule {
@@ -91,6 +94,7 @@ export interface TrainingVariantItem {
   durationBucket: DurationBucket;
   paceCue: string;
   brainType?: BrainType;
+  brainConfig?: BrainTrainingConfig;
 }
 
 const moduleMeta: Record<string, { categoryId: CategoryId; icon: string }> = {
@@ -179,6 +183,7 @@ const buildCatalog = (locale: Locale): TrainingCatalog => {
       intensityScale: training.intensityScale,
       variants: localizedVariants as Record<TrainingIntensity, TrainingVariant>,
       brainType: training.brainType,
+      brainConfig: training.brainConfig,
     };
   });
 
@@ -259,6 +264,7 @@ export const listVariantItemsForModule = (
         durationBucket: resolveDurationBucket(variant!.durationMin),
         paceCue: variant!.paceCue,
         brainType: training.brainType,
+        brainConfig: training.brainConfig,
       })),
   );
 };

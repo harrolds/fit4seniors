@@ -94,7 +94,14 @@ export const PatternsPuzzle: React.FC<PatternsPuzzleProps> = ({ difficulty, disa
   const handleFinish = () => {
     if (disabled || completionFiredRef.current || status !== 'completed') return;
     completionFiredRef.current = true;
-    onComplete({ brainType: 'patterns', difficulty, attempts, errors });
+    onComplete({
+      brainType: 'patterns',
+      puzzleType: 'patterns-sequence',
+      datasetKey: 'legacy',
+      difficulty,
+      attempts,
+      errors,
+    });
   };
 
   return (

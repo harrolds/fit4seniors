@@ -134,7 +134,14 @@ export const MemoryPuzzle: React.FC<MemoryPuzzleProps> = ({ difficulty, disabled
   const handleFinish = () => {
     if (disabled || completionFiredRef.current) return;
     completionFiredRef.current = true;
-    onComplete({ brainType: 'memory', difficulty, attempts, errors });
+    onComplete({
+      brainType: 'memory',
+      puzzleType: 'memory-grid',
+      datasetKey: 'legacy',
+      difficulty,
+      attempts,
+      errors,
+    });
   };
 
   return (

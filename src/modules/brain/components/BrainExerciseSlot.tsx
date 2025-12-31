@@ -1,18 +1,28 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import type { TrainingItem } from '../../../features/trainieren/catalog';
-import { useI18n } from '../../../shared/lib/i18n';
-import { MemoryPuzzle } from '../templates/MemoryPuzzle';
-import { LanguagePuzzle } from '../templates/LanguagePuzzle';
-import { PatternsPuzzle } from '../templates/PatternsPuzzle';
+import {
+  LanguageCategoryPickPuzzle,
+  LanguageOddWordPuzzle,
+  MemoryGridPuzzle,
+  MemoryPairsPuzzle,
+  PatternsMatrixPuzzle,
+  PatternsSequencePuzzle,
+} from '../puzzles';
+import { getBrainDataset } from '../data/getBrainDataset';
+import {
+  puzzleTypeToCategory,
+  type BrainDataset,
+  type BrainDifficulty,
+  type BrainMetrics,
+  type LanguageCategoryPickDataset,
+  type LanguageOddWordDataset,
+  type MemoryGridDataset,
+  type MemoryPairsDataset,
+  type PatternsMatrixDataset,
+  type PatternsSequenceDataset,
+  type BrainPuzzleType,
+} from '../types';
 import '../brain.css';
-
-export type BrainDifficulty = 'light' | 'medium' | 'hard';
-export type BrainMetrics = {
-  brainType: 'memory' | 'language' | 'patterns';
-  difficulty: BrainDifficulty;
-  attempts?: number;
-  errors?: number;
-};
 
 type BrainExerciseSlotProps = {
   training: TrainingItem;
@@ -21,41 +31,113 @@ type BrainExerciseSlotProps = {
   onComplete: (metrics: BrainMetrics) => void;
 };
 
+export type { BrainDifficulty, BrainMetrics } from '../types';
+
 export const BrainExerciseSlot: React.FC<BrainExerciseSlotProps> = ({
   training,
   difficulty,
   mode,
   onComplete,
 }) => {
-  const { t } = useI18n();
   const isPreview = mode === 'preview';
+  const config = training?.brainConfig;
+  const dataset = useMemo<BrainDataset | null>(() => {
+    if (!config) return null;
+    return getBrainDataset(config.puzzleType, config.datasetKey);
+  }, [config]);
+
+  const baseMetrics = useMemo(() => {
+    if (!config) return null;
+    return {
+      brainType: puzzleTypeToCategory(config.puzzleType),
+      puzzleType: config.puzzleType,
+      datasetKey: config.datasetKey,
+    };
+  }, [config]);
 
   const handleComplete = useCallback(
-    (metrics: BrainMetrics) => {
-      onComplete({ ...metrics, difficulty });
+    (metrics?: Partial<BrainMetrics>) => {
+      if (!baseMetrics) return;
+      onComplete({ ...baseMetrics, ...metrics, difficulty });
     },
-    [difficulty, onComplete],
+    [baseMetrics, difficulty, onComplete],
   );
 
-  if (!training?.brainType) {
+  if (!config) {
     return (
       <div className="brain-slot brain-slot--inactive">
-        <p className="brain-slot__hint">{t('brain.ui.unsupported')}</p>
+        <p className="brain-slot__hint">Missing brain training configuration.</p>
       </div>
     );
   }
 
-  switch (training.brainType) {
-    case 'memory':
-      return <MemoryPuzzle difficulty={difficulty} disabled={isPreview} onComplete={handleComplete} />;
-    case 'language':
-      return <LanguagePuzzle difficulty={difficulty} disabled={isPreview} onComplete={handleComplete} />;
-    case 'patterns':
-      return <PatternsPuzzle difficulty={difficulty} disabled={isPreview} onComplete={handleComplete} />;
+  if (!dataset) {
+    return (
+      <div className="brain-slot brain-slot--inactive">
+        <p className="brain-slot__hint">Unsupported brain puzzle type.</p>
+      </div>
+    );
+  }
+
+  switch (config.puzzleType) {
+    case 'memory-grid':
+      return (
+        <MemoryGridPuzzle
+          dataset={dataset as MemoryGridDataset}
+          mode={mode}
+          difficulty={difficulty}
+          onComplete={(metrics) => handleComplete(metrics)}
+        />
+      );
+    case 'memory-pairs':
+      return (
+        <MemoryPairsPuzzle
+          dataset={dataset as MemoryPairsDataset}
+          mode={mode}
+          difficulty={difficulty}
+          onComplete={(metrics) => handleComplete(metrics)}
+        />
+      );
+    case 'language-oddword':
+      return (
+        <LanguageOddWordPuzzle
+          dataset={dataset as LanguageOddWordDataset}
+          mode={mode}
+          difficulty={difficulty}
+          onComplete={(metrics) => handleComplete(metrics)}
+        />
+      );
+    case 'language-categorypick':
+      return (
+        <LanguageCategoryPickPuzzle
+          dataset={dataset as LanguageCategoryPickDataset}
+          mode={mode}
+          difficulty={difficulty}
+          onComplete={(metrics) => handleComplete(metrics)}
+        />
+      );
+    case 'patterns-sequence':
+      return (
+        <PatternsSequencePuzzle
+          dataset={dataset as PatternsSequenceDataset}
+          mode={mode}
+          difficulty={difficulty}
+          onComplete={(metrics) => handleComplete(metrics)}
+        />
+      );
+    case 'patterns-matrix':
+      return (
+        <PatternsMatrixPuzzle
+          dataset={dataset as PatternsMatrixDataset}
+          mode={mode}
+          difficulty={difficulty}
+          onComplete={(metrics) => handleComplete(metrics)}
+        />
+      );
     default:
       return (
         <div className="brain-slot brain-slot--inactive">
-          <p className="brain-slot__hint">{t('brain.ui.unsupported')}</p>
+          <p className="brain-slot__hint">Unsupported brain puzzle type.</p>
         </div>
       );
   }

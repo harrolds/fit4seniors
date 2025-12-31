@@ -8,6 +8,7 @@ import { RemindersModule } from '../modules/reminders';
 import { ProfileModule } from '../modules/profile';
 import { SettingsModule } from '../modules/settings';
 import { MoreModule } from '../modules/more';
+import { AccountModule } from '../modules/account';
 import {
   BalanceWidget,
   CardioWidget,
@@ -138,6 +139,15 @@ export const moduleRegistry: ModuleDefinition[] = [
     hasHomeWidget: false,
     hasSettings: false,
     component: ProfileModule,
+  },
+  {
+    id: 'account',
+    labelKey: 'account.title',
+    routeBase: '/account/*',
+    hasHomeWidget: false,
+    hasSettings: false,
+    component: AccountModule,
+    categoryType: 'profile',
   },
   {
     id: 'more',

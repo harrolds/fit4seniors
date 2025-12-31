@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { useI18n } from '../../../shared/lib/i18n';
@@ -19,6 +19,7 @@ export const SettingsOverviewScreen: React.FC = () => {
   const { t } = useI18n();
   const { openBottomSheet } = usePanels();
   const preferences = useSettingsState();
+  const [versionTapCount, setVersionTapCount] = useState(0);
 
   const openToast = useCallback(
     (toast: SettingsToastKind) => {
@@ -99,6 +100,23 @@ export const SettingsOverviewScreen: React.FC = () => {
     ],
   );
 
+  const handleVersionTap = useCallback(() => {
+    setVersionTapCount((prev) => {
+      const next = prev + 1;
+      if (next >= 5) {
+        openBottomSheet('admin-unlock');
+        return 0;
+      }
+      return next;
+    });
+  }, [openBottomSheet]);
+
+  useEffect(() => {
+    if (versionTapCount === 0) return undefined;
+    const timeoutId = window.setTimeout(() => setVersionTapCount(0), 1500);
+    return () => window.clearTimeout(timeoutId);
+  }, [versionTapCount]);
+
   return (
     <div className="settings-page">
       <SectionHeader as="h1" className="page-title" title={t('pageTitles.settings')} subtitle={t('settings.overview.subtitle')} />
@@ -126,7 +144,14 @@ export const SettingsOverviewScreen: React.FC = () => {
         ))}
       </div>
 
-      <p className="settings-version">{t('settings.overview.version')}</p>
+      <button
+        type="button"
+        className="settings-version"
+        onClick={handleVersionTap}
+        aria-label={t('settings.overview.version')}
+      >
+        {t('settings.overview.version')}
+      </button>
     </div>
   );
 };

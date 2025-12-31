@@ -23,6 +23,7 @@ import {
 } from '../../features/trainieren/catalog';
 import { loadCompletedSessions } from '../progress/progressStorage';
 import './completion.screen.css';
+import { requestStartTrainingWithGate } from '../../core/premium/premiumGateFlow';
 
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
 const BRAIN_FILTERS_KEY = 'trainieren:brainFilters:v1';
@@ -238,6 +239,13 @@ export const CompletionScreen: React.FC = () => {
   };
 
   const handleNext = () => {
+    if (nextVariant) {
+      requestStartTrainingWithGate(
+        { id: nextVariant.trainingId, requiresPremium: nextVariant.requiresPremium ?? false },
+        () => navigate(nextRoute, { replace: true }),
+      );
+      return;
+    }
     navigate(nextRoute, { replace: true });
   };
 

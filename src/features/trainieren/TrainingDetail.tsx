@@ -19,6 +19,8 @@ import {
   type BrainMetrics,
 } from '../../modules/brain/components/BrainExerciseSlot';
 import './trainieren.css';
+import { useUserSession } from '../../core/user/userStore';
+import { requestStartTrainingWithGate } from '../../core/premium/premiumGateFlow';
 
 type SessionStatus = 'idle' | 'running' | 'paused' | 'completed';
 
@@ -80,6 +82,7 @@ export const TrainingDetail: React.FC = () => {
   const { state: panelState, openBottomSheet, closePanel, openRightPanel } = usePanels();
   const { data, isLoading, error } = useTrainingCatalog();
   const navigate = useNavigate();
+  const userSession = useUserSession();
 
   const moduleDef = findModule(data, moduleId);
   const training = findTraining(data, moduleId, trainingId);
@@ -278,7 +281,7 @@ export const TrainingDetail: React.FC = () => {
   const handleAdjustDuration = useCallback(
     (delta: number) => {
       if (!variant) return;
-      if (session.status === 'running' || session.status === 'paused') return;
+    if (session.status === 'running' || session.status === 'paused') return;
       const nextDuration = clampDuration((plannedDuration || variant.durationMin) + delta);
       const totalSeconds = Math.max(1, Math.round(nextDuration * 60));
       setPlannedDuration(nextDuration);
@@ -294,7 +297,7 @@ export const TrainingDetail: React.FC = () => {
     [variant, session.status, plannedDuration, resolvedSteps, defaultSteps],
   );
 
-  const handleStart = useCallback(() => {
+  const startSession = useCallback(() => {
     if (!variant) return;
     playFeedback('start');
     closePanel();
@@ -313,6 +316,14 @@ export const TrainingDetail: React.FC = () => {
       steps: resolvedSteps.length ? resolvedSteps : defaultSteps,
     });
   }, [variant, plannedDuration, resolvedSteps, defaultSteps, closePanel, isBrainModule]);
+
+  const handleStartWithGate = useCallback(() => {
+    if (!training) return;
+    requestStartTrainingWithGate(
+      { id: training.id, requiresPremium: training.requiresPremium ?? false },
+      startSession,
+    );
+  }, [startSession, training]);
 
   const togglePause = useCallback(() => {
     setSession((prev) => {
@@ -380,7 +391,7 @@ export const TrainingDetail: React.FC = () => {
         }
       };
 
-      if (session.status === 'running' || session.status === 'paused') {
+    if (session.status === 'running' || session.status === 'paused') {
         openInterruptConfirm(performNavigation);
       } else {
         performNavigation();
@@ -601,7 +612,7 @@ export const TrainingDetail: React.FC = () => {
               <Button
                 fullWidth
                 className="training-detail__start-button"
-                onClick={handleStart}
+                onClick={handleStartWithGate}
               >
                 <Icon name="play_circle" filled size={28} />
                 {t('trainieren.detail.startCta')}
@@ -655,7 +666,7 @@ export const TrainingDetail: React.FC = () => {
             <Button
               fullWidth
               className="training-detail__start-button"
-              onClick={handleStart}
+              onClick={handleStartWithGate}
               disabled={session.status === 'running' || session.status === 'paused'}
             >
               <Icon name="play_circle" filled size={28} />

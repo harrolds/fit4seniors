@@ -126,6 +126,28 @@ export const screenConfigs: ScreenConfig[] = [
     ],
   },
   {
+    id: 'account',
+    route: '/account',
+    titleKey: 'account.title',
+    actions: [
+      {
+        id: 'goBack',
+        labelKey: 'common.back',
+        icon: 'back',
+        navigationTarget: 'home',
+      },
+    ],
+    primaryActions: [
+      {
+        id: 'openNotifications',
+        labelKey: 'app.header.notifications',
+        icon: 'notifications',
+        onClick: { type: 'panel', panelId: 'notifications-center' },
+      },
+      { id: 'openSettings', labelKey: 'app.header.settings', icon: 'settings', navigationTarget: 'settings' },
+    ],
+  },
+  {
     id: 'profile-edit',
     route: '/profile/edit',
     titleKey: 'profile.edit.title',

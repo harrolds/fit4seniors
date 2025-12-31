@@ -3,6 +3,8 @@ import { useI18n } from '../../shared/lib/i18n';
 import { useResource } from '../../shared/lib/data';
 import type { ModuleCardTone } from '../../shared/ui/ModuleCard';
 import { categoryCssVar, categoryTone, normalizeCategoryId, type CategoryId } from '../../config/categoryColors';
+import type { FreemiumCategoryKey } from '../../config/freemium';
+import { markTrainingsWithPremiumFlag } from '../../core/freemium/markPremium';
 import seedCatalog from '../../seed/fit4seniors.catalog.seed.v1.json';
 import type { BrainTrainingConfig } from '../../modules/brain/types';
 
@@ -34,6 +36,8 @@ type SeedTraining = {
   brainConfig?: BrainTrainingConfig;
   shortHint_de?: string;
   shortHint_en?: string;
+  order?: number;
+  requiresPremium?: boolean;
 };
 
 type SeedModule = {
@@ -66,6 +70,8 @@ export interface TrainingItem {
   variants: Record<TrainingIntensity, TrainingVariant>;
   brainType?: BrainType;
   brainConfig?: BrainTrainingConfig;
+  order?: number;
+  requiresPremium: boolean;
 }
 
 export interface TrainingModule {
@@ -95,6 +101,7 @@ export interface TrainingVariantItem {
   paceCue: string;
   brainType?: BrainType;
   brainConfig?: BrainTrainingConfig;
+  requiresPremium: boolean;
 }
 
 const moduleMeta: Record<string, { categoryId: CategoryId; icon: string }> = {
@@ -111,6 +118,83 @@ const toneColorVar: Record<ModuleCardTone, string> = {
   'module-4': '--color-card-module-4',
   'module-5': '--color-card-module-5',
   accent: '--color-card-accent',
+};
+
+const categoryToFreemiumKey = (categoryId?: CategoryId): FreemiumCategoryKey | undefined => {
+  switch (categoryId) {
+    case 'cardio':
+      return 'cardio';
+    case 'muscle':
+      return 'strength';
+    case 'balance':
+      return 'balance';
+    case 'brain':
+      return 'brain';
+    default:
+      return undefined;
+  }
+};
+
+const applyFreemiumRules = (
+  trainings: TrainingItem[],
+  moduleCategories: Record<string, CategoryId>,
+): TrainingItem[] => {
+  const shouldAutoMark = import.meta.env?.VITE_FREEMIUM_AUTOMARK === 'true';
+  const buckets: Partial<Record<FreemiumCategoryKey, TrainingItem[]>> = {};
+  const passthrough: TrainingItem[] = [];
+
+  trainings.forEach((training) => {
+    const categoryId = moduleCategories[training.moduleId];
+    const categoryKey = categoryToFreemiumKey(categoryId);
+    if (!categoryKey) {
+      passthrough.push({ ...training, requiresPremium: training.requiresPremium ?? false });
+      return;
+    }
+    if (!buckets[categoryKey]) {
+      buckets[categoryKey] = [];
+    }
+    buckets[categoryKey]!.push(training);
+  });
+
+  const result: TrainingItem[] = [...passthrough];
+
+  (Object.keys(buckets) as FreemiumCategoryKey[]).forEach((categoryKey) => {
+    const bucket = buckets[categoryKey] ?? [];
+    const hasExistingFlags = bucket.every((item) => typeof item.requiresPremium === 'boolean');
+    if (hasExistingFlags && !shouldAutoMark) {
+      result.push(...bucket.map((item) => ({ ...item, requiresPremium: Boolean(item.requiresPremium) })));
+      return;
+    }
+
+    const marked = markTrainingsWithPremiumFlag(bucket, categoryKey);
+
+    if (!shouldAutoMark) {
+      const explicitFlags = bucket.reduce<Record<string, boolean>>((acc, item) => {
+        if (typeof item.requiresPremium === 'boolean') {
+          acc[item.id] = item.requiresPremium;
+        }
+        return acc;
+      }, {});
+
+      result.push(
+        ...marked.map((item) => ({
+          ...item,
+          requiresPremium:
+            typeof explicitFlags[item.id] === 'boolean' ? explicitFlags[item.id] : item.requiresPremium ?? false,
+        })),
+      );
+      return;
+    }
+
+    result.push(
+      ...marked.map((item) => ({
+        ...item,
+        requiresPremium: item.requiresPremium ?? false,
+      })),
+    );
+  });
+
+  return result;
 };
 
 const pickLocale = (
@@ -163,6 +247,11 @@ const buildCatalog = (locale: Locale): TrainingCatalog => {
     };
   });
 
+  const moduleCategoryById = modules.reduce<Record<string, CategoryId>>((acc, module) => {
+    acc[module.id] = module.categoryId;
+    return acc;
+  }, {});
+
   const trainings: TrainingItem[] = catalog.trainings.map((training) => {
     const localizedVariants: Partial<Record<TrainingIntensity, TrainingVariant>> = {};
 
@@ -184,10 +273,14 @@ const buildCatalog = (locale: Locale): TrainingCatalog => {
       variants: localizedVariants as Record<TrainingIntensity, TrainingVariant>,
       brainType: training.brainType,
       brainConfig: training.brainConfig,
+      order: training.order,
+      requiresPremium: Boolean(training.requiresPremium),
     };
   });
 
-  return { modules, trainings };
+  const trainingsWithPremium = applyFreemiumRules(trainings, moduleCategoryById);
+
+  return { modules, trainings: trainingsWithPremium };
 };
 
 export const intensityOrder: TrainingIntensity[] = ['light', 'medium', 'heavy'];
@@ -265,6 +358,7 @@ export const listVariantItemsForModule = (
         paceCue: variant!.paceCue,
         brainType: training.brainType,
         brainConfig: training.brainConfig,
+        requiresPremium: training.requiresPremium ?? false,
       })),
   );
 };

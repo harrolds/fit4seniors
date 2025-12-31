@@ -20,6 +20,8 @@ import {
 import { usePanels } from '../../shared/lib/panels';
 import { useProfileMotorState, getRecommendationsForTrainingList } from '../../app/services/profileMotor';
 import { loadCompletedSessions } from '../../modules/progress/progressStorage';
+import { useUserSession } from '../../core/user/userStore';
+import { requestStartTrainingWithGate } from '../../core/premium/premiumGateFlow';
 import './trainieren.css';
 
 const BRAIN_FILTERS_KEY = 'trainieren:brainFilters:v1';
@@ -64,6 +66,7 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
   const { t } = useI18n();
   const { openBottomSheet, closePanel } = usePanels();
   const { data, isLoading, error } = useTrainingCatalog();
+  const session = useUserSession();
 
   const [activeIntensities, setActiveIntensities] = useState<TrainingIntensity[]>(allIntensities);
   const [activeDurations, setActiveDurations] = useState<DurationBucket[]>(allDurations);
@@ -153,8 +156,15 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
   };
   const isProfileMatchModule = focusToModule[motorProfile.preferredFocus] === moduleDef.id;
 
-  const handleOpenTraining = (trainingId: string, intensity: TrainingIntensity) => {
+  const handleNavigateToTraining = (trainingId: string, intensity: TrainingIntensity) => {
     goTo(`/trainieren/${moduleDef.id}/${trainingId}/${intensity}`);
+  };
+
+  const handleOpenTraining = (item: ReturnType<typeof listVariantItemsForModule>[number]) => {
+    requestStartTrainingWithGate(
+      { id: item.trainingId, requiresPremium: item.requiresPremium },
+      () => handleNavigateToTraining(item.trainingId, item.intensity),
+    );
   };
 
   const toggleIntensity = (value: TrainingIntensity) => {
@@ -221,6 +231,7 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
           <List className="trainieren-training-list__grid">
             {visibleItems.map((item) => {
               const isRecommended = isProfileMatchModule && recommendation.recommendedIds.has(item.id);
+              const isLocked = item.requiresPremium && !session.entitlements.isPremium && !session.admin.isAdmin;
 
               return (
                 <li
@@ -228,11 +239,11 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
                   className={`training-variant-card${isRecommended ? ' training-variant-card--has-recommend' : ''}`}
                   role="button"
                   tabIndex={0}
-                  onClick={() => handleOpenTraining(item.trainingId, item.intensity)}
+                  onClick={() => handleOpenTraining(item)}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter' || event.key === ' ') {
                       event.preventDefault();
-                      handleOpenTraining(item.trainingId, item.intensity);
+                      handleOpenTraining(item);
                     }
                   }}
                 >
@@ -262,6 +273,12 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
                       </div>
                       <p className="training-variant-card__title">{item.title}</p>
                       <p className="training-variant-card__description">{item.shortDesc}</p>
+                      {isLocked ? (
+                        <div className="training-variant-card__lock" aria-label={t('premium.gate.locked')}>
+                          <Icon name="lock" size={16} />
+                          <span>{t('premium.gate.locked')}</span>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                   <Button
@@ -270,7 +287,7 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
                     className="training-variant-card__cta"
                     onClick={(event) => {
                       event.stopPropagation();
-                      handleOpenTraining(item.trainingId, item.intensity);
+                      handleOpenTraining(item);
                     }}
                   >
                     {t('trainieren.detail.startCta')}

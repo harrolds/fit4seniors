@@ -72,3 +72,12 @@ npm run test   # draai Vitest testharnas
 npm run lint   # lint de codebase
 npm run build  # maak een production build
 ```
+
+### Omgevingsvariabelen (Premium/Freemium)
+
+- `VITE_DISTRIBUTION_CHANNEL` — `web` | `play` | `ios` (default: `web`)
+- `VITE_ADMIN_CODE` — admin ontgrendelcode (default: `fit4-admin`)
+- `VITE_PREMIUM_DEV` — (optioneel) `true` om premium lokaal te forceren zonder backend
+- `STRIPE_SECRET_KEY` — server key voor Checkout sessies (Netlify Functions)
+- `STRIPE_PRICE_ID` — prijs-ID voor het Premium product
+- `STRIPE_WEBHOOK_SECRET` — webhook signing secret voor Stripe events

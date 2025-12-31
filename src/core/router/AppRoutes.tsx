@@ -9,6 +9,7 @@ import { moduleRegistry } from '../../config/moduleRegistry';
 import { OfflineScreen } from '../offline/OfflineScreen';
 import { useDisplayName } from '../../modules/profile';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
+import { LoginPlaceholder } from '../../modules/account/LoginPlaceholder';
 
 const HomeScreen: React.FC = () => {
   const { t } = useI18n();
@@ -59,6 +60,7 @@ export const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<HomeScreen />} />
       <Route path="/notifications" element={<NotificationsScreen />} />
+      <Route path="/login" element={<LoginPlaceholder />} />
       {moduleRegistry.map((module) => {
         const ModuleComponent = module.component;
         return (

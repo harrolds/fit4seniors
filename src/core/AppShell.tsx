@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AppRoutes } from './router';
 import { AppFooter } from './AppFooter';
@@ -6,7 +6,7 @@ import { useNavigation } from '../shared/lib/navigation/useNavigation';
 import { useI18n } from '../shared/lib/i18n';
 import type { ScreenAction, ScreenActionClick, ScreenConfig } from './screenConfig';
 import { getScreenConfigByPath } from '../config/navigation';
-import { NotificationsHost } from '../shared/lib/notifications';
+import { NotificationsHost, useNotifications } from '../shared/lib/notifications';
 import { OfflineScreen } from './offline/OfflineScreen';
 import { useTheme } from './theme/themeContext';
 import { PanelHost } from './panels/PanelHost';
@@ -18,15 +18,20 @@ import { getHeaderActionHandler } from '../shared/lib/navigation/headerActionReg
 import { Button } from '../shared/ui/Button';
 import { Icon } from '../shared/ui/Icon';
 import { RemindersBootstrap } from '../modules/reminders';
+import { registerPremiumGateHandlers, onPremiumActivated } from './premium/premiumGateFlow';
+import { getBillingProvider } from './billing/getBillingProvider';
+import { setSession } from './user/userStore';
 
 const AppShellContent: React.FC = () => {
   const location = useLocation();
   const { goTo, goBack, openNotifications, openSettings } = useNavigation();
   const { t } = useI18n();
+  const { showToast } = useNotifications();
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const theme = useTheme();
   const headerTokens = theme.components.header;
   const { state: panelState, closePanel, openBottomSheet } = usePanels();
+  const billingProvider = useMemo(() => getBillingProvider(), []);
 
   const mergeModuleActions = (config?: ScreenConfig) => {
     if (!config?.moduleId) {
@@ -83,6 +88,43 @@ const AppShellContent: React.FC = () => {
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+
+  useEffect(() => {
+    registerPremiumGateHandlers({
+      openGateSheet: ({ trainingId }) => openBottomSheet('premium-gate', { trainingId }),
+      showToast: (messageKey) => showToast(messageKey, { kind: 'success' }),
+    });
+  }, [openBottomSheet, showToast]);
+
+  useEffect(() => {
+    const parsePremiumMarker = (): string | null => {
+      const searchParams = new URLSearchParams(location.search);
+      if (searchParams.has('premium')) {
+        return searchParams.get('premium');
+      }
+      const hash = location.hash ?? '';
+      const queryIndex = hash.indexOf('?');
+      if (queryIndex === -1) return null;
+      const hashQuery = hash.slice(queryIndex + 1);
+      const hashParams = new URLSearchParams(hashQuery);
+      return hashParams.get('premium');
+    };
+
+    const marker = parsePremiumMarker();
+    if (marker === 'success') {
+      if (location.pathname !== '/account') {
+        goTo('/account');
+      }
+      billingProvider.refreshEntitlement().then(({ isPremium }) => {
+        if (isPremium) {
+          onPremiumActivated();
+        } else if (import.meta.env?.VITE_PREMIUM_DEV === 'true') {
+          setSession({ entitlements: { isPremium: true } });
+          onPremiumActivated();
+        }
+      });
+    }
+  }, [billingProvider, goTo, location.hash, location.pathname, location.search]);
 
   useLayoutEffect(() => {
     // Make sure new screens always start at the top (some mobile browsers preserve scroll).

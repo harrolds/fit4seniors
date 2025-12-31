@@ -71,7 +71,7 @@ export interface TrainingItem {
   brainType?: BrainType;
   brainConfig?: BrainTrainingConfig;
   order?: number;
-  requiresPremium: boolean;
+  requiresPremium?: boolean;
 }
 
 export interface TrainingModule {
@@ -274,7 +274,8 @@ const buildCatalog = (locale: Locale): TrainingCatalog => {
       brainType: training.brainType,
       brainConfig: training.brainConfig,
       order: training.order,
-      requiresPremium: Boolean(training.requiresPremium),
+      requiresPremium:
+        typeof training.requiresPremium === 'boolean' ? training.requiresPremium : undefined,
     };
   });
 

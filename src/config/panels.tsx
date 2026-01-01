@@ -16,7 +16,7 @@ import { ReminderToastPanel } from '../modules/reminders/panels/ReminderToastPan
 import { SettingsRemindersSheet } from '../modules/reminders/panels/SettingsRemindersSheet';
 import { SettingsBottomToastHost } from '../modules/settings/bottomToast/SettingsBottomToastHost';
 import { InfoPanelContent } from '../modules/more/panels/InfoPanelContent';
-import { PremiumGateSheet } from '../shared/ui/PremiumGateSheet';
+import { PremiumGatePanel } from '../shared/panels/PremiumGatePanel';
 import { AdminUnlockSheet } from '../shared/ui/AdminUnlockSheet';
 
 const MoreHelpPanel: React.FC = (props) => <InfoPanelContent variant="help" {...props} />;
@@ -87,8 +87,8 @@ export const panelRegistry: PanelRegistryEntry[] = [
   },
   {
     id: 'premium-gate',
-    type: 'bottom',
-    component: PremiumGateSheet,
+    type: 'right',
+    component: PremiumGatePanel,
   },
   {
     id: 'admin-unlock',

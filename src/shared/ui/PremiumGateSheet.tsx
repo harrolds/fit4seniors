@@ -4,6 +4,8 @@ import { useNotifications } from '../lib/notifications';
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { getBillingProvider } from '../../core/billing/getBillingProvider';
+import { getSession } from '../../core/user/userStore';
+import { onPremiumActivated } from '../../core/premium/premiumGateFlow';
 
 type PremiumGateSheetProps = {
   trainingId?: string;
@@ -22,11 +24,18 @@ export const PremiumGateSheet: React.FC<PremiumGateSheetProps> = ({ trainingId, 
     setIsProcessing(false);
 
     if (!result.success) {
-      showToast('premium.purchase.failed', {
-        kind: 'error',
-        params: { reason: result.reason },
-      });
+      const reason = result.reason ?? 'checkout_unavailable';
+      if (reason === 'STRIPE_NOT_CONFIGURED') {
+        showToast('premium.purchase.failed', { kind: 'error' });
+      } else {
+        showToast('premium.purchase.failedWithReason', { kind: 'error', params: { reason } });
+      }
       return;
+    }
+
+    showToast('premium.purchase.activated', { kind: 'success' });
+    if (getSession().entitlements.isPremium) {
+      onPremiumActivated();
     }
   };
 

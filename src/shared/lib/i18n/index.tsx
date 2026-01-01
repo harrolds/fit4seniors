@@ -8,13 +8,14 @@ type Locale = 'de' | 'en';
 
 type LanguagePreference = 'system' | Locale;
 
-export type Messages = Record<string, string>;
+export type Messages = Record<string, string | string[]>;
 export type TranslationParams = Record<string, string | number>;
 
 interface I18nContextValue {
   locale: Locale;
   preference: LanguagePreference;
   t: (key: string, params?: TranslationParams) => string;
+  tList: (key: string, params?: TranslationParams) => string[];
   setLocale: (locale: Locale) => void;
   setPreference: (preference: LanguagePreference) => void;
 }
@@ -44,6 +45,14 @@ export const createTranslator =
   (key: string, params?: TranslationParams): string => {
     const template = messages[key];
     if (!template) {
+      return key;
+    }
+
+    if (Array.isArray(template)) {
+      return template.map((item) => interpolateMessage(item, params)).join(' ');
+    }
+
+    if (typeof template !== 'string') {
       return key;
     }
 
@@ -85,6 +94,16 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     const messages = messagesByLocale[locale] ?? messagesByLocale.de;
 
     const t = createTranslator(messages);
+    const tList: I18nContextValue['tList'] = (key, params) => {
+      const template = messages[key];
+      if (Array.isArray(template)) {
+        return template.map((item) => interpolateMessage(item, params));
+      }
+      if (typeof template === 'string') {
+        return [interpolateMessage(template, params)];
+      }
+      return [];
+    };
 
     const setPreference = (next: LanguagePreference): void => {
       setPreferenceState(next);
@@ -99,6 +118,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       locale,
       preference,
       t,
+      tList,
       setLocale,
       setPreference,
     };
@@ -116,6 +136,6 @@ export const useI18n = (): I18nContextValue => {
 };
 
 export const useTranslation = () => {
-  const { t } = useI18n();
-  return { t };
+  const { t, tList } = useI18n();
+  return { t, tList };
 };

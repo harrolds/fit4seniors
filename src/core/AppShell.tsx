@@ -30,7 +30,7 @@ const AppShellContent: React.FC = () => {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const theme = useTheme();
   const headerTokens = theme.components.header;
-  const { state: panelState, closePanel, openBottomSheet } = usePanels();
+  const { state: panelState, closePanel, openBottomSheet, openRightPanel } = usePanels();
   const billingProvider = useMemo(() => getBillingProvider(), []);
 
   const mergeModuleActions = (config?: ScreenConfig) => {
@@ -91,10 +91,11 @@ const AppShellContent: React.FC = () => {
 
   useEffect(() => {
     registerPremiumGateHandlers({
-      openGateSheet: ({ trainingId }) => openBottomSheet('premium-gate', { trainingId }),
+      openGatePanel: (context) => openRightPanel('premium-gate', context),
+      closeGatePanel: () => closePanel(),
       showToast: (messageKey) => showToast(messageKey, { kind: 'success' }),
     });
-  }, [openBottomSheet, showToast]);
+  }, [closePanel, openRightPanel, showToast]);
 
   useEffect(() => {
     const parsePremiumMarker = (): string | null => {

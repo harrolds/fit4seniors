@@ -607,5 +607,30 @@
   "profileMotor.sessionsLeft": "{n} sessions left this week",
   "profileMotor.nextUp": "Next up",
   "profileMotor.weeklyGoal": "Sessions per week",
-  "profileMotor.reminderNudge": "Want to set a reminder to reach your weekly goal?"
+  "profileMotor.reminderNudge": "Want to set a reminder to reach your weekly goal?",
+  "premium.panel.title": "Subscribe to Premium",
+  "premium.panel.intro": "With Premium you get:",
+  "premium.panel.bullets": [
+    "Access to all trainings in every category",
+    "More variety for strength, balance, endurance and brain training",
+    "Train without limitations",
+    "Monthly subscription – cancel anytime"
+  ],
+  "premium.panel.disclaimer": "Monthly subscription. Cancel anytime.",
+  "premium.panel.activateCta": "Subscribe to Premium",
+  "premium.panel.back": "Back",
+  "premium.purchase.failed": "Premium activation is currently unavailable.",
+  "premium.purchase.failedWithReason": "Premium activation failed: {{reason}}",
+  "premium.purchase.activated": "Premium activated – all trainings unlocked",
+  "premium.gate.locked": "Locked training",
+  "premium.gate.title": "Premium required",
+  "admin.unlock.title": "Admin mode",
+  "admin.unlock.body": "Enter the admin code to unlock all content.",
+  "admin.unlock.codeLabel": "Admin code",
+  "admin.unlock.placeholder": "Enter code…",
+  "admin.unlock.invalid": "Invalid code.",
+  "admin.unlock.enableCta": "Enable admin",
+  "admin.unlock.disableCta": "Disable admin",
+  "admin.unlock.enabled": "Admin mode enabled.",
+  "admin.unlock.disabled": "Admin mode disabled."
 }

@@ -87,14 +87,30 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
   const visibleItems = useMemo(() => {
     const intensityFiltered = recommendation.items.filter((item) => activeIntensities.includes(item.intensity));
 
-    if (isBrainModule) {
-      return intensityFiltered.filter((item) =>
+    const filtered = isBrainModule
+      ? intensityFiltered.filter((item) =>
         item.brainType ? activeBrainTypes.includes(item.brainType) : activeBrainTypes.length > 0,
-      );
-    }
+      )
+      : intensityFiltered.filter((item) => activeDurations.includes(item.durationBucket));
 
-    return intensityFiltered.filter((item) => activeDurations.includes(item.durationBucket));
-  }, [activeDurations, activeBrainTypes, activeIntensities, isBrainModule, recommendation.items]);
+    const isLocked = (item: typeof recommendation.items[number]) =>
+      item.requiresPremium && !session.entitlements.isPremium && !session.admin.isAdmin;
+
+    return [...filtered].sort((a, b) => {
+      const aLocked = isLocked(a);
+      const bLocked = isLocked(b);
+      if (aLocked === bLocked) return 0;
+      return aLocked ? 1 : -1;
+    });
+  }, [
+    activeDurations,
+    activeBrainTypes,
+    activeIntensities,
+    isBrainModule,
+    recommendation.items,
+    session.admin.isAdmin,
+    session.entitlements.isPremium,
+  ]);
 
   const applyStoredBrainFilters = useCallback(() => {
     const stored = getValue<StoredBrainFilters | null>(BRAIN_FILTERS_KEY, null);
@@ -162,7 +178,13 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
 
   const handleOpenTraining = (item: ReturnType<typeof listVariantItemsForModule>[number]) => {
     requestStartTrainingWithGate(
-      { id: item.trainingId, requiresPremium: item.requiresPremium },
+      {
+        id: item.trainingId,
+        title: item.title,
+        moduleId: item.moduleId,
+        categoryId: moduleDef?.categoryId,
+        requiresPremium: item.requiresPremium,
+      },
       () => handleNavigateToTraining(item.trainingId, item.intensity),
     );
   };

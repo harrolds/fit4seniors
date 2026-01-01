@@ -48,6 +48,14 @@ export const webStripeProvider: BillingProvider = {
       });
 
       if (!response.ok) {
+        try {
+          const err = (await response.json()) as { error?: string };
+          if (err?.error) {
+            return { success: false, reason: err.error };
+          }
+        } catch {
+          // ignore parse errors and fall through to default reason
+        }
         return { success: false, reason: 'checkout_unavailable' };
       }
 

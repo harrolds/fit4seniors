@@ -241,7 +241,13 @@ export const CompletionScreen: React.FC = () => {
   const handleNext = () => {
     if (nextVariant) {
       requestStartTrainingWithGate(
-        { id: nextVariant.trainingId, requiresPremium: nextVariant.requiresPremium ?? false },
+        {
+          id: nextVariant.trainingId,
+          title: nextVariant.title,
+          moduleId: nextVariant.moduleId,
+          categoryId: nextModule?.categoryId,
+          requiresPremium: nextVariant.requiresPremium ?? false,
+        },
         () => navigate(nextRoute, { replace: true }),
       );
       return;

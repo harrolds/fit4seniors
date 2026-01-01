@@ -29,12 +29,21 @@ exports.handler = async (event) => {
   const stripe = getStripeClient();
   if (!stripe || !process.env.STRIPE_PRICE_ID) {
     return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Stripe is not configured yet.' }),
+      statusCode: 503,
+      body: JSON.stringify({ error: 'STRIPE_NOT_CONFIGURED' }),
     };
   }
 
-  const body = event.body ? JSON.parse(event.body) : {};
+  let body = {};
+  try {
+    body = event.body ? JSON.parse(event.body) : {};
+  } catch {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: 'INVALID_REQUEST' }),
+    };
+  }
+
   const localUserId = body.localUserId || 'anonymous';
   const origin = resolveOrigin(event.headers || {});
 

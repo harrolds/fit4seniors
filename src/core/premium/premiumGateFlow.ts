@@ -1,11 +1,18 @@
 import { canStartTraining, type AccessDecision } from '../access/accessPolicy';
 import { getSession, setSession } from '../user/userStore';
 
-type StartableTraining = { id: string; requiresPremium: boolean };
+type StartableTraining = {
+  id: string;
+  requiresPremium: boolean;
+  title?: string;
+  moduleId?: string;
+  categoryId?: string;
+};
 
 type PendingIntent = { type: 'start_training'; trainingId: string; start: () => void };
 type GateHandlers = {
-  openGateSheet?: (context: { trainingId: string }) => void;
+  openGatePanel?: (context: { trainingId: string; title?: string; moduleId?: string; categoryId?: string }) => void;
+  closeGatePanel?: () => void;
   showToast?: (messageKey: string) => void;
 };
 
@@ -29,13 +36,19 @@ export const requestStartTrainingWithGate = (
   }
 
   pendingIntent = { type: 'start_training', trainingId: training.id, start: startFn };
-  handlers.openGateSheet?.({ trainingId: training.id });
+  handlers.openGatePanel?.({
+    trainingId: training.id,
+    title: training.title,
+    moduleId: training.moduleId,
+    categoryId: training.categoryId,
+  });
   return decision;
 };
 
 export const onPremiumActivated = async () => {
   setSession({ entitlements: { isPremium: true } });
-  handlers.showToast?.('premium.activated');
+  handlers.showToast?.('premium.purchase.activated');
+  handlers.closeGatePanel?.();
 
   const intent = pendingIntent;
   pendingIntent = null;

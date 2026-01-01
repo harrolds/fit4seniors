@@ -320,10 +320,16 @@ export const TrainingDetail: React.FC = () => {
   const handleStartWithGate = useCallback(() => {
     if (!training) return;
     requestStartTrainingWithGate(
-      { id: training.id, requiresPremium: training.requiresPremium ?? false },
+      {
+        id: training.id,
+        title: training.title,
+        moduleId: moduleId ?? undefined,
+        categoryId: moduleDef?.categoryId,
+        requiresPremium: training.requiresPremium ?? false,
+      },
       startSession,
     );
-  }, [startSession, training]);
+  }, [moduleDef?.categoryId, moduleId, startSession, training]);
 
   const togglePause = useCallback(() => {
     setSession((prev) => {

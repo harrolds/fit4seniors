@@ -24,6 +24,7 @@ import {
 import { loadCompletedSessions } from '../progress/progressStorage';
 import './completion.screen.css';
 import { requestStartTrainingWithGate } from '../../core/premium/premiumGateFlow';
+import { useUserSession } from '../../core/user/userStore';
 
 const COMPLETION_STORAGE_KEY = 'completion:last-index';
 const BRAIN_FILTERS_KEY = 'trainieren:brainFilters:v1';
@@ -84,6 +85,8 @@ export const CompletionScreen: React.FC = () => {
   const location = useLocation();
   const { data: catalog } = useTrainingCatalog();
   const profile = useProfileMotorState();
+  const session = useUserSession();
+  const isGuest = session.auth.status === 'anonymous';
 
   const [messageKey] = useState<string>(() => resolveNextMessageKey());
   const completionMessage = t(messageKey);
@@ -144,7 +147,7 @@ export const CompletionScreen: React.FC = () => {
   const levelInfo = useMemo(() => getLevelFromPoints(profile.totalPoints ?? 0), [profile.totalPoints]);
   const levelLabel = t(levelInfo.labelKey);
   const levelProgressText =
-    levelInfo.pointsToNext === null || !levelInfo.nextLevelLabelKey
+    isGuest || levelInfo.pointsToNext === null || !levelInfo.nextLevelLabelKey
       ? null
       : t('completion.levelProgress', { n: levelInfo.pointsToNext, next: t(levelInfo.nextLevelLabelKey) });
 
@@ -273,8 +276,12 @@ export const CompletionScreen: React.FC = () => {
     : [
         { label: sessionMinutesLabel, value: sessionMinutesValue },
         { label: t('completion.stats.totalMinutesLabel'), value: totalMinutesValue },
-        { label: pointsLabel, value: pointsValue },
-        { label: t('completion.stats.levelLabel'), value: levelLabel },
+        ...(isGuest
+          ? []
+          : [
+              { label: pointsLabel, value: pointsValue },
+              { label: t('completion.stats.levelLabel'), value: levelLabel },
+            ]),
       ];
 
   const title = isBrain ? t('completion.brain.title') : t('completion.cardTitle');

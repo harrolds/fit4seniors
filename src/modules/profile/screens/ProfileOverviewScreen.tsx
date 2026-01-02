@@ -8,6 +8,7 @@ import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { useProfileState } from '../profileStorage';
 import { getLevelFromPoints, getProfile as getMotorProfile } from '../../../app/services/profileMotor';
 import { PROGRESS_STORAGE_EVENT_KEY, getCompletedSessions } from '../../progress/progressStorage';
+import { useUserSession } from '../../../core/user/userStore';
 
 const focusLabels: Record<string, string> = {
   cardio: 'profile.focus.options.cardio',
@@ -35,6 +36,10 @@ export const ProfileOverviewScreen: React.FC = () => {
   const { goTo } = useNavigation();
   const profile = useProfileState();
   const motorProfile = getMotorProfile();
+  const session = useUserSession();
+  const isGuest = session.auth.status === 'anonymous';
+  const isAuthenticated = session.auth.status === 'authenticated';
+  const isPremium = session.entitlements.isPremium === true || session.admin.isAdmin === true;
 
   const [completedSessions, setCompletedSessions] = useState(getCompletedSessions());
 
@@ -69,7 +74,11 @@ export const ProfileOverviewScreen: React.FC = () => {
 
   const levelInfo = useMemo(() => getLevelFromPoints(stats.totalPoints), [stats.totalPoints]);
 
-  const displayName = profile.displayName.trim().length > 0 ? profile.displayName : t('profile.displayName.placeholder');
+  const displayName = isGuest
+    ? t('profile.member.guestTitle')
+    : profile.displayName.trim().length > 0
+    ? profile.displayName
+    : t('profile.displayName.placeholder');
   const sessionsPerWeek = motorProfile.movementGoal.sessionsPerWeek ?? profile.sessionsPerWeek ?? 1;
   const preferredFocus = motorProfile.preferredFocus ?? profile.preferredFocus ?? 'cardio';
 
@@ -86,6 +95,17 @@ export const ProfileOverviewScreen: React.FC = () => {
     if (Number.isNaN(parsed)) return null;
     return new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(new Date(parsed));
   }, [createdAt, locale]);
+
+  const memberTitle = isPremium
+    ? t('profile.member.premiumTitle')
+    : isAuthenticated
+    ? t('profile.member.accountTitle')
+    : t('profile.member.guestTitle');
+  const memberStatus = isPremium
+    ? t('profile.member.premiumStatus')
+    : isAuthenticated
+    ? t('profile.member.accountStatus')
+    : t('profile.member.guestStatus');
 
   return (
     <div className="profile-page">
@@ -104,8 +124,8 @@ export const ProfileOverviewScreen: React.FC = () => {
 
         <div className="profile-card__identity">
           <h2 className="profile-card__title">{displayName}</h2>
-          <p className="profile-card__metaTitle">{t('profile.member.localTitle')}</p>
-          <p className="profile-card__meta">{t('profile.member.localStatus')}</p>
+          <p className="profile-card__metaTitle">{memberTitle}</p>
+          <p className="profile-card__meta">{memberStatus}</p>
           {formattedSince ? <p className="profile-card__meta">{t('profile.member.since', { date: formattedSince })}</p> : null}
         </div>
 
@@ -127,58 +147,71 @@ export const ProfileOverviewScreen: React.FC = () => {
         </div>
       </Card>
 
-      <Card className="profile-tile">
-        <div className="profile-tile__left">
-          <div className="profile-tile__icon profile-icon--goal">
-            <Icon name="flag" size={28} />
+      {!isGuest && (
+        <Card className="profile-tile">
+          <div className="profile-tile__left">
+            <div className="profile-tile__icon profile-icon--goal">
+              <Icon name="flag" size={28} />
+            </div>
+            <div className="profile-tile__text">
+              <h3>{t('profile.sessionsPerWeek.title')}</h3>
+              <p className="profile-tile__value">{sessionsPerWeek}</p>
+              <p>{t('profile.sessionsPerWeek.helper')}</p>
+            </div>
           </div>
-          <div className="profile-tile__text">
-            <h3>{t('profile.sessionsPerWeek.title')}</h3>
-            <p className="profile-tile__value">{sessionsPerWeek}</p>
-            <p>{t('profile.sessionsPerWeek.helper')}</p>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      )}
 
-      <Card className="profile-tile">
-        <div className="profile-tile__left">
-          <div className="profile-tile__icon profile-icon--focus">
-            <Icon name="fitness_center" size={28} />
+      {!isGuest && (
+        <Card className="profile-tile">
+          <div className="profile-tile__left">
+            <div className="profile-tile__icon profile-icon--focus">
+              <Icon name="fitness_center" size={28} />
+            </div>
+            <div className="profile-tile__text">
+              <h3>{t('profile.focus.title')}</h3>
+              <p className="profile-tile__value">{t(focusLabels[preferredFocus])}</p>
+              <p>{t('profile.focus.helper')}</p>
+            </div>
           </div>
-          <div className="profile-tile__text">
-            <h3>{t('profile.focus.title')}</h3>
-            <p className="profile-tile__value">{t(focusLabels[preferredFocus])}</p>
-            <p>{t('profile.focus.helper')}</p>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      )}
 
-      <Card className="profile-tile">
-        <div className="profile-tile__left">
-          <div className="profile-tile__icon profile-icon--mint">
-            <Icon name="insights" size={28} />
+      {!isGuest && (
+        <Card className="profile-tile">
+          <div className="profile-tile__left">
+            <div className="profile-tile__icon profile-icon--mint">
+              <Icon name="insights" size={28} />
+            </div>
+            <div className="profile-tile__text">
+              <h3>{t('profile.level.title')}</h3>
+              <p className="profile-tile__value">{t(levelInfo.labelKey)}</p>
+              <p>
+                {`${t(levelInfo.descriptionKey)} ${
+                  levelInfo.pointsToNext !== null && levelInfo.nextLevelLabelKey
+                    ? t('profile.level.progressToNextNamed', {
+                        points: levelInfo.pointsToNext,
+                        level: t(levelInfo.nextLevelLabelKey),
+                      })
+                    : t('profile.level.max')
+                }`}
+              </p>
+            </div>
           </div>
-          <div className="profile-tile__text">
-            <h3>{t('profile.level.title')}</h3>
-            <p className="profile-tile__value">{t(levelInfo.labelKey)}</p>
-            <p>
-              {`${t(levelInfo.descriptionKey)} ${
-                levelInfo.pointsToNext !== null && levelInfo.nextLevelLabelKey
-                  ? t('profile.level.progressToNextNamed', {
-                      points: levelInfo.pointsToNext,
-                      level: t(levelInfo.nextLevelLabelKey),
-                    })
-                  : t('profile.level.max')
-              }`}
-            </p>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      )}
 
-      <Button type="button" variant="primary" className="profile-primary-cta" onClick={() => goTo('/profile/edit')}>
-        <Icon name="edit_note" />
-        {t('profile.actions.edit')}
-      </Button>
+      {isGuest ? (
+        <Button type="button" variant="primary" className="profile-primary-cta" onClick={() => goTo('/login')}>
+          <Icon name="login" />
+          {t('profile.actions.loginCta')}
+        </Button>
+      ) : (
+        <Button type="button" variant="primary" className="profile-primary-cta" onClick={() => goTo('/profile/edit')}>
+          <Icon name="edit_note" />
+          {t('profile.actions.edit')}
+        </Button>
+      )}
 
       <p className="profile-footer">{t('profile.version')}</p>
     </div>

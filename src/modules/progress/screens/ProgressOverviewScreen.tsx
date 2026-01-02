@@ -5,6 +5,7 @@ import { Icon } from '../../../shared/ui/Icon';
 import { SectionHeader } from '../../../shared/ui/SectionHeader';
 import { CompletedSessionRecord, PROGRESS_STORAGE_EVENT_KEY, loadCompletedSessions } from '../progressStorage';
 import { getGoalStatus, getLevelFromPoints, useProfileMotorState } from '../../../app/services/profileMotor';
+import { useUserSession } from '../../../core/user/userStore';
 
 const createWeekdayFormatter = (locale: string) => new Intl.DateTimeFormat(locale, { weekday: 'short' });
 
@@ -27,7 +28,9 @@ const getEndOfWeek = (start: Date): Date => {
 export const ProgressOverviewScreen: React.FC = () => {
   const { t, locale } = useI18n();
   const profile = useProfileMotorState();
+  const session = useUserSession();
   const [sessions, setSessions] = useState<CompletedSessionRecord[]>(() => loadCompletedSessions());
+  const isGuest = session.auth.status === 'anonymous';
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
@@ -136,15 +139,17 @@ export const ProgressOverviewScreen: React.FC = () => {
         </div>
       </Card>
 
-      <Card className="po-goalCard" variant="elevated">
-        <div className="po-goalCard__row">
-          <div>
-            <p className="po-goalCard__eyebrow">{t('progress.levelLabel')}</p>
-            <p className="po-goalCard__value">{levelLabel}</p>
+      {!isGuest && (
+        <Card className="po-goalCard" variant="elevated">
+          <div className="po-goalCard__row">
+            <div>
+              <p className="po-goalCard__eyebrow">{t('progress.levelLabel')}</p>
+              <p className="po-goalCard__value">{levelLabel}</p>
+            </div>
           </div>
-        </div>
-        {levelProgressText ? <p className="po-goalCard__status">{levelProgressText}</p> : null}
-      </Card>
+          {levelProgressText ? <p className="po-goalCard__status">{levelProgressText}</p> : null}
+        </Card>
+      )}
 
       <Card variant="elevated" className="po-weekCard">
         <h2>{t('progress.kpi.activeDays')}</h2>

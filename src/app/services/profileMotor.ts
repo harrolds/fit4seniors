@@ -70,7 +70,8 @@ const clampMinutes = (value: number | undefined, fallback: number): number => {
 const clampMinutesTarget = (value: number | undefined): number | undefined => {
   if (!Number.isFinite(value ?? NaN)) return undefined;
   const rounded = Math.round((value as number) / 10) * 10;
-  const clamped = Math.min(600, Math.max(10, rounded));
+  if (rounded < 10) return undefined;
+  const clamped = Math.min(600, rounded);
   return clamped;
 };
 

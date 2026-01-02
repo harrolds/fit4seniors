@@ -169,6 +169,7 @@ export const ModuleLanding: React.FC<ModuleLandingProps> = ({ moduleIdOverride }
     cardio: 'cardio',
     strength: 'muskel',
     balance: 'balance_flex',
+    brain: 'brain',
   };
   const isProfileMatchModule = focusToModule[motorProfile.preferredFocus] === moduleDef.id;
 

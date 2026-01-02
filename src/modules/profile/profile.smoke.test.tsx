@@ -6,6 +6,7 @@ import { I18nProvider } from '../../shared/lib/i18n';
 import { NotificationsProvider } from '../../shared/lib/notifications';
 import { PanelProvider } from '../../shared/lib/panels';
 import { ProfileRoutes } from './ProfileRoutes';
+import { setSession } from '../../core/user/userStore';
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -14,6 +15,9 @@ describe('Profile module smoke test', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
     const root = createRoot(container);
+
+    // Ensure authenticated session so tier-gated tiles render
+    setSession({ auth: { status: 'authenticated', email: 'test@example.com', userId: 'test-user' } });
 
     act(() => {
       root.render(
@@ -40,6 +44,7 @@ describe('Profile module smoke test', () => {
     act(() => {
       root.unmount();
     });
+    setSession({ auth: { status: 'anonymous' }, entitlements: { isPremium: false }, admin: { isAdmin: false } });
     container.remove();
   });
 });

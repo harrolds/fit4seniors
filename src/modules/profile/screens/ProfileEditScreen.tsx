@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../../../shared/lib/i18n';
 import { Button } from '../../../shared/ui/Button';
 import { Card } from '../../../shared/ui/Card';
@@ -8,6 +9,8 @@ import { TextInput } from '../../../shared/ui/TextInput';
 import { useNavigation } from '../../../shared/lib/navigation/useNavigation';
 import { saveProfile, useProfileState } from '../profileStorage';
 import { PreferredFocus, getLevelFromPoints, getProfile, setMovementGoal, setPreferredFocus } from '../../../app/services/profileMotor';
+import { useUserSession } from '../../../core/user/userStore';
+import { useNotifications } from '../../../shared/lib/notifications';
 
 type FocusOption = { value: PreferredFocus; labelKey: string };
 
@@ -22,14 +25,18 @@ const clampSessions = (value: number): number => Math.min(7, Math.max(1, Math.ro
 const clampMinutesTarget = (value: number | undefined): number | undefined => {
   if (!Number.isFinite(value ?? NaN)) return undefined;
   const rounded = Math.round((value as number) / 10) * 10;
-  return Math.min(600, Math.max(10, rounded));
+  if (rounded < 10) return undefined;
+  return Math.min(600, rounded);
 };
 
 export const ProfileEditScreen: React.FC = () => {
   const { t } = useI18n();
   const { goTo } = useNavigation();
+  const navigate = useNavigate();
   const profile = useProfileState();
   const motorProfile = getProfile();
+  const session = useUserSession();
+  const { showToast } = useNotifications();
 
   const initialSessions = clampSessions(motorProfile.movementGoal.sessionsPerWeek ?? profile.sessionsPerWeek ?? 3);
   const initialMinutesTarget = motorProfile.movementGoal.minutesPerWeekTarget;
@@ -93,6 +100,13 @@ export const ProfileEditScreen: React.FC = () => {
   const handleCancel = () => {
     goTo('/profile');
   };
+
+  useEffect(() => {
+    if (session.auth.status === 'anonymous') {
+      showToast('profile.edit.requiresLogin', { kind: 'info' });
+      navigate('/login', { replace: true });
+    }
+  }, [navigate, session.auth.status, showToast]);
 
   return (
     <div className="profile-page">
@@ -180,7 +194,7 @@ export const ProfileEditScreen: React.FC = () => {
               className="profile-stepper__button"
               onClick={() => {
                 const current = resolvedMinutesPerWeekTarget ?? 0;
-                const next = clampMinutesTarget((current || 0) - 10) ?? undefined;
+                const next = clampMinutesTarget((current || 0) - 10);
                 setMinutesPerWeekTargetInput(next !== undefined ? String(next) : '');
               }}
               aria-label={t('profile.minutesTarget.label')}
@@ -189,8 +203,8 @@ export const ProfileEditScreen: React.FC = () => {
             </Button>
             <input
               className="profile-stepper__input"
+              type="number"
               inputMode="numeric"
-              pattern="\\d{1,3}"
               min={10}
               max={600}
               step={10}

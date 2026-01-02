@@ -21,6 +21,7 @@ export const TrainierenHub: React.FC = () => {
       cardio: 'cardio',
       strength: 'muskel',
       balance: 'balance_flex',
+      brain: 'brain',
     };
     return mapping[profile.preferredFocus] ?? null;
   }, [profile.preferredFocus]);

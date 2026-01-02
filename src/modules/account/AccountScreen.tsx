@@ -6,13 +6,16 @@ import { Button } from '../../shared/ui/Button';
 import { Icon } from '../../shared/ui/Icon';
 import { getBillingProvider } from '../../core/billing/getBillingProvider';
 import { setSession, useUserSession } from '../../core/user/userStore';
+import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 
 export const AccountScreen: React.FC = () => {
   const { t } = useI18n();
   const { showToast } = useNotifications();
   const { openBottomSheet } = usePanels();
   const session = useUserSession();
+  const { goTo } = useNavigation();
   const billingProvider = useMemo(() => getBillingProvider(), []);
+  const isGuest = session.auth.status === 'anonymous';
 
   const handleRestore = async () => {
     const result = await billingProvider.restorePurchases();
@@ -37,6 +40,18 @@ export const AccountScreen: React.FC = () => {
       return;
     }
     openBottomSheet('admin-unlock');
+  };
+
+  const handleLogin = () => {
+    goTo('/login');
+  };
+
+  const handleLogout = () => {
+    setSession({
+      auth: { status: 'anonymous' },
+      entitlements: { isPremium: false },
+      admin: { isAdmin: false },
+    });
   };
 
   return (
@@ -69,6 +84,9 @@ export const AccountScreen: React.FC = () => {
       <section className="account-section">
         <h2 className="account-section__title">{t('account.actions.title')}</h2>
         <div className="account-actions">
+          <Button type="button" variant="primary" fullWidth onClick={isGuest ? handleLogin : handleLogout}>
+            {isGuest ? t('account.actions.login') : t('account.actions.logout')}
+          </Button>
           <Button type="button" variant="primary" fullWidth onClick={handleRestore}>
             {t('account.actions.restore')}
           </Button>

@@ -10,6 +10,7 @@ import { OfflineScreen } from '../offline/OfflineScreen';
 import { useDisplayName } from '../../modules/profile';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
 import { LoginScreen } from '../../modules/account/LoginScreen';
+import { LoginCallbackScreen } from '../../modules/account/LoginCallbackScreen';
 import { useUserSession } from '../user/userStore';
 
 const HomeScreen: React.FC = () => {
@@ -63,6 +64,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/" element={<HomeScreen />} />
       <Route path="/notifications" element={<NotificationsScreen />} />
       <Route path="/login" element={<LoginScreen />} />
+      <Route path="/login/callback" element={<LoginCallbackScreen />} />
       {moduleRegistry.map((module) => {
         const ModuleComponent = module.component;
         return (

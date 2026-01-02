@@ -81,3 +81,8 @@ npm run build  # maak een production build
 - `STRIPE_SECRET_KEY` — server key voor Checkout sessies (Netlify Functions)
 - `STRIPE_PRICE_ID` — prijs-ID voor het Premium product
 - `STRIPE_WEBHOOK_SECRET` — webhook signing secret voor Stripe events
+
+### Omgevingsvariabelen (Auth)
+
+- `VITE_SUPABASE_URL` — URL van het Supabase-project voor magic-link login
+- `VITE_SUPABASE_ANON_KEY` — anon/public key voor Supabase auth

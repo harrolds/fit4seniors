@@ -4,41 +4,39 @@ import { TextInput } from '../../shared/ui/TextInput';
 import { Button } from '../../shared/ui/Button';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { useI18n } from '../../shared/lib/i18n';
-import { setSession } from '../../core/user/userStore';
-
-const generateUserId = (): string => {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return crypto.randomUUID();
-  }
-  return `local-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-};
+import { authAdapter } from '../../core/auth/authClient';
 
 export const LoginScreen: React.FC = () => {
   const { t } = useI18n();
   const { goTo } = useNavigation();
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
 
   const isValidEmail = useMemo(() => {
     const trimmed = email.trim();
     return trimmed.length > 0 && trimmed.includes('@');
   }, [email]);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setError(null);
+
     if (!isValidEmail) {
-      setError(t('validation.required'));
+      setError(t('account.login.invalidEmail'));
       return;
     }
+
     const trimmedEmail = email.trim();
-    setSession({
-      auth: {
-        status: 'authenticated',
-        email: trimmedEmail,
-        userId: generateUserId(),
-      },
-    });
-    goTo('/profile');
+    setStatus('sending');
+    try {
+      await authAdapter.requestMagicLink(trimmedEmail);
+      setStatus('sent');
+    } catch (authError) {
+      console.error('[login] Failed to request magic link', authError);
+      setStatus('idle');
+      setError(t('account.login.sendError'));
+    }
   };
 
   return (
@@ -59,6 +57,7 @@ export const LoginScreen: React.FC = () => {
             id="login-email"
             type="email"
             value={email}
+            disabled={status === 'sending' || status === 'sent'}
             onChange={(event) => {
               setEmail(event.target.value);
               if (error) {
@@ -69,10 +68,17 @@ export const LoginScreen: React.FC = () => {
             aria-invalid={Boolean(error)}
           />
           {error ? <p className="profile-helper profile-helper--error">{error}</p> : null}
+          {status === 'sent' ? (
+            <p className="profile-helper profile-helper--success">{t('account.login.linkSent')}</p>
+          ) : null}
         </div>
 
-        <Button type="submit" variant="primary" fullWidth>
-          {t('profile.actions.loginCta')}
+        <Button type="submit" variant="primary" fullWidth disabled={status === 'sending' || status === 'sent'}>
+          {status === 'sent' ? t('account.login.waiting') : status === 'sending' ? t('common.loading') : t('account.login.sendLink')}
+        </Button>
+
+        <Button type="button" variant="ghost" fullWidth onClick={() => goTo('/account')}>
+          {t('common.back')}
         </Button>
       </form>
     </div>

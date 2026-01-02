@@ -81,10 +81,33 @@ const persistSession = (next: UserSession) => {
   notify();
 };
 
+const mergeAuth = (
+  baseAuth: UserSession['auth'],
+  partialAuth: Partial<UserSession['auth']> | undefined,
+): UserSession['auth'] => {
+  if (!partialAuth) {
+    return baseAuth;
+  }
+
+  if (partialAuth.status === 'anonymous') {
+    return { status: 'anonymous', email: partialAuth.email, userId: partialAuth.userId };
+  }
+
+  if (partialAuth.status === 'authenticated') {
+    return {
+      status: 'authenticated',
+      userId: partialAuth.userId ?? baseAuth.userId,
+      email: partialAuth.email ?? baseAuth.email,
+    };
+  }
+
+  return baseAuth;
+};
+
 const mergeSession = (base: UserSession, partial: Partial<UserSession>): UserSession => ({
   ...base,
   ...partial,
-  auth: { ...base.auth, ...(partial.auth ?? {}) },
+  auth: mergeAuth(base.auth, partial.auth),
   entitlements: { ...base.entitlements, ...(partial.entitlements ?? {}) },
   admin: { ...base.admin, ...(partial.admin ?? {}) },
 });

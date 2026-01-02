@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useI18n } from '../../shared/lib/i18n';
 import { useNotifications } from '../../shared/lib/notifications';
 import { usePanels } from '../../shared/lib/panels';
@@ -7,6 +7,8 @@ import { Icon } from '../../shared/ui/Icon';
 import { getBillingProvider } from '../../core/billing/getBillingProvider';
 import { setSession, useUserSession } from '../../core/user/userStore';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
+import { authAdapter } from '../../core/auth/authClient';
+import { saveSettings, useSettingsState } from '../settings/settingsStorage';
 
 export const AccountScreen: React.FC = () => {
   const { t } = useI18n();
@@ -16,6 +18,8 @@ export const AccountScreen: React.FC = () => {
   const { goTo } = useNavigation();
   const billingProvider = useMemo(() => getBillingProvider(), []);
   const isGuest = session.auth.status === 'anonymous';
+  const settings = useSettingsState();
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const handleRestore = async () => {
     const result = await billingProvider.restorePurchases();
@@ -46,13 +50,34 @@ export const AccountScreen: React.FC = () => {
     goTo('/login');
   };
 
-  const handleLogout = () => {
-    setSession({
-      auth: { status: 'anonymous' },
-      entitlements: { isPremium: false },
-      admin: { isAdmin: false },
-    });
+  const handleLogout = async () => {
+    setIsSigningOut(true);
+    try {
+      await authAdapter.signOut();
+    } catch (error) {
+      console.error('[account] Failed to sign out', error);
+    } finally {
+      setSession({
+        auth: { status: 'anonymous', email: undefined, userId: undefined },
+        entitlements: { isPremium: false },
+        admin: { isAdmin: false },
+      });
+      setIsSigningOut(false);
+    }
   };
+
+  const handleSyncToggle = () => {
+    if (isGuest && !settings.syncEnabled) {
+      showToast('account.sync.loginRequired', { kind: 'info' });
+      goTo('/login');
+      return;
+    }
+    saveSettings({ syncEnabled: !settings.syncEnabled });
+  };
+
+  const authStatusLabel = isGuest
+    ? t('account.status.guest')
+    : t('account.status.authenticated', { email: session.auth.email ?? t('account.status.emailUnknown') });
 
   return (
     <div className="page account-page">
@@ -66,7 +91,7 @@ export const AccountScreen: React.FC = () => {
         <ul className="account-status">
           <li>
             <Icon name="person" size={20} />
-            <span>{t('account.status.auth', { state: session.auth.status })}</span>
+            <span>{authStatusLabel}</span>
           </li>
           <li>
             <Icon name="workspace_premium" size={20} />
@@ -78,13 +103,36 @@ export const AccountScreen: React.FC = () => {
             <Icon name="admin_panel_settings" size={20} />
             <span>{session.admin.isAdmin ? t('account.status.adminOn') : t('account.status.adminOff')}</span>
           </li>
+          <li>
+            <Icon name="sync" size={20} />
+            <span>{settings.syncEnabled ? t('account.status.syncOn') : t('account.status.syncOff')}</span>
+          </li>
         </ul>
+      </section>
+
+      <section className="account-section">
+        <h2 className="account-section__title">{t('account.sync.title')}</h2>
+        <p className="account-section__description">{t('account.sync.description')}</p>
+        <div className="account-actions">
+          <Button type="button" variant={settings.syncEnabled ? 'secondary' : 'primary'} fullWidth onClick={handleSyncToggle}>
+            {settings.syncEnabled ? t('account.sync.disable') : t('account.sync.enable')}
+          </Button>
+          {settings.syncEnabled ? (
+            <p className="profile-helper profile-helper--success">{t('account.sync.enabledState')}</p>
+          ) : null}
+        </div>
       </section>
 
       <section className="account-section">
         <h2 className="account-section__title">{t('account.actions.title')}</h2>
         <div className="account-actions">
-          <Button type="button" variant="primary" fullWidth onClick={isGuest ? handleLogin : handleLogout}>
+          <Button
+            type="button"
+            variant="primary"
+            fullWidth
+            onClick={isGuest ? handleLogin : handleLogout}
+            disabled={isSigningOut}
+          >
             {isGuest ? t('account.actions.login') : t('account.actions.logout')}
           </Button>
           <Button type="button" variant="primary" fullWidth onClick={handleRestore}>

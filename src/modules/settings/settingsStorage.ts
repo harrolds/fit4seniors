@@ -8,6 +8,7 @@ export type SettingsPreferences = {
   hapticsEnabled: boolean;
   soundVolume: number;
   language: 'de' | 'en';
+  syncEnabled: boolean;
 };
 
 const STORAGE_KEY = 'settings.preferences.v1';
@@ -21,6 +22,7 @@ const defaultPreferences = (): SettingsPreferences => ({
   hapticsEnabled: true,
   soundVolume: 80,
   language: 'de',
+  syncEnabled: false,
 });
 
 const sanitizePreferences = (value: StoredSettings | null | undefined): SettingsPreferences => {
@@ -46,6 +48,7 @@ const sanitizePreferences = (value: StoredSettings | null | undefined): Settings
     hapticsEnabled: value.hapticsEnabled === undefined ? safe.hapticsEnabled : Boolean(value.hapticsEnabled),
     soundVolume: sanitizeVolume(value.soundVolume),
     language,
+    syncEnabled: Boolean(value.syncEnabled),
   };
 };
 

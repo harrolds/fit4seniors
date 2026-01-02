@@ -15,6 +15,8 @@ const resolveEnvValue = (key: string): string | undefined => {
 };
 
 export const aiApiBaseUrl: string | undefined = resolveEnvValue('VITE_AI_API_BASE_URL');
+export const supabaseUrl: string | undefined = resolveEnvValue('VITE_SUPABASE_URL');
+export const supabaseAnonKey: string | undefined = resolveEnvValue('VITE_SUPABASE_ANON_KEY');
 
 export const telemetryConfig: TelemetryConfig = {
   endpoint: resolveEnvValue('VITE_TELEMETRY_ENDPOINT'),

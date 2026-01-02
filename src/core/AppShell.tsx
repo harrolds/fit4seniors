@@ -21,6 +21,7 @@ import { RemindersBootstrap } from '../modules/reminders';
 import { registerPremiumGateHandlers, onPremiumActivated } from './premium/premiumGateFlow';
 import { getBillingProvider } from './billing/getBillingProvider';
 import { setSession } from './user/userStore';
+import { useAuthLifecycle } from './auth/useAuthLifecycle';
 
 const AppShellContent: React.FC = () => {
   const location = useLocation();
@@ -32,6 +33,7 @@ const AppShellContent: React.FC = () => {
   const headerTokens = theme.components.header;
   const { state: panelState, closePanel, openBottomSheet, openRightPanel } = usePanels();
   const billingProvider = useMemo(() => getBillingProvider(), []);
+  useAuthLifecycle();
 
   const mergeModuleActions = (config?: ScreenConfig) => {
     if (!config?.moduleId) {

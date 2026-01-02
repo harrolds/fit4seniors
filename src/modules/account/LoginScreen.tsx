@@ -41,7 +41,7 @@ export const LoginScreen: React.FC = () => {
 
   return (
     <div className="page">
-      <SectionHeader as="h1" className="page-title" title={t('account.actions.login')} subtitle={t('home.subtext')} />
+      <SectionHeader as="h1" className="page-title" title={t('account.action.login')} subtitle={t('home.subtext')} />
 
       <form
         className="profile-form"
@@ -77,8 +77,8 @@ export const LoginScreen: React.FC = () => {
           {status === 'sent' ? t('account.login.waiting') : status === 'sending' ? t('common.loading') : t('account.login.sendLink')}
         </Button>
 
-        <Button type="button" variant="ghost" fullWidth onClick={() => goTo('/account')}>
-          {t('common.back')}
+        <Button type="button" variant="ghost" fullWidth onClick={() => goTo('/profile')}>
+          {t('auth.back')}
         </Button>
       </form>
     </div>

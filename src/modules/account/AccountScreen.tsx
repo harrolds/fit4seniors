@@ -66,18 +66,48 @@ export const AccountScreen: React.FC = () => {
     }
   };
 
-  const handleSyncToggle = () => {
+  const statusItems = [
+    {
+      icon: 'person',
+      label: t('account.status.guest'),
+      value: isGuest ? t('common.yes') : t('common.no'),
+    },
+    {
+      icon: 'check_circle',
+      label: t('account.status.loggedIn'),
+      value: isGuest ? t('common.no') : t('common.yes'),
+    },
+    {
+      icon: 'workspace_premium',
+      label: t('account.status.premium'),
+      value: session.entitlements.isPremium ? t('common.yes') : t('common.no'),
+    },
+    {
+      icon: 'sync',
+      label: t('account.status.sync'),
+      value: settings.syncEnabled ? t('common.yes') : t('common.no'),
+    },
+    {
+      icon: 'admin_panel_settings',
+      label: t('account.status.admin'),
+      value: session.admin.isAdmin ? t('common.yes') : t('common.no'),
+    },
+  ];
+
+  const handleSyncAction = () => {
     if (isGuest && !settings.syncEnabled) {
-      showToast('account.sync.loginRequired', { kind: 'info' });
       goTo('/login');
       return;
     }
     saveSettings({ syncEnabled: !settings.syncEnabled });
   };
 
-  const authStatusLabel = isGuest
-    ? t('account.status.guest')
-    : t('account.status.authenticated', { email: session.auth.email ?? t('account.status.emailUnknown') });
+  const syncButtonLabel =
+    isGuest && !settings.syncEnabled
+      ? t('account.sync.loginCta')
+      : settings.syncEnabled
+        ? t('account.sync.disable')
+        : t('account.sync.enable');
 
   return (
     <div className="page account-page">
@@ -89,33 +119,24 @@ export const AccountScreen: React.FC = () => {
       <section className="account-section">
         <h2 className="account-section__title">{t('account.status.title')}</h2>
         <ul className="account-status">
-          <li>
-            <Icon name="person" size={20} />
-            <span>{authStatusLabel}</span>
-          </li>
-          <li>
-            <Icon name="workspace_premium" size={20} />
-            <span>
-              {session.entitlements.isPremium ? t('account.status.premiumOn') : t('account.status.premiumOff')}
-            </span>
-          </li>
-          <li>
-            <Icon name="admin_panel_settings" size={20} />
-            <span>{session.admin.isAdmin ? t('account.status.adminOn') : t('account.status.adminOff')}</span>
-          </li>
-          <li>
-            <Icon name="sync" size={20} />
-            <span>{settings.syncEnabled ? t('account.status.syncOn') : t('account.status.syncOff')}</span>
-          </li>
+          {statusItems.map((item) => (
+            <li key={item.label}>
+              <Icon name={item.icon as any} size={20} />
+              <div className="account-status__row">
+                <span className="account-status__label">{item.label}</span>
+                <span className="account-status__value">{item.value}</span>
+              </div>
+            </li>
+          ))}
         </ul>
       </section>
 
       <section className="account-section">
         <h2 className="account-section__title">{t('account.sync.title')}</h2>
-        <p className="account-section__description">{t('account.sync.description')}</p>
+        <p className="account-section__description">{t('account.sync.body')}</p>
         <div className="account-actions">
-          <Button type="button" variant={settings.syncEnabled ? 'secondary' : 'primary'} fullWidth onClick={handleSyncToggle}>
-            {settings.syncEnabled ? t('account.sync.disable') : t('account.sync.enable')}
+          <Button type="button" variant={settings.syncEnabled ? 'secondary' : 'primary'} fullWidth onClick={handleSyncAction}>
+            {syncButtonLabel}
           </Button>
           {settings.syncEnabled ? (
             <p className="profile-helper profile-helper--success">{t('account.sync.enabledState')}</p>
@@ -126,23 +147,23 @@ export const AccountScreen: React.FC = () => {
       <section className="account-section">
         <h2 className="account-section__title">{t('account.actions.title')}</h2>
         <div className="account-actions">
-          <Button
-            type="button"
-            variant="primary"
-            fullWidth
-            onClick={isGuest ? handleLogin : handleLogout}
-            disabled={isSigningOut}
-          >
-            {isGuest ? t('account.actions.login') : t('account.actions.logout')}
-          </Button>
+          {isGuest ? (
+            <Button type="button" variant="primary" fullWidth onClick={handleLogin}>
+              {t('account.action.login')}
+            </Button>
+          ) : (
+            <Button type="button" variant="primary" fullWidth onClick={handleLogout} disabled={isSigningOut}>
+              {t('account.action.logout')}
+            </Button>
+          )}
           <Button type="button" variant="primary" fullWidth onClick={handleRestore}>
-            {t('account.actions.restore')}
+            {t('account.action.restore')}
           </Button>
           <Button type="button" variant="secondary" fullWidth onClick={handleRefresh}>
-            {t('account.actions.refresh')}
+            {t('account.action.refreshEntitlement')}
           </Button>
           <Button type="button" variant="ghost" fullWidth onClick={handleAdminToggle}>
-            {session.admin.isAdmin ? t('account.actions.disableAdmin') : t('account.actions.enableAdmin')}
+            {session.admin.isAdmin ? t('account.actions.disableAdmin') : t('account.action.admin')}
           </Button>
         </div>
       </section>

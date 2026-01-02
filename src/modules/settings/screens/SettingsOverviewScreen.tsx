@@ -9,7 +9,7 @@ import { SETTINGS_BOTTOM_TOAST_ID, SettingsToastKind } from '../bottomToast/Sett
 type OverviewItem = {
   key: string;
   icon: string;
-  tone: 'blue' | 'orange' | 'red' | 'green';
+  tone: 'blue' | 'orange' | 'red' | 'green' | 'purple';
   titleKey: string;
   subtitle: string;
   onClick: () => void;
@@ -76,6 +76,14 @@ export const SettingsOverviewScreen: React.FC = () => {
           titleKey: 'settings.overview.items.notifications.title',
           subtitle: t('settings.overview.items.notifications.subtitle'),
           onClick: () => openBottomSheet('settings-reminders'),
+        },
+        {
+          key: 'account',
+          icon: 'verified_user',
+          tone: 'purple',
+          titleKey: 'account.title',
+          subtitle: t('account.subtitle'),
+          onClick: () => openBottomSheet('settings-account-access'),
         },
         {
           key: 'language',

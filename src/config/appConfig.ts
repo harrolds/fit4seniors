@@ -19,6 +19,7 @@ export const footerMenu: FooterMenuItem[] = [
   { id: 'home', route: '/', labelKey: 'nav.today', icon: 'home', available: true },
   { id: 'train', route: '/trainieren', labelKey: 'nav.train', icon: 'fitness_center', available: true },
   { id: 'progress', route: '/progress', labelKey: 'nav.progress', icon: 'bar_chart', available: true, fallbackRoute: '/' },
+  { id: 'profile', route: '/profile', labelKey: 'nav.profile', icon: 'account_circle', available: true },
   { id: 'more', route: '/more', labelKey: 'nav.more', icon: 'more_horiz', available: true },
 ];
 

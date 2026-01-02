@@ -15,6 +15,7 @@ import { NotificationsCenterSheet } from '../modules/reminders';
 import { ReminderToastPanel } from '../modules/reminders/panels/ReminderToastPanel';
 import { SettingsRemindersSheet } from '../modules/reminders/panels/SettingsRemindersSheet';
 import { SettingsBottomToastHost } from '../modules/settings/bottomToast/SettingsBottomToastHost';
+import { AccountAccessSheet } from '../modules/settings/sheets/AccountAccessSheet';
 import { InfoPanelContent } from '../modules/more/panels/InfoPanelContent';
 import { PremiumGatePanel } from '../shared/panels/PremiumGatePanel';
 import { AdminUnlockSheet } from '../shared/ui/AdminUnlockSheet';
@@ -74,6 +75,11 @@ export const panelRegistry: PanelRegistryEntry[] = [
     id: 'settings-bottom-toast',
     type: 'bottom',
     component: SettingsBottomToastHost,
+  },
+  {
+    id: 'settings-account-access',
+    type: 'bottom',
+    component: AccountAccessSheet,
   },
   {
     id: 'reminders-toast',

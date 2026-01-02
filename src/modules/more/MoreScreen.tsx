@@ -1,12 +1,11 @@
 import React from 'react';
 import { Icon } from '../../shared/ui/Icon';
 import { SectionHeader } from '../../shared/ui/SectionHeader';
-import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { usePanels } from '../../shared/lib/panels';
 import { useI18n } from '../../shared/lib/i18n';
 
 type MoreItem = {
-  id: 'profile' | 'help' | 'privacy' | 'safety' | 'about';
+  id: 'help' | 'privacy' | 'safety' | 'about';
   icon: string;
   titleKey: string;
   subtitleKey: string;
@@ -15,17 +14,9 @@ type MoreItem = {
 
 export const MoreScreen: React.FC = () => {
   const { t } = useI18n();
-  const { goTo } = useNavigation();
   const { openRightPanel } = usePanels();
 
   const items: MoreItem[] = [
-    {
-      id: 'profile',
-      icon: 'account_circle',
-      titleKey: 'more.items.profile.title',
-      subtitleKey: 'more.items.profile.subtitle',
-      onClick: () => goTo('/profile'),
-    },
     {
       id: 'help',
       icon: 'help_center',

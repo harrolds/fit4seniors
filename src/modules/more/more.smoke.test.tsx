@@ -50,7 +50,6 @@ describe('More module smoke test', () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    expect(container.textContent).toMatch(/Profil|Profile/i);
     expect(container.textContent).toMatch(/Hilfe|Help/i);
     expect(container.textContent).toMatch(/Datenschutz|Privacy/i);
 

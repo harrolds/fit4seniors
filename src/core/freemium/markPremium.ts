@@ -1,15 +1,19 @@
-import { FREE_LIMITS, type FreemiumCategoryKey } from '../../config/freemium';
+import {
+  FREEMIUM_RULES,
+  type FreemiumCategoryKey,
+  type BrainDifficulty,
+  type BrainSubtype,
+} from '../../config/freemium';
 
 export type PremiumMarkableTraining = {
   id: string;
   order?: number;
   requiresPremium?: boolean;
+
+  // Brain-only metadata (optional for other categories)
   brainType?: BrainSubtype;
   variants?: Partial<Record<BrainDifficulty, { intensity: BrainDifficulty }>>;
 };
-
-type BrainSubtype = 'memory' | 'language' | 'patterns';
-type BrainDifficulty = 'light' | 'medium' | 'heavy';
 
 const sortTrainings = <T extends PremiumMarkableTraining>(trainings: T[]): T[] => {
   return [...trainings].sort((a, b) => {
@@ -31,21 +35,28 @@ const sortTrainings = <T extends PremiumMarkableTraining>(trainings: T[]): T[] =
 
 export const markTrainingsWithPremiumFlag = <T extends PremiumMarkableTraining>(
   trainings: T[],
-  categoryKey: FreemiumCategoryKey,
+  categoryKey?: FreemiumCategoryKey,
 ): T[] => {
   const sorted = sortTrainings(trainings);
 
+  if (!categoryKey) {
+    return sorted.map((training) => ({ ...training, requiresPremium: false }));
+  }
+
+  // Gehirntraining: deterministic “matrix freebies”
   if (categoryKey === 'brain') {
     const selectedIds = new Set<string>();
-    const difficulties: BrainDifficulty[] = ['light', 'medium', 'heavy'];
-    const subtypes: BrainSubtype[] = ['memory', 'language', 'patterns'];
+
+    const { difficulties, subtypes, picksPerCell } = FREEMIUM_RULES.brain;
 
     difficulties.forEach((difficulty) => {
       subtypes.forEach((subtype) => {
         const candidates = sorted.filter(
           (training) => training.brainType === subtype && Boolean(training.variants?.[difficulty]),
         );
-        const picks = candidates.slice(0, 2);
+
+        // pick the first N deterministically (sorted already)
+        const picks = candidates.slice(0, picksPerCell);
         picks.forEach((pick) => selectedIds.add(pick.id));
       });
     });
@@ -56,11 +67,10 @@ export const markTrainingsWithPremiumFlag = <T extends PremiumMarkableTraining>(
     }));
   }
 
-  const freeCount = FREE_LIMITS[categoryKey] ?? 0;
+  const freeCount = FREEMIUM_RULES[categoryKey]?.freeCount ?? 0;
 
   return sorted.map((training, index) => ({
     ...training,
     requiresPremium: index >= freeCount,
   }));
 };
-

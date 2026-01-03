@@ -148,7 +148,7 @@
 }
 
 .premium-panel__disclaimer {
-  margin: 0;
+  margin: var(--spacing-sm) 0 0 0;
   text-align: center;
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
@@ -159,7 +159,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  margin-top: calc(var(--spacing-2xl) + var(--spacing-md));
+  margin-top: calc(var(--spacing-2xl) + var(--spacing-md) - 15px);
 }
 
 .premium-panel__cta.ui-button {

@@ -113,8 +113,6 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
         </ul>
       </section>
 
-      <p className="premium-panel__disclaimer">{t('premium.panel.disclaimer')}</p>
-
       <div className="premium-panel__actions">
         <Button
           type="button"
@@ -138,6 +136,8 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
           {t('premium.panel.back')}
         </Button>
       </div>
+
+      <p className="premium-panel__disclaimer">{t('premium.panel.disclaimer')}</p>
     </div>
   );
 };

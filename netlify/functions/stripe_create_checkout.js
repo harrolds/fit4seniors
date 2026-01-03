@@ -86,6 +86,8 @@ exports.handler = async (event) => {
     return jsonResponse(err.statusCode || 401, { error: 'UNAUTHORIZED' });
   }
 
+  const appBaseUrl = (process.env.APP_BASE_URL || '').replace(/\/+$/, '');
+
   let entitlement;
   try {
     entitlement = await ensureEntitlement(supabase, user.id);
@@ -128,8 +130,8 @@ exports.handler = async (event) => {
       line_items: [{ price: process.env.STRIPE_PRICE_ID, quantity: 1 }],
       client_reference_id: user.id,
       customer: customerId,
-      success_url: `${process.env.APP_BASE_URL}/#/premium/success`,
-      cancel_url: `${process.env.APP_BASE_URL}/#/premium/cancel`,
+      success_url: `${appBaseUrl}/#/premium/success`,
+      cancel_url: `${appBaseUrl}/#/premium/cancel`,
       allow_promotion_codes: false,
       metadata: { supabaseUserId: user.id, env: 'test' },
     });

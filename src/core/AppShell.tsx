@@ -22,6 +22,7 @@ import { registerPremiumGateHandlers, onPremiumActivated } from './premium/premi
 import { getBillingProvider } from './billing/getBillingProvider';
 import { setSession } from './user/userStore';
 import { useAuthLifecycle } from './auth/useAuthLifecycle';
+import { usePremiumCheckoutCallback } from './premium/usePremiumCheckoutCallback';
 
 const AppShellContent: React.FC = () => {
   const location = useLocation();
@@ -34,6 +35,7 @@ const AppShellContent: React.FC = () => {
   const { state: panelState, closePanel, openBottomSheet, openRightPanel } = usePanels();
   const billingProvider = useMemo(() => getBillingProvider(), []);
   useAuthLifecycle();
+  usePremiumCheckoutCallback(billingProvider);
 
   const mergeModuleActions = (config?: ScreenConfig) => {
     if (!config?.moduleId) {

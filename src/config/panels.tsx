@@ -19,6 +19,7 @@ import { AccountAccessSheet } from '../modules/settings/sheets/AccountAccessShee
 import { InfoPanelContent } from '../modules/more/panels/InfoPanelContent';
 import { PremiumGatePanel } from '../shared/panels/PremiumGatePanel';
 import { AdminUnlockSheet } from '../shared/ui/AdminUnlockSheet';
+import { PremiumCheckoutStatusSheet } from '../shared/panels/PremiumCheckoutStatusSheet';
 
 const MoreHelpPanel: React.FC = (props) => <InfoPanelContent variant="help" {...props} />;
 const MorePrivacyPanel: React.FC = (props) => <InfoPanelContent variant="privacy" {...props} />;
@@ -95,6 +96,11 @@ export const panelRegistry: PanelRegistryEntry[] = [
     id: 'premium-gate',
     type: 'right',
     component: PremiumGatePanel,
+  },
+  {
+    id: 'premium-checkout-status',
+    type: 'bottom',
+    component: PremiumCheckoutStatusSheet,
   },
   {
     id: 'admin-unlock',

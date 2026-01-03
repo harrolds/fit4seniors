@@ -4,6 +4,7 @@ import { usePanels } from '../lib/panels/PanelContext';
 import { Button } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 import { getBillingProvider } from '../../core/billing/getBillingProvider';
+import './premium-gate-shared.css';
 import './premium-gate-panel.css';
 
 type PremiumGatePanelProps = {
@@ -15,10 +16,11 @@ type PremiumGatePanelProps = {
 
 export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClose }) => {
   const { t } = useI18n();
-  const { openBottomSheet, closePanel } = usePanels();
+  const { openBottomSheet } = usePanels();
   const billingProvider = useMemo(() => getBillingProvider(), []);
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showAuthHint, setShowAuthHint] = useState(false);
 
   const lockedTrainingTitle = title?.trim() || t('premium.panel.trainingFallback');
   const benefits = [
@@ -46,6 +48,7 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
 
   const handleActivate = async () => {
     setErrorMessage(null);
+    setShowAuthHint(false);
     setIsProcessing(true);
     try {
       const result = await billingProvider.purchasePremium();
@@ -54,17 +57,14 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
         const reason = result.reason ?? 'checkout_unavailable';
 
         const requiresAuth =
-          typeof reason === 'string' &&
-          (reason.includes('Bitte zuerst anmelden') || reason.includes('Sitzung abgelaufen'));
+          (typeof reason === 'string' &&
+            (reason.toLowerCase().includes('anmelden') || reason.toLowerCase().includes('sitzung'))) ||
+          reason === '401';
 
         if (requiresAuth) {
           setIsProcessing(false);
+          setShowAuthHint(true);
           openBottomSheet('settings-account-access');
-          if (onClose) {
-            onClose();
-          } else {
-            closePanel();
-          }
           return;
         }
 
@@ -134,8 +134,10 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
           onClick={handleActivate}
           disabled={isProcessing}
         >
-          <span>{isProcessing ? 'Weiterleitung zu Stripe…' : t('premium.panel.activateCta')}</span>
-          <Icon name="arrow_forward" size={22} />
+          <span className="premium-cta__content">
+            {t('premium.panel.activateCta')}
+            {isProcessing ? <span className="premium-cta__spinner" aria-hidden /> : <Icon name="arrow_forward" size={22} />}
+          </span>
         </Button>
         <Button
           type="button"
@@ -148,6 +150,15 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
           {t('premium.panel.back')}
         </Button>
       </div>
+
+      {showAuthHint ? (
+        <div className="premium-auth-hint" role="status">
+          <span className="premium-auth-hint__icon">
+            <Icon name="info" size={20} />
+          </span>
+          <p className="premium-auth-hint__text">{t('premium.purchase.loginHint')}</p>
+        </div>
+      ) : null}
 
       {errorMessage ? (
         <div className="premium-panel__error" role="alert">

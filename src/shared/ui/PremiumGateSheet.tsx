@@ -4,6 +4,7 @@ import { usePanels } from '../lib/panels/PanelContext';
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { getBillingProvider } from '../../core/billing/getBillingProvider';
+import '../panels/premium-gate-shared.css';
 
 type PremiumGateSheetProps = {
   trainingId?: string;
@@ -12,13 +13,15 @@ type PremiumGateSheetProps = {
 
 export const PremiumGateSheet: React.FC<PremiumGateSheetProps> = ({ trainingId, onClose }) => {
   const { t } = useI18n();
-  const { openBottomSheet, closePanel } = usePanels();
+  const { openBottomSheet } = usePanels();
   const billingProvider = useMemo(() => getBillingProvider(), []);
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showAuthHint, setShowAuthHint] = useState(false);
 
   const handleActivate = async () => {
     setErrorMessage(null);
+    setShowAuthHint(false);
     setIsProcessing(true);
     try {
       const result = await billingProvider.purchasePremium();
@@ -27,17 +30,14 @@ export const PremiumGateSheet: React.FC<PremiumGateSheetProps> = ({ trainingId, 
         const reason = result.reason ?? 'checkout_unavailable';
 
         const requiresAuth =
-          typeof reason === 'string' &&
-          (reason.includes('Bitte zuerst anmelden') || reason.includes('Sitzung abgelaufen'));
+          (typeof reason === 'string' &&
+            (reason.toLowerCase().includes('anmelden') || reason.toLowerCase().includes('sitzung'))) ||
+          reason === '401';
 
         if (requiresAuth) {
           setIsProcessing(false);
+          setShowAuthHint(true);
           openBottomSheet('settings-account-access');
-          if (onClose) {
-            onClose();
-          } else {
-            closePanel();
-          }
           return;
         }
 
@@ -75,12 +75,23 @@ export const PremiumGateSheet: React.FC<PremiumGateSheetProps> = ({ trainingId, 
       </p>
       <div className="premium-gate__actions">
         <Button type="button" variant="primary" fullWidth onClick={handleActivate} disabled={isProcessing}>
-          {isProcessing ? 'Weiterleitung zu Stripe…' : t('premium.gate.activateCta')}
+          <span className="premium-cta__content">
+            {t('premium.panel.activateCta')}
+            {isProcessing ? <span className="premium-cta__spinner" aria-hidden /> : <Icon name="arrow_forward" size={22} />}
+          </span>
         </Button>
         <Button type="button" variant="secondary" fullWidth onClick={onClose} disabled={isProcessing}>
           {t('common.back')}
         </Button>
       </div>
+      {showAuthHint ? (
+        <div className="premium-auth-hint" role="status">
+          <span className="premium-auth-hint__icon">
+            <Icon name="info" size={20} />
+          </span>
+          <p className="premium-auth-hint__text">{t('premium.purchase.loginHint')}</p>
+        </div>
+      ) : null}
       {errorMessage ? (
         <div
           role="alert"

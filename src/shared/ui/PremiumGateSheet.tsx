@@ -1,11 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { useI18n } from '../lib/i18n';
-import { useNotifications } from '../lib/notifications';
+import { usePanels } from '../lib/panels/PanelContext';
 import { Button } from './Button';
 import { Icon } from './Icon';
 import { getBillingProvider } from '../../core/billing/getBillingProvider';
-import { getSession } from '../../core/user/userStore';
-import { onPremiumActivated } from '../../core/premium/premiumGateFlow';
 
 type PremiumGateSheetProps = {
   trainingId?: string;
@@ -14,28 +12,50 @@ type PremiumGateSheetProps = {
 
 export const PremiumGateSheet: React.FC<PremiumGateSheetProps> = ({ trainingId, onClose }) => {
   const { t } = useI18n();
-  const { showToast } = useNotifications();
+  const { openBottomSheet, closePanel } = usePanels();
   const billingProvider = useMemo(() => getBillingProvider(), []);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleActivate = async () => {
+    setErrorMessage(null);
     setIsProcessing(true);
-    const result = await billingProvider.purchasePremium();
-    setIsProcessing(false);
+    try {
+      const result = await billingProvider.purchasePremium();
 
-    if (!result.success) {
-      const reason = result.reason ?? 'checkout_unavailable';
-      if (reason === 'STRIPE_NOT_CONFIGURED') {
-        showToast('premium.purchase.failed', { kind: 'error' });
-      } else {
-        showToast('premium.purchase.failedWithReason', { kind: 'error', params: { reason } });
+      if (!result.success) {
+        const reason = result.reason ?? 'checkout_unavailable';
+
+        const requiresAuth =
+          typeof reason === 'string' &&
+          (reason.includes('Bitte zuerst anmelden') || reason.includes('Sitzung abgelaufen'));
+
+        if (requiresAuth) {
+          setIsProcessing(false);
+          openBottomSheet('settings-account-access');
+          if (onClose) {
+            onClose();
+          } else {
+            closePanel();
+          }
+          return;
+        }
+
+        if (reason === 'STRIPE_NOT_CONFIGURED') {
+          setErrorMessage(t('premium.purchase.failed'));
+        } else {
+          setErrorMessage(t('premium.purchase.failedWithReason', { reason }));
+        }
+
+        setIsProcessing(false);
+        return;
       }
-      return;
-    }
 
-    showToast('premium.purchase.activated', { kind: 'success' });
-    if (getSession().entitlements.isPremium) {
-      onPremiumActivated();
+      // Success path hands off to billing provider redirect; keep processing state.
+      return;
+    } catch {
+      setErrorMessage(t('premium.purchase.failedWithReason', { reason: 'network_error' }));
+      setIsProcessing(false);
     }
   };
 
@@ -55,12 +75,32 @@ export const PremiumGateSheet: React.FC<PremiumGateSheetProps> = ({ trainingId, 
       </p>
       <div className="premium-gate__actions">
         <Button type="button" variant="primary" fullWidth onClick={handleActivate} disabled={isProcessing}>
-          {t('premium.gate.activateCta')}
+          {isProcessing ? 'Weiterleitung zu Stripe…' : t('premium.gate.activateCta')}
         </Button>
         <Button type="button" variant="secondary" fullWidth onClick={onClose} disabled={isProcessing}>
           {t('common.back')}
         </Button>
       </div>
+      {errorMessage ? (
+        <div
+          role="alert"
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 'var(--spacing-sm)',
+            marginTop: 'var(--spacing-sm)',
+            padding: 'var(--spacing-sm) var(--spacing-md)',
+            borderRadius: 'var(--radius-lg)',
+            background: 'color-mix(in srgb, var(--color-error) 10%, white)',
+            color: 'var(--color-error)',
+          }}
+        >
+          <Icon name="error" size={20} aria-hidden />
+          <p style={{ margin: 0, fontSize: 'var(--font-size-sm)', lineHeight: 'var(--line-height-normal)' }}>
+            {errorMessage}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -1,11 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { useI18n } from '../lib/i18n';
-import { useNotifications } from '../lib/notifications';
+import { usePanels } from '../lib/panels/PanelContext';
 import { Button } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 import { getBillingProvider } from '../../core/billing/getBillingProvider';
-import { getSession } from '../../core/user/userStore';
-import { onPremiumActivated } from '../../core/premium/premiumGateFlow';
 import './premium-gate-panel.css';
 
 type PremiumGatePanelProps = {
@@ -17,9 +15,10 @@ type PremiumGatePanelProps = {
 
 export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClose }) => {
   const { t } = useI18n();
-  const { showToast } = useNotifications();
+  const { openBottomSheet, closePanel } = usePanels();
   const billingProvider = useMemo(() => getBillingProvider(), []);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const lockedTrainingTitle = title?.trim() || t('premium.panel.trainingFallback');
   const benefits = [
@@ -46,30 +45,43 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
   ];
 
   const handleActivate = async () => {
+    setErrorMessage(null);
     setIsProcessing(true);
     try {
       const result = await billingProvider.purchasePremium();
 
       if (!result.success) {
         const reason = result.reason ?? 'checkout_unavailable';
-        if (reason === 'STRIPE_NOT_CONFIGURED') {
-          showToast('premium.purchase.failed', { kind: 'error' });
-        } else {
-          showToast('premium.purchase.failedWithReason', { kind: 'error', params: { reason } });
+
+        const requiresAuth =
+          typeof reason === 'string' &&
+          (reason.includes('Bitte zuerst anmelden') || reason.includes('Sitzung abgelaufen'));
+
+        if (requiresAuth) {
+          setIsProcessing(false);
+          openBottomSheet('settings-account-access');
+          if (onClose) {
+            onClose();
+          } else {
+            closePanel();
+          }
+          return;
         }
+
+        if (reason === 'STRIPE_NOT_CONFIGURED') {
+          setErrorMessage(t('premium.purchase.failed'));
+        } else {
+          setErrorMessage(t('premium.purchase.failedWithReason', { reason }));
+        }
+
+        setIsProcessing(false);
         return;
       }
 
-      showToast('premium.purchase.activated', { kind: 'success' });
-      if (getSession().entitlements.isPremium) {
-        onPremiumActivated();
-      }
+      // Success path hands off to billing provider redirect; keep processing state.
+      return;
     } catch {
-      showToast('premium.purchase.failedWithReason', {
-        kind: 'error',
-        params: { reason: 'network_error' },
-      });
-    } finally {
+      setErrorMessage(t('premium.purchase.failedWithReason', { reason: 'network_error' }));
       setIsProcessing(false);
     }
   };
@@ -122,7 +134,7 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
           onClick={handleActivate}
           disabled={isProcessing}
         >
-          <span>{t('premium.panel.activateCta')}</span>
+          <span>{isProcessing ? 'Weiterleitung zu Stripe…' : t('premium.panel.activateCta')}</span>
           <Icon name="arrow_forward" size={22} />
         </Button>
         <Button
@@ -136,6 +148,13 @@ export const PremiumGatePanel: React.FC<PremiumGatePanelProps> = ({ title, onClo
           {t('premium.panel.back')}
         </Button>
       </div>
+
+      {errorMessage ? (
+        <div className="premium-panel__error" role="alert">
+          <Icon name="error" size={20} aria-hidden />
+          <p className="premium-panel__error-text">{errorMessage}</p>
+        </div>
+      ) : null}
 
       <p className="premium-panel__disclaimer">{t('premium.panel.disclaimer')}</p>
     </div>
